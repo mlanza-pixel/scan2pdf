@@ -101,9 +101,66 @@
     }
     .doc-info h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
     .doc-info p { font-size: 14px; color: var(--text-secondary); }
+
+
+    /* Professional welcome / disclaimer screen */
+    .splash-screen {
+      position: fixed; inset: 0; z-index: 200; overflow-y: auto;
+      display: flex; align-items: center; justify-content: center;
+      padding: max(28px, env(safe-area-inset-top)) 22px max(28px, env(safe-area-inset-bottom));
+      background: radial-gradient(circle at 80% 10%, rgba(89, 153, 255, .20), transparent 34%),
+                  linear-gradient(145deg, #101c35 0%, #172b4d 52%, #244c70 100%);
+      color: #f8fafc;
+    }
+    .splash-card { width: 100%; max-width: 540px; margin: auto; }
+    .brand-mark {
+      width: 68px; height: 68px; display: grid; place-items: center; margin-bottom: 24px;
+      border: 1px solid rgba(255,255,255,.22); border-radius: 20px;
+      background: rgba(255,255,255,.11); box-shadow: 0 14px 38px rgba(0,0,0,.16);
+    }
+    .brand-mark svg { width: 34px; height: 34px; }
+    .eyebrow { color: #a9c9ff; font-size: 11px; font-weight: 800; letter-spacing: 2.2px; text-transform: uppercase; margin-bottom: 12px; }
+    .splash-card h1 { font-size: clamp(34px, 8vw, 48px); line-height: 1.04; letter-spacing: -1.8px; font-weight: 750; margin-bottom: 16px; }
+    .splash-subtitle { color: #d4deec; font-size: 16px; line-height: 1.65; max-width: 440px; margin-bottom: 26px; }
+    .feature-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 0 24px; }
+    .feature { padding: 15px; border: 1px solid rgba(255,255,255,.13); border-radius: 15px; background: rgba(255,255,255,.07); }
+    .feature strong { display: block; font-size: 14px; margin: 7px 0 4px; }
+    .feature span { display: block; color: #c2d0e2; font-size: 12px; line-height: 1.45; }
+    .feature-icon { color: #a9c9ff; font-size: 20px; }
+    .disclaimer { padding: 16px; border: 1px solid rgba(255,255,255,.16); border-radius: 14px; background: rgba(7,15,29,.28); margin-bottom: 20px; }
+    .disclaimer h2 { font-size: 13px; letter-spacing: .2px; margin-bottom: 7px; }
+    .disclaimer p { color: #d1dbea; font-size: 12px; line-height: 1.6; }
+    .launch-btn { width: 100%; border: 0; border-radius: 13px; padding: 17px 20px; background: #fff; color: #142440; font-size: 16px; font-weight: 750; cursor: pointer; box-shadow: 0 8px 22px rgba(0,0,0,.18); }
+    .launch-btn:active { transform: scale(.99); }
+    .splash-footnote { margin-top: 14px; color: #b5c4d8; text-align: center; font-size: 11px; line-height: 1.5; }
+    body.splash-active { overflow: hidden; }
+    @media (max-width: 380px) { .feature-list { grid-template-columns: 1fr; } .feature { padding: 12px; } }
+
   </style>
 </head>
-<body>
+<body class="splash-active">
+  <section class="splash-screen" id="splash-screen" aria-labelledby="splash-title">
+    <div class="splash-card">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3.5h7l4 4V20a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 20V5a1.5 1.5 0 0 1 1-1.5Z"/><path d="M14 3.8V8h4M8.5 12h7M8.5 15h7M8.5 18h4"/></svg>
+      </div>
+      <div class="eyebrow">A simple document workspace</div>
+      <h1 id="splash-title">Meet DocuScan Pro.</h1>
+      <p class="splash-subtitle">Turn paper documents into searchable PDFs, right from your device. Capture, recognize text, and share when you're ready.</p>
+      <div class="feature-list">
+        <div class="feature"><div class="feature-icon">▤</div><strong>Capture documents</strong><span>Use your device camera or choose an image.</span></div>
+        <div class="feature"><div class="feature-icon">⌕</div><strong>Searchable PDFs</strong><span>OCR adds a text layer that can help you find words.</span></div>
+        <div class="feature"><div class="feature-icon">↗</div><strong>Share with ease</strong><span>Use your device's sharing options or download the PDF.</span></div>
+        <div class="feature"><div class="feature-icon">▣</div><strong>On-device history</strong><span>Saved scans are kept in this browser's local storage.</span></div>
+      </div>
+      <div class="disclaimer">
+        <h2>Important information</h2>
+        <p>DocuScan Pro is provided on a best-efforts basis, without a guarantee that scanning, text recognition, PDF creation, saving, or sharing will work on every device or browser. OCR can misread, omit, or rearrange text. Always review the resulting PDF against the original before relying on it. Keep your own backup of important documents. Use is at your discretion; to the extent permitted by law, the app is provided without warranties and its operator is not responsible for losses arising from errors, interruptions, or failed processing.</p>
+      </div>
+      <button class="launch-btn" id="launch-app-btn" type="button">Continue to DocuScan <span aria-hidden="true">→</span></button>
+      <p class="splash-footnote">Your scans are stored in this browser on this device. The OCR/PDF libraries are loaded from third-party CDNs; availability may depend on your internet connection and browser permissions.</p>
+    </div>
+  </section>
 
   <header>
     <h1>DocuScan Pro</h1>
@@ -179,6 +236,13 @@
       closeHistoryBtn: document.getElementById('close-history-btn'),
       historyList: document.getElementById('history-list')
     };
+
+    // --- WELCOME SCREEN ---
+    const splashScreen = document.getElementById('splash-screen');
+    document.getElementById('launch-app-btn').addEventListener('click', () => {
+      splashScreen.style.display = 'none';
+      document.body.classList.remove('splash-active');
+    });
 
     // --- CAMERA & PREVIEW ---
     els.scanBtn.onclick = () => els.cameraInput.click();
@@ -270,7 +334,8 @@
             y: pdfY,
             size: fontSize,
             font: font,
-            color: PDFLib.rgb(1, 1, 1), 
+            color: PDFLib.rgb(1, 1, 1),
+            opacity: 0,
           });
         });
 
@@ -364,8 +429,12 @@
             const name = btn.dataset.name;
             const doc = docs.find(d => d.name === name);
             const file = new File([doc.blob], name, { type: 'application/pdf' });
-            if (navigator.canShare({ files: [file] })) {
+            if (navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
               await navigator.share({ files: [file] });
+            } else {
+              const url = URL.createObjectURL(doc.blob);
+              const a = document.createElement('a'); a.href = url; a.download = name; a.click();
+              setTimeout(() => URL.revokeObjectURL(url), 1000);
             }
           };
         });

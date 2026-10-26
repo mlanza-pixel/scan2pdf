@@ -39,22 +39,25 @@
     }
 
     header {
-      background: var(--card); padding: 16px 20px;
+      background: rgba(255,255,255,.96); padding: 17px 22px;
       display: flex; justify-content: space-between; align-items: center;
-      border-bottom: 1px solid #E5E5EA;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      border-bottom: 1px solid #e4e8ef; box-shadow: 0 5px 22px rgba(22,37,62,.04);
     }
-    header h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.5px; }
-    .icon-btn { background: none; border: none; font-size: 24px; color: var(--primary); cursor: pointer; padding: 8px; }
+    header h1 { font-size: 20px; font-weight: 750; letter-spacing: -.6px; color: #142440; }
+    .icon-btn { background: #eef3fa; border: 1px solid #e0e8f2; border-radius: 12px; font-size: 20px; color: #244b79; cursor: pointer; padding: 9px 12px; }
 
-    main { flex: 1; display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
-
+    main { flex: 1; display: flex; flex-direction: column; padding: 24px; overflow-y: auto; width: 100%; max-width: 900px; margin: 0 auto; }
+    body:not(.splash-active) { background: linear-gradient(180deg,#f5f7fb 0%,#edf2f8 100%); }
     .scan-area {
-      flex: 1; background: var(--card); border-radius: 16px;
+      flex: 1; background: linear-gradient(145deg,#fff 0%,#fafdff 100%); border: 1px solid #e2e9f2; border-radius: 22px;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-      position: relative; overflow: hidden; min-height: 300px;
+      box-shadow: 0 14px 38px rgba(28,47,76,.07), inset 0 1px 0 rgba(255,255,255,.9);
+      position: relative; overflow: hidden; min-height: 320px;
     }
+    .scan-area:before { content: "DOCUMENT WORKSPACE"; position:absolute; top:20px; left:22px; font-size:10px; font-weight:800; letter-spacing:1.8px; color:#9aa9bd; }
+    .placeholder svg { color:#5178a8; background:#edf4fc; border-radius:20px; padding:14px; width:78px; height:78px; opacity:1; }
+    .placeholder p { color:#263c58; font-size:17px; font-weight:650; margin:12px 0 8px; }
+    .placeholder:after { content:"For best results, use a clear, well-lit image with text in focus."; display:block; color:#8391a5; font-size:13px; line-height:1.5; max-width:300px; margin:0 auto; }
 
     #preview-img { max-width: 100%; max-height: 100%; object-fit: contain; display: none; }
     
@@ -62,17 +65,16 @@
     .placeholder svg { width: 64px; height: 64px; margin-bottom: 16px; opacity: 0.5; }
     .placeholder p { font-size: 16px; margin-bottom: 20px; }
 
-    .actions { padding: 20px 0; display: flex; gap: 12px; }
-    
+    .actions { padding: 16px 0; display: flex; gap: 12px; }
     .btn {
-      flex: 1; padding: 16px; border-radius: 12px; border: none;
-      font-size: 17px; font-weight: 600; cursor: pointer;
+      flex: 1; padding: 16px 18px; border-radius: 13px; border: 1px solid transparent;
+      font-size: 15px; font-weight: 700; cursor: pointer;
       display: flex; align-items: center; justify-content: center; gap: 8px;
       transition: transform 0.1s, opacity 0.2s;
     }
     .btn:active { transform: scale(0.97); opacity: 0.8; }
-    .btn-primary { background: var(--primary); color: white; }
-    .btn-secondary { background: #E5E5EA; color: var(--text); }
+    .btn-primary { background: linear-gradient(135deg,#245b96,#173b68); color: white; box-shadow: 0 7px 18px rgba(31,77,128,.18); }
+    .btn-secondary { background: #fff; color: #263c58; border-color:#dbe4ef; }
     .btn-danger { background: var(--danger); color: white; }
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
@@ -99,8 +101,15 @@
       display: flex; justify-content: space-between; align-items: center;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
-    .doc-info h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
-    .doc-info p { font-size: 14px; color: var(--text-secondary); }
+    .doc-info h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; color:#203653; overflow-wrap:anywhere; }
+    .doc-info p { font-size: 12px; color: #8190a5; }
+    .output-options { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:8px; }
+    .output-card { text-align:left; background:#fff; border:1px solid #dce5f0; border-radius:15px; padding:15px 14px; color:#203653; cursor:pointer; box-shadow:0 4px 12px rgba(28,47,76,.04); }
+    .output-card strong { display:block; font-size:14px; margin:6px 0 3px; }
+    .output-card small { display:block; font-size:11px; line-height:1.45; color:#7d8ba0; }
+    .output-symbol { display:inline-grid; place-items:center; width:30px; height:30px; border-radius:9px; background:#edf4fc; color:#245b96; font-size:12px; font-weight:800; }
+    .section-kicker { color:#8795a9; font-size:10px; font-weight:800; letter-spacing:1.6px; margin:8px 0 10px; }
+    @media(max-width:540px){ main{padding:16px;} .output-options{grid-template-columns:1fr;} .output-card{display:grid;grid-template-columns:36px 1fr;column-gap:8px;align-items:center;} .output-card .output-symbol{grid-row:span 2;} .output-card strong{margin:0 0 3px;} }
 
 
     /* Professional welcome / disclaimer screen */
@@ -163,11 +172,12 @@
   </section>
 
   <header>
-    <h1>DocuScan Pro</h1>
+    <h1><span style="color:#477bb4;margin-right:8px;">▤</span>DocuScan <span style="font-weight:450;color:#72839a;">Pro</span></h1>
     <button class="icon-btn" id="history-btn" title="History">🗂️</button>
   </header>
 
   <main id="scanner-view">
+    <div style="padding:2px 2px 16px;"><div class="section-kicker">PRIVATE DOCUMENT WORKSPACE</div><h2 style="font-size:clamp(23px,5vw,30px);letter-spacing:-.8px;color:#1b304d;margin-bottom:7px;">Scan. Recognize. Keep moving.</h2><p style="font-size:14px;line-height:1.55;color:#74849a;max-width:600px;">Capture a page or screen, then export a PDF, editable text, or a Word-compatible file.</p></div>
     <div class="scan-area" id="scan-area">
       <div class="placeholder" id="placeholder">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
@@ -187,9 +197,18 @@
       <button class="btn btn-primary" id="process-btn">Create Searchable PDF</button>
     </div>
 
-    <div class="actions" id="final-actions" style="display: none;">
-      <button class="btn btn-secondary" id="new-scan-btn">New Scan</button>
-      <button class="btn btn-primary" id="share-btn">Share / Email</button>
+    <div id="results-panel" style="display:none;">
+      <div class="section-kicker">YOUR FILES</div>
+      <div class="output-options">
+        <button class="output-card" id="download-pdf-btn" type="button"><span class="output-symbol">PDF</span><span><strong>Searchable PDF</strong><small>Original image with selectable/searchable OCR text, when recognized.</small></span></button>
+        <button class="output-card" id="download-txt-btn" type="button"><span class="output-symbol">TXT</span><span><strong>Plain text</strong><small>Extracted text you can edit, copy, or search.</small></span></button>
+        <button class="output-card" id="download-word-btn" type="button"><span class="output-symbol">DOC</span><span><strong>Open in Word</strong><small>Editable Word-compatible document made from recognized text.</small></span></button>
+      </div>
+      <p id="ocr-status" style="font-size:12px;line-height:1.5;color:#718198;margin-top:12px;"></p>
+      <div class="actions" id="final-actions">
+        <button class="btn btn-secondary" id="new-scan-btn">Scan Another</button>
+        <button class="btn btn-primary" id="share-btn">Share PDF</button>
+      </div>
     </div>
   </main>
 
@@ -216,6 +235,9 @@
     let currentImageBlob = null;
     let currentPdfBlob = null;
     let currentFileName = '';
+    let currentText = '';
+    let currentOcrWords = [];
+    let currentBaseName = 'DocuScan';
 
     const els = {
       scanBtn: document.getElementById('scan-btn'),
@@ -228,6 +250,8 @@
       processBtn: document.getElementById('process-btn'),
       newScanBtn: document.getElementById('new-scan-btn'),
       shareBtn: document.getElementById('share-btn'),
+      resultsPanel: document.getElementById('results-panel'),
+      ocrStatus: document.getElementById('ocr-status'),
       overlay: document.getElementById('overlay'),
       progressText: document.getElementById('progress-text'),
       historyBtn: document.getElementById('history-btn'),
@@ -295,63 +319,43 @@
           }
         });
 
-        updateOverlay('Building Searchable PDF...');
+        currentText = (data.text || '').trim();
+        currentOcrWords = (data.words || []).filter(word => word.text && word.text.trim());
+        updateOverlay('Building searchable PDF...');
 
-        // 2. Create PDF
         const pdfDoc = await PDFLib.PDFDocument.create();
-        
-        // Get image dimensions to set PDF page size
         const imgDims = await getImageDimensions(currentImageBlob);
-        
-        // Scale to standard A4/Letter width (595 points)
         const pdfWidth = 595.28;
         const pdfHeight = (imgDims.height / imgDims.width) * pdfWidth;
         const page = pdfDoc.addPage([pdfWidth, pdfHeight]);
-
-        // Embed Image
         const imgBytes = new Uint8Array(await currentImageBlob.arrayBuffer());
         const pdfImage = await pdfDoc.embedJpg(imgBytes);
         page.drawImage(pdfImage, { x: 0, y: 0, width: pdfWidth, height: pdfHeight });
 
-        // 3. Add Invisible Searchable Text Layer
+        // Add an OCR text layer. Keep it white on the image so it remains visually unobtrusive,
+        // but use measured baselines and actual OCR boxes to improve search/select alignment.
         const font = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
-        
-        data.words.forEach(word => {
-          if (!word.text.trim()) return;
-          
-          // Map Tesseract bounding boxes to PDF coordinates
+        currentOcrWords.forEach(word => {
           const x = (word.bbox.x0 / imgDims.width) * pdfWidth;
-          const yTop = (word.bbox.y0 / imgDims.height) * pdfHeight;
           const yBottom = (word.bbox.y1 / imgDims.height) * pdfHeight;
-          
-          // PDF Y-axis is bottom-up, Image Y-axis is top-down
-          const pdfY = pdfHeight - yTop; 
-          const fontSize = Math.max((yBottom - yTop) * 0.8, 1);
-
-          // Draw text in PURE WHITE. Invisible to the eye, but searchable by iOS!
-          page.drawText(word.text, {
-            x: x,
-            y: pdfY,
-            size: fontSize,
-            font: font,
-            color: PDFLib.rgb(1, 1, 1),
-            opacity: 0,
-          });
+          const boxHeight = ((word.bbox.y1 - word.bbox.y0) / imgDims.height) * pdfHeight;
+          const pdfY = Math.max(0, pdfHeight - yBottom + boxHeight * 0.12);
+          const fontSize = Math.max(boxHeight * 0.82, 2);
+          try {
+            page.drawText(word.text, { x, y: pdfY, size: fontSize, font, color: PDFLib.rgb(1, 1, 1) });
+          } catch (e) { /* Skip individual OCR glyphs unsupported by the standard PDF font. */ }
         });
 
-        // 4. Save and Share
         const pdfBytes = await pdfDoc.save();
         currentPdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
-        
         const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-        currentFileName = `DocuScan_${timestamp}.pdf`;
-
-        // Save to IndexedDB
+        currentBaseName = `DocuScan_${timestamp}`;
+        currentFileName = `${currentBaseName}.pdf`;
         await saveToHistory(currentFileName, currentPdfBlob);
-
         hideOverlay();
         els.postScanActions.style.display = 'none';
-        els.finalActions.style.display = 'flex';
+        els.resultsPanel.style.display = 'block';
+        els.ocrStatus.textContent = currentText ? `OCR found approximately ${currentOcrWords.length} word segments. Please check the extracted text carefully; screen photos, glare, small type, and angled images can reduce accuracy.` : 'OCR did not detect readable text in this image. Try retaking it closer, straight-on, with less glare and sharper focus.';
 
       } catch (error) {
         console.error(error);
@@ -360,30 +364,37 @@
       }
     };
 
-    // --- SHARING (iOS Native Share Sheet) ---
-    els.shareBtn.onclick = async () => {
-      const file = new File([currentPdfBlob], currentFileName, { type: 'application/pdf' });
-      
-      // Use Native Share API (Works perfectly on iOS Safari)
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        try {
-          await navigator.share({
-            files: [file],
-            title: 'Scanned Document',
-            text: 'Here is the scanned document.'
-          });
-        } catch (err) {
-          if (err.name !== 'AbortError') console.error('Share failed', err);
-        }
-      } else {
-        // Fallback for older browsers
-        const url = URL.createObjectURL(currentPdfBlob);
-        const a = document.createElement('a');
-        a.href = url; a.download = currentFileName;
-        a.click();
-        URL.revokeObjectURL(url);
-      }
+    // --- DOWNLOADS & SHARING ---
+    document.getElementById('download-pdf-btn').onclick = () => downloadBlob(currentPdfBlob, currentFileName);
+    document.getElementById('download-txt-btn').onclick = () => {
+      if (!currentText) { alert('No text was recognized. Try a clearer, closer photo and process it again.'); return; }
+      downloadBlob(new Blob([currentText + '\n'], { type: 'text/plain;charset=utf-8' }), `${currentBaseName}.txt`);
     };
+    document.getElementById('download-word-btn').onclick = () => {
+      if (!currentText) { alert('No text was recognized. Try a clearer, closer photo and process it again.'); return; }
+      // Word-compatible HTML document; Microsoft Word can open this editable file.
+      const escaped = escapeHtml(currentText).replace(/\r?\n/g, '<br>');
+      const wordHtml = `<!doctype html><html><head><meta charset="utf-8"><title>${currentBaseName}</title><style>body{font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.45;margin:1in}h1{font-size:18pt;color:#1f3c60}</style></head><body><h1>${currentBaseName}</h1><p>${escaped}</p></body></html>`;
+      downloadBlob(new Blob(['\ufeff', wordHtml], { type: 'application/msword;charset=utf-8' }), `${currentBaseName}.doc`);
+    };
+    els.shareBtn.onclick = async () => {
+      if (!currentPdfBlob) return;
+      const file = new File([currentPdfBlob], currentFileName, { type: 'application/pdf' });
+      if (navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
+        try { await navigator.share({ files: [file], title: 'Scanned Document', text: 'Scanned document from DocuScan Pro.' }); }
+        catch (err) { if (err.name !== 'AbortError') console.error('Share failed', err); }
+      } else downloadBlob(currentPdfBlob, currentFileName);
+    };
+    function downloadBlob(blob, name) {
+      if (!blob) { alert('This file is not ready yet.'); return; }
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1500);
+    }
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    }
 
     // --- HISTORY (IndexedDB) ---
     els.historyBtn.onclick = () => {
@@ -443,7 +454,8 @@
 
     // --- UTILITIES ---
     function resetScanner() {
-      currentImageBlob = null; currentPdfBlob = null;
+      currentImageBlob = null; currentPdfBlob = null; currentText = ''; currentOcrWords = [];
+      els.resultsPanel.style.display = 'none';
       els.previewImg.style.display = 'none';
       els.placeholder.style.display = 'block';
       els.scanBtn.parentElement.style.display = 'flex';

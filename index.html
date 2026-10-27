@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>DocuScan Pro v2.5.4 — DocuScan Pro v2.5.4 | Scanner & PDF Studio</title>
+  <title>DocuScan Pro v2.5.5 | Scanner & PDF Studio</title>
   
   <!-- PWA & iOS Meta Tags -->
   <link rel="manifest" href="manifest.json">
@@ -189,7 +189,7 @@
 .help-footer{max-width:900px;margin:25px auto 10px;text-align:center;color:#708096;font-size:12px}
 @media(max-width:650px){.help-hero{grid-template-columns:1fr}.help-paths{grid-template-columns:1fr}.help-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.help-shell{padding:12px 13px 65px}}
 
-/* v2.2 task-based navigation */
+/* v2.5.5 task-based navigation */
 #task-home{max-width:920px;margin:22px auto;padding:16px}
 .task-intro{font-size:13px;letter-spacing:.13em;font-weight:800;color:#517496;text-transform:uppercase}
 .task-home-title{font-size:clamp(28px,5vw,42px);color:#18334e;margin:9px 0 8px}
@@ -298,7 +298,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
       </div>
       <button class="launch-btn" id="launch-app-btn" type="button">Continue to DocuScan <span aria-hidden="true">→</span></button>
       <button id="splash-help-btn" type="button" style="width:100%;margin-top:10px;padding:13px;background:transparent;border:1px solid #b3c5db;color:#e7f0fb;border-radius:12px;font-weight:750">See illustrated beginner's guide</button>
-      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 2.4.0</p>
+      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 2.5.5</p>
       <p class="splash-footnote">Your scans are stored in this browser on this device. The OCR/PDF libraries are loaded from third-party CDNs; availability may depend on your internet connection and browser permissions.</p>
     </div>
   </section>
@@ -306,7 +306,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
 
 <section id="help-screen" class="help-screen" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
 <div class="help-shell">
-  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v2.5.4</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
+  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v2.5.5</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
 
 <div class="help-mode-nav" aria-label="Choose a help topic">
 <button type="button" data-help-mode="sign">✍️ Add Text &amp; Sign</button>
@@ -376,7 +376,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
 
   
 <section id="task-home" aria-label="Choose a task">
-  <div class="task-intro">DocuScan Pro · v2.5.4</div>
+  <div class="task-intro">DocuScan Pro · v2.5.5</div>
   <h1 class="task-home-title">What would you like to do?</h1>
   <p style="color:#60778d;margin-bottom:20px">Choose one job. We'll show only the tools you need.</p>
   <button class="task-card" data-task="sign"><span class="task-icon">✍️</span><span><strong>Add Text &amp; Sign</strong><small>Open an existing PDF, drag a signature anywhere, insert a date or text box, then save.</small></span><span aria-hidden="true">›</span></button>
@@ -513,7 +513,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
         <button type="button" id="enhance-page-btn">◐ Enhance last page</button>
         <button type="button" id="original-page-btn">↩ Restore last page</button>
       </div>
-      <label style="display:flex;gap:9px;align-items:center;margin-top:12px;font-size:13px"><input type="checkbox" id="auto-straighten-toggle" checked style="width:auto;margin:0"> Automatically detect and straighten new photos</label>
+      <label style="display:flex;gap:9px;align-items:center;margin-top:12px;font-size:13px"><input type="checkbox" id="auto-straighten-toggle" style="width:auto;margin:0"> Automatically detect and straighten new photos</label>
       <p id="straighten-status" class="tool-note" role="status" aria-live="polite">Detects the document edges and corrects perspective when possible. Use manual crop if detection misses.</p>
       <div id="page-list" aria-live="polite"></div>
       <div id="crop-panel" style="display:none;margin:12px 0">
@@ -576,7 +576,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
   </main>
 
   <!-- History View -->
-  <p class="help-footer">DocuScan Pro · Version 2.4.0 · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
+  <p class="help-footer">DocuScan Pro · Version 2.5.5 · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
   <main class="history-view" id="history-view">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
       <h2 style="font-size:24px; font-weight:700;">Scanned Documents</h2>
@@ -690,7 +690,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
       if(!scanPages.length)return;
       const index=scanPages.length-1;
       const status=document.getElementById('straighten-status');
-      status.textContent='Detecting document edges and perspective…';
+      status.textContent='Loading optional edge detector. This may take time on iPad; other tools remain available.';
       await new Promise(r=>setTimeout(r,40));
       let img=null,src=null,gray=null,blur=null,edges=null,contours=null,hierarchy=null;
       let best=null;
@@ -991,6 +991,8 @@ body:not(.task-home-mode) #task-nav{display:flex}
     document.getElementById('tour-next').onclick=()=>{if(++tourIndex>=tourSteps[tourMode].length)closeTour();else showTourStep();};
     document.getElementById('tour-exit').onclick=closeTour;
 
+    const initialAutoStraighten=document.getElementById('auto-straighten-toggle');
+    if(initialAutoStraighten)initialAutoStraighten.checked=false;
     // --- CAMERA & PREVIEW ---
     // iPad Safari can show a black camera view when capture="environment" is forced.
     // Use the native Photos/Camera/Files chooser by default, and offer a separate camera input.
@@ -1021,7 +1023,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
         img.onerror=()=>{document.getElementById('studio-status').textContent='Photo format could not be decoded. Try saving it as JPEG in Photos first.';};
         img.onload = () => {
           const canvas = document.createElement('canvas');
-          const MAX_WIDTH = 2400;
+          const MAX_WIDTH = 1800;
           const ratio = Math.min(MAX_WIDTH / Math.max(img.width,img.height), 1);
           canvas.width = img.width * ratio;
           canvas.height = img.height * ratio;
@@ -1034,8 +1036,12 @@ body:not(.task-home-mode) #task-nav{display:flex}
             currentImageBlob = blob;currentPdfBlob=null;
             scanPages.push(blob);pageSources.push(blob);
             updatePages();
-            document.getElementById('studio-ready').innerHTML='<strong>Photo ready.</strong> Crop, rotate or enhance it, then tap Recognize &amp; Create PDF. Auto-straighten may take a few seconds.';
-            if(document.getElementById('auto-straighten-toggle').checked)autoStraightenLast().catch(e=>console.warn('Auto straighten skipped',e));
+            document.getElementById('studio-ready').innerHTML='<strong>Photo ready — editing controls enabled.</strong> Crop, rotate or enhance it, then tap Recognize &amp; Create PDF. Auto-straighten may take a few seconds.';
+            // Do not launch OpenCV automatically on photo import: it can monopolize
+            // Safari's main thread on iPads and make all controls appear frozen.
+            // Straighten is an explicit opt-in operation after the photo is ready.
+            const autoToggle=document.getElementById('auto-straighten-toggle');
+            if(autoToggle)autoToggle.checked=false;
           }, 'image/jpeg', 0.9);
         };
         img.src = event.target.result;
@@ -1585,12 +1591,12 @@ body:not(.task-home-mode) #task-nav{display:flex}
       tx.objectStore('docs').put({ name, blob, date: new Date() });
     }
 // Register Service Worker
-// v2.2: retire the previous service worker and old app caches to prevent stale UI.
+// v2.5.5: retire the previous service worker and old app caches to prevent stale UI.
     if('serviceWorker' in navigator && location.protocol.startsWith('http')){
       navigator.serviceWorker.getRegistrations().then(regs=>Promise.all(regs.filter(r=>r.scope.startsWith(location.origin+location.pathname.replace(/[^/]*$/,''))).map(r=>r.unregister()))).catch(console.warn);
       if('caches' in window)caches.keys().then(keys=>Promise.all(keys.filter(k=>/docuscan/i.test(k)).map(k=>caches.delete(k)))).catch(console.warn);
     }
-        // v2.2 task navigation and WYSIWYG PDF editor
+        // v2.5.5 task navigation and WYSIWYG PDF editor
     const taskNames={sign:'Add Text & Sign',workshop:'PDF Workshop',studio:'Document Studio'};
     function switchTask(task){
       document.body.classList.remove('task-home-mode','task-sign-mode','task-workshop-mode','task-studio-mode');

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>DocuScan Pro v2.5.6 | Scanner & PDF Studio</title>
+  <title>DocuScan Pro v2.6.0 | Scanner & PDF Studio</title>
   
   <!-- PWA & iOS Meta Tags -->
   <link rel="manifest" href="manifest.json">
@@ -94,6 +94,9 @@
     #progress-text { font-size: 18px; font-weight: 500; }
 
     /* History View */
+    .library-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+    .library-actions button{padding:7px 10px;border:1px solid #cbd9e8;border-radius:8px;background:#f1f6fc;color:#1b3857;font-weight:600}
+    .doc-item{flex-wrap:wrap;gap:8px}
     .history-view { display: none; flex-direction: column; height: 100%; }
     .history-view.active { display: flex; }
     .doc-item {
@@ -189,7 +192,7 @@
 .help-footer{max-width:900px;margin:25px auto 10px;text-align:center;color:#708096;font-size:12px}
 @media(max-width:650px){.help-hero{grid-template-columns:1fr}.help-paths{grid-template-columns:1fr}.help-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.help-shell{padding:12px 13px 65px}}
 
-/* v2.5.6 task-based navigation */
+/* v2.6.0 task-based navigation */
 #task-home{max-width:920px;margin:22px auto;padding:16px}
 .task-intro{font-size:13px;letter-spacing:.13em;font-weight:800;color:#517496;text-transform:uppercase}
 .task-home-title{font-size:clamp(28px,5vw,42px);color:#18334e;margin:9px 0 8px}
@@ -304,7 +307,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
       </div>
       <button class="launch-btn" id="launch-app-btn" type="button">Continue to DocuScan <span aria-hidden="true">→</span></button>
       <button id="splash-help-btn" type="button" style="width:100%;margin-top:10px;padding:13px;background:transparent;border:1px solid #b3c5db;color:#e7f0fb;border-radius:12px;font-weight:750">See illustrated beginner's guide</button>
-      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 2.5.6 · Build 2026-10-27-ipadaudit-01</p><button type="button" data-build-check style="display:block;margin:8px auto;background:transparent;color:#dcecff;border:1px solid #9cb6d3;border-radius:9px;padding:9px 15px">Check version &amp; cache</button>
+      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 2.6.0 · Build 2026-10-27-featurepack-01</p><button type="button" data-build-check style="display:block;margin:8px auto;background:transparent;color:#dcecff;border:1px solid #9cb6d3;border-radius:9px;padding:9px 15px">Check version &amp; cache</button>
       <p class="splash-footnote">Your scans are stored in this browser on this device. The OCR/PDF libraries are loaded from third-party CDNs; availability may depend on your internet connection and browser permissions.</p>
     </div>
   </section>
@@ -312,7 +315,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
 
 <section id="help-screen" class="help-screen" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
 <div class="help-shell">
-  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v2.5.6</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
+  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v2.6.0</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
 
 <div class="help-mode-nav" aria-label="Choose a help topic">
 <button type="button" data-help-mode="sign">✍️ Add Text &amp; Sign</button>
@@ -370,7 +373,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
   <h3 class="help-section-title">If something goes wrong</h3>
   <div class="help-paths"><div class="help-path"><h3>Camera shows black</h3><p style="font-size:14px;line-height:1.6">Use <strong>Choose Photo or Camera</strong> and pick a photo from the iPad Photos app instead. Check Safari camera permission if you want to capture directly.</p></div><div class="help-path"><h3>Text looks wrong</h3><p style="font-size:14px;line-height:1.6">Crop tighter, use better light, try another OCR mode, then retake. Correct mistakes in the editable text box. The PDF's hidden OCR layer may still need review.</p></div></div>
   <article class="help-path"><div class="help-kicker">Mission 03 · PDF Workshop</div><h3>🧰 Edit a PDF you already have</h3><ol class="help-steps"><li><div><strong>Open PDF from Files</strong> to select your document.</div></li><li><div><strong>Scroll to PDF Workshop</strong> and select a tool: merge, split/extract, reorder, rotate, delete, watermark, number, flatten, extract text, JPG or compress.</div></li><li><div><strong>Enter page numbers</strong> when relevant. For example, 1,3-5 selects pages 1, 3, 4 and 5.</div></li><li><div><strong>Tap Run selected tool,</strong> then Download or Share result.</div></li><li><div><strong>Tap Use result for next tool</strong> to make another edit or sign the result.</div></li></ol><p class="help-note">For signing, use the separate signing panel. These tools are experimental until tested on your iPad.</p></article>
-  <div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br><strong>Version:</strong> 2.5.6<br><strong>Build:</strong> 2026-10-27 · cache-diagnostics-2026-10-27-ipadaudit-01<br><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br><strong>Support:</strong> Support email/website — <em>not yet configured</em><br><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
+  <div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br><strong>Version:</strong> 2.5.6<br><strong>Build:</strong> 2026-10-27 · cache-diagnostics-2026-10-27-featurepack-01<br><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br><strong>Support:</strong> Support email/website — <em>not yet configured</em><br><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
   </div><!-- general-help-content -->
   <p style="margin-top:22px;text-align:center"><button type="button" class="help-close" id="help-done-btn">Got it — back to DocuScan</button></p>
 </div></section>
@@ -382,7 +385,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
 
   
 <section id="task-home" aria-label="Choose a task">
-  <div class="task-intro">DocuScan Pro · v2.5.6</div>
+  <div class="task-intro">DocuScan Pro · v2.6.0</div>
   <h1 class="task-home-title">What would you like to do?</h1>
   <p style="color:#60778d;margin-bottom:20px">Choose one job. We'll show only the tools you need.</p>
   <button class="task-card" data-task="sign"><span class="task-icon">✍️</span><span><strong>Add Text &amp; Sign</strong><small>Open an existing PDF, drag a signature anywhere, insert a date or text box, then save.</small></span><span aria-hidden="true">›</span></button>
@@ -521,7 +524,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
       </div>
       <label style="display:flex;gap:9px;align-items:center;margin-top:12px;font-size:13px"><input type="checkbox" id="auto-straighten-toggle" style="width:auto;margin:0"> Automatically detect and straighten new photos</label>
       <p id="straighten-status" class="tool-note" role="status" aria-live="polite">Detects the document edges and corrects perspective when possible. Use manual crop if detection misses.</p>
-      <div id="page-list" aria-live="polite"></div>
+      <div id="page-list" aria-live="polite"></div><button type="button" id="studio-open-library" class="btn btn-secondary">🗂 Open saved document library</button>
       <div id="crop-panel" style="display:none;margin:12px 0">
         <p class="tool-note" style="margin-bottom:8px">Drag the corners of the crop box to exclude desks, hands, backgrounds, or screen borders. The selected area is kept for OCR and PDF export.</p>
         <div id="crop-stage" style="position:relative;touch-action:none;user-select:none;max-width:100%;background:#15283e;border-radius:12px;overflow:hidden">
@@ -582,13 +585,13 @@ body:not(.task-home-mode) #task-nav{display:flex}
   </main>
 
   <!-- History View -->
-  <p class="help-footer">DocuScan Pro · Version 2.5.6 · <button type="button" data-build-check style="border:1px solid #a4bfd9;border-radius:8px;padding:6px 9px;background:#f2f8ff;color:#154b7c">Check version &amp; cache</button> · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
+  <p class="help-footer">DocuScan Pro · Version 2.6.0 · <button type="button" data-build-check style="border:1px solid #a4bfd9;border-radius:8px;padding:6px 9px;background:#f2f8ff;color:#154b7c">Check version &amp; cache</button> · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
   <main class="history-view" id="history-view">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-      <h2 style="font-size:24px; font-weight:700;">Scanned Documents</h2>
+      <h2 style="font-size:24px; font-weight:700;">Saved Document Library</h2>
       <button class="icon-btn" id="close-history-btn">✕</button>
     </div>
-    <div id="history-list"></div>
+    <p class="tool-note">Stored locally on this browser/device. Clearing website data can erase these files; download important documents.</p><div id="history-list"></div>
   </main>
 
   <!-- Native Camera Input (Triggers iOS Camera directly) -->
@@ -638,6 +641,13 @@ body:not(.task-home-mode) #task-nav{display:flex}
         const remove=document.createElement('button');remove.type='button';remove.textContent='×';
         remove.setAttribute('aria-label',`Remove page ${i+1}`);
         remove.onclick=()=>{scanPages.splice(i,1);pageSources.splice(i,1);currentPdfBlob=null;updatePages();};
+        for(const [symbol,offset] of [['↑',-1],['↓',1]]){
+          const move=document.createElement('button');move.type='button';move.textContent=symbol;
+          move.setAttribute('aria-label',`Move page ${i+1} ${offset<0?'earlier':'later'}`);
+          move.disabled=i+offset<0||i+offset>=scanPages.length;
+          move.onclick=()=>{const j=i+offset;[scanPages[i],scanPages[j]]=[scanPages[j],scanPages[i]];[pageSources[i],pageSources[j]]=[pageSources[j],pageSources[i]];currentPdfBlob=null;updatePages();};
+          chip.append(move);
+        }
         chip.append(remove);list.append(chip);
       });
       if(scanPages.length) {
@@ -1510,50 +1520,74 @@ body:not(.task-home-mode) #task-nav{display:flex}
       els.scannerView.style.display = 'flex';
     };
 
-    async function loadHistory() {
-      const db = await openDB();
-      const tx = db.transaction('docs', 'readonly');
-      const store = tx.objectStore('docs');
-      const request = store.getAll();
-      
-      request.onsuccess = () => {
-        const docs = request.result.reverse(); // Newest first
-        els.historyList.innerHTML = '';
-        if (docs.length === 0) {
-          els.historyList.innerHTML = '<p style="text-align:center; color:var(--text-secondary); margin-top:40px;">No scanned documents yet.</p>';
-          return;
-        }
-        
-        docs.forEach(doc => {
-          const item = document.createElement('div');
-          item.className = 'doc-item';
-          item.innerHTML = `
-            <div class="doc-info">
-              <h3>${doc.name}</h3>
-              <p>${new Date(doc.date).toLocaleDateString()} ${new Date(doc.date).toLocaleTimeString()}</p>
-            </div>
-            <button class="icon-btn" data-name="${doc.name}">📤</button>
-          `;
-          els.historyList.appendChild(item);
-        });
-
-        // Attach share listeners to history items
-        document.querySelectorAll('.doc-item .icon-btn').forEach(btn => {
-          btn.onclick = async () => {
-            const name = btn.dataset.name;
-            const doc = docs.find(d => d.name === name);
-            const file = new File([doc.blob], name, { type: 'application/pdf' });
-            if (navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
-              await navigator.share({ files: [file] });
-            } else {
-              const url = URL.createObjectURL(doc.blob);
-              const a = document.createElement('a'); a.href = url; a.download = name; a.click();
-              setTimeout(() => URL.revokeObjectURL(url), 1000);
-            }
-          };
-        });
-      };
+    async function getSavedDocs(){
+      const db=await openDB();
+      return new Promise((resolve,reject)=>{
+        const tx=db.transaction('docs','readonly');
+        const req=tx.objectStore('docs').getAll();
+        req.onsuccess=()=>resolve(req.result.sort((a,b)=>new Date(b.date)-new Date(a.date)));
+        req.onerror=()=>reject(req.error);
+      });
     }
+    async function changeSavedDoc(oldName, action){
+      const docs=await getSavedDocs(),doc=docs.find(d=>d.name===oldName);
+      if(!doc)return;
+      if(action==='download')return downloadBlob(doc.blob,doc.name);
+      if(action==='share')return shareFile(doc.blob,doc.name,'application/pdf');
+      if(action==='open'){
+        try{
+          const bytes=await doc.blob.arrayBuffer();
+          const parsed=await PDFLib.PDFDocument.load(bytes.slice(0));
+          importedPdfBytes=bytes;toolResultBlob=null;
+          document.getElementById('close-history-btn').click();
+          switchTask('workshop');
+          document.getElementById('workshop-source-status').textContent=`Opened saved document: ${doc.name} (${parsed.getPageCount()} pages)`;
+          workshopPreviewState.source.page=1;await previewWorkshop('source');
+        }catch(e){alert('Unable to open saved PDF: '+e.message);}
+        return;
+      }
+      if(action==='delete'&&!confirm(`Delete "${doc.name}" from this device?`))return;
+      let newName=oldName;
+      if(action==='rename'){
+        const proposed=prompt('New document name',oldName);
+        if(proposed===null)return;
+        newName=proposed.trim().replace(/[\\/]/g,'_');
+        if(!newName)return alert('Enter a document name.');
+        if(!/\.pdf$/i.test(newName))newName+='.pdf';
+        if(newName!==oldName&&docs.some(d=>d.name===newName))return alert('A document with that name already exists.');
+      }
+      const db=await openDB();
+      await new Promise((resolve,reject)=>{
+        const tx=db.transaction('docs','readwrite'),store=tx.objectStore('docs');
+        store.delete(oldName);
+        if(action==='rename')store.put({...doc,name:newName});
+        tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);
+      });
+      await loadHistory();
+    }
+    async function loadHistory(){
+      els.historyList.textContent='Loading saved documents…';
+      try{
+        const docs=await getSavedDocs();
+        els.historyList.replaceChildren();
+        if(!docs.length){els.historyList.textContent='No saved PDFs yet. Create a document in Document Studio first.';return;}
+        for(const doc of docs){
+          const item=document.createElement('div');item.className='doc-item';
+          const info=document.createElement('div');info.className='doc-info';
+          const name=document.createElement('h3');name.textContent=doc.name;
+          const meta=document.createElement('p');meta.textContent=new Date(doc.date).toLocaleString();
+          info.append(name,meta);item.append(info);
+          const actions=document.createElement('div');actions.className='library-actions';
+          for(const [label,action] of [['Open','open'],['Rename','rename'],['Save','download'],['Share','share'],['Delete','delete']]){
+            const btn=document.createElement('button');btn.type='button';btn.textContent=label;
+            btn.onclick=async()=>{try{await changeSavedDoc(doc.name,action);}catch(e){alert('Document action failed: '+e.message);}};
+            actions.append(btn);
+          }
+          item.append(actions);els.historyList.append(item);
+        }
+      }catch(e){els.historyList.textContent='Document library unavailable: '+e.message;}
+    }
+    document.getElementById('studio-open-library').onclick=()=>els.historyBtn.click();
 
     // --- UTILITIES ---
     function resetScanner() {
@@ -1601,11 +1635,14 @@ body:not(.task-home-mode) #task-nav{display:flex}
     async function saveToHistory(name, blob) {
       const db = await openDB();
       const tx = db.transaction('docs', 'readwrite');
-      tx.objectStore('docs').put({ name, blob, date: new Date() });
+      return new Promise((resolve,reject)=>{
+        tx.objectStore('docs').put({ name, blob, date: new Date() });
+        tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);
+      });
     }
 // Cache maintenance is user-initiated. Never delete saved IndexedDB documents
 // or localStorage signatures as part of a routine page load.
-        // v2.5.6 task navigation and WYSIWYG PDF editor
+        // v2.6.0 task navigation and WYSIWYG PDF editor
     const taskNames={sign:'Add Text & Sign',workshop:'PDF Workshop',studio:'Document Studio'};
     function switchTask(task){
       document.body.classList.remove('task-home-mode','task-sign-mode','task-workshop-mode','task-studio-mode');
@@ -1899,7 +1936,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
 <script>
 (function(){
 'use strict';
-const VERSION='2.5.6', BUILD='2026-10-27-ipadaudit-01';
+const VERSION='2.5.6', BUILD='2026-10-27-featurepack-01';
 const panel=document.getElementById('build-check-panel');
 const output=document.getElementById('build-check-output');
 let report='';

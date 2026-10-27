@@ -197,12 +197,30 @@
     </div>
 
     <div class="actions">
-      <button class="btn btn-primary" id="scan-btn">
-        <span>📷</span> Scan Document
-      </button>
+      <button class="btn btn-primary" id="scan-btn" type="button"><span>📷</span> Choose Photo or Camera</button>
     </div>
     
 
+    <section class="toolbox" aria-label="Import an existing PDF">
+      <h3>Open &amp; sign an existing PDF</h3>
+      <button class="btn btn-primary" type="button" id="import-pdf-btn">Open PDF from Files</button>
+      <p id="pdf-import-status" class="tool-note">Import a PDF, add a typed or drawn signature, position it, and save or share the signed copy. The original file is not overwritten.</p>
+      <div id="pdf-sign-panel" style="display:none">
+        <label for="pdf-page-number">Page to sign</label><input id="pdf-page-number" type="number" min="1" value="1">
+        <label for="signature-position">Signature position</label>
+        <select id="signature-position"><option value="bottom-right">Bottom right</option><option value="bottom-left">Bottom left</option><option value="center">Center</option><option value="top-right">Top right</option></select>
+        <label for="pdf-signer-name">Typed signature (optional)</label><input id="pdf-signer-name" placeholder="Your name">
+        <label>Draw signature using finger or Apple Pencil</label>
+        <canvas id="signature-canvas" width="680" height="200" style="display:block;width:100%;height:110px;background:white;border:1px solid #c9d8e9;border-radius:10px;touch-action:none"></canvas>
+        <div class="toolgrid">
+          <button type="button" id="clear-signature-btn">Clear signature</button>
+          <button type="button" id="sign-pdf-btn">Apply signature &amp; save</button>
+          <button type="button" id="download-signed-btn" disabled>Download signed PDF</button>
+          <button type="button" id="share-signed-btn" disabled>Share signed PDF</button>
+        </div>
+        <p class="tool-note">Signature placement is approximate. Review the saved PDF carefully before sending. This is a visual signature, not a certificate-based digital signature.</p>
+      </div>
+    </section>
     <section class="toolbox" aria-label="Scan and editing tools">
       <h3>Document studio</h3>
       <div class="toolgrid">
@@ -264,7 +282,9 @@
   </main>
 
   <!-- Native Camera Input (Triggers iOS Camera directly) -->
-  <input type="file" id="camera-input" accept="image/*" capture="environment">
+  <input type="file" id="camera-input" accept="image/*">
+  <input type="file" id="direct-camera-input" accept="image/*" capture="environment" style="display:none">
+  <input type="file" id="pdf-input" accept="application/pdf,.pdf" style="display:none">
 
   <!-- Processing Overlay -->
   <div class="overlay" id="overlay">
@@ -362,13 +382,24 @@
     });
 
     // --- CAMERA & PREVIEW ---
+    // iPad Safari can show a black camera view when capture="environment" is forced.
+    // Use the native Photos/Camera/Files chooser by default, and offer a separate camera input.
     els.scanBtn.onclick = () => els.cameraInput.click();
+    document.getElementById('direct-camera-input').onchange = e => {
+      const f=e.target.files && e.target.files[0];
+      if(f) handleImageFile(f);
+      e.target.value='';
+    };
     els.retakeBtn.onclick = resetScanner;
     els.newScanBtn.onclick = resetScanner;
 
     els.cameraInput.onchange = (e) => {
-      const file = e.target.files[0];
+      const file = e.target.files && e.target.files[0];
       if (!file) return;
+      handleImageFile(file);
+      e.target.value='';
+    };
+    function handleImageFile(file) {
       
       // Downscale image to prevent Safari memory crashes on high-res iPhones
       const reader = new FileReader();
@@ -393,7 +424,88 @@
         img.src = event.target.result;
       };
       reader.readAsDataURL(file);
+    }
+
+
+    // --- IMPORT & SIGN AN EXISTING PDF ---
+    let importedPdfBytes=null, signedPdfBlob=null, signedPdfName='';
+    const pdfInput=document.getElementById('pdf-input');
+    const signCanvas=document.getElementById('signature-canvas');
+    const signCtx=signCanvas.getContext('2d');
+    let drawing=false, hasInk=false;
+    function canvasPoint(event){
+      const r=signCanvas.getBoundingClientRect();
+      return {x:(event.clientX-r.left)*signCanvas.width/r.width,
+              y:(event.clientY-r.top)*signCanvas.height/r.height};
+    }
+    signCanvas.addEventListener('pointerdown',e=>{
+      drawing=true;signCanvas.setPointerCapture(e.pointerId);
+      const p=canvasPoint(e);signCtx.beginPath();signCtx.moveTo(p.x,p.y);
+      signCtx.lineWidth=4;signCtx.lineCap='round';signCtx.lineJoin='round';signCtx.strokeStyle='#18395f';
+      signCtx.lineTo(p.x+.1,p.y+.1);signCtx.stroke();hasInk=true;
+    });
+    signCanvas.addEventListener('pointermove',e=>{
+      if(!drawing)return;const p=canvasPoint(e);
+      signCtx.lineTo(p.x,p.y);signCtx.stroke();
+    });
+    for(const name of ['pointerup','pointercancel','lostpointercapture']){
+      signCanvas.addEventListener(name,()=>drawing=false);
+    }
+    document.getElementById('clear-signature-btn').onclick=()=>{
+      signCtx.clearRect(0,0,signCanvas.width,signCanvas.height);hasInk=false;
     };
+    document.getElementById('import-pdf-btn').onclick=()=>pdfInput.click();
+    pdfInput.onchange=async e=>{
+      const file=e.target.files && e.target.files[0];if(!file)return;
+      try{
+        if(!window.PDFLib)throw new Error('PDF library did not load. Connect to the internet.');
+        const bytes=await file.arrayBuffer();
+        const doc=await PDFLib.PDFDocument.load(bytes);
+        importedPdfBytes=bytes;signedPdfBlob=null;
+        signedPdfName=(file.name.replace(/\.pdf$/i,'')||'document')+'_signed.pdf';
+        document.getElementById('pdf-page-number').max=doc.getPageCount();
+        document.getElementById('pdf-page-number').value=doc.getPageCount();
+        document.getElementById('pdf-sign-panel').style.display='block';
+        document.getElementById('pdf-import-status').textContent=`Loaded ${file.name} (${doc.getPageCount()} page(s)). Choose a page and sign below.`;
+        document.getElementById('download-signed-btn').disabled=true;
+        document.getElementById('share-signed-btn').disabled=true;
+      }catch(err){
+        console.error(err);alert('Unable to open this PDF: '+err.message);
+      }finally{pdfInput.value='';}
+    };
+    document.getElementById('sign-pdf-btn').onclick=async()=>{
+      if(!importedPdfBytes)return alert('Open a PDF first.');
+      const typed=document.getElementById('pdf-signer-name').value.trim();
+      if(!typed&&!hasInk)return alert('Draw a signature or type your name first.');
+      try{
+        showOverlay('Signing PDF...');
+        const doc=await PDFLib.PDFDocument.load(importedPdfBytes.slice(0));
+        const number=Number(document.getElementById('pdf-page-number').value);
+        if(!Number.isInteger(number)||number<1||number>doc.getPageCount())throw new Error('Choose a valid page number.');
+        const page=doc.getPage(number-1),{width,height}=page.getSize();
+        const pos=document.getElementById('signature-position').value;
+        const boxW=Math.min(210,width*.45),boxH=70;
+        const x=pos.endsWith('right')?width-boxW-35:pos==='center'?(width-boxW)/2:35;
+        const y=pos.startsWith('top')?height-boxH-35:pos==='center'?(height-boxH)/2:35;
+        if(hasInk){
+          const png=await doc.embedPng(await fetch(signCanvas.toDataURL('image/png')).then(r=>r.arrayBuffer()));
+          page.drawImage(png,{x,y:y+(typed?18:0),width:boxW,height:typed?boxH-18:boxH});
+        }
+        if(typed){
+          const font=await doc.embedFont(PDFLib.StandardFonts.HelveticaOblique);
+          const safe=typed.replace(/[^\x20-\x7E]/g,'').slice(0,75);
+          page.drawText(safe,{x,y:y+3,size:Math.min(17,boxW/Math.max(1,safe.length)*1.6),font,color:PDFLib.rgb(.08,.19,.36)});
+        }
+        const output=await doc.save();
+        signedPdfBlob=new Blob([output],{type:'application/pdf'});
+        document.getElementById('download-signed-btn').disabled=false;
+        document.getElementById('share-signed-btn').disabled=false;
+        document.getElementById('pdf-import-status').textContent='Signed copy ready. Download or share, then review placement in your PDF viewer.';
+      }catch(err){console.error(err);alert('Could not sign PDF: '+err.message);}
+      finally{hideOverlay();}
+    };
+    document.getElementById('download-signed-btn').onclick=()=>signedPdfBlob&&downloadBlob(signedPdfBlob,signedPdfName);
+    document.getElementById('share-signed-btn').onclick=()=>signedPdfBlob&&shareFile(signedPdfBlob,signedPdfName,'application/pdf');
 
     // --- PDF GENERATION & OCR ---
     els.processBtn.onclick = async () => {

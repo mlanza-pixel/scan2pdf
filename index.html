@@ -145,7 +145,17 @@
     body.splash-active { overflow: hidden; }
     @media (max-width: 380px) { .feature-list { grid-template-columns: 1fr; } .feature { padding: 12px; } }
 
-  </style>
+  
+    .toolbox{background:#fff;border:1px solid #dce6f2;border-radius:18px;padding:16px;margin:14px 0}
+    .toolbox h3{font-size:15px;margin-bottom:10px;color:#1d3655}
+    .toolgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+    .toolgrid button{border:1px solid #d9e3ef;background:#f6f9fd;border-radius:11px;padding:12px 8px;color:#1b3857;font-weight:650;cursor:pointer}
+    .toolbox input,.toolbox select{width:100%;padding:10px;border:1px solid #d9e3ef;border-radius:9px;margin:5px 0 10px}
+    #page-list{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+    .pagechip{border:1px solid #d4e0ee;border-radius:10px;padding:7px 9px;background:#f5f9ff;font-size:12px}
+    .pagechip button{border:0;background:transparent;color:#b3283d;font-weight:700;cursor:pointer}
+    .tool-note{font-size:12px;color:#64758b;line-height:1.5;margin-top:8px}
+</style>
 </head>
 <body class="splash-active">
   <section class="splash-screen" id="splash-screen" aria-labelledby="splash-title">
@@ -192,9 +202,27 @@
       </button>
     </div>
     
+
+    <section class="toolbox" aria-label="Scan and editing tools">
+      <h3>Document studio</h3>
+      <div class="toolgrid">
+        <button type="button" id="add-page-btn">＋ Add page</button>
+        <button type="button" id="rotate-page-btn">↻ Rotate last page</button>
+        <button type="button" id="enhance-page-btn">◐ Enhance last page</button>
+        <button type="button" id="original-page-btn">↩ Restore last page</button>
+      </div>
+      <div id="page-list" aria-live="polite"></div>
+      <label for="doc-title" style="font-size:12px;font-weight:650">Document name</label>
+      <input id="doc-title" placeholder="My scanned document" maxlength="100">
+      <label for="stamp-text" style="font-size:12px;font-weight:650">Optional PDF stamp / watermark</label>
+      <input id="stamp-text" placeholder="e.g. DRAFT or CONFIDENTIAL" maxlength="60">
+      <label for="signature-text" style="font-size:12px;font-weight:650">Optional typed signature on last page</label>
+      <input id="signature-text" placeholder="Type your name" maxlength="80">
+      <p class="tool-note">Add multiple pages before OCR. Stamp and typed signature are visual annotations, not cryptographic digital signatures. Review all documents before sharing.</p>
+    </section>
     <div class="actions" id="post-scan-actions" style="display: none;">
       <button class="btn btn-secondary" id="retake-btn">Retake</button>
-      <button class="btn btn-primary" id="process-btn">Create Searchable PDF</button>
+      <button class="btn btn-primary" id="process-btn">Recognize &amp; Create PDF</button>
     </div>
 
     <div id="results-panel" style="display:none;">
@@ -205,6 +233,20 @@
         <button class="output-card" id="download-word-btn" type="button"><span class="output-symbol">DOC</span><span><strong>Open in Word</strong><small>Editable Word-compatible document made from recognized text.</small></span></button>
       </div>
       <p id="ocr-status" style="font-size:12px;line-height:1.5;color:#718198;margin-top:12px;"></p>
+      <label for="ocr-editor" style="display:block;font-size:13px;font-weight:750;color:#203653;margin:16px 0 7px;">Review and correct recognized text</label>
+      <textarea id="ocr-editor" aria-label="Editable recognized text" placeholder="Recognized text will appear here. You can correct it before exporting." style="width:100%;min-height:170px;resize:vertical;border:1px solid #dce5f0;border-radius:14px;padding:14px;font:14px/1.6 system-ui;color:#203653;background:white;"></textarea>
+      <p style="font-size:12px;color:#718198;line-height:1.5;margin-top:6px;">Edits apply to TXT and Word exports. The searchable PDF uses OCR positioned over the original photo.</p>
+      <div class="section-kicker" style="margin-top:18px;">ADDITIONAL EXPORTS</div>
+      <div class="output-options">
+        <button class="output-card" id="download-jpg-btn" type="button"><span class="output-symbol">JPG</span><span><strong>Export first page image</strong><small>Save an image of the scan.</small></span></button>
+        <button class="output-card" id="download-docx-btn" type="button"><span class="output-symbol">DOCX</span><span><strong>Native Word document</strong><small>Editable text in a .docx file.</small></span></button>
+      </div>
+      <div class="section-kicker" style="margin-top:18px;">SHARE FILES</div>
+      <div class="output-options">
+        <button class="output-card" id="share-pdf-btn" type="button"><span class="output-symbol">↗</span><span><strong>Share PDF</strong><small>Original image and invisible OCR layer.</small></span></button>
+        <button class="output-card" id="share-txt-btn" type="button"><span class="output-symbol">↗</span><span><strong>Share text</strong><small>Send the corrected editable text.</small></span></button>
+        <button class="output-card" id="share-word-btn" type="button"><span class="output-symbol">↗</span><span><strong>Share Word</strong><small>Send a Word-compatible editable file.</small></span></button>
+      </div>
       <div class="actions" id="final-actions">
         <button class="btn btn-secondary" id="new-scan-btn">Scan Another</button>
         <button class="btn btn-primary" id="share-btn">Share PDF</button>
@@ -230,6 +272,7 @@
     <div id="progress-text">Initializing Scanner...</div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
   <script>
     // --- STATE & ELEMENTS ---
     let currentImageBlob = null;
@@ -238,6 +281,56 @@
     let currentText = '';
     let currentOcrWords = [];
     let currentBaseName = 'DocuScan';
+    let scanPages = [];
+    let pageSources = [];
+    let currentImageObjectUrl = null;
+    function updatePages() {
+      const list = document.getElementById('page-list');
+      list.innerHTML = '';
+      scanPages.forEach((blob,i) => {
+        const chip=document.createElement('span');chip.className='pagechip';
+        chip.append(document.createTextNode(`Page ${i+1} `));
+        const remove=document.createElement('button');remove.type='button';remove.textContent='×';
+        remove.setAttribute('aria-label',`Remove page ${i+1}`);
+        remove.onclick=()=>{scanPages.splice(i,1);pageSources.splice(i,1);updatePages();};
+        chip.append(remove);list.append(chip);
+      });
+      if(scanPages.length) {
+        const last=scanPages[scanPages.length-1];
+        if(currentImageObjectUrl) URL.revokeObjectURL(currentImageObjectUrl);
+        currentImageObjectUrl=URL.createObjectURL(last);
+        els.previewImg.src=currentImageObjectUrl;
+        els.previewImg.style.display='block';els.placeholder.style.display='none';
+        els.scanBtn.parentElement.style.display='none';
+        els.postScanActions.style.display='flex';
+      } else {
+        els.previewImg.style.display='none';els.placeholder.style.display='block';
+        els.scanBtn.parentElement.style.display='flex';els.postScanActions.style.display='none';
+      }
+    }
+    document.getElementById('add-page-btn').onclick=()=>els.cameraInput.click();
+    async function transformLast(operation) {
+      if(!scanPages.length) return alert('Add a page first.');
+      const i=scanPages.length-1;
+      if(operation==='restore'){scanPages[i]=pageSources[i];updatePages();return;}
+      const blob=scanPages[i], dims=await getImageDimensions(blob);
+      const img=await createImageBitmap(blob);
+      const canvas=document.createElement('canvas');
+      const rotate=operation==='rotate';
+      canvas.width=rotate?dims.height:dims.width;
+      canvas.height=rotate?dims.width:dims.height;
+      const ctx=canvas.getContext('2d');
+      if(rotate){ctx.translate(canvas.width,0);ctx.rotate(Math.PI/2);}
+      if(operation==='enhance') ctx.filter='grayscale(1) contrast(1.45) brightness(1.08)';
+      ctx.drawImage(img,0,0,dims.width,dims.height);
+      img.close();
+      const updated=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',0.92));
+      if(updated){scanPages[i]=updated;updatePages();}
+    }
+    document.getElementById('rotate-page-btn').onclick=()=>transformLast('rotate');
+    document.getElementById('enhance-page-btn').onclick=()=>transformLast('enhance');
+    document.getElementById('original-page-btn').onclick=()=>transformLast('restore');
+
 
     const els = {
       scanBtn: document.getElementById('scan-btn'),
@@ -293,11 +386,8 @@
           
           canvas.toBlob((blob) => {
             currentImageBlob = blob;
-            els.previewImg.src = URL.createObjectURL(blob);
-            els.previewImg.style.display = 'block';
-            els.placeholder.style.display = 'none';
-            els.scanBtn.parentElement.style.display = 'none';
-            els.postScanActions.style.display = 'flex';
+            scanPages.push(blob);pageSources.push(blob);
+            updatePages();
           }, 'image/jpeg', 0.9);
         };
         img.src = event.target.result;
@@ -310,80 +400,119 @@
       showOverlay('Reading text from document...');
       
       try {
-        // 1. Run OCR
-        const { data } = await Tesseract.recognize(currentImageBlob, 'eng', {
-          logger: m => {
-            if (m.status === 'recognizing text') {
-              updateOverlay(`Reading text... ${Math.round(m.progress * 100)}%`);
-            }
+        if(!scanPages.length) throw new Error('No pages selected');
+        if(typeof Tesseract==='undefined' || typeof PDFLib==='undefined') throw new Error('OCR/PDF libraries unavailable');
+        const pdfDoc=await PDFLib.PDFDocument.create();
+        const font=await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+        const allText=[], allWords=[];
+        for(let i=0;i<scanPages.length;i++){
+          updateOverlay(`Recognizing page ${i+1} of ${scanPages.length}...`);
+          const blob=scanPages[i];
+          const {data}=await Tesseract.recognize(blob,'eng');
+          allText.push((data.text||'').trim());
+          const words=(data.words||[]).filter(w=>w.text && w.text.trim());
+          allWords.push(...words);
+          const dims=await getImageDimensions(blob);
+          const width=595.28,height=width*dims.height/dims.width;
+          const page=pdfDoc.addPage([width,height]);
+          const embedded=await pdfDoc.embedJpg(new Uint8Array(await blob.arrayBuffer()));
+          page.drawImage(embedded,{x:0,y:0,width,height});
+          for(const word of words){
+            if(!word.bbox)continue;
+            const x=word.bbox.x0/dims.width*width;
+            const boxH=(word.bbox.y1-word.bbox.y0)/dims.height*height;
+            const y=Math.max(0,height-word.bbox.y1/dims.height*height+boxH*.12);
+            try{
+              page.drawText(word.text,{x,y,size:Math.max(2,boxH*.82),font,
+                color:PDFLib.rgb(0,0,0),opacity:0});
+            }catch(e){}
           }
-        });
-
-        currentText = (data.text || '').trim();
-        currentOcrWords = (data.words || []).filter(word => word.text && word.text.trim());
-        updateOverlay('Building searchable PDF...');
-
-        const pdfDoc = await PDFLib.PDFDocument.create();
-        const imgDims = await getImageDimensions(currentImageBlob);
-        const pdfWidth = 595.28;
-        const pdfHeight = (imgDims.height / imgDims.width) * pdfWidth;
-        const page = pdfDoc.addPage([pdfWidth, pdfHeight]);
-        const imgBytes = new Uint8Array(await currentImageBlob.arrayBuffer());
-        const pdfImage = await pdfDoc.embedJpg(imgBytes);
-        page.drawImage(pdfImage, { x: 0, y: 0, width: pdfWidth, height: pdfHeight });
-
-        // Add an OCR text layer. Keep it white on the image so it remains visually unobtrusive,
-        // but use measured baselines and actual OCR boxes to improve search/select alignment.
-        const font = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
-        currentOcrWords.forEach(word => {
-          const x = (word.bbox.x0 / imgDims.width) * pdfWidth;
-          const yBottom = (word.bbox.y1 / imgDims.height) * pdfHeight;
-          const boxHeight = ((word.bbox.y1 - word.bbox.y0) / imgDims.height) * pdfHeight;
-          const pdfY = Math.max(0, pdfHeight - yBottom + boxHeight * 0.12);
-          const fontSize = Math.max(boxHeight * 0.82, 2);
-          try {
-            page.drawText(word.text, { x, y: pdfY, size: fontSize, font, color: PDFLib.rgb(1, 1, 1) });
-          } catch (e) { /* Skip individual OCR glyphs unsupported by the standard PDF font. */ }
-        });
-
+          const stamp=document.getElementById('stamp-text').value.trim();
+          if(stamp){
+            const safe=stamp.replace(/[^\\x20-\\x7E]/g,'').slice(0,60);
+            page.drawText(safe,{x:30,y:30,size:14,font,color:PDFLib.rgb(.35,.38,.48),opacity:.6});
+          }
+          if(i===scanPages.length-1){
+            const sign=document.getElementById('signature-text').value.trim().replace(/[^\\x20-\\x7E]/g,'');
+            if(sign)page.drawText(`Signed: ${sign}`,{x:30,y:55,size:13,font,color:PDFLib.rgb(.1,.25,.45)});
+          }
+        }
+        currentText=allText.join('\\n\\n--- Page break ---\\n\\n');
+        currentOcrWords=allWords;
+        const name=document.getElementById('doc-title').value.trim().replace(/[^a-zA-Z0-9 _-]/g,'').slice(0,80);
+        currentBaseName=name || `DocuScan_${new Date().toISOString().replace(/[:.]/g,'-').slice(0,19)}`;
+        currentFileName=`${currentBaseName}.pdf`;
+        updateOverlay('Saving searchable PDF...');
         const pdfBytes = await pdfDoc.save();
         currentPdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-        currentBaseName = `DocuScan_${timestamp}`;
-        currentFileName = `${currentBaseName}.pdf`;
         await saveToHistory(currentFileName, currentPdfBlob);
         hideOverlay();
         els.postScanActions.style.display = 'none';
         els.resultsPanel.style.display = 'block';
-        els.ocrStatus.textContent = currentText ? `OCR found approximately ${currentOcrWords.length} word segments. Please check the extracted text carefully; screen photos, glare, small type, and angled images can reduce accuracy.` : 'OCR did not detect readable text in this image. Try retaking it closer, straight-on, with less glare and sharper focus.';
+        document.getElementById('ocr-editor').value = currentText;
+        els.ocrStatus.textContent = currentText ? `Processed ${scanPages.length} page(s); OCR found approximately ${currentOcrWords.length} word segments. Please check the extracted text carefully; screen photos, glare, small type, and angled images can reduce accuracy.` : 'OCR did not detect readable text in this image. Try retaking it closer, straight-on, with less glare and sharper focus.';
 
       } catch (error) {
         console.error(error);
         hideOverlay();
-        alert('Error processing document. Please try again.');
+        alert(`Could not process document: ${error.message}. Check your internet connection and retry.`);
       }
     };
 
     // --- DOWNLOADS & SHARING ---
-    document.getElementById('download-pdf-btn').onclick = () => downloadBlob(currentPdfBlob, currentFileName);
+    const editedText = () => document.getElementById('ocr-editor').value.trim();
+    function textFile() {
+      const text = editedText();
+      return text ? new Blob([text + '\\n'], {type:'text/plain;charset=utf-8'}) : null;
+    }
+    function wordFile() {
+      const text = editedText();
+      if (!text) return null;
+      const escaped = escapeHtml(text).replace(/\\r?\\n/g,'<br>');
+      const html = `<!doctype html><html><head><meta charset="utf-8"><title>${escapeHtml(currentBaseName)}</title></head><body style="font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.5"><h1>${escapeHtml(currentBaseName)}</h1><p>${escaped}</p></body></html>`;
+      return new Blob(['\\ufeff',html],{type:'application/msword;charset=utf-8'});
+    }
+    function requireText(blob) {
+      if (!blob) alert('No recognized text is available. Retake the photo or enter corrected text in the preview.');
+      return !!blob;
+    }
+    document.getElementById('download-pdf-btn').onclick = () => downloadBlob(currentPdfBlob,currentFileName);
     document.getElementById('download-txt-btn').onclick = () => {
-      if (!currentText) { alert('No text was recognized. Try a clearer, closer photo and process it again.'); return; }
-      downloadBlob(new Blob([currentText + '\n'], { type: 'text/plain;charset=utf-8' }), `${currentBaseName}.txt`);
+      const blob=textFile(); if(requireText(blob)) downloadBlob(blob,`${currentBaseName}.txt`);
     };
     document.getElementById('download-word-btn').onclick = () => {
-      if (!currentText) { alert('No text was recognized. Try a clearer, closer photo and process it again.'); return; }
-      // Word-compatible HTML document; Microsoft Word can open this editable file.
-      const escaped = escapeHtml(currentText).replace(/\r?\n/g, '<br>');
-      const wordHtml = `<!doctype html><html><head><meta charset="utf-8"><title>${currentBaseName}</title><style>body{font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.45;margin:1in}h1{font-size:18pt;color:#1f3c60}</style></head><body><h1>${currentBaseName}</h1><p>${escaped}</p></body></html>`;
-      downloadBlob(new Blob(['\ufeff', wordHtml], { type: 'application/msword;charset=utf-8' }), `${currentBaseName}.doc`);
+      const blob=wordFile(); if(requireText(blob)) downloadBlob(blob,`${currentBaseName}.doc`);
     };
-    els.shareBtn.onclick = async () => {
-      if (!currentPdfBlob) return;
-      const file = new File([currentPdfBlob], currentFileName, { type: 'application/pdf' });
-      if (navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
-        try { await navigator.share({ files: [file], title: 'Scanned Document', text: 'Scanned document from DocuScan Pro.' }); }
-        catch (err) { if (err.name !== 'AbortError') console.error('Share failed', err); }
-      } else downloadBlob(currentPdfBlob, currentFileName);
+    async function shareFile(blob,filename,type) {
+      if(!blob) {alert('This file is not ready.');return;}
+      const file=new File([blob],filename,{type});
+      if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})) {
+        try {await navigator.share({files:[file],title:filename});}
+        catch(error) {
+          if(error.name!=='AbortError') {console.warn('Sharing unavailable',error);downloadBlob(blob,filename);}
+        }
+      } else downloadBlob(blob,filename);
+    }
+    document.getElementById('share-pdf-btn').onclick=()=>shareFile(currentPdfBlob,currentFileName,'application/pdf');
+    document.getElementById('share-txt-btn').onclick=()=>{
+      const blob=textFile(); if(requireText(blob)) shareFile(blob,`${currentBaseName}.txt`,'text/plain');
+    };
+    document.getElementById('share-word-btn').onclick=()=>{
+      const blob=wordFile(); if(requireText(blob)) shareFile(blob,`${currentBaseName}.doc`,'application/msword');
+    };
+    els.shareBtn.onclick=()=>shareFile(currentPdfBlob,currentFileName,'application/pdf');
+    document.getElementById('download-jpg-btn').onclick=()=>{
+      if(scanPages[0])downloadBlob(scanPages[0],`${currentBaseName}_page1.jpg`);
+    };
+    document.getElementById('download-docx-btn').onclick=async()=>{
+      if(!editedText())return alert('No text to export.');
+      if(!window.docx)return alert('DOCX library did not load. Check internet connection.');
+      try{
+        const paras=editedText().split(/\\r?\\n/).map(line=>new docx.Paragraph({text:line}));
+        const doc=new docx.Document({sections:[{children:paras}]});
+        const blob=await docx.Packer.toBlob(doc);
+        downloadBlob(blob,`${currentBaseName}.docx`);
+      }catch(e){console.error(e);alert('DOCX export failed.');}
     };
     function downloadBlob(blob, name) {
       if (!blob) { alert('This file is not ready yet.'); return; }
@@ -454,7 +583,9 @@
 
     // --- UTILITIES ---
     function resetScanner() {
-      currentImageBlob = null; currentPdfBlob = null; currentText = ''; currentOcrWords = [];
+      currentImageBlob = null; currentPdfBlob = null;scanPages=[];pageSources=[];updatePages();
+      currentText = ''; currentOcrWords = [];
+      document.getElementById('ocr-editor').value = '';
       els.resultsPanel.style.display = 'none';
       els.previewImg.style.display = 'none';
       els.placeholder.style.display = 'block';

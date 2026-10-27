@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>DocuScan Pro v2.1.0 — DocuScan Pro v2.1.0 | Scanner & PDF Studio</title>
+  <title>DocuScan Pro v2.1.1 — DocuScan Pro v2.1.1 | Scanner & PDF Studio</title>
   
   <!-- PWA & iOS Meta Tags -->
   <link rel="manifest" href="manifest.json">
@@ -244,7 +244,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
       </div>
       <button class="launch-btn" id="launch-app-btn" type="button">Continue to DocuScan <span aria-hidden="true">→</span></button>
       <button id="splash-help-btn" type="button" style="width:100%;margin-top:10px;padding:13px;background:transparent;border:1px solid #b3c5db;color:#e7f0fb;border-radius:12px;font-weight:750">See illustrated beginner's guide</button>
-      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 2.1.0</p>
+      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 2.1.1</p>
       <p class="splash-footnote">Your scans are stored in this browser on this device. The OCR/PDF libraries are loaded from third-party CDNs; availability may depend on your internet connection and browser permissions.</p>
     </div>
   </section>
@@ -252,7 +252,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
 
 <section id="help-screen" class="help-screen" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
 <div class="help-shell">
-  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v2.1.0</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
+  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v2.1.1</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
   <div class="help-hero"><div><div class="help-kicker">Your illustrated quick-start</div><h2 id="help-title">From paper to PDF.<br>In a few taps.</h2><p>A picture-first guide to scanning, cropping, straightening, reading text and signing PDFs on your iPad. Pick the job you want to do below.</p></div><div class="help-illustration" aria-hidden="true"><div class="help-sheet"><i></i><i></i><i style="width:65%"></i><i></i><i style="width:75%"></i></div></div></div>
   <h3 class="help-section-title">Choose your mission</h3>
   <div class="help-paths">
@@ -283,7 +283,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
 
   
 <section id="task-home" aria-label="Choose a task">
-  <div class="task-intro">DocuScan Pro · v2.1.0</div>
+  <div class="task-intro">DocuScan Pro · v2.1.1</div>
   <h1 class="task-home-title">What would you like to do?</h1>
   <p style="color:#60778d;margin-bottom:20px">Choose one job. We'll show only the tools you need.</p>
   <button class="task-card" data-task="sign"><span class="task-icon">✍️</span><span><strong>Add Text &amp; Sign</strong><small>Open an existing PDF, drag a signature anywhere, insert a date or text box, then save.</small></span><span aria-hidden="true">›</span></button>
@@ -294,12 +294,16 @@ body:not(.task-home-mode) #task-nav{display:flex}
 <div id="task-nav"><button id="back-home" type="button">← All tools</button><strong id="task-heading">Document Studio</strong><button id="task-help" type="button">? Help</button></div>
 <section id="pdf-editor" aria-label="Add text and sign PDF" style="display:none">
   <div class="task-intro">Add Text &amp; Sign</div><h2 style="font-size:26px;margin:8px 0">Place it exactly where you want.</h2>
-  <p class="editor-hint">Start with a PDF from Files. Tap Sign, Text or Date, then drag the item onto the page. You can resize a selected item with the width control.</p>
+  <p class="editor-hint">Start with a PDF from Files. Tap Sign, Text or Date, then touch and drag the item onto the page. Choose its font, size and width below. No OCR is needed to edit an existing PDF.</p>
   <div class="editor-toolbar"><button id="editor-open" class="primary" type="button">📂 Open PDF from Files</button><button id="editor-photo" type="button">📷 Use a photo</button><button id="editor-prev" type="button">← Previous page</button><span id="editor-page-label" style="align-self:center">No document</span><button id="editor-next" type="button">Next page →</button></div>
   <div id="editor-paper"><canvas id="editor-page-canvas" width="600" height="780"></canvas><div id="editor-overlays"></div></div>
   <div class="editor-toolbar"><button id="editor-add-sign" type="button">✍ Add signature</button><button id="editor-add-text" type="button">T Add text</button><button id="editor-add-date" type="button">▦ Add date</button><button id="editor-delete" type="button">🗑 Remove selected</button></div>
   <div id="editor-controls">
     <label for="editor-text">Text / typed signature</label><input id="editor-text" placeholder="Enter text to place on the document" />
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div><label for="editor-font">Font style</label><select id="editor-font" style="width:100%;padding:10px;border:1px solid #c8d7e6;border-radius:9px"><option value="Helvetica">Helvetica</option><option value="TimesRoman">Times Roman</option><option value="Courier">Courier</option><option value="HelveticaBold">Helvetica Bold</option><option value="TimesRomanItalic">Times Italic</option><option value="HelveticaOblique">Helvetica Italic</option></select></div>
+      <div><label for="editor-font-size">Font size (points)</label><input id="editor-font-size" type="number" min="6" max="72" value="16" /></div>
+    </div>
     <label for="editor-width">Selected item width: <span id="editor-width-label">30%</span></label><input id="editor-width" type="range" min="8" max="90" value="30" style="width:100%" />
     <p class="editor-hint">For a handwritten signature, draw here with a finger or Apple Pencil, then tap Add signature. If the pad is blank, the typed name is used instead.</p>
     <canvas id="editor-sign-pad" width="700" height="180"></canvas>
@@ -439,7 +443,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
   </main>
 
   <!-- History View -->
-  <p class="help-footer">DocuScan Pro · Version 2.1.0 · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
+  <p class="help-footer">DocuScan Pro · Version 2.1.1 · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
   <main class="history-view" id="history-view">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
       <h2 style="font-size:24px; font-weight:700;">Scanned Documents</h2>
@@ -1349,18 +1353,30 @@ if ('serviceWorker' in navigator) {
     }
     document.getElementById('editor-prev').onclick=async()=>{if(edoc&&epage>1){epage--;await renderEditorPage();}};
     document.getElementById('editor-next').onclick=async()=>{if(edoc&&epage<edoc.numPages){epage++;await renderEditorPage();}};
-    function selectEditorItem(item){eselected=item;document.getElementById('editor-text').value=item?.text||'';document.getElementById('editor-width').value=Math.round((item?.w||.3)*100);document.getElementById('editor-width-label').textContent=Math.round((item?.w||.3)*100)+'%';drawEditorItems();}
+    function selectEditorItem(item,redraw=true){
+      eselected=item;
+      document.getElementById('editor-text').value=item?.text||'';
+      document.getElementById('editor-width').value=Math.round((item?.w||.3)*100);
+      document.getElementById('editor-width-label').textContent=Math.round((item?.w||.3)*100)+'%';
+      document.getElementById('editor-font').value=item?.font||'Helvetica';
+      document.getElementById('editor-font-size').value=item?.fontSize||16;
+      if(redraw)drawEditorItems();
+      else elayer.querySelectorAll('.pdf-overlay').forEach((el,i)=>el.classList.toggle('selected',eitems.filter(v=>v.page===epage)[i]===item));
+    }
     function drawEditorItems(){
       elayer.replaceChildren();
       eitems.filter(i=>i.page===epage).forEach(item=>{
         const el=document.createElement('div');el.className='pdf-overlay'+(item===eselected?' selected':'');
         el.style.left=(item.x*100)+'%';el.style.top=(item.y*100)+'%';el.style.width=(item.w*100)+'%';
-        el.style.fontSize='clamp(11px,1.8vw,19px)';
+        el.style.fontSize=((item.fontSize||16)*ecanvas.getBoundingClientRect().width/Math.max(1,ecanvas.width))+'px';
+        el.style.fontFamily=(item.font||'Helvetica').includes('Courier')?'monospace':(item.font||'Helvetica').includes('Times')?'Georgia,serif':'Arial,sans-serif';
+        el.style.fontWeight=(item.font||'').includes('Bold')?'bold':'normal';
+        el.style.fontStyle=/(Italic|Oblique)/.test(item.font||'')?'italic':'normal';
         if(item.type==='signature-image'){
           const img=document.createElement('img');img.src=item.image;el.append(img);el.style.height=(item.h*100)+'%';
         }else{el.textContent=item.text;el.style.minHeight='26px';}
         el.addEventListener('pointerdown',event=>{
-          event.preventDefault();event.stopPropagation();selectEditorItem(item);
+          event.preventDefault();event.stopPropagation();selectEditorItem(item,false);
           const bounds=epaper.getBoundingClientRect(),start={x:event.clientX,y:event.clientY,ix:item.x,iy:item.y};
           el.setPointerCapture(event.pointerId);
           const move=e=>{item.x=Math.max(0,Math.min(1-item.w,start.ix+(e.clientX-start.x)/bounds.width));item.y=Math.max(0,Math.min(1-(item.h||.04),start.iy+(e.clientY-start.y)/bounds.height));el.style.left=item.x*100+'%';el.style.top=item.y*100+'%';};
@@ -1373,7 +1389,7 @@ if ('serviceWorker' in navigator) {
     function addEditorItem(type){
       if(!edoc)return alert('Open a PDF or photo first.');
       const typed=document.getElementById('editor-text').value.trim();
-      let item={page:epage,type,x:.18,y:.25,w:.3,h:.055,text:''};
+      let item={page:epage,type,x:.18,y:.25,w:.3,h:.055,text:'',font:document.getElementById('editor-font').value,fontSize:Number(document.getElementById('editor-font-size').value)||16};
       if(type==='date')item.text=new Date().toLocaleDateString();
       if(type==='text'){item.text=typed||'Tap here to edit';}
       if(type==='signature'){
@@ -1388,13 +1404,15 @@ if ('serviceWorker' in navigator) {
     document.getElementById('editor-add-date').onclick=()=>addEditorItem('date');
     document.getElementById('editor-text').addEventListener('input',e=>{if(eselected&&eselected.type!=='signature-image'){eselected.text=e.target.value;drawEditorItems();}});
     document.getElementById('editor-width').addEventListener('input',e=>{if(eselected){eselected.w=Number(e.target.value)/100;drawEditorItems();}document.getElementById('editor-width-label').textContent=e.target.value+'%';});
+    document.getElementById('editor-font').addEventListener('change',e=>{if(eselected){eselected.font=e.target.value;drawEditorItems();}});
+    document.getElementById('editor-font-size').addEventListener('input',e=>{if(eselected){eselected.fontSize=Math.max(6,Math.min(72,Number(e.target.value)||16));drawEditorItems();}});
     document.getElementById('editor-delete').onclick=()=>{if(eselected){eitems=eitems.filter(i=>i!==eselected);eselected=null;drawEditorItems();}};
     document.getElementById('editor-save').onclick=async()=>{
       if(!edocBytes)return alert('Open a PDF first.');
       if(!eitems.length)return alert('Add text, a date, or a signature before saving.');
       try{
         estatus.textContent='Saving PDF...';
-        const doc=await PDFLib.PDFDocument.load(edocBytes.slice(0));const font=await doc.embedFont(PDFLib.StandardFonts.Helvetica);
+        const doc=await PDFLib.PDFDocument.load(edocBytes.slice(0));const fonts={};
         for(const item of eitems){
           const page=doc.getPage(item.page-1),{width,height}=page.getSize();
           const x=item.x*width,yTop=item.y*height,iw=item.w*width;
@@ -1402,7 +1420,9 @@ if ('serviceWorker' in navigator) {
             const png=await doc.embedPng(item.image);page.drawImage(png,{x,y:height-yTop-item.h*height,width:iw,height:item.h*height});
           }else{
             const text=(item.text||'').replace(/[^\x20-\x7e]/g,' ').slice(0,300);
-            const fontSize=Math.min(22,Math.max(8,width*.022));
+            const fontName=PDFLib.StandardFonts[item.font]||PDFLib.StandardFonts.Helvetica;
+            const font=fonts[fontName]||(fonts[fontName]=await doc.embedFont(fontName));
+            const fontSize=Math.max(6,Math.min(72,item.fontSize||16));
             const lines=[];let line='';
             for(const word of text.split(/\s+/)){
               const attempt=line?line+' '+word:word;

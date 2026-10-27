@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>DocuScan Pro v2.6.0 | Scanner & PDF Studio</title>
+  <title>DocuScan Pro v2.9.0 | Scanner & PDF Studio</title>
   
   <!-- PWA & iOS Meta Tags -->
   <link rel="manifest" href="manifest.json">
@@ -97,6 +97,7 @@
     .library-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
     .library-actions button{padding:7px 10px;border:1px solid #cbd9e8;border-radius:8px;background:#f1f6fc;color:#1b3857;font-weight:600}
     .doc-item{flex-wrap:wrap;gap:8px}
+    .smart-ocr-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:14px 0 8px;flex-wrap:wrap}.smart-ocr-heading strong{font-size:17px;color:#143a62}.smart-ocr-heading span{font-size:12px;color:#55718b}.ocr-review{background:#f3f8fe;border:1px solid #d4e3f3;border-radius:12px;padding:12px;margin:12px 0;color:#28435e;font-size:13px}.ocr-review mark{background:#ffdf92;border-radius:3px;padding:1px 3px}.ocr-review .review-words{max-height:140px;overflow:auto;line-height:2}
     .history-view { display: none; flex-direction: column; height: 100%; }
     .history-view.active { display: flex; }
     .doc-item {
@@ -192,7 +193,7 @@
 .help-footer{max-width:900px;margin:25px auto 10px;text-align:center;color:#708096;font-size:12px}
 @media(max-width:650px){.help-hero{grid-template-columns:1fr}.help-paths{grid-template-columns:1fr}.help-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.help-shell{padding:12px 13px 65px}}
 
-/* v2.6.0 task-based navigation */
+/* v2.9.0 task-based navigation */
 #task-home{max-width:920px;margin:22px auto;padding:16px}
 .task-intro{font-size:13px;letter-spacing:.13em;font-weight:800;color:#517496;text-transform:uppercase}
 .task-home-title{font-size:clamp(28px,5vw,42px);color:#18334e;margin:9px 0 8px}
@@ -283,6 +284,25 @@ body:not(.task-home-mode) #task-nav{display:flex}
 .build-check-card{width:min(620px,100%);margin:5vh auto;background:#fff;color:#172d48;border-radius:18px;padding:22px;box-shadow:0 18px 70px #0005;font:14px/1.5 system-ui}
 .build-check-card button{cursor:pointer;border:1px solid #c6d5e6;background:#eef5ff;color:#123d71;padding:11px 13px;border-radius:10px;font-weight:700;margin:4px}
 #build-check-output{white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5fa;border-radius:10px;padding:12px;max-height:45vh;overflow:auto}
+
+/* v2.7 mobile-first visual refresh */
+.task-card{min-height:100px;gap:15px;transition:transform .15s ease,box-shadow .15s ease;border-radius:22px;box-shadow:0 7px 25px #163f6810}
+.task-card:active{transform:scale(.985)}
+.task-card .task-icon{display:grid;place-items:center;width:64px;height:64px;flex:0 0 64px;color:#155a91;background:linear-gradient(135deg,#e4f4ff,#edf2ff);border:1px solid #d6e8f9}
+.task-icon svg{width:32px;height:32px}
+.feature-icon svg{width:25px;height:25px}
+.first-use-consent{padding:16px;margin-bottom:14px;border:1px solid #647a99;border-radius:15px;background:#12243f}
+.legal-details summary{cursor:pointer;color:#fff;font-weight:700;font-size:14px;line-height:1.5}
+.legal-details p{font-size:12px;line-height:1.6;color:#d2dfef;margin:12px 0}
+.accept-label{display:flex;gap:12px;align-items:flex-start;margin-top:14px;font-size:13px;line-height:1.5;color:#fff;cursor:pointer}
+.accept-label input{width:22px;height:22px;flex:0 0 22px;accent-color:#61b5ff;margin-top:0}
+#consent-error{color:#ffbfbd;font-size:13px;margin:8px 0 0}
+.review-agreements,.legal-home-link{border:1px solid #c2d5e8;background:transparent;border-radius:10px;padding:9px 14px;color:inherit;cursor:pointer}
+.review-agreements{display:block;margin:12px auto;color:#d6e8ff}
+.legal-home-link{float:right;font-size:12px;color:#315b7c}
+button{touch-action:manipulation}
+@media(max-width:600px){.task-card{padding:16px;min-height:88px}.task-card .task-icon{width:54px;height:54px;flex-basis:54px}.task-icon svg{width:28px;height:28px}.task-card strong{font-size:17px}.splash-screen{padding:calc(20px + env(safe-area-inset-top)) 18px calc(20px + env(safe-area-inset-bottom))}.splash-card{max-width:100%}.feature-list{gap:9px}.feature{padding:12px}.feature strong{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.task-card{transition:none}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
@@ -296,26 +316,36 @@ body:not(.task-home-mode) #task-nav{display:flex}
       <h1 id="splash-title">Meet DocuScan Pro.</h1>
       <p class="splash-subtitle">Turn paper documents into searchable PDFs, right from your device. Capture, recognize text, and share when you're ready.</p>
       <div class="feature-list">
-        <div class="feature"><div class="feature-icon">▤</div><strong>Capture documents</strong><span>Use your device camera or choose an image.</span></div>
-        <div class="feature"><div class="feature-icon">⌕</div><strong>Searchable PDFs</strong><span>OCR adds a text layer that can help you find words.</span></div>
-        <div class="feature"><div class="feature-icon">↗</div><strong>Share with ease</strong><span>Use your device's sharing options or download the PDF.</span></div>
-        <div class="feature"><div class="feature-icon">▣</div><strong>On-device history</strong><span>Saved scans are kept in this browser's local storage.</span></div>
+        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></div><strong>Capture documents</strong><span>Use your device camera or choose an image.</span></div>
+        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V4h4M16 4h4v4M4 16v4h4M20 16v4h-4M8 10h8M8 14h8"/></svg></div><strong>Searchable PDFs</strong><span>OCR adds a text layer that can help you find words.</span></div>
+        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V3m-5 5 5-5 5 5M5 14v6h14v-6"/></svg></div><strong>Share with ease</strong><span>Use your device's sharing options or download the PDF.</span></div>
+        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div><strong>On-device history</strong><span>Saved scans are kept in this browser's local storage.</span></div>
       </div>
       <div class="disclaimer">
         <h2>Important information</h2>
         <p>DocuScan Pro is provided on a best-efforts basis, without a guarantee that scanning, text recognition, PDF creation, saving, or sharing will work on every device or browser. OCR can misread, omit, or rearrange text. Always review the resulting PDF against the original before relying on it. Keep your own backup of important documents. Use is at your discretion; to the extent permitted by law, the app is provided without warranties and its operator is not responsible for losses arising from errors, interruptions, or failed processing.</p>
       </div>
+      <div id="first-use-consent" class="first-use-consent">
+        <details class="legal-details"><summary>Terms of Use and Privacy Notice — review before continuing</summary>
+          <p><strong>Terms:</strong> This software is provided as-is. Document recognition may be incomplete or inaccurate. Review every result before using it for legal, financial, medical or other important decisions. You are responsible for keeping backups of important documents and complying with laws when handling other people's information.</p>
+          <p><strong>Privacy:</strong> Documents and saved signatures are stored locally in this browser when you choose to save them. OCR/PDF libraries may be loaded from external content-delivery networks, which can receive network metadata. Documents are not intentionally uploaded by the app's local processing workflow. Browser storage may be deleted when you clear website data or change devices.</p>
+          <p><strong>Device access:</strong> Camera and file access are used only when you choose those actions. Sharing uses the device's native sharing interface where available.</p>
+          <p><strong>Important:</strong> These are draft product terms and a plain-language privacy disclosure, not legal advice. The app publisher should review and finalize them before public distribution.</p>
+        </details>
+        <label class="accept-label"><input type="checkbox" id="accept-terms"> <span>I have reviewed and agree to the Terms of Use and acknowledge the Privacy Notice.</span></label>
+        <p id="consent-error" role="alert" hidden>Please accept the terms to continue.</p>
+      </div>
       <button class="launch-btn" id="launch-app-btn" type="button">Continue to DocuScan <span aria-hidden="true">→</span></button>
       <button id="splash-help-btn" type="button" style="width:100%;margin-top:10px;padding:13px;background:transparent;border:1px solid #b3c5db;color:#e7f0fb;border-radius:12px;font-weight:750">See illustrated beginner's guide</button>
-      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 2.6.0 · Build 2026-10-27-featurepack-01</p><button type="button" data-build-check style="display:block;margin:8px auto;background:transparent;color:#dcecff;border:1px solid #9cb6d3;border-radius:9px;padding:9px 15px">Check version &amp; cache</button>
-      <p class="splash-footnote">Your scans are stored in this browser on this device. The OCR/PDF libraries are loaded from third-party CDNs; availability may depend on your internet connection and browser permissions.</p>
+      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 2.9.0 · Build 2026-10-27-intelligent-ocr-01</p><button type="button" data-build-check style="display:block;margin:8px auto;background:transparent;color:#dcecff;border:1px solid #9cb6d3;border-radius:9px;padding:9px 15px">Check version &amp; cache</button>
+      <button id="review-agreements" type="button" class="review-agreements" hidden>Review agreements</button><p class="splash-footnote">Your scans are stored in this browser on this device. The OCR/PDF libraries are loaded from third-party CDNs; availability may depend on your internet connection and browser permissions.</p>
     </div>
   </section>
 
 
 <section id="help-screen" class="help-screen" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
 <div class="help-shell">
-  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v2.6.0</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
+  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v2.9.0</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
 
 <div class="help-mode-nav" aria-label="Choose a help topic">
 <button type="button" data-help-mode="sign">✍️ Add Text &amp; Sign</button>
@@ -373,7 +403,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
   <h3 class="help-section-title">If something goes wrong</h3>
   <div class="help-paths"><div class="help-path"><h3>Camera shows black</h3><p style="font-size:14px;line-height:1.6">Use <strong>Choose Photo or Camera</strong> and pick a photo from the iPad Photos app instead. Check Safari camera permission if you want to capture directly.</p></div><div class="help-path"><h3>Text looks wrong</h3><p style="font-size:14px;line-height:1.6">Crop tighter, use better light, try another OCR mode, then retake. Correct mistakes in the editable text box. The PDF's hidden OCR layer may still need review.</p></div></div>
   <article class="help-path"><div class="help-kicker">Mission 03 · PDF Workshop</div><h3>🧰 Edit a PDF you already have</h3><ol class="help-steps"><li><div><strong>Open PDF from Files</strong> to select your document.</div></li><li><div><strong>Scroll to PDF Workshop</strong> and select a tool: merge, split/extract, reorder, rotate, delete, watermark, number, flatten, extract text, JPG or compress.</div></li><li><div><strong>Enter page numbers</strong> when relevant. For example, 1,3-5 selects pages 1, 3, 4 and 5.</div></li><li><div><strong>Tap Run selected tool,</strong> then Download or Share result.</div></li><li><div><strong>Tap Use result for next tool</strong> to make another edit or sign the result.</div></li></ol><p class="help-note">For signing, use the separate signing panel. These tools are experimental until tested on your iPad.</p></article>
-  <div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br><strong>Version:</strong> 2.5.6<br><strong>Build:</strong> 2026-10-27 · cache-diagnostics-2026-10-27-featurepack-01<br><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br><strong>Support:</strong> Support email/website — <em>not yet configured</em><br><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
+  <div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br><strong>Version:</strong> 2.9.0<br><strong>Build:</strong> 2026-10-27 · intelligent-ocr-01<br><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br><strong>Support:</strong> Support email/website — <em>not yet configured</em><br><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
   </div><!-- general-help-content -->
   <p style="margin-top:22px;text-align:center"><button type="button" class="help-close" id="help-done-btn">Got it — back to DocuScan</button></p>
 </div></section>
@@ -384,14 +414,14 @@ body:not(.task-home-mode) #task-nav{display:flex}
   </header>
 
   
-<section id="task-home" aria-label="Choose a task">
-  <div class="task-intro">DocuScan Pro · v2.6.0</div>
+<section id="task-home" aria-label="Choose a task"><button type="button" id="home-legal" class="legal-home-link">Terms &amp; privacy</button>
+  <div class="task-intro">DocuScan Pro · v2.9.0</div>
   <h1 class="task-home-title">What would you like to do?</h1>
   <p style="color:#60778d;margin-bottom:20px">Choose one job. We'll show only the tools you need.</p>
-  <button class="task-card" data-task="sign"><span class="task-icon">✍️</span><span><strong>Add Text &amp; Sign</strong><small>Open an existing PDF, drag a signature anywhere, insert a date or text box, then save.</small></span><span aria-hidden="true">›</span></button>
-  <button class="task-card" data-task="workshop"><span class="task-icon">🧰</span><span><strong>PDF Workshop</strong><small>Merge, split, rotate, reorder, watermark, extract pages and more.</small></span><span aria-hidden="true">›</span></button>
-  <button class="task-card" data-task="studio"><span class="task-icon">📷</span><span><strong>Document Studio</strong><small>Take a photo, crop, straighten, recognize text and export.</small></span><span aria-hidden="true">›</span></button>
-  <button class="task-card" id="home-help" type="button"><span class="task-icon">📖</span><span><strong>Visual Help Guide</strong><small>Step-by-step instructions and temporary developer details.</small></span><span aria-hidden="true">›</span></button>
+  <button class="task-card" data-task="sign"><span class="task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M7 16l-2 3 3-1 10-10-2-2L7 16ZM14 8l2 2"/></svg></span><span><strong>Add Text &amp; Sign</strong><small>Open an existing PDF, drag a signature anywhere, insert a date or text box, then save.</small></span><span aria-hidden="true">›</span></button>
+  <button class="task-card" data-task="workshop"><span class="task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="15" rx="2"/><path d="M8 6V4h8v2M8 11h8M12 9v9"/></svg></span><span><strong>PDF Workshop</strong><small>Merge, split, rotate, reorder, watermark, extract pages and more.</small></span><span aria-hidden="true">›</span></button>
+  <button class="task-card" data-task="studio"><span class="task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h3l2-3h6l2 3h3v13H4z"/><circle cx="12" cy="13" r="4"/></svg></span><span><strong>Document Studio</strong><small>Take a photo, crop, straighten, recognize text and export.</small></span><span aria-hidden="true">›</span></button>
+  <button class="task-card" id="home-help" type="button"><span class="task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h7a3 3 0 0 1 3 3v12a3 3 0 0 0-3-3H4zM20 5h-3a3 3 0 0 0-3 3v12a3 3 0 0 1 3-3h3z"/></svg></span><span><strong>Visual Help Guide</strong><small>Step-by-step instructions and temporary developer details.</small></span><span aria-hidden="true">›</span></button>
 </section>
 <div id="task-nav"><button id="back-home" type="button">← All tools</button><strong id="task-heading">Document Studio</strong><button id="task-help" type="button">? Help for this tool</button><button id="task-tour" type="button">👆 Show me on this screen</button></div>
 <div id="tour-backdrop" aria-hidden="true"></div><aside id="tour-card" role="dialog" aria-label="Guided tour" aria-live="polite"><div id="tour-progress" style="font-size:12px;font-weight:700;color:#66788f"></div><h3 id="tour-title"></h3><p id="tour-copy"></p><button id="tour-next" type="button">Next →</button><button id="tour-exit" type="button">Close tour</button></aside>
@@ -535,8 +565,14 @@ body:not(.task-home-mode) #task-nav{display:flex}
           <button type="button" id="cancel-crop-btn">Cancel</button>
         </div>
       </div>
+      <div class="smart-ocr-heading"><strong>Smart OCR settings</strong><span>From paper to polished, searchable, signed documents—all in one private workspace. Recognition runs locally in your browser; Smart Auto can take longer</span></div>
+      <label for="ocr-language">Recognition language</label>
+      <select id="ocr-language"><option value="eng">English</option><option value="spa">Spanish</option><option value="eng+spa">English + Spanish</option><option value="fra">French</option><option value="deu">German</option><option value="ita">Italian</option></select>
+      <label for="ocr-quality">Recognition accuracy</label>
+      <select id="ocr-quality"><option value="accurate">Accurate · text pages (recommended)</option><option value="fast">Fast · simple documents</option><option value="sparse">Sparse text · forms, receipts, labels</option><option value="smart">Smart Auto · compare OCR passes (slower)</option></select>
       <label for="ocr-mode" style="font-size:12px;font-weight:650">OCR image preparation</label>
-      <select id="ocr-mode"><option value="auto">Auto: improve contrast for OCR</option><option value="original">Original photo</option><option value="bw">Black &amp; white document</option></select>
+      <select id="ocr-mode"><option value="auto">Auto: improve contrast for OCR</option><option value="original">Original photo</option><option value="bw">Black &amp; white document</option><option value="adaptive">Adaptive threshold · faint text / uneven light</option></select>
+      <div class="tool-note" id="ocr-benchmark" aria-live="polite">OCR diagnostics: waiting for a document. Smart Auto compares two passes and chooses a result using confidence and coverage heuristics.</div>
       <label for="doc-title" style="font-size:12px;font-weight:650">Document name</label>
       <input id="doc-title" placeholder="My scanned document" maxlength="100">
       <label for="stamp-text" style="font-size:12px;font-weight:650">Optional PDF stamp / watermark</label>
@@ -565,7 +601,9 @@ body:not(.task-home-mode) #task-nav{display:flex}
       <p id="ocr-status" style="font-size:12px;line-height:1.5;color:#718198;margin-top:12px;"></p>
       <label for="ocr-editor" style="display:block;font-size:13px;font-weight:750;color:#203653;margin:16px 0 7px;">Review and correct recognized text</label>
       <textarea id="ocr-editor" aria-label="Editable recognized text" placeholder="Recognized text will appear here. You can correct it before exporting." style="width:100%;min-height:170px;resize:vertical;border:1px solid #dce5f0;border-radius:14px;padding:14px;font:14px/1.6 system-ui;color:#203653;background:white;"></textarea>
-      <p style="font-size:12px;color:#718198;line-height:1.5;margin-top:6px;">Edits apply to TXT and Word exports. The searchable PDF uses OCR positioned over the original photo.</p>
+      <div id="ocr-confidence-review" class="ocr-review" aria-live="polite">Confidence information appears after recognition.</div>
+      <button id="ocr-apply-corrections" type="button" class="btn btn-secondary" disabled>Apply corrected text to searchable PDF</button>
+      <p class="tool-note">Review the text before sharing. Apply corrections rebuilds the searchable PDF with the edited text. The corrected layer is aligned by line rather than by each original word; precise positioning is best when edits preserve the original line breaks.</p>
       <div class="section-kicker" style="margin-top:18px;">ADDITIONAL EXPORTS</div>
       <div class="output-options">
         <button class="output-card" id="download-jpg-btn" type="button"><span class="output-symbol">JPG</span><span><strong>Export first page image</strong><small>Save an image of the scan.</small></span></button>
@@ -585,7 +623,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
   </main>
 
   <!-- History View -->
-  <p class="help-footer">DocuScan Pro · Version 2.6.0 · <button type="button" data-build-check style="border:1px solid #a4bfd9;border-radius:8px;padding:6px 9px;background:#f2f8ff;color:#154b7c">Check version &amp; cache</button> · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
+  <p class="help-footer">DocuScan Pro · Version 2.9.0 · <button type="button" data-build-check style="border:1px solid #a4bfd9;border-radius:8px;padding:6px 9px;background:#f2f8ff;color:#154b7c">Check version &amp; cache</button> · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
   <main class="history-view" id="history-view">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
       <h2 style="font-size:24px; font-weight:700;">Saved Document Library</h2>
@@ -881,12 +919,92 @@ body:not(.task-home-mode) #task-nav{display:flex}
     async function prepareOcrImage(blob,mode){
       if(mode==='original')return blob;
       const img=await createImageBitmap(blob);
-      const c=document.createElement('canvas');c.width=img.width;c.height=img.height;
-      const ctx=c.getContext('2d',{willReadFrequently:true});
-      ctx.filter=mode==='bw'?'grayscale(1) contrast(1.9)':'grayscale(1) contrast(1.3)';
-      ctx.drawImage(img,0,0);img.close();
+      // Limit canvas memory on older iPads. Preserve the original image in the PDF.
+      const scale=Math.min(1,2400/Math.max(img.width,img.height));
+      const c=document.createElement('canvas');c.width=Math.max(1,Math.round(img.width*scale));c.height=Math.max(1,Math.round(img.height*scale));
+      const ctx=c.getContext('2d',{willReadFrequently:mode==='adaptive'});
+      ctx.filter=mode==='bw'?'grayscale(1) contrast(1.85) brightness(1.07)':mode==='adaptive'?'grayscale(1)':'grayscale(1) contrast(1.28) brightness(1.04)';
+      ctx.drawImage(img,0,0,c.width,c.height);img.close();
+      if(mode==='adaptive'){
+        // Local mean threshold using a small downsampled illumination map;
+        // avoids the O(width*height*window^2) cost of naive adaptive filters.
+        const w=c.width,h=c.height,cell=32;
+        const pixels=ctx.getImageData(0,0,w,h),data=pixels.data;
+        const gw=Math.ceil(w/cell),gh=Math.ceil(h/cell),means=new Float32Array(gw*gh),counts=new Uint32Array(gw*gh);
+        for(let y=0;y<h;y+=2)for(let x=0;x<w;x+=2){const i=(y*w+x)*4,j=(y/cell|0)*gw+(x/cell|0);means[j]+=data[i];counts[j]++;}
+        for(let j=0;j<means.length;j++)means[j]/=Math.max(1,counts[j]);
+        for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+          const i=(y*w+x)*4, threshold=means[(y/cell|0)*gw+(x/cell|0)]-14;
+          const v=data[i]<threshold?0:255;data[i]=data[i+1]=data[i+2]=v;
+        }
+        ctx.putImageData(pixels,0,0);
+      }
       const result=await new Promise(resolve=>c.toBlob(resolve,'image/png'));
+      c.width=c.height=1;
       return result||blob;
+    }
+    // Tesseract.js runs recognition in its own worker. Keep a single pass at a time
+    // to limit peak memory on iOS. Compare results without trusting confidence alone.
+    const ocrYield=()=>new Promise(resolve=>setTimeout(resolve,20));
+    function ocrResultScore(data){
+      const words=ocrWordList(data);
+      const scored=words.filter(w=>Number.isFinite(+w.confidence)&&+w.confidence>=0);
+      const avg=scored.length?scored.reduce((a,w)=>a+(+w.confidence),0)/scored.length:35;
+      const meaningful=words.filter(w=>/[a-zA-Z0-9]{2,}/.test(w.text)).length;
+      const junk=words.filter(w=>/^[^\p{L}\p{N}]+$/u.test(w.text)).length;
+      return avg*.7+Math.min(25,Math.log2(meaningful+1)*4)-Math.min(15,junk/Math.max(1,words.length)*20);
+    }
+    async function runOcrPass(blob,language,psm,pageIndex){
+      await ocrYield();
+      const result=await Tesseract.recognize(blob,language,{
+        logger:m=>{if(m.status==='recognizing text')updateOverlay(`Page ${pageIndex+1}: ${Math.round((m.progress||0)*100)}% · mode ${psm}`);}
+      },{text:true,blocks:true,tessedit_pageseg_mode:psm});
+      return result.data;
+    }
+    async function recognizeSmartPage(blob,language,quality,prep,pageIndex){
+      const started=performance.now();
+      let image=await prepareOcrImage(blob,prep);
+      let data=await runOcrPass(image,language,quality==='sparse'?11:quality==='fast'?6:3,pageIndex);
+      let score=ocrResultScore(data), passes=1;
+      if(quality==='smart'){
+        const alternate=prep==='adaptive'?'original':'adaptive';
+        updateOverlay(`Page ${pageIndex+1}: comparing enhanced recognition…`);
+        await ocrYield();
+        const image2=await prepareOcrImage(blob,alternate);
+        const data2=await runOcrPass(image2,language,11,pageIndex);
+        const score2=ocrResultScore(data2);passes=2;
+        if(score2>score){data=data2;image=image2;score=score2;}
+      }
+      return {data,image,score,passes,ms:Math.round(performance.now()-started)};
+    }
+    // Position individual OCR words. Use a width fit to reduce overlap when
+    // the OCR engine reports bounding boxes. Non-Latin characters require an
+    // embedded Unicode font and are not silently replaced with inaccurate text.
+    function drawOcrWordLayer(page,font,words,ocrDims,width,height){
+      for(const word of words){
+        if(!word.bbox||!word.text)continue;
+        const raw=word.text;
+        if(/[^\x20-\x7e]/.test(raw))continue;
+        const x=word.bbox.x0/ocrDims.width*width;
+        const boxWidth=Math.max(1,(word.bbox.x1-word.bbox.x0)/ocrDims.width*width);
+        const boxHeight=Math.max(2,(word.bbox.y1-word.bbox.y0)/ocrDims.height*height);
+        const y=Math.max(0,height-word.bbox.y1/ocrDims.height*height+boxHeight*.1);
+        try{
+          const size=Math.min(boxHeight*.9,boxWidth/Math.max(.1,font.widthOfTextAtSize(raw,1)));
+          page.drawText(raw,{x,y,size:Math.max(1,size),font,opacity:0});
+        }catch(e){console.warn('OCR word omitted',e);}
+      }
+    }
+    function ocrWordList(data){return (data.words||(data.blocks||[]).flatMap(b=>(b.paragraphs||[]).flatMap(p=>(p.lines||[]).flatMap(l=>l.words||[])))).filter(w=>w.text&&w.text.trim());}
+    function renderOcrReview(words){
+      const area=document.getElementById('ocr-confidence-review');area.replaceChildren();
+      if(!words.length){area.textContent='No OCR words detected. Try a different mode or take a sharper photo.';return;}
+      const scored=words.filter(w=>Number.isFinite(Number(w.confidence))&&Number(w.confidence)>=0);
+      const weak=scored.filter(w=>Number(w.confidence)<75);
+      const average=scored.length?Math.round(scored.reduce((n,w)=>n+Number(w.confidence),0)/scored.length):null;
+      const summary=document.createElement('p');summary.textContent=`${words.length} words recognized · ${average===null?'Confidence unavailable':`Average confidence ${average}%`} · ${weak.length} words to review`;
+      area.append(summary);
+      if(weak.length){const label=document.createElement('strong');label.textContent='Check these words: ';area.append(label);const list=document.createElement('div');list.className='review-words';weak.slice(0,60).forEach(w=>{const mark=document.createElement('mark');mark.textContent=w.text;mark.title=`OCR confidence ${Math.round(Number(w.confidence))}%`;list.append(mark,document.createTextNode(' '));});area.append(list);}
     }
 
 
@@ -915,10 +1033,25 @@ body:not(.task-home-mode) #task-nav{display:flex}
 
     // --- WELCOME SCREEN ---
     const splashScreen = document.getElementById('splash-screen');
-    document.getElementById('launch-app-btn').addEventListener('click', () => {
-      splashScreen.style.display = 'none';
-      document.body.classList.remove('splash-active');
+    const CONSENT_KEY='docuscan-consent-2026-10';
+    const consentBox=document.getElementById('first-use-consent');
+    const acceptBox=document.getElementById('accept-terms');
+    const consentError=document.getElementById('consent-error');
+    const reviewAgreements=document.getElementById('review-agreements');
+    const hasAccepted=()=>{try{return localStorage.getItem(CONSENT_KEY)==='accepted';}catch(e){return false;}};
+    const dismissSplash=()=>{splashScreen.style.display='none';document.body.classList.remove('splash-active');};
+    if(hasAccepted()){
+      dismissSplash();
+      reviewAgreements.hidden=false;
+    }
+    document.getElementById('launch-app-btn').addEventListener('click',()=>{
+      if(!hasAccepted()&&!acceptBox.checked){consentError.hidden=false;acceptBox.focus();return;}
+      try{localStorage.setItem(CONSENT_KEY,'accepted');}catch(e){/* private browsing may block storage */}
+      consentError.hidden=true;
+      dismissSplash();
     });
+    acceptBox.addEventListener('change',()=>{consentError.hidden=true;});
+    reviewAgreements.addEventListener('click',()=>{splashScreen.style.display='flex';document.body.classList.add('splash-active');consentBox.hidden=true;});
 
 
     // Illustrated guide: accessible from welcome screen, workspace and footer.
@@ -981,11 +1114,24 @@ body:not(.task-home-mode) #task-nav{display:flex}
         ['run-pdf-tool','4 · Run the tool','Process the selected PDF and then download or share the result.']
       ],
       studio:[
-        ['studio-add-photo','1 · Add a photo','Choose Take Photo or Photo Library. A PDF in Recents is not a photo; use Open existing PDF instead.'],
-        ['page-list','2 · Check the imported page','Your page should appear here. If it does not, choose another photo and wait for processing.'],
-        ['crop-page-btn','3 · Crop out distractions','Remove the desk or background before OCR. You can also straighten and enhance.'],
-        ['studio-process','4 · Recognize & Create PDF','This button enables once a photo has been added. Tap it to run OCR.'],
-        ['results-panel','5 · Review and export','Review recognized text, then download or share PDF, TXT, or Word.']
+        ['studio-add-photo','1 · Import a photo','Choose Camera or Photo Library. The photo stays on your device during local OCR.'],
+        ['studio-open-pdf','2 · Open an existing PDF','Existing PDFs open in PDF Workshop, where you can preview and process them.'],
+        ['page-list','3 · Organize pages','Review imported pages, use arrows to change their order, or remove unwanted pages.'],
+        ['crop-page-btn','4 · Crop','Remove the background; drag crop handles and tap Apply crop.'],
+        ['straighten-page-btn','5 · Straighten','Detect page edges and perspective. This optional operation may be slower on iPad.'],
+        ['rotate-page-btn','6 · Rotate','Turn the selected image clockwise.'],
+        ['enhance-page-btn','7 · Enhance','Improve contrast before recognition. Restore original if necessary.'],
+        ['original-page-btn','8 · Restore','Return to the unedited imported image.'],
+        ['ocr-language','9 · Choose language','Pick the language actually printed on the document.'],
+        ['ocr-quality','10 · Recognition mode','Accurate for pages, Fast for simple layouts, Sparse for labels and forms.'],
+        ['ocr-mode','11 · Image preparation','Try Auto first; adaptive threshold can help uneven lighting.'],
+        ['studio-process','12 · Recognize text','Run OCR and create a searchable PDF. This may take time for multiple pages.'],
+        ['ocr-confidence-review','13 · Check uncertain words','After OCR, low-confidence words are highlighted here.'],
+        ['ocr-editor','14 · Correct text','Edit recognized text. Keep page break markers for multi-page documents.'],
+        ['ocr-apply-corrections','15 · Apply corrections','Rebuild the searchable PDF with your corrected text.'],
+        ['studio-save-final','16 · Save PDF','Download your finished searchable PDF.'],
+        ['studio-share-final','17 · Share PDF','Share to Files or other apps when supported.'],
+        ['studio-open-library','18 · Document library','Open, rename, save, share or delete previously saved documents.']
       ]
     };
     let tourMode='',tourIndex=0,tourElement=null;
@@ -1369,6 +1515,42 @@ body:not(.task-home-mode) #task-nav{display:flex}
       toolStatus.textContent='Result loaded. You can now run another tool or sign it.';
       workshopPreviewState.source.page=1;previewWorkshop('source');
     };
+    let recognizedPages=[];
+    async function createCorrectedSearchablePdf(){
+      if(!recognizedPages.length||!currentPdfBlob)return alert('Recognize a document first.');
+      const corrected=document.getElementById('ocr-editor').value.split(/\n\s*--- Page break ---\s*\n/);
+      if(corrected.length!==recognizedPages.length)return alert('Keep the page break separators so corrections can be applied to each page.');
+      // Rebuild from images, so old OCR text cannot remain duplicated in the PDF.
+      const rebuilt=await PDFLib.PDFDocument.create();const textFont=await rebuilt.embedFont(PDFLib.StandardFonts.Helvetica);
+      for(let i=0;i<recognizedPages.length;i++){
+        const {blob,dims}=recognizedPages[i],page=rebuilt.addPage([595.28,595.28*dims.height/dims.width]);
+        const {width,height}=page.getSize();
+        const img=await rebuilt.embedJpg(new Uint8Array(await blob.arrayBuffer()));page.drawImage(img,{x:0,y:0,width,height});
+        const lines=corrected[i].split('\n').filter(l=>l.trim());
+        const lineHeight=Math.max(8,Math.min(18,height/Math.max(lines.length+2,35)));
+        const stamp=document.getElementById('stamp-text').value.trim().replace(/[^\x20-\x7e]/g,'').slice(0,60);
+        if(stamp)page.drawText(stamp,{x:30,y:30,size:14,font:textFont,color:PDFLib.rgb(.35,.38,.48),opacity:.6});
+        if(i===recognizedPages.length-1){const sign=document.getElementById('signature-text').value.trim().replace(/[^\x20-\x7e]/g,'');if(sign)page.drawText('Signed: '+sign,{x:30,y:55,size:13,font:textFont,color:PDFLib.rgb(.1,.25,.45)});}
+        const originalWords=recognizedPages[i].words||[];
+        const revisedTokens=corrected[i].trim().split(/\s+/).filter(Boolean);
+        const sourceTokens=originalWords.map(w=>w.text);
+        const canAlign=revisedTokens.length===sourceTokens.length && originalWords.length>0 && originalWords.every(w=>w.bbox);
+        if(canAlign){
+          drawOcrWordLayer(page,textFont,originalWords.map((w,k)=>({...w,text:revisedTokens[k]})),dims,width,height);
+        }else for(let j=0;j<lines.length;j++){
+          const raw=lines[j].replace(/[^\x20-\x7e]/g,' ');const y=Math.max(0,height-25-j*lineHeight);
+          if(y<=0)break;
+          const size=Math.min(11,lineHeight*.85,Math.max(4,(width-30)*1000/Math.max(1,textFont.widthOfTextAtSize(raw,1000))));
+          page.drawText(raw,{x:15,y,size,font:textFont,opacity:0});
+        }
+      }
+      currentPdfBlob=new Blob([await rebuilt.save()],{type:'application/pdf'});
+      updatePages();document.getElementById('studio-export-status').textContent='Corrected PDF ready. Word positioning retained when token counts match; otherwise text uses approximate line positions. Verify searching and selection.';
+      await saveToHistory(currentFileName,currentPdfBlob).catch(e=>console.warn('History unavailable',e));
+      document.getElementById('ocr-apply-corrections').disabled=true;
+    }
+    document.getElementById('ocr-apply-corrections').onclick=()=>createCorrectedSearchablePdf().catch(e=>alert('Could not apply corrections: '+e.message));
+    document.getElementById('ocr-editor').addEventListener('input',()=>{document.getElementById('ocr-apply-corrections').disabled=!currentPdfBlob;});
     // --- PDF GENERATION & OCR ---
     async function processScannedDocument() {
       if(!scanPages.length){document.getElementById('studio-status').textContent='Add a photo first.';return;}
@@ -1381,30 +1563,26 @@ body:not(.task-home-mode) #task-nav{display:flex}
         if(typeof Tesseract==='undefined' || typeof PDFLib==='undefined') throw new Error('OCR/PDF libraries unavailable');
         const pdfDoc=await PDFLib.PDFDocument.create();
         const font=await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
-        const allText=[], allWords=[];
+        const allText=[], allWords=[];recognizedPages=[];
         for(let i=0;i<scanPages.length;i++){
           updateOverlay(`Recognizing page ${i+1} of ${scanPages.length}...`);
           const blob=scanPages[i];
-          const ocrBlob=await prepareOcrImage(blob,document.getElementById('ocr-mode').value);
-          const {data}=await Tesseract.recognize(ocrBlob,'eng',{}, {text:true,blocks:true});
+          const language=document.getElementById('ocr-language').value;
+          const quality=document.getElementById('ocr-quality').value;
+          const run=await recognizeSmartPage(blob,language,quality,document.getElementById('ocr-mode').value,i);
+          const {data,image:ocrBlob}=run;
+          const diagnostic=document.getElementById('ocr-benchmark');
+          diagnostic.textContent=`OCR page ${i+1}/${scanPages.length}: ${run.passes} pass(es), ${run.ms/1000}s, selection score ${run.score.toFixed(1)}. Heuristic score is not an accuracy percentage.`;
           allText.push((data.text||'').trim());
-          const words=(data.words || (data.blocks||[]).flatMap(b=>(b.paragraphs||[]).flatMap(p=>(p.lines||[]).flatMap(l=>l.words||[])))).filter(w=>w.text && w.text.trim());
+          const words=ocrWordList(data);
           allWords.push(...words);
-          const dims=await getImageDimensions(blob);
+          const dims=await getImageDimensions(blob);recognizedPages.push({blob,dims,words});
+          const ocrDims=await getImageDimensions(ocrBlob);
           const width=595.28,height=width*dims.height/dims.width;
           const page=pdfDoc.addPage([width,height]);
           const embedded=await pdfDoc.embedJpg(new Uint8Array(await blob.arrayBuffer()));
           page.drawImage(embedded,{x:0,y:0,width,height});
-          for(const word of words){
-            if(!word.bbox)continue;
-            const x=word.bbox.x0/dims.width*width;
-            const boxH=(word.bbox.y1-word.bbox.y0)/dims.height*height;
-            const y=Math.max(0,height-word.bbox.y1/dims.height*height+boxH*.12);
-            try{
-              page.drawText(word.text,{x,y,size:Math.max(2,boxH*.82),font,
-                color:PDFLib.rgb(0,0,0),opacity:0});
-            }catch(e){}
-          }
+          drawOcrWordLayer(page,font,words,ocrDims,width,height);
           const stamp=document.getElementById('stamp-text').value.trim();
           if(stamp){
             const safe=stamp.replace(/[^\\x20-\\x7E]/g,'').slice(0,60);
@@ -1428,7 +1606,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
         hideOverlay();
         els.postScanActions.style.display = 'none';
         els.resultsPanel.style.display = 'block';
-        document.getElementById('ocr-editor').value = currentText;
+        document.getElementById('ocr-editor').value = currentText;renderOcrReview(allWords);document.getElementById('ocr-apply-corrections').disabled=true;
         document.getElementById('studio-status').textContent='PDF ready. Use Save PDF or Share PDF below.';
         els.ocrStatus.textContent = currentText ? `Processed ${scanPages.length} page(s); OCR found approximately ${currentOcrWords.length} word segments. Please check the extracted text carefully; screen photos, glare, small type, and angled images can reduce accuracy.` : 'OCR did not detect readable text in this image. Try retaking it closer, straight-on, with less glare and sharper focus.';
 
@@ -1642,7 +1820,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
     }
 // Cache maintenance is user-initiated. Never delete saved IndexedDB documents
 // or localStorage signatures as part of a routine page load.
-        // v2.6.0 task navigation and WYSIWYG PDF editor
+        // v2.9.0 task navigation and WYSIWYG PDF editor
     const taskNames={sign:'Add Text & Sign',workshop:'PDF Workshop',studio:'Document Studio'};
     function switchTask(task){
       document.body.classList.remove('task-home-mode','task-sign-mode','task-workshop-mode','task-studio-mode');
@@ -1658,6 +1836,10 @@ body:not(.task-home-mode) #task-nav{display:flex}
     document.getElementById('launch-app-btn').addEventListener('click',()=>switchTask('home'));
     document.body.classList.add('task-home-mode');
 
+    document.getElementById('home-legal').addEventListener('click',()=>{
+      splashScreen.style.display='flex';document.body.classList.add('splash-active');
+      consentBox.hidden=true;
+    });
     const epaper=document.getElementById('editor-paper'),ecanvas=document.getElementById('editor-page-canvas'),
       ectx=ecanvas.getContext('2d'),elayer=document.getElementById('editor-overlays'),
       estatus=document.getElementById('editor-status');
@@ -1936,7 +2118,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
 <script>
 (function(){
 'use strict';
-const VERSION='2.5.6', BUILD='2026-10-27-featurepack-01';
+const VERSION='2.9.0', BUILD='2026-10-27-intelligent-ocr-01';
 const panel=document.getElementById('build-check-panel');
 const output=document.getElementById('build-check-output');
 let report='';

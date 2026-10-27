@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>DocuScan Pro v2.1.1 — DocuScan Pro v2.1.1 | Scanner & PDF Studio</title>
+  <title>DocuScan Pro v2.3.0 — DocuScan Pro v2.3.0 | Scanner & PDF Studio</title>
   
   <!-- PWA & iOS Meta Tags -->
   <link rel="manifest" href="manifest.json">
@@ -189,7 +189,7 @@
 .help-footer{max-width:900px;margin:25px auto 10px;text-align:center;color:#708096;font-size:12px}
 @media(max-width:650px){.help-hero{grid-template-columns:1fr}.help-paths{grid-template-columns:1fr}.help-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.help-shell{padding:12px 13px 65px}}
 
-/* v2.1 task-based navigation */
+/* v2.2 task-based navigation */
 #task-home{max-width:920px;margin:22px auto;padding:16px}
 .task-intro{font-size:13px;letter-spacing:.13em;font-weight:800;color:#517496;text-transform:uppercase}
 .task-home-title{font-size:clamp(28px,5vw,42px);color:#18334e;margin:9px 0 8px}
@@ -204,7 +204,7 @@ body.task-sign-mode #scanner-view,body.task-sign-mode #task-home{display:none!im
 body.task-workshop-mode #task-home,body.task-workshop-mode #pdf-editor{display:none!important}
 body.task-studio-mode #task-home,body.task-studio-mode #pdf-editor{display:none!important}
 body.task-workshop-mode #scanner-view>.scan-area,body.task-workshop-mode #scanner-view>.actions,body.task-workshop-mode #scanner-view>#results-panel,body.task-workshop-mode #scanner-view>section.toolbox:not(#pdf-toolbox){display:none!important}
-body.task-studio-mode #scanner-view>section.toolbox:not(:last-of-type){display:none!important}
+body.task-studio-mode #scanner-view>section.toolbox:not(#document-studio-tools){display:none!important}
 body:not(.task-home-mode) #task-nav{display:flex}
 #pdf-editor{max-width:980px;margin:16px auto;padding:16px}
 .editor-toolbar{display:flex;flex-wrap:wrap;gap:9px;margin:13px 0}
@@ -220,6 +220,31 @@ body:not(.task-home-mode) #task-nav{display:flex}
 #editor-controls{border:1px solid #d7e2ee;border-radius:14px;background:#f8fbfe;padding:15px;margin-top:15px}
 #editor-controls input{width:100%;border:1px solid #c8d7e6;border-radius:9px;padding:10px;margin:5px 0 10px}
 .editor-hint{font-size:12px;color:#58748d;line-height:1.5}
+
+.editor-toolbar button.is-active{background:#dcecff!important;color:#064c87!important;border:2px solid #1674bf!important;box-shadow:0 0 0 2px #b9ddff}
+.editor-export-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.editor-export-row button{margin:0;min-height:48px}
+#editor-signature-panel[hidden]{display:none!important}
+.overlay-resize-handle{position:absolute;right:-11px;bottom:-11px;width:25px;height:25px;background:#117ed0;border:3px solid white;border-radius:7px;box-shadow:0 1px 5px #1238;touch-action:none;cursor:nwse-resize}
+.pdf-overlay{overflow:visible;line-height:1.2}
+#editor-overlays{touch-action:none}
+
+.context-help{background:#fff;border:2px solid #213b59;border-radius:20px;padding:clamp(16px,4vw,30px);margin:18px 0 26px;box-shadow:8px 9px 0 #d8e5eb}
+.context-help[hidden],#general-help-content[hidden]{display:none!important}
+.context-hero{display:grid;grid-template-columns:1fr auto;align-items:center;gap:18px;border-bottom:3px solid #e8b64b;padding-bottom:16px}
+.context-hero h2{font-size:clamp(26px,5vw,40px);letter-spacing:-.04em;line-height:1.1;margin:6px 0;color:#203952}
+.context-symbol{font-size:60px;background:#f2e8d3;border-radius:18px;padding:14px}
+.context-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0}
+.context-card{border:1px solid #dce4ea;background:#f8fbfc;border-radius:15px;padding:15px;min-width:0}
+.context-card .context-graphic{font-size:32px;display:block;margin-bottom:8px}
+.context-card h3{font-size:15px;color:#1c3c5c;margin:0 0 7px}
+.context-card p{font-size:13px;line-height:1.55;color:#4e6377;margin:0}
+.context-check{background:#fff4d6;padding:15px;border-left:5px solid #d99a33;border-radius:8px;font-size:14px;line-height:1.6}
+.context-jump{border:0;background:#20496c;color:white;border-radius:11px;padding:12px 16px;font-weight:800;cursor:pointer;margin-top:15px}
+.help-mode-nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.help-mode-nav button{border:1px solid #b9cbdc;border-radius:99px;padding:9px 12px;background:white;color:#274767;font-weight:750;cursor:pointer}
+.help-mode-nav button[aria-pressed=true]{background:#244a70;color:white}
+@media(max-width:650px){.context-cards{grid-template-columns:1fr}.context-symbol{font-size:40px;padding:10px}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
@@ -244,7 +269,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
       </div>
       <button class="launch-btn" id="launch-app-btn" type="button">Continue to DocuScan <span aria-hidden="true">→</span></button>
       <button id="splash-help-btn" type="button" style="width:100%;margin-top:10px;padding:13px;background:transparent;border:1px solid #b3c5db;color:#e7f0fb;border-radius:12px;font-weight:750">See illustrated beginner's guide</button>
-      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 2.1.1</p>
+      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 2.3.0</p>
       <p class="splash-footnote">Your scans are stored in this browser on this device. The OCR/PDF libraries are loaded from third-party CDNs; availability may depend on your internet connection and browser permissions.</p>
     </div>
   </section>
@@ -252,7 +277,45 @@ body:not(.task-home-mode) #task-nav{display:flex}
 
 <section id="help-screen" class="help-screen" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
 <div class="help-shell">
-  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v2.1.1</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
+  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v2.3.0</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
+
+<div class="help-mode-nav" aria-label="Choose a help topic">
+<button type="button" data-help-mode="sign">✍️ Add Text &amp; Sign</button>
+<button type="button" data-help-mode="workshop">🧰 PDF Workshop</button>
+<button type="button" data-help-mode="studio">📷 Document Studio</button>
+<button type="button" data-help-mode="general">📖 Full guide</button>
+</div>
+<section id="context-help-sign" class="context-help" hidden>
+  <div class="context-hero"><div><div class="help-kicker">FIELD GUIDE 01 · EDIT A DOCUMENT</div><h2>Add Text &amp; Sign</h2><p>Use a PDF you already have. No scanning or OCR required.</p></div><div class="context-symbol" aria-hidden="true">✍️</div></div>
+  <div class="context-cards">
+    <article class="context-card"><span class="context-graphic">📂 → 📄</span><h3>1 · Open the document</h3><p>Tap <strong>Open PDF from Files</strong> or <strong>Use a photo</strong>. Wait for the page preview. Use Previous/Next page to find the page to edit.</p></article>
+    <article class="context-card"><span class="context-graphic">✍️ ↔️</span><h3>2 · Add and position</h3><p>Tap <strong>Add signature</strong>, <strong>Add text</strong> or <strong>Add date</strong>. Touch and drag the new item across the page. Drag the blue resize handle to make the text box wider.</p></article>
+    <article class="context-card"><span class="context-graphic">🔤 → 💾</span><h3>3 · Format, save, share</h3><p>Select the item to edit its words, font, size and width. Tap <strong>Save PDF</strong> for a download, or <strong>Share PDF</strong> and choose <strong>Save to Files</strong> to pick a folder.</p></article>
+  </div>
+  <div class="context-check"><strong>Look for:</strong> A selected tool is highlighted. The drawing pad appears only for signatures. Check the saved PDF to confirm every item landed in the right place. If dragging fails, try touching the middle of the item rather than its resize handle.</div>
+  <button type="button" class="context-jump" data-help-close="true">Back to Add Text &amp; Sign</button>
+</section>
+<section id="context-help-workshop" class="context-help" hidden>
+  <div class="context-hero"><div><div class="help-kicker">FIELD GUIDE 02 · REARRANGE A PDF</div><h2>PDF Workshop</h2><p>Start with an existing PDF, or turn a photograph into a PDF.</p></div><div class="context-symbol" aria-hidden="true">🧰</div></div>
+  <div class="context-cards">
+    <article class="context-card"><span class="context-graphic">📂 + 📷</span><h3>1 · Choose a source</h3><p>Tap <strong>Open existing PDF</strong> to browse Files, or <strong>Use photo as PDF</strong> to start from an image. Wait for the document to load.</p></article>
+    <article class="context-card"><span class="context-graphic">📑 ⇄ 📑</span><h3>2 · Pick a tool</h3><p>Choose merge, extract, rotate, reorder, delete, watermark, page numbers or another operation. Follow the tool's prompts. Page ranges such as <strong>1,3-5</strong> mean pages 1, 3, 4 and 5.</p></article>
+    <article class="context-card"><span class="context-graphic">⚙️ → 💾</span><h3>3 · Run and review</h3><p>Tap <strong>Run selected tool</strong>, then download or share the result. Use <strong>Use result for next tool</strong> when you need to make another change.</p></article>
+  </div>
+  <div class="context-check"><strong>Before you export:</strong> Check the page count and order. Some tools, especially image-based compression, may remove searchable text. Work on a copy of important documents.</div>
+  <button type="button" class="context-jump" data-help-close="true">Back to PDF Workshop</button>
+</section>
+<section id="context-help-studio" class="context-help" hidden>
+  <div class="context-hero"><div><div class="help-kicker">FIELD GUIDE 03 · FROM PHOTO TO PDF</div><h2>Document Studio</h2><p>Capture, crop, straighten, recognize text, and export.</p></div><div class="context-symbol" aria-hidden="true">📷</div></div>
+  <div class="context-cards">
+    <article class="context-card"><span class="context-graphic">📷 → 📄</span><h3>1 · Add a page</h3><p>Tap <strong>Choose Photo or Camera</strong>. On iPad, take a photo or choose one from Photos/Files. Use <strong>Add page</strong> for multipage documents.</p></article>
+    <article class="context-card"><span class="context-graphic">✂️ ▱</span><h3>2 · Clean up the image</h3><p>Try <strong>Auto straighten</strong>, then <strong>Crop last page</strong> to remove background. Rotate or Enhance if needed. Choose the OCR image mode that makes letters clearest.</p></article>
+    <article class="context-card"><span class="context-graphic">🔎 → 📤</span><h3>3 · Recognize and export</h3><p>Tap <strong>Recognize &amp; Create PDF</strong>. Review the editable OCR text. Download or share PDF, TXT or Word; use JPG when you only need the photo.</p></article>
+  </div>
+  <div class="context-check"><strong>Better OCR:</strong> Keep the camera parallel to the page, avoid shadows and reflections, fill the frame with the paper, and crop out the table or screen borders <em>before</em> recognition. Always proofread important text.</div>
+  <button type="button" class="context-jump" data-help-close="true">Back to Document Studio</button>
+</section>
+<div id="general-help-content">
   <div class="help-hero"><div><div class="help-kicker">Your illustrated quick-start</div><h2 id="help-title">From paper to PDF.<br>In a few taps.</h2><p>A picture-first guide to scanning, cropping, straightening, reading text and signing PDFs on your iPad. Pick the job you want to do below.</p></div><div class="help-illustration" aria-hidden="true"><div class="help-sheet"><i></i><i></i><i style="width:65%"></i><i></i><i style="width:75%"></i></div></div></div>
   <h3 class="help-section-title">Choose your mission</h3>
   <div class="help-paths">
@@ -272,7 +335,8 @@ body:not(.task-home-mode) #task-nav{display:flex}
   <h3 class="help-section-title">If something goes wrong</h3>
   <div class="help-paths"><div class="help-path"><h3>Camera shows black</h3><p style="font-size:14px;line-height:1.6">Use <strong>Choose Photo or Camera</strong> and pick a photo from the iPad Photos app instead. Check Safari camera permission if you want to capture directly.</p></div><div class="help-path"><h3>Text looks wrong</h3><p style="font-size:14px;line-height:1.6">Crop tighter, use better light, try another OCR mode, then retake. Correct mistakes in the editable text box. The PDF's hidden OCR layer may still need review.</p></div></div>
   <article class="help-path"><div class="help-kicker">Mission 03 · PDF Workshop</div><h3>🧰 Edit a PDF you already have</h3><ol class="help-steps"><li><div><strong>Open PDF from Files</strong> to select your document.</div></li><li><div><strong>Scroll to PDF Workshop</strong> and select a tool: merge, split/extract, reorder, rotate, delete, watermark, number, flatten, extract text, JPG or compress.</div></li><li><div><strong>Enter page numbers</strong> when relevant. For example, 1,3-5 selects pages 1, 3, 4 and 5.</div></li><li><div><strong>Tap Run selected tool,</strong> then Download or Share result.</div></li><li><div><strong>Tap Use result for next tool</strong> to make another edit or sign the result.</div></li></ol><p class="help-note">For signing, use the separate signing panel. These tools are experimental until tested on your iPad.</p></article>
-  <div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br><strong>Version:</strong> 2.1.0<br><strong>Build:</strong> 2026-10-27 · competitor-test-lab<br><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br><strong>Support:</strong> Support email/website — <em>not yet configured</em><br><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
+  <div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br><strong>Version:</strong> 2.3.0<br><strong>Build:</strong> 2026-10-27 · contextual-help-edition<br><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br><strong>Support:</strong> Support email/website — <em>not yet configured</em><br><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
+  </div><!-- general-help-content -->
   <p style="margin-top:22px;text-align:center"><button type="button" class="help-close" id="help-done-btn">Got it — back to DocuScan</button></p>
 </div></section>
 
@@ -283,7 +347,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
 
   
 <section id="task-home" aria-label="Choose a task">
-  <div class="task-intro">DocuScan Pro · v2.1.1</div>
+  <div class="task-intro">DocuScan Pro · v2.3.0</div>
   <h1 class="task-home-title">What would you like to do?</h1>
   <p style="color:#60778d;margin-bottom:20px">Choose one job. We'll show only the tools you need.</p>
   <button class="task-card" data-task="sign"><span class="task-icon">✍️</span><span><strong>Add Text &amp; Sign</strong><small>Open an existing PDF, drag a signature anywhere, insert a date or text box, then save.</small></span><span aria-hidden="true">›</span></button>
@@ -291,23 +355,25 @@ body:not(.task-home-mode) #task-nav{display:flex}
   <button class="task-card" data-task="studio"><span class="task-icon">📷</span><span><strong>Document Studio</strong><small>Take a photo, crop, straighten, recognize text and export.</small></span><span aria-hidden="true">›</span></button>
   <button class="task-card" id="home-help" type="button"><span class="task-icon">📖</span><span><strong>Visual Help Guide</strong><small>Step-by-step instructions and temporary developer details.</small></span><span aria-hidden="true">›</span></button>
 </section>
-<div id="task-nav"><button id="back-home" type="button">← All tools</button><strong id="task-heading">Document Studio</strong><button id="task-help" type="button">? Help</button></div>
+<div id="task-nav"><button id="back-home" type="button">← All tools</button><strong id="task-heading">Document Studio</strong><button id="task-help" type="button">? Help for this tool</button></div>
 <section id="pdf-editor" aria-label="Add text and sign PDF" style="display:none">
   <div class="task-intro">Add Text &amp; Sign</div><h2 style="font-size:26px;margin:8px 0">Place it exactly where you want.</h2>
   <p class="editor-hint">Start with a PDF from Files. Tap Sign, Text or Date, then touch and drag the item onto the page. Choose its font, size and width below. No OCR is needed to edit an existing PDF.</p>
   <div class="editor-toolbar"><button id="editor-open" class="primary" type="button">📂 Open PDF from Files</button><button id="editor-photo" type="button">📷 Use a photo</button><button id="editor-prev" type="button">← Previous page</button><span id="editor-page-label" style="align-self:center">No document</span><button id="editor-next" type="button">Next page →</button></div>
   <div id="editor-paper"><canvas id="editor-page-canvas" width="600" height="780"></canvas><div id="editor-overlays"></div></div>
-  <div class="editor-toolbar"><button id="editor-add-sign" type="button">✍ Add signature</button><button id="editor-add-text" type="button">T Add text</button><button id="editor-add-date" type="button">▦ Add date</button><button id="editor-delete" type="button">🗑 Remove selected</button></div>
+  <div class="editor-toolbar" id="editor-tool-buttons"><button id="editor-add-sign" type="button">✍ Add signature</button><button id="editor-add-text" type="button">T Add text</button><button id="editor-add-date" type="button">▦ Add date</button><button id="editor-delete" type="button">🗑 Remove selected</button></div>
   <div id="editor-controls">
     <label for="editor-text">Text / typed signature</label><input id="editor-text" placeholder="Enter text to place on the document" />
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
       <div><label for="editor-font">Font style</label><select id="editor-font" style="width:100%;padding:10px;border:1px solid #c8d7e6;border-radius:9px"><option value="Helvetica">Helvetica</option><option value="TimesRoman">Times Roman</option><option value="Courier">Courier</option><option value="HelveticaBold">Helvetica Bold</option><option value="TimesRomanItalic">Times Italic</option><option value="HelveticaOblique">Helvetica Italic</option></select></div>
       <div><label for="editor-font-size">Font size (points)</label><input id="editor-font-size" type="number" min="6" max="72" value="16" /></div>
     </div>
-    <label for="editor-width">Selected item width: <span id="editor-width-label">30%</span></label><input id="editor-width" type="range" min="8" max="90" value="30" style="width:100%" />
-    <p class="editor-hint">For a handwritten signature, draw here with a finger or Apple Pencil, then tap Add signature. If the pad is blank, the typed name is used instead.</p>
-    <canvas id="editor-sign-pad" width="700" height="180"></canvas>
-    <div class="editor-toolbar"><button id="editor-clear-sign" type="button">Clear drawing</button><button id="editor-save" class="primary" type="button">✓ Save signed PDF</button><button id="editor-share" type="button" disabled>↗ Share saved PDF</button></div>
+    <label for="editor-width">Selected item width: <span id="editor-width-label">30%</span></label><input id="editor-width" type="range" min="5" max="100" value="30" style="width:100%" />
+    <p class="editor-hint">Drag an item to move it. Drag its bottom-right blue handle to resize its box; long text wraps inside. Use font size to change the text itself.</p>
+    <div id="editor-signature-panel" hidden><p class="editor-hint">Draw with a finger or Apple Pencil, then tap Add signature above. This panel is hidden when using Text or Date.</p>
+    <canvas id="editor-sign-pad" width="700" height="180"></canvas><button id="editor-clear-sign" type="button">Clear drawing</button></div>
+    <div class="editor-toolbar editor-export-row"><button id="editor-save" class="primary" type="button">↓ Save PDF</button><button id="editor-share" type="button" disabled>↗ Share PDF</button></div>
+    <p class="editor-hint">Save PDF downloads a copy using your browser. On iPad, look in Safari Downloads or the Files app → Downloads. Share PDF opens the iPad share sheet, where you can choose Save to Files and select a folder.</p>
     <p id="editor-status" class="editor-hint" role="status">No document loaded. PDF pages are previewed using PDF.js. Requires internet for libraries.</p>
   </div>
 </section>
@@ -349,6 +415,8 @@ body:not(.task-home-mode) #task-nav{display:flex}
 
     <section class="toolbox" id="pdf-toolbox" aria-label="PDF editing tools">
       <h3>🧰 PDF Workshop · Test Lab</h3>
+      <div class="editor-toolbar"><button id="workshop-open-pdf" type="button" class="primary">📂 Open existing PDF</button><button id="workshop-open-photo" type="button">📷 Use photo as PDF</button></div>
+      <p id="workshop-source-status" class="tool-note">First open a PDF or photograph. Then select a tool below.</p>
       <p class="tool-note">Import a PDF using “Open PDF from Files” above. Tools work on the imported PDF, create a separate copy, and do not overwrite your original. Select an operation, then tap Run tool.</p>
       <label for="pdf-tool-operation">Choose a PDF tool</label>
       <select id="pdf-tool-operation">
@@ -375,8 +443,12 @@ body:not(.task-home-mode) #task-nav{display:flex}
       <p id="pdf-tool-status" class="tool-note" role="status" aria-live="polite">Ready when a PDF is imported.</p>
       <p class="tool-note"><strong>Limitations:</strong> Password-protected PDFs, certificate-based signatures, translation, AI chat, and precise automatic form recognition are not included. Image-based compression can increase size and removes searchable text. Text extraction only works on PDFs that already contain text.</p>
     </section>
-    <section class="toolbox" aria-label="Scan and editing tools">
+    <section class="toolbox" id="document-studio-tools" aria-label="Scan and editing tools">
       <h3>Document studio</h3>
+      <p class="tool-note">Step 1: Choose a photo. Step 2: crop or straighten it. Step 3: tap <strong>Recognize &amp; Create PDF</strong>. Step 4: review and export.</p>
+      <button id="studio-add-photo" type="button" class="btn btn-primary">📷 Add photo or scan page</button>
+      <button id="studio-process" type="button" class="btn btn-primary" style="margin-top:8px" disabled>🔎 Recognize &amp; Create PDF</button>
+      <p id="studio-status" class="tool-note" role="status">No pages yet. Add a photo to begin.</p>
       <div class="toolgrid">
         <button type="button" id="add-page-btn">＋ Add page</button>
         <button type="button" id="crop-page-btn">✂ Crop last page</button>
@@ -443,7 +515,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
   </main>
 
   <!-- History View -->
-  <p class="help-footer">DocuScan Pro · Version 2.1.1 · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
+  <p class="help-footer">DocuScan Pro · Version 2.3.0 · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
   <main class="history-view" id="history-view">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
       <h2 style="font-size:24px; font-weight:700;">Scanned Documents</h2>
@@ -479,6 +551,8 @@ body:not(.task-home-mode) #task-nav{display:flex}
     function updatePages() {
       const list = document.getElementById('page-list');
       list.innerHTML = '';
+      const studioGo=document.getElementById('studio-process');if(studioGo)studioGo.disabled=!scanPages.length;
+      const studioStatus=document.getElementById('studio-status');if(studioStatus)studioStatus.textContent=scanPages.length?`${scanPages.length} page(s) ready. Crop, straighten, or tap Recognize & Create PDF.`:'No pages yet. Add a photo to begin.';
       scanPages.forEach((blob,i) => {
         const chip=document.createElement('span');chip.className='pagechip';
         chip.append(document.createTextNode(`Page ${i+1} `));
@@ -761,7 +835,17 @@ body:not(.task-home-mode) #task-nav{display:flex}
     // Illustrated guide: accessible from welcome screen, workspace and footer.
     const helpScreen=document.getElementById('help-screen');
     let helpPreviouslyFocused=null;
-    function openHelp(){
+    function showHelpMode(mode){
+      const active=['sign','workshop','studio'].includes(mode)?mode:'general';
+      ['sign','workshop','studio'].forEach(name=>{
+        document.getElementById('context-help-'+name).hidden=active!==name;
+      });
+      document.getElementById('general-help-content').hidden=active!=='general';
+      document.querySelectorAll('[data-help-mode]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.helpMode===active)));
+      helpScreen.scrollTop=0;
+    }
+    function openHelp(mode='general'){
+      showHelpMode(typeof mode==='string'?mode:'general');
       helpPreviouslyFocused=document.activeElement;
       helpScreen.classList.add('open');helpScreen.setAttribute('aria-hidden','false');
       document.body.style.overflow='hidden';helpScreen.scrollTop=0;
@@ -773,6 +857,8 @@ body:not(.task-home-mode) #task-nav{display:flex}
       if(helpPreviouslyFocused&&helpPreviouslyFocused.focus)helpPreviouslyFocused.focus();
     }
     ['help-btn','splash-help-btn','footer-help-btn'].forEach(id=>document.getElementById(id).addEventListener('click',openHelp));
+    document.querySelectorAll('[data-help-mode]').forEach(button=>button.addEventListener('click',()=>showHelpMode(button.dataset.helpMode)));
+    document.querySelectorAll('[data-help-close]').forEach(button=>button.addEventListener('click',closeHelp));
     ['help-close-btn','help-done-btn'].forEach(id=>document.getElementById(id).addEventListener('click',closeHelp));
     document.addEventListener('keydown',event=>{if(event.key==='Escape'&&helpScreen.classList.contains('open'))closeHelp();});
 
@@ -780,6 +866,8 @@ body:not(.task-home-mode) #task-nav{display:flex}
     // iPad Safari can show a black camera view when capture="environment" is forced.
     // Use the native Photos/Camera/Files chooser by default, and offer a separate camera input.
     els.scanBtn.onclick = () => els.cameraInput.click();
+    document.getElementById('studio-add-photo').onclick=()=>els.cameraInput.click();
+    document.getElementById('studio-process').onclick=()=>els.processBtn.click();
     document.getElementById('direct-camera-input').onchange = e => {
       const f=e.target.files && e.target.files[0];
       if(f) handleImageFile(f);
@@ -826,6 +914,22 @@ body:not(.task-home-mode) #task-nav{display:flex}
     // --- IMPORT & SIGN AN EXISTING PDF ---
     let importedPdfBytes=null, signedPdfBlob=null, signedPdfName='';
     const pdfInput=document.getElementById('pdf-input');
+    document.getElementById('workshop-open-pdf').onclick=()=>pdfInput.click();
+    document.getElementById('workshop-open-photo').onclick=()=>document.getElementById('workshop-photo-input').click();
+    const workshopPhotoInput=document.createElement('input');workshopPhotoInput.type='file';workshopPhotoInput.accept='image/*';workshopPhotoInput.id='workshop-photo-input';workshopPhotoInput.hidden=true;document.body.append(workshopPhotoInput);
+    workshopPhotoInput.onchange=async e=>{
+      const f=e.target.files?.[0];if(!f)return;
+      try{
+        const bitmap=await createImageBitmap(f),c=document.createElement('canvas');c.width=bitmap.width;c.height=bitmap.height;
+        c.getContext('2d').drawImage(bitmap,0,0);bitmap.close();
+        const jpeg=await new Promise(r=>c.toBlob(r,'image/jpeg',.9));
+        const doc=await PDFLib.PDFDocument.create(),jpg=await doc.embedJpg(await jpeg.arrayBuffer());
+        const page=doc.addPage([jpg.width,jpg.height]);page.drawImage(jpg,{x:0,y:0,width:jpg.width,height:jpg.height});
+        const pdf=new File([await doc.save()],f.name.replace(/\.[^.]+$/,'')+'.pdf',{type:'application/pdf'});
+        const dt=new DataTransfer();dt.items.add(pdf);pdfInput.files=dt.files;pdfInput.dispatchEvent(new Event('change',{bubbles:true}));
+      }catch(err){document.getElementById('workshop-source-status').textContent='Could not open photo: '+err.message;}
+      workshopPhotoInput.value='';
+    };
     const signCanvas=document.getElementById('signature-canvas');
     const signCtx=signCanvas.getContext('2d');
     let drawing=false, hasInk=false;
@@ -858,6 +962,7 @@ body:not(.task-home-mode) #task-nav{display:flex}
         const bytes=await file.arrayBuffer();
         const doc=await PDFLib.PDFDocument.load(bytes);
         importedPdfBytes=bytes;signedPdfBlob=null;
+        document.getElementById('workshop-source-status').textContent=`Loaded ${file.name} (${doc.getPageCount()} pages). Choose an operation and tap Run selected tool.`;
         signedPdfName=(file.name.replace(/\.pdf$/i,'')||'document')+'_signed.pdf';
         document.getElementById('pdf-page-number').max=doc.getPageCount();
         document.getElementById('pdf-page-number').value=doc.getPageCount();
@@ -1272,19 +1377,12 @@ body:not(.task-home-mode) #task-nav{display:flex}
       tx.objectStore('docs').put({ name, blob, date: new Date() });
     }
 // Register Service Worker
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(registration => {
-        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-      })
-      .catch(err => {
-        console.log('ServiceWorker registration failed: ', err);
-      });
-  });
-}
-  
-    // v2.1 task navigation and WYSIWYG PDF editor
+// v2.2: retire the previous service worker and old app caches to prevent stale UI.
+    if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+      navigator.serviceWorker.getRegistrations().then(regs=>Promise.all(regs.filter(r=>r.scope.startsWith(location.origin+location.pathname.replace(/[^/]*$/,''))).map(r=>r.unregister()))).catch(console.warn);
+      if('caches' in window)caches.keys().then(keys=>Promise.all(keys.filter(k=>/docuscan/i.test(k)).map(k=>caches.delete(k)))).catch(console.warn);
+    }
+        // v2.2 task navigation and WYSIWYG PDF editor
     const taskNames={sign:'Add Text & Sign',workshop:'PDF Workshop',studio:'Document Studio'};
     function switchTask(task){
       document.body.classList.remove('task-home-mode','task-sign-mode','task-workshop-mode','task-studio-mode');
@@ -1296,7 +1394,7 @@ if ('serviceWorker' in navigator) {
     document.querySelectorAll('[data-task]').forEach(el=>el.addEventListener('click',()=>switchTask(el.dataset.task)));
     document.getElementById('back-home').onclick=()=>switchTask('home');
     document.getElementById('home-help').onclick=openHelp;
-    document.getElementById('task-help').onclick=openHelp;
+    document.getElementById('task-help').onclick=()=>openHelp(document.body.classList.contains('task-sign-mode')?'sign':document.body.classList.contains('task-workshop-mode')?'workshop':'studio');
     document.getElementById('launch-app-btn').addEventListener('click',()=>switchTask('home'));
     document.body.classList.add('task-home-mode');
 
@@ -1383,7 +1481,16 @@ if ('serviceWorker' in navigator) {
           const end=()=>{el.removeEventListener('pointermove',move);el.removeEventListener('pointerup',end);el.removeEventListener('pointercancel',end);};
           el.addEventListener('pointermove',move);el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
         });
-        elayer.append(el);
+        const handle=document.createElement('span');handle.className='overlay-resize-handle';handle.title='Drag to resize';
+        handle.addEventListener('pointerdown',event=>{
+          event.preventDefault();event.stopPropagation();selectEditorItem(item,false);
+          const bounds=epaper.getBoundingClientRect(),startX=event.clientX,startW=item.w;
+          handle.setPointerCapture(event.pointerId);
+          const resize=ev=>{item.w=Math.max(.05,Math.min(1-item.x,startW+(ev.clientX-startX)/bounds.width));el.style.width=item.w*100+'%';document.getElementById('editor-width').value=Math.round(item.w*100);document.getElementById('editor-width-label').textContent=Math.round(item.w*100)+'%';};
+          const done=()=>{handle.removeEventListener('pointermove',resize);handle.removeEventListener('pointerup',done);handle.removeEventListener('pointercancel',done);};
+          handle.addEventListener('pointermove',resize);handle.addEventListener('pointerup',done);handle.addEventListener('pointercancel',done);
+        });
+        el.append(handle);elayer.append(el);
       });
     }
     function addEditorItem(type){
@@ -1399,9 +1506,15 @@ if ('serviceWorker' in navigator) {
       }
       eitems.push(item);selectEditorItem(item);estatus.textContent='Drag the selected item on the PDF preview. Save when ready.';
     }
-    document.getElementById('editor-add-sign').onclick=()=>addEditorItem('signature');
-    document.getElementById('editor-add-text').onclick=()=>addEditorItem('text');
-    document.getElementById('editor-add-date').onclick=()=>addEditorItem('date');
+    function chooseEditorTool(type){
+      document.querySelectorAll('#editor-tool-buttons button').forEach(b=>b.classList.remove('is-active'));
+      const id={signature:'editor-add-sign',text:'editor-add-text',date:'editor-add-date'}[type];
+      if(id)document.getElementById(id).classList.add('is-active');
+      document.getElementById('editor-signature-panel').hidden=type!=='signature';
+    }
+    document.getElementById('editor-add-sign').onclick=()=>{chooseEditorTool('signature');if(ehasInk||document.getElementById('editor-text').value.trim())addEditorItem('signature');else estatus.textContent='Draw a signature below or type your name, then tap Add signature again.';};
+    document.getElementById('editor-add-text').onclick=()=>{chooseEditorTool('text');addEditorItem('text');};
+    document.getElementById('editor-add-date').onclick=()=>{chooseEditorTool('date');addEditorItem('date');};
     document.getElementById('editor-text').addEventListener('input',e=>{if(eselected&&eselected.type!=='signature-image'){eselected.text=e.target.value;drawEditorItems();}});
     document.getElementById('editor-width').addEventListener('input',e=>{if(eselected){eselected.w=Number(e.target.value)/100;drawEditorItems();}document.getElementById('editor-width-label').textContent=e.target.value+'%';});
     document.getElementById('editor-font').addEventListener('change',e=>{if(eselected){eselected.font=e.target.value;drawEditorItems();}});
@@ -1435,10 +1548,13 @@ if ('serviceWorker' in navigator) {
         eout=new Blob([await doc.save()],{type:'application/pdf'});
         document.getElementById('editor-share').disabled=false;
         downloadBlob(eout,eoutName);
-        estatus.textContent='Saved '+eoutName+'. Review the downloaded PDF to confirm placement before sharing.';
+        estatus.textContent='Download requested for '+eoutName+'. Check Safari Downloads or Files → Downloads. Use Share PDF to choose Save to Files and select a folder.';
       }catch(err){console.error(err);estatus.textContent='Save failed: '+err.message;}
     };
-    document.getElementById('editor-share').onclick=()=>eout&&shareFile(eout,eoutName,'application/pdf');
+    document.getElementById('editor-share').onclick=async()=>{
+      if(!eout){estatus.textContent='Tap Save PDF first to create the file.';return;}
+      await shareFile(eout,eoutName,'application/pdf');
+    };
 
 </script>
 </body>

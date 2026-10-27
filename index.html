@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>DocuScan Pro v2.0.0 | Scanner & PDF Studio</title>
+  <title>DocuScan Pro v2.1.0 — DocuScan Pro v2.1.0 | Scanner & PDF Studio</title>
   
   <!-- PWA & iOS Meta Tags -->
   <link rel="manifest" href="manifest.json">
@@ -188,6 +188,38 @@
 .help-dev strong{color:#ffdb8d}
 .help-footer{max-width:900px;margin:25px auto 10px;text-align:center;color:#708096;font-size:12px}
 @media(max-width:650px){.help-hero{grid-template-columns:1fr}.help-paths{grid-template-columns:1fr}.help-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.help-shell{padding:12px 13px 65px}}
+
+/* v2.1 task-based navigation */
+#task-home{max-width:920px;margin:22px auto;padding:16px}
+.task-intro{font-size:13px;letter-spacing:.13em;font-weight:800;color:#517496;text-transform:uppercase}
+.task-home-title{font-size:clamp(28px,5vw,42px);color:#18334e;margin:9px 0 8px}
+.task-card{display:flex;align-items:center;gap:18px;text-align:left;width:100%;padding:23px;margin:13px 0;border:1px solid #d5e1ee;border-radius:18px;background:white;box-shadow:0 5px 18px #0a32500a;color:#18334e;cursor:pointer}
+.task-card .task-icon{font-size:34px;background:#edf5fc;padding:13px;border-radius:15px}
+.task-card strong{display:block;font-size:19px;margin-bottom:5px}
+.task-card small{font-size:13px;color:#61778e;line-height:1.5}
+#task-nav{display:none;max-width:920px;margin:10px auto;padding:0 16px;align-items:center;justify-content:space-between;gap:10px}
+#task-nav button{border:1px solid #cbd9e7;background:white;border-radius:11px;padding:10px 14px;color:#1a466b;font-weight:700}
+body.task-home-mode #scanner-view,body.task-home-mode #pdf-editor{display:none!important}
+body.task-sign-mode #scanner-view,body.task-sign-mode #task-home{display:none!important}
+body.task-workshop-mode #task-home,body.task-workshop-mode #pdf-editor{display:none!important}
+body.task-studio-mode #task-home,body.task-studio-mode #pdf-editor{display:none!important}
+body.task-workshop-mode #scanner-view>.scan-area,body.task-workshop-mode #scanner-view>.actions,body.task-workshop-mode #scanner-view>#results-panel,body.task-workshop-mode #scanner-view>section.toolbox:not(#pdf-toolbox){display:none!important}
+body.task-studio-mode #scanner-view>section.toolbox:not(:last-of-type){display:none!important}
+body:not(.task-home-mode) #task-nav{display:flex}
+#pdf-editor{max-width:980px;margin:16px auto;padding:16px}
+.editor-toolbar{display:flex;flex-wrap:wrap;gap:9px;margin:13px 0}
+.editor-toolbar button{background:white;border:1px solid #c9d9ea;border-radius:10px;padding:12px;color:#234a6c;font-weight:750}
+.editor-toolbar button.primary{background:#1b5b91;color:white}
+#editor-paper{position:relative;max-width:720px;margin:12px auto;border:1px solid #d2d9e3;background:white;box-shadow:0 9px 30px #112e4a22;touch-action:pan-y}
+#editor-paper canvas{display:block;width:100%;height:auto}
+#editor-overlays{position:absolute;inset:0;pointer-events:none}
+.pdf-overlay{position:absolute;pointer-events:auto;touch-action:none;min-width:32px;min-height:23px;border:1.5px dashed #2878bc;background:#fff9;padding:4px;cursor:move;color:#153e6c;white-space:pre-wrap;overflow-wrap:anywhere;user-select:none;box-sizing:border-box}
+.pdf-overlay.selected{outline:2px solid #2a8ddb;outline-offset:2px}
+.pdf-overlay img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
+#editor-sign-pad{width:100%;height:120px;touch-action:none;border:1px solid #c9d9e7;border-radius:10px;background:white}
+#editor-controls{border:1px solid #d7e2ee;border-radius:14px;background:#f8fbfe;padding:15px;margin-top:15px}
+#editor-controls input{width:100%;border:1px solid #c8d7e6;border-radius:9px;padding:10px;margin:5px 0 10px}
+.editor-hint{font-size:12px;color:#58748d;line-height:1.5}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
@@ -212,7 +244,7 @@
       </div>
       <button class="launch-btn" id="launch-app-btn" type="button">Continue to DocuScan <span aria-hidden="true">→</span></button>
       <button id="splash-help-btn" type="button" style="width:100%;margin-top:10px;padding:13px;background:transparent;border:1px solid #b3c5db;color:#e7f0fb;border-radius:12px;font-weight:750">See illustrated beginner's guide</button>
-      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 1.5.0</p>
+      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 2.1.0</p>
       <p class="splash-footnote">Your scans are stored in this browser on this device. The OCR/PDF libraries are loaded from third-party CDNs; availability may depend on your internet connection and browser permissions.</p>
     </div>
   </section>
@@ -220,7 +252,7 @@
 
 <section id="help-screen" class="help-screen" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
 <div class="help-shell">
-  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v2.0.0</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
+  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v2.1.0</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
   <div class="help-hero"><div><div class="help-kicker">Your illustrated quick-start</div><h2 id="help-title">From paper to PDF.<br>In a few taps.</h2><p>A picture-first guide to scanning, cropping, straightening, reading text and signing PDFs on your iPad. Pick the job you want to do below.</p></div><div class="help-illustration" aria-hidden="true"><div class="help-sheet"><i></i><i></i><i style="width:65%"></i><i></i><i style="width:75%"></i></div></div></div>
   <h3 class="help-section-title">Choose your mission</h3>
   <div class="help-paths">
@@ -240,7 +272,7 @@
   <h3 class="help-section-title">If something goes wrong</h3>
   <div class="help-paths"><div class="help-path"><h3>Camera shows black</h3><p style="font-size:14px;line-height:1.6">Use <strong>Choose Photo or Camera</strong> and pick a photo from the iPad Photos app instead. Check Safari camera permission if you want to capture directly.</p></div><div class="help-path"><h3>Text looks wrong</h3><p style="font-size:14px;line-height:1.6">Crop tighter, use better light, try another OCR mode, then retake. Correct mistakes in the editable text box. The PDF's hidden OCR layer may still need review.</p></div></div>
   <article class="help-path"><div class="help-kicker">Mission 03 · PDF Workshop</div><h3>🧰 Edit a PDF you already have</h3><ol class="help-steps"><li><div><strong>Open PDF from Files</strong> to select your document.</div></li><li><div><strong>Scroll to PDF Workshop</strong> and select a tool: merge, split/extract, reorder, rotate, delete, watermark, number, flatten, extract text, JPG or compress.</div></li><li><div><strong>Enter page numbers</strong> when relevant. For example, 1,3-5 selects pages 1, 3, 4 and 5.</div></li><li><div><strong>Tap Run selected tool,</strong> then Download or Share result.</div></li><li><div><strong>Tap Use result for next tool</strong> to make another edit or sign the result.</div></li></ol><p class="help-note">For signing, use the separate signing panel. These tools are experimental until tested on your iPad.</p></article>
-  <div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br><strong>Version:</strong> 2.0.0<br><strong>Build:</strong> 2026-10-27 · competitor-test-lab<br><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br><strong>Support:</strong> Support email/website — <em>not yet configured</em><br><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
+  <div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br><strong>Version:</strong> 2.1.0<br><strong>Build:</strong> 2026-10-27 · competitor-test-lab<br><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br><strong>Support:</strong> Support email/website — <em>not yet configured</em><br><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
   <p style="margin-top:22px;text-align:center"><button type="button" class="help-close" id="help-done-btn">Got it — back to DocuScan</button></p>
 </div></section>
 
@@ -249,7 +281,33 @@
     <div style="display:flex;align-items:center;gap:8px"><button class="help-trigger" id="help-btn" type="button" aria-label="Open illustrated help guide">? Help</button><button class="icon-btn" id="history-btn" title="History">🗂️</button></div>
   </header>
 
-  <main id="scanner-view">
+  
+<section id="task-home" aria-label="Choose a task">
+  <div class="task-intro">DocuScan Pro · v2.1.0</div>
+  <h1 class="task-home-title">What would you like to do?</h1>
+  <p style="color:#60778d;margin-bottom:20px">Choose one job. We'll show only the tools you need.</p>
+  <button class="task-card" data-task="sign"><span class="task-icon">✍️</span><span><strong>Add Text &amp; Sign</strong><small>Open an existing PDF, drag a signature anywhere, insert a date or text box, then save.</small></span><span aria-hidden="true">›</span></button>
+  <button class="task-card" data-task="workshop"><span class="task-icon">🧰</span><span><strong>PDF Workshop</strong><small>Merge, split, rotate, reorder, watermark, extract pages and more.</small></span><span aria-hidden="true">›</span></button>
+  <button class="task-card" data-task="studio"><span class="task-icon">📷</span><span><strong>Document Studio</strong><small>Take a photo, crop, straighten, recognize text and export.</small></span><span aria-hidden="true">›</span></button>
+  <button class="task-card" id="home-help" type="button"><span class="task-icon">📖</span><span><strong>Visual Help Guide</strong><small>Step-by-step instructions and temporary developer details.</small></span><span aria-hidden="true">›</span></button>
+</section>
+<div id="task-nav"><button id="back-home" type="button">← All tools</button><strong id="task-heading">Document Studio</strong><button id="task-help" type="button">? Help</button></div>
+<section id="pdf-editor" aria-label="Add text and sign PDF" style="display:none">
+  <div class="task-intro">Add Text &amp; Sign</div><h2 style="font-size:26px;margin:8px 0">Place it exactly where you want.</h2>
+  <p class="editor-hint">Start with a PDF from Files. Tap Sign, Text or Date, then drag the item onto the page. You can resize a selected item with the width control.</p>
+  <div class="editor-toolbar"><button id="editor-open" class="primary" type="button">📂 Open PDF from Files</button><button id="editor-photo" type="button">📷 Use a photo</button><button id="editor-prev" type="button">← Previous page</button><span id="editor-page-label" style="align-self:center">No document</span><button id="editor-next" type="button">Next page →</button></div>
+  <div id="editor-paper"><canvas id="editor-page-canvas" width="600" height="780"></canvas><div id="editor-overlays"></div></div>
+  <div class="editor-toolbar"><button id="editor-add-sign" type="button">✍ Add signature</button><button id="editor-add-text" type="button">T Add text</button><button id="editor-add-date" type="button">▦ Add date</button><button id="editor-delete" type="button">🗑 Remove selected</button></div>
+  <div id="editor-controls">
+    <label for="editor-text">Text / typed signature</label><input id="editor-text" placeholder="Enter text to place on the document" />
+    <label for="editor-width">Selected item width: <span id="editor-width-label">30%</span></label><input id="editor-width" type="range" min="8" max="90" value="30" style="width:100%" />
+    <p class="editor-hint">For a handwritten signature, draw here with a finger or Apple Pencil, then tap Add signature. If the pad is blank, the typed name is used instead.</p>
+    <canvas id="editor-sign-pad" width="700" height="180"></canvas>
+    <div class="editor-toolbar"><button id="editor-clear-sign" type="button">Clear drawing</button><button id="editor-save" class="primary" type="button">✓ Save signed PDF</button><button id="editor-share" type="button" disabled>↗ Share saved PDF</button></div>
+    <p id="editor-status" class="editor-hint" role="status">No document loaded. PDF pages are previewed using PDF.js. Requires internet for libraries.</p>
+  </div>
+</section>
+<main id="scanner-view">
     <div style="padding:2px 2px 16px;"><div class="section-kicker">PRIVATE DOCUMENT WORKSPACE</div><h2 style="font-size:clamp(23px,5vw,30px);letter-spacing:-.8px;color:#1b304d;margin-bottom:7px;">Scan. Recognize. Keep moving.</h2><p style="font-size:14px;line-height:1.55;color:#74849a;max-width:600px;">Capture a page or screen, then export a PDF, editable text, or a Word-compatible file.</p></div>
     <div class="scan-area" id="scan-area">
       <div class="placeholder" id="placeholder">
@@ -381,7 +439,7 @@
   </main>
 
   <!-- History View -->
-  <p class="help-footer">DocuScan Pro · Version 1.5.0 · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
+  <p class="help-footer">DocuScan Pro · Version 2.1.0 · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
   <main class="history-view" id="history-view">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
       <h2 style="font-size:24px; font-weight:700;">Scanned Documents</h2>
@@ -402,6 +460,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
     // --- STATE & ELEMENTS ---
     let currentImageBlob = null;
@@ -1220,6 +1279,147 @@ if ('serviceWorker' in navigator) {
       });
   });
 }
-  </script>
+  
+    // v2.1 task navigation and WYSIWYG PDF editor
+    const taskNames={sign:'Add Text & Sign',workshop:'PDF Workshop',studio:'Document Studio'};
+    function switchTask(task){
+      document.body.classList.remove('task-home-mode','task-sign-mode','task-workshop-mode','task-studio-mode');
+      document.body.classList.add('task-'+task+'-mode');
+      document.getElementById('pdf-editor').style.display=task==='sign'?'block':'none';
+      document.getElementById('task-heading').textContent=taskNames[task]||'All tools';
+      window.scrollTo({top:0,behavior:'instant'});
+    }
+    document.querySelectorAll('[data-task]').forEach(el=>el.addEventListener('click',()=>switchTask(el.dataset.task)));
+    document.getElementById('back-home').onclick=()=>switchTask('home');
+    document.getElementById('home-help').onclick=openHelp;
+    document.getElementById('task-help').onclick=openHelp;
+    document.getElementById('launch-app-btn').addEventListener('click',()=>switchTask('home'));
+    document.body.classList.add('task-home-mode');
+
+    const epaper=document.getElementById('editor-paper'),ecanvas=document.getElementById('editor-page-canvas'),
+      ectx=ecanvas.getContext('2d'),elayer=document.getElementById('editor-overlays'),
+      estatus=document.getElementById('editor-status');
+    let edoc=null,epage=1,edocBytes=null,eitems=[],eselected=null,erenderToken=0,
+      eout=null,eoutName='signed-document.pdf',eoriginalName='document.pdf';
+    const espad=document.getElementById('editor-sign-pad'),esctx=espad.getContext('2d');
+    let einking=false,ehasInk=false;
+    function pointOnCanvas(event,canvas){const r=canvas.getBoundingClientRect();return {x:(event.clientX-r.left)*canvas.width/r.width,y:(event.clientY-r.top)*canvas.height/r.height};}
+    espad.addEventListener('pointerdown',e=>{e.preventDefault();einking=true;espad.setPointerCapture(e.pointerId);const p=pointOnCanvas(e,espad);esctx.beginPath();esctx.moveTo(p.x,p.y);esctx.strokeStyle='#173b65';esctx.lineWidth=4;esctx.lineCap='round';esctx.lineJoin='round';esctx.lineTo(p.x+.2,p.y+.2);esctx.stroke();ehasInk=true;});
+    espad.addEventListener('pointermove',e=>{if(!einking)return;e.preventDefault();const p=pointOnCanvas(e,espad);esctx.lineTo(p.x,p.y);esctx.stroke();});
+    ['pointerup','pointercancel','lostpointercapture'].forEach(ev=>espad.addEventListener(ev,()=>einking=false));
+    document.getElementById('editor-clear-sign').onclick=()=>{esctx.clearRect(0,0,espad.width,espad.height);ehasInk=false;};
+    document.getElementById('editor-open').onclick=()=>document.getElementById('pdf-input').click();
+    async function loadEditorPdf(bytes,name){
+      if(!window.pdfjsLib||!window.PDFLib)throw new Error('PDF libraries not loaded. Connect to the internet and reload.');
+      const validated=await PDFLib.PDFDocument.load(bytes.slice(0));
+      const loading=pdfjsLib.getDocument({data:new Uint8Array(bytes.slice(0))});
+      const parsed=await loading.promise;
+      edoc=parsed;edocBytes=bytes;epage=1;eitems=[];eselected=null;eout=null;
+      eoriginalName=name||'document.pdf';eoutName=eoriginalName.replace(/\.pdf$/i,'')+'_signed.pdf';
+      document.getElementById('editor-share').disabled=true;
+      await renderEditorPage();estatus.textContent=`Loaded ${validated.getPageCount()} pages. Add a signature, text, or date and drag it into place.`;
+    }
+    document.getElementById('pdf-input').addEventListener('change',async e=>{
+      if(!document.body.classList.contains('task-sign-mode'))return;
+      const f=e.target.files?.[0];if(!f)return;
+      try{estatus.textContent='Rendering PDF preview...';await loadEditorPdf(await f.arrayBuffer(),f.name);}
+      catch(err){console.error(err);estatus.textContent='Could not preview PDF: '+err.message;}
+    });
+    document.getElementById('editor-photo').onclick=()=>document.getElementById('editor-photo-input').click();
+    const editorPhotoInput=document.createElement('input');editorPhotoInput.type='file';editorPhotoInput.accept='image/*';editorPhotoInput.id='editor-photo-input';editorPhotoInput.style.display='none';document.body.append(editorPhotoInput);
+    editorPhotoInput.onchange=async e=>{
+      const f=e.target.files?.[0];if(!f)return;
+      try{
+        const img=await createImageBitmap(f);const c=document.createElement('canvas');c.width=img.width;c.height=img.height;c.getContext('2d').drawImage(img,0,0);img.close();
+        const doc=await PDFLib.PDFDocument.create();const jpg=await doc.embedJpg(new Uint8Array(await (await new Promise(r=>c.toBlob(r,'image/jpeg',.93))).arrayBuffer()));
+        const page=doc.addPage([jpg.width,jpg.height]);page.drawImage(jpg,{x:0,y:0,width:jpg.width,height:jpg.height});
+        await loadEditorPdf((await doc.save()).buffer,f.name.replace(/\.[^.]+$/,'')+'.pdf');
+      }catch(err){console.error(err);estatus.textContent='Could not open photo: '+err.message;}
+      editorPhotoInput.value='';
+    };
+    async function renderEditorPage(){
+      if(!edoc)return;
+      const token=++erenderToken,page=await edoc.getPage(epage),v=page.getViewport({scale:1});
+      const scale=Math.min(2,1000/v.width);const viewport=page.getViewport({scale});
+      ecanvas.width=Math.ceil(viewport.width);ecanvas.height=Math.ceil(viewport.height);
+      await page.render({canvasContext:ectx,viewport}).promise;
+      if(token!==erenderToken)return;
+      document.getElementById('editor-page-label').textContent=`Page ${epage} of ${edoc.numPages}`;
+      drawEditorItems();
+    }
+    document.getElementById('editor-prev').onclick=async()=>{if(edoc&&epage>1){epage--;await renderEditorPage();}};
+    document.getElementById('editor-next').onclick=async()=>{if(edoc&&epage<edoc.numPages){epage++;await renderEditorPage();}};
+    function selectEditorItem(item){eselected=item;document.getElementById('editor-text').value=item?.text||'';document.getElementById('editor-width').value=Math.round((item?.w||.3)*100);document.getElementById('editor-width-label').textContent=Math.round((item?.w||.3)*100)+'%';drawEditorItems();}
+    function drawEditorItems(){
+      elayer.replaceChildren();
+      eitems.filter(i=>i.page===epage).forEach(item=>{
+        const el=document.createElement('div');el.className='pdf-overlay'+(item===eselected?' selected':'');
+        el.style.left=(item.x*100)+'%';el.style.top=(item.y*100)+'%';el.style.width=(item.w*100)+'%';
+        el.style.fontSize='clamp(11px,1.8vw,19px)';
+        if(item.type==='signature-image'){
+          const img=document.createElement('img');img.src=item.image;el.append(img);el.style.height=(item.h*100)+'%';
+        }else{el.textContent=item.text;el.style.minHeight='26px';}
+        el.addEventListener('pointerdown',event=>{
+          event.preventDefault();event.stopPropagation();selectEditorItem(item);
+          const bounds=epaper.getBoundingClientRect(),start={x:event.clientX,y:event.clientY,ix:item.x,iy:item.y};
+          el.setPointerCapture(event.pointerId);
+          const move=e=>{item.x=Math.max(0,Math.min(1-item.w,start.ix+(e.clientX-start.x)/bounds.width));item.y=Math.max(0,Math.min(1-(item.h||.04),start.iy+(e.clientY-start.y)/bounds.height));el.style.left=item.x*100+'%';el.style.top=item.y*100+'%';};
+          const end=()=>{el.removeEventListener('pointermove',move);el.removeEventListener('pointerup',end);el.removeEventListener('pointercancel',end);};
+          el.addEventListener('pointermove',move);el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
+        });
+        elayer.append(el);
+      });
+    }
+    function addEditorItem(type){
+      if(!edoc)return alert('Open a PDF or photo first.');
+      const typed=document.getElementById('editor-text').value.trim();
+      let item={page:epage,type,x:.18,y:.25,w:.3,h:.055,text:''};
+      if(type==='date')item.text=new Date().toLocaleDateString();
+      if(type==='text'){item.text=typed||'Tap here to edit';}
+      if(type==='signature'){
+        if(ehasInk){item.type='signature-image';item.image=espad.toDataURL('image/png');item.h=.09;}
+        else if(typed)item.text=typed;
+        else return alert('Draw a signature or type your name first.');
+      }
+      eitems.push(item);selectEditorItem(item);estatus.textContent='Drag the selected item on the PDF preview. Save when ready.';
+    }
+    document.getElementById('editor-add-sign').onclick=()=>addEditorItem('signature');
+    document.getElementById('editor-add-text').onclick=()=>addEditorItem('text');
+    document.getElementById('editor-add-date').onclick=()=>addEditorItem('date');
+    document.getElementById('editor-text').addEventListener('input',e=>{if(eselected&&eselected.type!=='signature-image'){eselected.text=e.target.value;drawEditorItems();}});
+    document.getElementById('editor-width').addEventListener('input',e=>{if(eselected){eselected.w=Number(e.target.value)/100;drawEditorItems();}document.getElementById('editor-width-label').textContent=e.target.value+'%';});
+    document.getElementById('editor-delete').onclick=()=>{if(eselected){eitems=eitems.filter(i=>i!==eselected);eselected=null;drawEditorItems();}};
+    document.getElementById('editor-save').onclick=async()=>{
+      if(!edocBytes)return alert('Open a PDF first.');
+      if(!eitems.length)return alert('Add text, a date, or a signature before saving.');
+      try{
+        estatus.textContent='Saving PDF...';
+        const doc=await PDFLib.PDFDocument.load(edocBytes.slice(0));const font=await doc.embedFont(PDFLib.StandardFonts.Helvetica);
+        for(const item of eitems){
+          const page=doc.getPage(item.page-1),{width,height}=page.getSize();
+          const x=item.x*width,yTop=item.y*height,iw=item.w*width;
+          if(item.type==='signature-image'){
+            const png=await doc.embedPng(item.image);page.drawImage(png,{x,y:height-yTop-item.h*height,width:iw,height:item.h*height});
+          }else{
+            const text=(item.text||'').replace(/[^\x20-\x7e]/g,' ').slice(0,300);
+            const fontSize=Math.min(22,Math.max(8,width*.022));
+            const lines=[];let line='';
+            for(const word of text.split(/\s+/)){
+              const attempt=line?line+' '+word:word;
+              if(font.widthOfTextAtSize(attempt,fontSize)>iw&&line){lines.push(line);line=word;}else line=attempt;
+            }
+            if(line)lines.push(line);
+            lines.forEach((ln,index)=>page.drawText(ln,{x,y:height-yTop-fontSize*(index+1)*1.2,size:fontSize,font,color:PDFLib.rgb(.07,.2,.35)}));
+          }
+        }
+        eout=new Blob([await doc.save()],{type:'application/pdf'});
+        document.getElementById('editor-share').disabled=false;
+        downloadBlob(eout,eoutName);
+        estatus.textContent='Saved '+eoutName+'. Review the downloaded PDF to confirm placement before sharing.';
+      }catch(err){console.error(err);estatus.textContent='Save failed: '+err.message;}
+    };
+    document.getElementById('editor-share').onclick=()=>eout&&shareFile(eout,eoutName,'application/pdf');
+
+</script>
 </body>
 </html>

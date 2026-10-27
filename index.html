@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>DocuScan Pro</title>
+  <title>DocuScan Pro v2.0.0 | Scanner & PDF Studio</title>
   
   <!-- PWA & iOS Meta Tags -->
   <link rel="manifest" href="manifest.json">
@@ -155,7 +155,41 @@
     .pagechip{border:1px solid #d4e0ee;border-radius:10px;padding:7px 9px;background:#f5f9ff;font-size:12px}
     .pagechip button{border:0;background:transparent;color:#b3283d;font-weight:700;cursor:pointer}
     .tool-note{font-size:12px;color:#64758b;line-height:1.5;margin-top:8px}
+
+/* Illustrated field-guide help: inspired by clear visual reference guides, not copied artwork. */
+.help-trigger{border:1px solid #c8d9eb;background:#eef5fc;color:#20476f;border-radius:12px;padding:9px 12px;font-weight:800;cursor:pointer}
+.help-screen{position:fixed;inset:0;background:#f6f3eb;z-index:300;overflow-y:auto;display:none;color:#203247;-webkit-overflow-scrolling:touch}
+.help-screen.open{display:block}
+.help-shell{max-width:1050px;margin:0 auto;padding:22px 18px 85px}
+.help-top{display:flex;justify-content:space-between;gap:15px;align-items:center;position:sticky;top:0;background:#f6f3ebf5;padding:12px 0;z-index:2;border-bottom:2px solid #253e5a}
+.help-close{background:#213b59;color:white;border:0;border-radius:11px;padding:12px 17px;font-weight:800;cursor:pointer}
+.help-kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:900;color:#b45729}
+.help-hero{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;padding:25px 0;align-items:center}
+.help-hero h2{font-size:clamp(30px,6vw,56px);line-height:1.03;letter-spacing:-.05em;color:#1e344d;margin:9px 0 14px}
+.help-hero p{font-size:16px;line-height:1.6;color:#53657b}
+.help-illustration{background:#e2edf3;border-radius:23px;padding:20px;min-height:190px;display:flex;justify-content:center;align-items:center;position:relative}
+.help-sheet{background:white;border:3px solid #213b59;width:125px;height:170px;border-radius:6px;transform:rotate(-8deg);box-shadow:12px 13px 0 #c3d4df;padding:24px 13px}
+.help-sheet i{display:block;background:#9aafc0;height:7px;border-radius:5px;margin-bottom:12px}
+.help-illustration:after{content:'✦ OCR';position:absolute;right:14px;bottom:17px;color:white;background:#d25e38;border-radius:99px;padding:9px 13px;font-size:13px;font-weight:900}
+.help-section-title{font-size:23px;margin:20px 0 12px;color:#1d3856;border-bottom:3px solid #d5a448;padding-bottom:8px}
+.help-paths{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.help-path{border-radius:18px;background:white;border:1px solid #d9e0e5;padding:18px;box-shadow:0 4px 14px #2032470d}
+.help-path h3{font-size:20px;margin:5px 0 12px;color:#213b59}
+.help-steps{counter-reset:step;list-style:none;padding:0;margin:0}
+.help-steps li{display:grid;grid-template-columns:35px 1fr;gap:10px;margin:14px 0;line-height:1.5;font-size:14px}
+.help-steps li:before{counter-increment:step;content:counter(step);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#d75e36;color:white;font-weight:900}
+.help-steps strong{color:#1e3855}
+.help-tip{background:#fff4d6;border-left:5px solid #d8a642;padding:14px 17px;border-radius:8px;margin:18px 0;font-size:14px;line-height:1.6}
+.help-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.help-tile{background:white;border:1px solid #d8e1e7;border-radius:14px;padding:15px;font-size:13px;line-height:1.55}
+.help-tile .symbol{font-size:29px;display:block;margin-bottom:7px}
+.help-tile strong{display:block;font-size:15px;color:#213b59;margin-bottom:4px}
+.help-dev{background:#213b59;color:#f3f6fb;border-radius:16px;padding:19px;margin-top:25px;font-size:13px;line-height:1.65}
+.help-dev strong{color:#ffdb8d}
+.help-footer{max-width:900px;margin:25px auto 10px;text-align:center;color:#708096;font-size:12px}
+@media(max-width:650px){.help-hero{grid-template-columns:1fr}.help-paths{grid-template-columns:1fr}.help-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.help-shell{padding:12px 13px 65px}}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body class="splash-active">
   <section class="splash-screen" id="splash-screen" aria-labelledby="splash-title">
@@ -177,13 +211,42 @@
         <p>DocuScan Pro is provided on a best-efforts basis, without a guarantee that scanning, text recognition, PDF creation, saving, or sharing will work on every device or browser. OCR can misread, omit, or rearrange text. Always review the resulting PDF against the original before relying on it. Keep your own backup of important documents. Use is at your discretion; to the extent permitted by law, the app is provided without warranties and its operator is not responsible for losses arising from errors, interruptions, or failed processing.</p>
       </div>
       <button class="launch-btn" id="launch-app-btn" type="button">Continue to DocuScan <span aria-hidden="true">→</span></button>
+      <button id="splash-help-btn" type="button" style="width:100%;margin-top:10px;padding:13px;background:transparent;border:1px solid #b3c5db;color:#e7f0fb;border-radius:12px;font-weight:750">See illustrated beginner's guide</button>
+      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 1.5.0</p>
       <p class="splash-footnote">Your scans are stored in this browser on this device. The OCR/PDF libraries are loaded from third-party CDNs; availability may depend on your internet connection and browser permissions.</p>
     </div>
   </section>
 
+
+<section id="help-screen" class="help-screen" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
+<div class="help-shell">
+  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v2.0.0</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
+  <div class="help-hero"><div><div class="help-kicker">Your illustrated quick-start</div><h2 id="help-title">From paper to PDF.<br>In a few taps.</h2><p>A picture-first guide to scanning, cropping, straightening, reading text and signing PDFs on your iPad. Pick the job you want to do below.</p></div><div class="help-illustration" aria-hidden="true"><div class="help-sheet"><i></i><i></i><i style="width:65%"></i><i></i><i style="width:75%"></i></div></div></div>
+  <h3 class="help-section-title">Choose your mission</h3>
+  <div class="help-paths">
+    <article class="help-path"><div class="help-kicker">Mission 01 · Scan a document</div><h3>📷 Make a searchable PDF</h3><ol class="help-steps"><li><div><strong>Tap “Choose Photo or Camera”.</strong> On iPad, select Take Photo or choose a picture from Photos/Files.</div></li><li><div><strong>Check the preview.</strong> If Auto straighten is on, the app attempts to find the page and square it up. If it misses, use <strong>Crop last page</strong> and drag the blue corners around the paper.</div></li><li><div><strong>Improve readability.</strong> Try <strong>Enhance last page</strong> or select <strong>Black &amp; white document</strong> for OCR. Use Restore if the result looks worse.</div></li><li><div><strong>Tap “Recognize &amp; Create PDF”.</strong> Wait for processing, then check the OCR preview for mistakes.</div></li><li><div><strong>Download PDF</strong> or share it. Use TXT/DOCX when you want editable words.</div></li></ol></article>
+    <article class="help-path"><div class="help-kicker">Mission 02 · Existing file</div><h3>✍️ Sign a PDF you already have</h3><ol class="help-steps"><li><div><strong>Tap “Open PDF from Files”.</strong> Pick an existing PDF on your iPad.</div></li><li><div><strong>Select the page number</strong> where your signature belongs.</div></li><li><div><strong>Choose a position</strong> (such as bottom right). The current version uses preset positions, not drag-to-place.</div></li><li><div><strong>Draw your signature</strong> with your finger or Apple Pencil, or type your name. Tap Clear signature to try again.</div></li><li><div><strong>Tap “Apply signature &amp; save”,</strong> then Download signed PDF or Share signed PDF. Open the result and check its placement.</div></li></ol></article>
+  </div>
+  <div class="help-tip"><strong>⭐ Best OCR tip:</strong> Fill the photo with the page, avoid shadows and reflections, keep the camera parallel to the document, and crop away the table or computer-screen borders <em>before</em> recognizing text. OCR is not perfect—always compare important text with the original.</div>
+  <h3 class="help-section-title">What do these buttons do?</h3>
+  <div class="help-tiles">
+    <div class="help-tile"><span class="symbol">✂️</span><strong>Crop</strong>Keep only the page. Drag the four blue corner handles; tap Apply crop.</div>
+    <div class="help-tile"><span class="symbol">▱</span><strong>Auto straighten</strong>Tries to detect edges and correct perspective. May fail on cluttered backgrounds.</div>
+    <div class="help-tile"><span class="symbol">↻</span><strong>Rotate</strong>Turn the last scanned page 90° when it is sideways.</div>
+    <div class="help-tile"><span class="symbol">◐</span><strong>Enhance</strong>Increase contrast for faint print. Restore if fine detail disappears.</div>
+    <div class="help-tile"><span class="symbol">＋</span><strong>Add page</strong>Make a multipage PDF. Repeat for each sheet, then run OCR.</div>
+    <div class="help-tile"><span class="symbol">↗</span><strong>Share / Export</strong>PDF keeps the photographed page; TXT/DOC/DOCX contain editable OCR text.</div>
+  </div>
+  <h3 class="help-section-title">If something goes wrong</h3>
+  <div class="help-paths"><div class="help-path"><h3>Camera shows black</h3><p style="font-size:14px;line-height:1.6">Use <strong>Choose Photo or Camera</strong> and pick a photo from the iPad Photos app instead. Check Safari camera permission if you want to capture directly.</p></div><div class="help-path"><h3>Text looks wrong</h3><p style="font-size:14px;line-height:1.6">Crop tighter, use better light, try another OCR mode, then retake. Correct mistakes in the editable text box. The PDF's hidden OCR layer may still need review.</p></div></div>
+  <article class="help-path"><div class="help-kicker">Mission 03 · PDF Workshop</div><h3>🧰 Edit a PDF you already have</h3><ol class="help-steps"><li><div><strong>Open PDF from Files</strong> to select your document.</div></li><li><div><strong>Scroll to PDF Workshop</strong> and select a tool: merge, split/extract, reorder, rotate, delete, watermark, number, flatten, extract text, JPG or compress.</div></li><li><div><strong>Enter page numbers</strong> when relevant. For example, 1,3-5 selects pages 1, 3, 4 and 5.</div></li><li><div><strong>Tap Run selected tool,</strong> then Download or Share result.</div></li><li><div><strong>Tap Use result for next tool</strong> to make another edit or sign the result.</div></li></ol><p class="help-note">For signing, use the separate signing panel. These tools are experimental until tested on your iPad.</p></article>
+  <div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br><strong>Version:</strong> 2.0.0<br><strong>Build:</strong> 2026-10-27 · competitor-test-lab<br><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br><strong>Support:</strong> Support email/website — <em>not yet configured</em><br><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
+  <p style="margin-top:22px;text-align:center"><button type="button" class="help-close" id="help-done-btn">Got it — back to DocuScan</button></p>
+</div></section>
+
   <header>
     <h1><span style="color:#477bb4;margin-right:8px;">▤</span>DocuScan <span style="font-weight:450;color:#72839a;">Pro</span></h1>
-    <button class="icon-btn" id="history-btn" title="History">🗂️</button>
+    <div style="display:flex;align-items:center;gap:8px"><button class="help-trigger" id="help-btn" type="button" aria-label="Open illustrated help guide">? Help</button><button class="icon-btn" id="history-btn" title="History">🗂️</button></div>
   </header>
 
   <main id="scanner-view">
@@ -221,15 +284,60 @@
         <p class="tool-note">Signature placement is approximate. Review the saved PDF carefully before sending. This is a visual signature, not a certificate-based digital signature.</p>
       </div>
     </section>
+
+    <section class="toolbox" id="pdf-toolbox" aria-label="PDF editing tools">
+      <h3>🧰 PDF Workshop · Test Lab</h3>
+      <p class="tool-note">Import a PDF using “Open PDF from Files” above. Tools work on the imported PDF, create a separate copy, and do not overwrite your original. Select an operation, then tap Run tool.</p>
+      <label for="pdf-tool-operation">Choose a PDF tool</label>
+      <select id="pdf-tool-operation">
+        <option value="rotate">Rotate selected pages 90° clockwise</option>
+        <option value="extract">Extract selected pages into a new PDF</option>
+        <option value="delete">Delete selected pages from a copy</option>
+        <option value="reorder">Reorder pages (enter new page order)</option>
+        <option value="merge">Merge another PDF onto this PDF</option>
+        <option value="watermark">Add watermark or stamp</option>
+        <option value="numbers">Add page numbers</option>
+        <option value="flatten">Flatten fillable form fields</option>
+        <option value="metadata">Set PDF title / author</option>
+        <option value="text">Extract existing PDF text to TXT</option>
+        <option value="image">Export a PDF page to JPG</option>
+        <option value="compress">Compress by rebuilding as images (loses selectable text)</option>
+      </select>
+      <label for="pdf-pages">Pages or order (examples: 1,3-5 or 3,1,2)</label>
+      <input id="pdf-pages" placeholder="Leave blank for all pages">
+      <label for="pdf-tool-text">Watermark / title / author (depending on tool)</label>
+      <input id="pdf-tool-text" placeholder="CONFIDENTIAL or My document">
+      <label for="pdf-image-quality">Image quality for JPG or image-based compression</label>
+      <select id="pdf-image-quality"><option value="0.82">Balanced</option><option value="0.6">Smaller file</option><option value="0.94">Higher quality</option></select>
+      <div class="toolgrid"><button type="button" id="run-pdf-tool">▶ Run selected tool</button><button type="button" id="download-tool-result" disabled>↓ Download result</button><button type="button" id="share-tool-result" disabled>↗ Share result</button><button type="button" id="use-tool-result" disabled>↻ Use result for next tool</button></div>
+      <p id="pdf-tool-status" class="tool-note" role="status" aria-live="polite">Ready when a PDF is imported.</p>
+      <p class="tool-note"><strong>Limitations:</strong> Password-protected PDFs, certificate-based signatures, translation, AI chat, and precise automatic form recognition are not included. Image-based compression can increase size and removes searchable text. Text extraction only works on PDFs that already contain text.</p>
+    </section>
     <section class="toolbox" aria-label="Scan and editing tools">
       <h3>Document studio</h3>
       <div class="toolgrid">
         <button type="button" id="add-page-btn">＋ Add page</button>
+        <button type="button" id="crop-page-btn">✂ Crop last page</button>
+        <button type="button" id="straighten-page-btn">▱ Auto straighten</button>
         <button type="button" id="rotate-page-btn">↻ Rotate last page</button>
         <button type="button" id="enhance-page-btn">◐ Enhance last page</button>
         <button type="button" id="original-page-btn">↩ Restore last page</button>
       </div>
+      <label style="display:flex;gap:9px;align-items:center;margin-top:12px;font-size:13px"><input type="checkbox" id="auto-straighten-toggle" checked style="width:auto;margin:0"> Automatically detect and straighten new photos</label>
+      <p id="straighten-status" class="tool-note" role="status" aria-live="polite">Detects the document edges and corrects perspective when possible. Use manual crop if detection misses.</p>
       <div id="page-list" aria-live="polite"></div>
+      <div id="crop-panel" style="display:none;margin:12px 0">
+        <p class="tool-note" style="margin-bottom:8px">Drag the corners of the crop box to exclude desks, hands, backgrounds, or screen borders. The selected area is kept for OCR and PDF export.</p>
+        <div id="crop-stage" style="position:relative;touch-action:none;user-select:none;max-width:100%;background:#15283e;border-radius:12px;overflow:hidden">
+          <canvas id="crop-canvas" style="display:block;width:100%;height:auto;touch-action:none"></canvas>
+        </div>
+        <div class="toolgrid" style="margin-top:9px">
+          <button type="button" id="apply-crop-btn">Apply crop</button>
+          <button type="button" id="cancel-crop-btn">Cancel</button>
+        </div>
+      </div>
+      <label for="ocr-mode" style="font-size:12px;font-weight:650">OCR image preparation</label>
+      <select id="ocr-mode"><option value="auto">Auto: improve contrast for OCR</option><option value="original">Original photo</option><option value="bw">Black &amp; white document</option></select>
       <label for="doc-title" style="font-size:12px;font-weight:650">Document name</label>
       <input id="doc-title" placeholder="My scanned document" maxlength="100">
       <label for="stamp-text" style="font-size:12px;font-weight:650">Optional PDF stamp / watermark</label>
@@ -273,6 +381,7 @@
   </main>
 
   <!-- History View -->
+  <p class="help-footer">DocuScan Pro · Version 1.5.0 · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
   <main class="history-view" id="history-view">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
       <h2 style="font-size:24px; font-weight:700;">Scanned Documents</h2>
@@ -351,6 +460,210 @@
     document.getElementById('enhance-page-btn').onclick=()=>transformLast('enhance');
     document.getElementById('original-page-btn').onclick=()=>transformLast('restore');
 
+    // OpenCV is loaded on demand so camera and PDF signing still work if the
+    // optional vision library is unavailable (e.g. offline on iPad).
+    let visionPromise=null;
+    function getVision(){
+      if(visionPromise)return visionPromise;
+      visionPromise=new Promise((resolve,reject)=>{
+        const started=Date.now();
+        const check=()=>{
+          if(window.cv && typeof cv.Mat==='function' && typeof cv.findContours==='function')return resolve(cv);
+          if(Date.now()-started>18000)return reject(new Error('Edge detection library could not load. Try again online or use manual crop.'));
+          setTimeout(check,200);
+        };
+        if(!window.cv){
+          const script=document.createElement('script');
+          script.src='https://docs.opencv.org/4.x/opencv.js';
+          script.async=true;
+          script.onerror=()=>reject(new Error('OpenCV download failed; use manual crop.'));
+          document.head.appendChild(script);
+        }
+        check();
+      }).catch(err=>{visionPromise=null;throw err;});
+      return visionPromise;
+    }
+    async function autoStraightenLast(){
+      if(!scanPages.length)return;
+      const index=scanPages.length-1;
+      const status=document.getElementById('straighten-status');
+      status.textContent='Detecting document edges and perspective…';
+      await new Promise(r=>setTimeout(r,40));
+      let img=null,src=null,gray=null,blur=null,edges=null,contours=null,hierarchy=null;
+      let best=null;
+      try{
+        const cv=await getVision();
+        img=await createImageBitmap(scanPages[index]);
+        const scale=Math.min(1,1100/Math.max(img.width,img.height));
+        const small=document.createElement('canvas');
+        small.width=Math.max(1,Math.round(img.width*scale));
+        small.height=Math.max(1,Math.round(img.height*scale));
+        small.getContext('2d').drawImage(img,0,0,small.width,small.height);
+        src=cv.imread(small);gray=new cv.Mat();blur=new cv.Mat();edges=new cv.Mat();
+        cv.cvtColor(src,gray,cv.COLOR_RGBA2GRAY);
+        cv.GaussianBlur(gray,blur,new cv.Size(5,5),0);
+        cv.Canny(blur,edges,45,135);
+        const kernel=cv.Mat.ones(3,3,cv.CV_8U);
+        cv.dilate(edges,edges,kernel);kernel.delete();
+        contours=new cv.MatVector();hierarchy=new cv.Mat();
+        cv.findContours(edges,contours,hierarchy,cv.RETR_LIST,cv.CHAIN_APPROX_SIMPLE);
+        const minArea=small.width*small.height*.12;
+        let bestArea=0;
+        for(let k=0;k<contours.size();k++){
+          const contour=contours.get(k);
+          const area=Math.abs(cv.contourArea(contour));
+          if(area<minArea||area<=bestArea){contour.delete();continue;}
+          const perimeter=cv.arcLength(contour,true);
+          const poly=new cv.Mat();
+          cv.approxPolyDP(contour,poly,perimeter*.025,true);
+          if(poly.rows===4 && cv.isContourConvex(poly)){
+            const pts=[];
+            for(let j=0;j<4;j++)pts.push({x:poly.intPtr(j,0)[0]/scale,y:poly.intPtr(j,0)[1]/scale});
+            best=pts;bestArea=area;
+          }
+          poly.delete();contour.delete();
+        }
+        if(!best){status.textContent='No clear four-sided document detected. Try manual crop or a contrasting background.';return;}
+        const sum=p=>p.x+p.y,diff=p=>p.y-p.x;
+        const tl=best.reduce((a,b)=>sum(a)<sum(b)?a:b);
+        const br=best.reduce((a,b)=>sum(a)>sum(b)?a:b);
+        const tr=best.reduce((a,b)=>diff(a)<diff(b)?a:b);
+        const bl=best.reduce((a,b)=>diff(a)>diff(b)?a:b);
+        if(new Set([tl,tr,br,bl]).size!==4){status.textContent='Corners ambiguous; use manual crop.';return;}
+        const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+        const w=Math.round(Math.max(distance(tl,tr),distance(bl,br)));
+        const h=Math.round(Math.max(distance(tl,bl),distance(tr,br)));
+        if(w<150||h<150||w*h>18000000){status.textContent='Detected shape is unsuitable; use manual crop.';return;}
+        const source=document.createElement('canvas');source.width=img.width;source.height=img.height;
+        source.getContext('2d').drawImage(img,0,0);
+        let full=null,srcPts=null,dstPts=null,matrix=null,dest=null;
+        try{
+          full=cv.imread(source);
+          srcPts=cv.matFromArray(4,1,cv.CV_32FC2,[tl.x,tl.y,tr.x,tr.y,br.x,br.y,bl.x,bl.y]);
+          dstPts=cv.matFromArray(4,1,cv.CV_32FC2,[0,0,w-1,0,w-1,h-1,0,h-1]);
+          matrix=cv.getPerspectiveTransform(srcPts,dstPts);dest=new cv.Mat();
+          cv.warpPerspective(full,dest,matrix,new cv.Size(w,h),cv.INTER_LINEAR,cv.BORDER_CONSTANT,new cv.Scalar(255,255,255,255));
+          const output=document.createElement('canvas');cv.imshow(output,dest);
+          const blob=await new Promise(resolve=>output.toBlob(resolve,'image/jpeg',.95));
+          if(!blob)throw new Error('Image conversion failed');
+          scanPages[index]=blob;updatePages();
+          status.textContent='Document straightened and background trimmed. Review the preview before OCR; Restore returns to the original.';
+        }finally{for(const mat of [full,srcPts,dstPts,matrix,dest])if(mat)mat.delete();}
+      }catch(error){console.warn('Auto straighten:',error);status.textContent=error.message+' Manual crop remains available.';}
+      finally{
+        for(const mat of [src,gray,blur,edges,contours,hierarchy])if(mat)mat.delete();
+        if(img)img.close();
+      }
+    }
+    document.getElementById('straighten-page-btn').onclick=autoStraightenLast;
+
+
+    // Touch-friendly crop editor. Canvas pixels are scaled to fit iPad screens;
+    // actual crop uses full stored image resolution.
+    let cropBitmap=null,cropRect=null,cropDrag=null;
+    const cropPanel=document.getElementById('crop-panel');
+    const cropCanvas=document.getElementById('crop-canvas');
+    const cropCtx=cropCanvas.getContext('2d');
+    function drawCrop(){
+      if(!cropBitmap||!cropRect)return;
+      const w=cropCanvas.width,h=cropCanvas.height;
+      cropCtx.clearRect(0,0,w,h);
+      cropCtx.drawImage(cropBitmap,0,0,w,h);
+      cropCtx.fillStyle='rgba(9,22,39,.52)';
+      cropCtx.fillRect(0,0,w,cropRect.y);
+      cropCtx.fillRect(0,cropRect.y+cropRect.h,w,h-cropRect.y-cropRect.h);
+      cropCtx.fillRect(0,cropRect.y,cropRect.x,cropRect.h);
+      cropCtx.fillRect(cropRect.x+cropRect.w,cropRect.y,w-cropRect.x-cropRect.w,cropRect.h);
+      cropCtx.strokeStyle='#fff';cropCtx.lineWidth=Math.max(2,w/350);
+      cropCtx.strokeRect(cropRect.x,cropRect.y,cropRect.w,cropRect.h);
+      for(const [x,y] of [[cropRect.x,cropRect.y],[cropRect.x+cropRect.w,cropRect.y],[cropRect.x,cropRect.y+cropRect.h],[cropRect.x+cropRect.w,cropRect.y+cropRect.h]]){
+        cropCtx.beginPath();cropCtx.arc(x,y,Math.max(7,w/65),0,Math.PI*2);
+        cropCtx.fillStyle='#38a4ff';cropCtx.fill();cropCtx.stroke();
+      }
+    }
+    document.getElementById('crop-page-btn').onclick=async()=>{
+      if(!scanPages.length)return alert('Add a photo first.');
+      try{
+        if(cropBitmap)cropBitmap.close();
+        cropBitmap=await createImageBitmap(scanPages[scanPages.length-1]);
+        const scale=Math.min(1,900/cropBitmap.width,1100/cropBitmap.height);
+        cropCanvas.width=Math.max(1,Math.round(cropBitmap.width*scale));
+        cropCanvas.height=Math.max(1,Math.round(cropBitmap.height*scale));
+        const w=cropCanvas.width,h=cropCanvas.height;
+        cropRect={x:w*.07,y:h*.07,w:w*.86,h:h*.86};
+        cropPanel.style.display='block';drawCrop();
+        cropPanel.scrollIntoView({behavior:'smooth',block:'center'});
+      }catch(e){alert('Could not open crop editor: '+e.message);}
+    };
+    function cropPoint(e){
+      const b=cropCanvas.getBoundingClientRect();
+      return {x:(e.clientX-b.left)*cropCanvas.width/b.width,y:(e.clientY-b.top)*cropCanvas.height/b.height};
+    }
+    cropCanvas.addEventListener('pointerdown',e=>{
+      if(!cropRect)return;
+      e.preventDefault();
+      const p=cropPoint(e),r=cropRect,threshold=Math.max(22,cropCanvas.width*.055);
+      const corners=[
+        {name:'tl',x:r.x,y:r.y},{name:'tr',x:r.x+r.w,y:r.y},
+        {name:'bl',x:r.x,y:r.y+r.h},{name:'br',x:r.x+r.w,y:r.y+r.h}
+      ];
+      const nearest=corners.find(c=>Math.hypot(c.x-p.x,c.y-p.y)<threshold);
+      const inside=p.x>=r.x&&p.x<=r.x+r.w&&p.y>=r.y&&p.y<=r.y+r.h;
+      cropDrag={mode:nearest?.name||(inside?'move':'new'),p,initial:{...r}};
+      if(cropDrag.mode==='new')cropRect={x:p.x,y:p.y,w:1,h:1};
+      cropCanvas.setPointerCapture(e.pointerId);
+    });
+    cropCanvas.addEventListener('pointermove',e=>{
+      if(!cropDrag)return;
+      e.preventDefault();
+      const p=cropPoint(e),d=cropDrag,r=d.initial,w=cropCanvas.width,h=cropCanvas.height,min=16;
+      const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+      if(d.mode==='move'){
+        cropRect={...r,x:clamp(r.x+p.x-d.p.x,0,w-r.w),y:clamp(r.y+p.y-d.p.y,0,h-r.h)};
+      }else if(d.mode==='new'){
+        const x=clamp(p.x,0,w),y=clamp(p.y,0,h);
+        cropRect={x:Math.min(d.p.x,x),y:Math.min(d.p.y,y),w:Math.abs(x-d.p.x),h:Math.abs(y-d.p.y)};
+      }else{
+        const left=d.mode.includes('l')?clamp(p.x,0,r.x+r.w-min):r.x;
+        const top=d.mode.includes('t')?clamp(p.y,0,r.y+r.h-min):r.y;
+        const right=d.mode.includes('r')?clamp(p.x,r.x+min,w):r.x+r.w;
+        const bottom=d.mode.includes('b')?clamp(p.y,r.y+min,h):r.y+r.h;
+        cropRect={x:left,y:top,w:right-left,h:bottom-top};
+      }
+      drawCrop();
+    });
+    for(const eventName of ['pointerup','pointercancel','lostpointercapture']){
+      cropCanvas.addEventListener(eventName,()=>cropDrag=null);
+    }
+    document.getElementById('cancel-crop-btn').onclick=()=>{
+      cropPanel.style.display='none';cropDrag=null;
+      if(cropBitmap){cropBitmap.close();cropBitmap=null;}
+    };
+    document.getElementById('apply-crop-btn').onclick=async()=>{
+      if(!cropBitmap||!cropRect||cropRect.w<16||cropRect.h<16)return alert('Select a larger area to crop.');
+      const i=scanPages.length-1;
+      const sx=cropBitmap.width/cropCanvas.width,sy=cropBitmap.height/cropCanvas.height;
+      const canvas=document.createElement('canvas');
+      canvas.width=Math.max(1,Math.round(cropRect.w*sx));
+      canvas.height=Math.max(1,Math.round(cropRect.h*sy));
+      canvas.getContext('2d').drawImage(cropBitmap,cropRect.x*sx,cropRect.y*sy,cropRect.w*sx,cropRect.h*sy,0,0,canvas.width,canvas.height);
+      const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.96));
+      if(!blob)return alert('Cropping failed; try again.');
+      scanPages[i]=blob;updatePages();
+      document.getElementById('cancel-crop-btn').click();
+    };
+    async function prepareOcrImage(blob,mode){
+      if(mode==='original')return blob;
+      const img=await createImageBitmap(blob);
+      const c=document.createElement('canvas');c.width=img.width;c.height=img.height;
+      const ctx=c.getContext('2d',{willReadFrequently:true});
+      ctx.filter=mode==='bw'?'grayscale(1) contrast(1.9)':'grayscale(1) contrast(1.3)';
+      ctx.drawImage(img,0,0);img.close();
+      const result=await new Promise(resolve=>c.toBlob(resolve,'image/png'));
+      return result||blob;
+    }
+
+
 
     const els = {
       scanBtn: document.getElementById('scan-btn'),
@@ -381,6 +694,25 @@
       document.body.classList.remove('splash-active');
     });
 
+
+    // Illustrated guide: accessible from welcome screen, workspace and footer.
+    const helpScreen=document.getElementById('help-screen');
+    let helpPreviouslyFocused=null;
+    function openHelp(){
+      helpPreviouslyFocused=document.activeElement;
+      helpScreen.classList.add('open');helpScreen.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';helpScreen.scrollTop=0;
+      document.getElementById('help-close-btn').focus();
+    }
+    function closeHelp(){
+      helpScreen.classList.remove('open');helpScreen.setAttribute('aria-hidden','true');
+      document.body.style.overflow=document.body.classList.contains('splash-active')?'hidden':'';
+      if(helpPreviouslyFocused&&helpPreviouslyFocused.focus)helpPreviouslyFocused.focus();
+    }
+    ['help-btn','splash-help-btn','footer-help-btn'].forEach(id=>document.getElementById(id).addEventListener('click',openHelp));
+    ['help-close-btn','help-done-btn'].forEach(id=>document.getElementById(id).addEventListener('click',closeHelp));
+    document.addEventListener('keydown',event=>{if(event.key==='Escape'&&helpScreen.classList.contains('open'))closeHelp();});
+
     // --- CAMERA & PREVIEW ---
     // iPad Safari can show a black camera view when capture="environment" is forced.
     // Use the native Photos/Camera/Files chooser by default, and offer a separate camera input.
@@ -407,8 +739,8 @@
         const img = new Image();
         img.onload = () => {
           const canvas = document.createElement('canvas');
-          const MAX_WIDTH = 1500;
-          const ratio = Math.min(MAX_WIDTH / img.width, 1);
+          const MAX_WIDTH = 2400;
+          const ratio = Math.min(MAX_WIDTH / Math.max(img.width,img.height), 1);
           canvas.width = img.width * ratio;
           canvas.height = img.height * ratio;
           
@@ -419,6 +751,7 @@
             currentImageBlob = blob;
             scanPages.push(blob);pageSources.push(blob);
             updatePages();
+            if(document.getElementById('auto-straighten-toggle').checked)autoStraightenLast();
           }, 'image/jpeg', 0.9);
         };
         img.src = event.target.result;
@@ -467,6 +800,7 @@
         document.getElementById('pdf-page-number').value=doc.getPageCount();
         document.getElementById('pdf-sign-panel').style.display='block';
         document.getElementById('pdf-import-status').textContent=`Loaded ${file.name} (${doc.getPageCount()} page(s)). Choose a page and sign below.`;
+        document.getElementById('pdf-tool-status').textContent=`Ready: ${file.name}, ${doc.getPageCount()} pages.`;
         document.getElementById('download-signed-btn').disabled=true;
         document.getElementById('share-signed-btn').disabled=true;
       }catch(err){
@@ -507,6 +841,140 @@
     document.getElementById('download-signed-btn').onclick=()=>signedPdfBlob&&downloadBlob(signedPdfBlob,signedPdfName);
     document.getElementById('share-signed-btn').onclick=()=>signedPdfBlob&&shareFile(signedPdfBlob,signedPdfName,'application/pdf');
 
+
+    // --- PDF WORKSHOP: every operation creates a new copy ---
+    let toolResultBlob=null,toolResultName='';
+    const toolStatus=document.getElementById('pdf-tool-status');
+    function toolResult(blob,name){
+      toolResultBlob=blob;toolResultName=name;
+      for(const id of ['download-tool-result','share-tool-result'])document.getElementById(id).disabled=false;
+      document.getElementById('use-tool-result').disabled=blob.type!=='application/pdf';
+      toolStatus.textContent=`Ready: ${name} (${(blob.size/1024).toFixed(0)} KB). Open the output to verify.`;
+    }
+    function parsePages(input,count,allowDuplicates=false){
+      if(!input.trim())return Array.from({length:count},(_,i)=>i);
+      const result=[];
+      for(const chunk of input.split(',')){
+        const m=chunk.trim().match(/^(\d+)(?:\s*-\s*(\d+))?$/);
+        if(!m)throw Error('Invalid page list. Use 1,3-5 or 3,1,2.');
+        const a=+m[1],b=m[2]?+m[2]:a;
+        if(a<1||b<1||a>count||b>count)throw Error(`Page must be between 1 and ${count}.`);
+        if(Math.abs(a-b)>count)throw Error('Page range too large.');
+        for(let n=a,step=a<=b?1:-1;;n+=step){
+          if(allowDuplicates||!result.includes(n-1))result.push(n-1);
+          if(n===b)break;
+        }
+      }
+      return result;
+    }
+    function pdfJsReady(){
+      if(!window.pdfjsLib)throw Error('PDF preview library unavailable. Connect to the internet and reload.');
+      pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+    async function renderPdfPage(bytes,pageNumber,scale=1.5){
+      pdfJsReady();
+      const task=pdfjsLib.getDocument({data:new Uint8Array(bytes.slice(0))});
+      const pdf=await task.promise;
+      try{
+        const page=await pdf.getPage(pageNumber);
+        const viewport=page.getViewport({scale});
+        const canvas=document.createElement('canvas');canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
+        await page.render({canvasContext:canvas.getContext('2d'),viewport}).promise;
+        return canvas;
+      }finally{await pdf.destroy();}
+    }
+    document.getElementById('run-pdf-tool').onclick=async()=>{
+      if(!importedPdfBytes)return alert('Open a PDF from Files first.');
+      const operation=document.getElementById('pdf-tool-operation').value;
+      const args=document.getElementById('pdf-pages').value;
+      const label=document.getElementById('pdf-tool-text').value.trim();
+      const quality=+document.getElementById('pdf-image-quality').value;
+      try{
+        showOverlay('Processing PDF…');toolStatus.textContent='Processing…';
+        const source=await PDFLib.PDFDocument.load(importedPdfBytes.slice(0));
+        const count=source.getPageCount();
+        const indices=parsePages(args,count,operation==='reorder');
+        let result,ext='pdf',mime='application/pdf';
+        if(operation==='text'){
+          pdfJsReady();
+          const task=pdfjsLib.getDocument({data:new Uint8Array(importedPdfBytes.slice(0))});
+          const pdf=await task.promise;
+          const pages=[];
+          try{
+            for(const i of indices){
+              const page=await pdf.getPage(i+1),content=await page.getTextContent();
+              pages.push(`Page ${i+1}\n`+content.items.map(t=>t.str).join(' '));
+            }
+          }finally{await pdf.destroy();}
+          result=new Blob([pages.join('\n\n')],{type:'text/plain;charset=utf-8'});ext='txt';mime='text/plain';
+        }else if(operation==='image'){
+          const canvas=await renderPdfPage(importedPdfBytes,indices[0]+1,2);
+          result=await new Promise(r=>canvas.toBlob(r,'image/jpeg',quality));
+          ext='jpg';mime='image/jpeg';
+        }else if(operation==='compress'){
+          if(!confirm('This converts all pages into pictures. Searchable/selectable text and interactive forms will be lost. Continue?')){toolStatus.textContent='Cancelled.';return;}
+          const output=await PDFLib.PDFDocument.create();
+          for(let i=1;i<=count;i++){
+            updateOverlay(`Rebuilding page ${i}/${count}…`);
+            const canvas=await renderPdfPage(importedPdfBytes,i,1.3);
+            const blob=await new Promise(r=>canvas.toBlob(r,'image/jpeg',quality));
+            const image=await output.embedJpg(await blob.arrayBuffer());
+            const old=source.getPage(i-1).getSize();
+            output.addPage([old.width,old.height]).drawImage(image,{x:0,y:0,width:old.width,height:old.height});
+          }
+          result=new Blob([await output.save()],{type:mime});
+        }else{
+          const output=await PDFLib.PDFDocument.create();
+          if(operation==='extract'||operation==='reorder'||operation==='delete'){
+            const selected=operation==='delete'?Array.from({length:count},(_,i)=>i).filter(i=>!indices.includes(i)):indices;
+            if(!selected.length)throw Error('No pages would remain.');
+            const copied=await output.copyPages(source,selected);copied.forEach(p=>output.addPage(p));
+          }else{
+            const copied=await output.copyPages(source,source.getPageIndices());copied.forEach(p=>output.addPage(p));
+            if(operation==='merge'){
+              const file=await new Promise(resolve=>{
+                const input=document.createElement('input');input.type='file';input.accept='application/pdf,.pdf';
+                input.onchange=()=>resolve(input.files?.[0]||null);input.click();
+              });
+              if(!file){toolStatus.textContent='Merge cancelled.';return;}
+              const second=await PDFLib.PDFDocument.load(await file.arrayBuffer());
+              const added=await output.copyPages(second,second.getPageIndices());added.forEach(p=>output.addPage(p));
+            }else if(operation==='rotate'){
+              for(const i of indices){const p=output.getPage(i);p.setRotation(PDFLib.degrees((p.getRotation().angle+90)%360));}
+            }else if(operation==='watermark'||operation==='numbers'){
+              const font=await output.embedFont(PDFLib.StandardFonts.Helvetica);
+              for(const [i,page] of output.getPages().entries()){
+                if(operation==='watermark'&&!indices.includes(i))continue;
+                const {width,height}=page.getSize();
+                if(operation==='watermark'){
+                  const value=(label||'DRAFT').replace(/[^\x20-\x7E]/g,'').slice(0,60);
+                  const size=Math.min(42,width/Math.max(1,value.length)*1.5);
+                  page.drawText(value,{x:width*.14,y:height*.5,size,font,color:PDFLib.rgb(.45,.48,.53),opacity:.24,rotate:PDFLib.degrees(25)});
+                }else page.drawText(`${i+1} / ${count}`,{x:width/2-12,y:18,size:10,font,color:PDFLib.rgb(.35,.4,.45)});
+              }
+            }else if(operation==='flatten'){
+              output.getForm().flatten();
+            }else if(operation==='metadata'){
+              output.setTitle(label||'DocuScan document');output.setAuthor('DocuScan Pro user');
+            }
+          }
+          result=new Blob([await output.save()],{type:mime});
+        }
+        if(!result)throw Error('No file generated.');
+        toolResult(result,`DocuScan_${operation}_${Date.now()}.${ext}`);
+      }catch(e){console.error(e);toolStatus.textContent='Failed: '+e.message;alert('PDF tool failed: '+e.message);}
+      finally{hideOverlay();}
+    };
+    document.getElementById('download-tool-result').onclick=()=>toolResultBlob&&downloadBlob(toolResultBlob,toolResultName);
+    document.getElementById('share-tool-result').onclick=()=>toolResultBlob&&shareFile(toolResultBlob,toolResultName,toolResultBlob.type);
+    document.getElementById('use-tool-result').onclick=async()=>{
+      if(!toolResultBlob||toolResultBlob.type!=='application/pdf')return;
+      importedPdfBytes=await toolResultBlob.arrayBuffer();
+      const doc=await PDFLib.PDFDocument.load(importedPdfBytes.slice(0));
+      document.getElementById('pdf-page-number').max=doc.getPageCount();
+      document.getElementById('pdf-import-status').textContent=`Working copy: ${toolResultName} (${doc.getPageCount()} pages).`;
+      toolStatus.textContent='Result loaded. You can now run another tool or sign it.';
+    };
     // --- PDF GENERATION & OCR ---
     els.processBtn.onclick = async () => {
       showOverlay('Reading text from document...');
@@ -520,9 +988,10 @@
         for(let i=0;i<scanPages.length;i++){
           updateOverlay(`Recognizing page ${i+1} of ${scanPages.length}...`);
           const blob=scanPages[i];
-          const {data}=await Tesseract.recognize(blob,'eng');
+          const ocrBlob=await prepareOcrImage(blob,document.getElementById('ocr-mode').value);
+          const {data}=await Tesseract.recognize(ocrBlob,'eng',{}, {text:true,blocks:true});
           allText.push((data.text||'').trim());
-          const words=(data.words||[]).filter(w=>w.text && w.text.trim());
+          const words=(data.words || (data.blocks||[]).flatMap(b=>(b.paragraphs||[]).flatMap(p=>(p.lines||[]).flatMap(l=>l.words||[])))).filter(w=>w.text && w.text.trim());
           allWords.push(...words);
           const dims=await getImageDimensions(blob);
           const width=595.28,height=width*dims.height/dims.width;
@@ -696,6 +1165,7 @@
     // --- UTILITIES ---
     function resetScanner() {
       currentImageBlob = null; currentPdfBlob = null;scanPages=[];pageSources=[];updatePages();
+      document.getElementById('cancel-crop-btn').click();
       currentText = ''; currentOcrWords = [];
       document.getElementById('ocr-editor').value = '';
       els.resultsPanel.style.display = 'none';

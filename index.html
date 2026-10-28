@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
-<title>DocuScan Pro v4.6.0 | Scanner &amp; PDF Studio</title>
+<title>DocuScan Pro v4.6.1 | Scanner &amp; PDF Studio</title>
 <!-- PWA & iOS Meta Tags -->
 <link href="manifest.json" rel="manifest"/>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
@@ -817,7 +817,7 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 }
 </style>
 <style id="v459-pdf-tools-layout">
-/* v4.6.0: PDF Tools structure and compact shared action sizing */
+/* v4.6.1: PDF Tools structure and compact shared action sizing */
 #pdf-toolbox>h3{margin:0 0 12px!important}
 #pdf-toolbox .editor-toolbar{display:flex!important;flex-wrap:wrap;gap:9px;margin:0 0 12px!important;padding:0!important;background:transparent!important}
 #pdf-toolbox .editor-toolbar button,#pdf-toolbox #workshop-export-group button,#pdf-toolbox #run-pdf-tool{flex:0 0 auto!important;width:auto!important;min-height:42px!important;min-width:0!important;padding:9px 14px!important;font-size:13px!important;line-height:1.3!important;border-radius:12px!important}
@@ -848,6 +848,31 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 @media(max-width:900px){#task-home .workflow-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:420px){#task-home .workflow-grid{gap:8px!important}#task-home .workflow-grid .task-card{padding:12px!important;min-height:172px!important}#task-home .workflow-grid .task-card strong{font-size:14px!important}#task-home .workflow-grid .task-card small{font-size:11px!important}}
 </style>
+<style id="v462-workflow-polish">
+/* Remove redundant workspace headings, retain accessible main page heading. */
+#document-studio-tools>.workspace-duplicate-title,#pdf-toolbox>.workspace-duplicate-title{display:none!important}
+#task-home .workflow-grid .task-card span:nth-child(2),#task-home .workflow-grid .task-card strong,#task-home .workflow-grid .task-card small{display:block!important;visibility:visible!important;opacity:1!important;color:#193e65!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
+#task-home .workflow-grid .task-card{overflow:visible!important;min-width:0!important}
+#task-home .workflow-grid #home-library-shortcut{min-width:0!important}
+#document-studio-tools .studio-capture-actions{display:flex!important;flex-wrap:nowrap!important;align-items:center;gap:7px;margin:12px 0}
+#document-studio-tools .studio-capture-actions button{flex:1 1 0!important;min-width:0!important;width:auto!important;min-height:43px!important;padding:8px 6px!important;font-size:12px!important;line-height:1.2!important;white-space:normal!important;border-radius:12px!important}
+#document-studio-tools #studio-add-photo{margin:0!important}
+#document-studio-tools #studio-open-library{margin:0!important}
+#document-studio-tools #studio-auto-start{flex:0 0 auto!important;min-width:105px!important;padding:8px 11px!important;margin:6px 0 10px!important}
+#document-studio-tools #studio-auto-start[aria-pressed="true"]{background:linear-gradient(180deg,#2f8dff,#1256bd)!important;color:white!important;border-color:#0c469f!important}
+#document-studio-tools #studio-auto-start[aria-pressed="false"]{background:linear-gradient(180deg,#fff,#e2efff)!important;color:#184c7d!important;border:1px solid #8db8e2!important}
+#document-studio-tools .studio-capture-actions button:disabled{opacity:.45}
+@media(max-width:640px){#document-studio-tools .studio-capture-actions{gap:4px}#document-studio-tools .studio-capture-actions button{font-size:10px!important;padding:7px 3px!important;min-height:48px!important}}
+</style>
+<style id="v463-annotation-ui">
+#pdf-annotation-controls{margin:12px 0;padding:14px;border:1px solid #cbdcf2;border-radius:14px;background:#f6faff}
+#pdf-annotation-controls[hidden]{display:none!important}
+#pdf-annotation-controls .annotation-controls-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0}
+#pdf-annotation-controls .annotation-controls-row select{width:auto;max-width:180px;min-width:90px}
+#pdf-annotation-controls .annotation-controls-row label{margin:0}
+#pdf-annotation-controls .annotation-controls-row button{width:auto!important;min-height:42px!important;padding:8px 13px!important}
+#pdf-toolbox:has(#pdf-tool-operation option[value="annotate"]:checked) #source-preview{cursor:crosshair;touch-action:manipulation}
+</style>
 </head>
 <body class="splash-active">
 <section aria-labelledby="splash-title" class="splash-screen" id="splash-screen">
@@ -873,7 +898,7 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 <button class="splash-secondary" id="splash-help-btn" type="button">How it works</button>
 <button class="splash-secondary" id="splash-cache-clear" type="button">↻ Refresh cached app files (keep documents &amp; signatures)</button>
 <p aria-live="polite" id="splash-cache-status" role="status" style="color:#d7eaff;font-size:12px;margin:8px 0 0"></p>
-<p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 4.6.0 · Jelly UI refinement</p>
+<p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 4.6.1 · Jelly UI refinement</p>
 <button class="review-agreements" hidden="" id="review-agreements" type="button">Review agreements</button>
 </div>
 </section>
@@ -936,7 +961,7 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 <h3 class="help-section-title">If something goes wrong</h3>
 <div class="help-paths"><div class="help-path"><h3>Camera shows black</h3><p style="font-size:14px;line-height:1.6">Use <strong>Choose Photo or Camera</strong> and pick a photo from the iPad Photos app instead. Check Safari camera permission if you want to capture directly.</p></div><div class="help-path"><h3>Text looks wrong</h3><p style="font-size:14px;line-height:1.6">Crop tighter, use better light, try another OCR mode, then retake. Correct mistakes in the editable text box. The PDF's hidden OCR layer may still need review.</p></div></div>
 <article class="help-path"><div class="help-kicker">Mission 03 · PDF Tools</div><h3>🧰 Edit a PDF you already have</h3><ol class="help-steps"><li><div><strong>Open PDF from Files</strong> to select your document.</div></li><li><div><strong>Scroll to PDF Tools</strong> and select a tool: merge, split/extract, reorder, rotate, delete, watermark, number, flatten, extract text, JPG or compress.</div></li><li><div><strong>Enter page numbers</strong> when relevant. For example, 1,3-5 selects pages 1, 3, 4 and 5.</div></li><li><div><strong>Tap Run selected tool,</strong> then Download or Share result.</div></li><li><div><strong>Tap Use result for next tool</strong> to make another edit or sign the result.</div></li></ol><p class="help-note">For signing, use the separate signing panel. These tools are experimental until tested on your iPad.</p></article>
-<div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br/><strong>Version:</strong> 4.6.0<br/><strong>Build:</strong> 2026-10-27 · combined-tools-validation-01<br/><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br/><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br/><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br/><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br/><strong>Support:</strong> Support email/website — <em>not yet configured</em><br/><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
+<div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br/><strong>Version:</strong> 4.6.3<br/><strong>Build:</strong> 2026-10-27 · combined-tools-validation-01<br/><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br/><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br/><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br/><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br/><strong>Support:</strong> Support email/website — <em>not yet configured</em><br/><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
 </div><!-- general-help-content -->
 <p style="margin-top:22px;text-align:center"><button class="help-close" id="help-done-btn" type="button">Got it — back to DocuScan</button></p>
 </div></section>
@@ -1026,12 +1051,13 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 </div>
 </section>
 <section aria-label="PDF editing tools" class="toolbox" id="pdf-toolbox">
-<h3>PDF Tools</h3>
+<h3 class="workspace-duplicate-title" hidden>PDF Tools</h3>
 <div class="editor-toolbar"><button class="primary" id="workshop-open-pdf" type="button">📂 Open existing PDF</button><button id="workshop-open-photo" type="button">📷 Use photo as PDF</button></div><div class="pdf-compare" id="workshop-preview-group"><div><strong>Source PDF preview</strong><div class="pdf-page-controls page-stepper"><button aria-label="Previous source page" id="source-prev" type="button">‹</button><span id="source-page-label">No document</span><button aria-label="Next source page" id="source-next" type="button">›</button></div><canvas aria-label="Source PDF page preview" class="preview-collapsed" id="source-preview"></canvas></div><div><strong>Result preview — review before saving</strong><div class="pdf-page-controls page-stepper"><button aria-label="Previous result page" id="result-prev" type="button">‹</button><span id="result-page-label">No document</span><button aria-label="Next result page" id="result-next" type="button">›</button></div><canvas aria-label="Result PDF page preview" class="preview-collapsed" id="result-preview"></canvas><pre id="result-text-preview" style="display:none;white-space:pre-wrap;max-height:340px;overflow:auto"></pre></div></div>
 <p class="workshop-sr-note tool-note" id="workshop-source-status">First open a PDF or photograph. Then select a tool below.</p>
 <p class="workshop-sr-note tool-note">Import a PDF using “Open PDF from Files” above. Tools work on the imported PDF, create a separate copy, and do not overwrite your original. Select an operation, then tap Run tool.</p>
 <label for="pdf-tool-operation" id="workshop-tool-start">Choose a PDF tool</label>
 <div class="workshop-pick-row"><select id="pdf-tool-operation">
+<option value="annotate">Annotate PDF — text notes, highlight, or mark</option>
 <option value="searchable">Make PDF searchable / extract editable text (OCR)</option>
 <option value="rotate">Rotate selected pages 90° clockwise</option>
 <option value="extract">Extract selected pages into a new PDF</option>
@@ -1046,6 +1072,13 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 <option value="image">Export a PDF page to JPG</option>
 <option value="compress">Compress by rebuilding as images (loses selectable text)</option>
 </select><button id="run-pdf-tool" type="button">▶ Apply tool</button></div>
+<div id="pdf-annotation-controls" hidden>
+  <strong>Annotate the PDF</strong>
+  <p class="tool-note">Select a mark, then tap its position on the Source PDF preview. Use the page arrows to annotate different pages. Tap Apply tool to create a new PDF containing your marks.</p>
+  <div class="annotation-controls-row"><label for="pdf-annotation-type">Mark</label><select id="pdf-annotation-type"><option value="text">Text note</option><option value="highlight">Yellow highlight</option><option value="check">Checkmark ✓</option></select><label for="pdf-annotation-color">Color</label><select id="pdf-annotation-color"><option value="blue">Blue</option><option value="red">Red</option><option value="black">Black</option></select></div>
+  <label for="pdf-annotation-text">Note text (for Text note)</label><input id="pdf-annotation-text" placeholder="Type annotation here" maxlength="180"/>
+  <div class="annotation-controls-row"><button type="button" id="pdf-annotation-undo">Undo last mark</button><button type="button" id="pdf-annotation-clear">Clear marks</button><span id="pdf-annotation-count" role="status" aria-live="polite">0 marks</span></div>
+</div>
 <label for="pdf-pages">Pages or order (examples: 1,3-5 or 3,1,2)</label>
 <input id="pdf-pages" placeholder="Leave blank for all pages"/>
 <label for="pdf-tool-text">Watermark / title / author (depending on tool)</label>
@@ -1056,13 +1089,13 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 <p aria-live="polite" class="tool-note" id="pdf-tool-status" role="status">Ready when a PDF is imported.</p>
 
 
-<p class="tool-note"><strong>Limitations:</strong> Automatic form-field recognition and Apple Pencil freehand annotation are not implemented. Page organization is available below. Password-protected PDFs, certificate-based signatures, translation, AI chat, and precise automatic form recognition are not included. Image-based compression can increase size and removes searchable text. Text extraction only works on PDFs that already contain text.</p>
+<p class="tool-note"><strong>Limitations:</strong> Automatic form-field recognition and Apple Pencil freehand drawing are not implemented. Page organization is available below. Password-protected PDFs, certificate-based signatures, translation, AI chat, and precise automatic form recognition are not included. Image-based compression can increase size and removes searchable text. Text extraction only works on PDFs that already contain text.</p>
 <div class="toolgrid workshop-export-bottom" id="workshop-export-group"><button disabled="" id="save-tool-library" type="button">Save to Library</button><button disabled="" id="download-tool-result" type="button">Download PDF</button><button disabled="" id="share-tool-result" type="button">Share PDF</button><button disabled="True" id="print-tool-result" type="button">Print PDF</button></div><section aria-label="Advanced document tools" class="advanced-suite" id="advanced-suite">
 <h3>Advanced document tools</h3>
 <p class="tool-note">Work on a separate copy. Your original and saved documents remain unchanged.</p>
 <label for="advanced-file">Choose a PDF to organize, inspect or process</label>
 <input accept="application/pdf,.pdf" id="advanced-file" type="file"/>
-<p id="advanced-status" role="status">Choose a PDF to begin.</p>
+<p id="advanced-status" role="status" aria-live="polite"></p>
 <div aria-label="PDF page organizer" id="advanced-page-grid"></div>
 <div class="advanced-actions">
 <button id="advanced-up" type="button">Move selected page earlier</button>
@@ -1095,9 +1128,9 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 </section>
 </section>
 <section aria-label="Scan and editing tools" class="toolbox" id="document-studio-tools">
-<h3>Document Studio</h3>
+<h3 class="workspace-duplicate-title" hidden>Document Studio</h3>
 <p class="tool-note">Capture or import photos, improve each page, recognize text, then save a searchable PDF.</p>
-<button class="btn btn-primary" id="studio-add-photo" type="button">📷 Add photo or scan page</button>
+<button class="btn btn-primary" id="studio-add-photo" type="button">📷 Capture Photo</button>
 
 <button class="btn btn-primary" disabled="" id="studio-process" style="margin-top:8px" type="button">🔎 Recognize &amp; Create PDF</button>
 <p class="tool-note" id="studio-status" role="status">No pages yet. Add a photo to begin.</p>
@@ -1176,7 +1209,7 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 </div>
 </main>
 <!-- History View -->
-<p class="help-footer">DocuScan Pro · Version 4.6.0 · <button data-build-check="" style="border:1px solid #a4bfd9;border-radius:8px;padding:6px 9px;background:#f2f8ff;color:#154b7c" type="button">Check version &amp; cache</button> · <button id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer" type="button">Help &amp; developer information</button></p>
+<p class="help-footer">DocuScan Pro · Version 4.6.1 · <button data-build-check="" style="border:1px solid #a4bfd9;border-radius:8px;padding:6px 9px;background:#f2f8ff;color:#154b7c" type="button">Check version &amp; cache</button> · <button id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer" type="button">Help &amp; developer information</button></p>
 <main class="history-view" id="history-view">
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
 <h2 style="font-size:24px; font-weight:700;">Saved Document Library</h2>
@@ -1863,6 +1896,7 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
         const bytes=await file.arrayBuffer();
         const doc=await PDFLib.PDFDocument.load(bytes);
         importedPdfBytes=bytes;signedPdfBlob=null;
+        pdfAnnotationMarks=[];annotationUpdate();
         document.getElementById('workshop-source-status').textContent=`Loaded ${file.name} (${doc.getPageCount()} pages). Choose an operation and tap Run selected tool.`;
         workshopPreviewState.source.page=1;previewWorkshop('source');
         signedPdfName=(file.name.replace(/\.pdf$/i,'')||'document')+'_signed.pdf';
@@ -1974,6 +2008,7 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
         const rendered=await renderPdfPage(bytes,state.page,1.2);
         canvas.width=rendered.width;canvas.height=rendered.height;
         canvas.getContext('2d').drawImage(rendered,0,0);
+        if(isSource && typeof drawAnnotationMarkers==='function')drawAnnotationMarkers();
       }catch(e){label.textContent='Preview error: '+e.message;}
     }
     for(const which of ['source','result']){
@@ -2010,6 +2045,39 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
       }
       return {blob:new Blob([await output.save()],{type:'application/pdf'}),text:collected.join('\n\n')};
     }
+    // PDF annotations: mark positions are stored in normalized preview coordinates, per page.
+    let pdfAnnotationMarks=[];
+    const annotationPanel=document.getElementById('pdf-annotation-controls');
+    const annotationCount=document.getElementById('pdf-annotation-count');
+    function annotationUpdate(){
+      annotationCount.textContent=`${pdfAnnotationMarks.length} mark${pdfAnnotationMarks.length===1?'':'s'}`;
+      annotationPanel.hidden=document.getElementById('pdf-tool-operation').value!=='annotate';
+    }
+    function drawAnnotationMarkers(){
+      const canvas=document.getElementById('source-preview');
+      if(!canvas.width||canvas.width<2)return;
+      const ctx=canvas.getContext('2d');
+      const page=workshopPreviewState.source.page;
+      for(const mark of pdfAnnotationMarks.filter(m=>m.page===page)){
+        const x=mark.x*canvas.width,y=mark.y*canvas.height;
+        ctx.save();ctx.strokeStyle='#ff8a00';ctx.lineWidth=Math.max(2,canvas.width/250);
+        ctx.strokeRect(x-8,y-8,16,16);ctx.restore();
+      }
+    }
+    document.getElementById('source-preview').addEventListener('click',e=>{
+      if(document.getElementById('pdf-tool-operation').value!=='annotate'||!importedPdfBytes)return;
+      const canvas=e.currentTarget,r=canvas.getBoundingClientRect();
+      if(!r.width||!r.height)return;
+      const type=document.getElementById('pdf-annotation-type').value;
+      const value=document.getElementById('pdf-annotation-text').value.trim();
+      if(type==='text'&&!value){alert('Type your note first, then tap the PDF preview.');return;}
+      pdfAnnotationMarks.push({page:workshopPreviewState.source.page,x:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),y:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height)),type,text:value,color:document.getElementById('pdf-annotation-color').value});
+      annotationUpdate();drawAnnotationMarkers();
+    });
+    document.getElementById('pdf-annotation-undo').onclick=()=>{pdfAnnotationMarks.pop();annotationUpdate();previewWorkshop('source');};
+    document.getElementById('pdf-annotation-clear').onclick=()=>{if(pdfAnnotationMarks.length&&!confirm('Remove all pending PDF annotations?'))return;pdfAnnotationMarks=[];annotationUpdate();previewWorkshop('source');};
+    document.getElementById('pdf-tool-operation').addEventListener('change',annotationUpdate);
+    annotationUpdate();
     document.getElementById('run-pdf-tool').onclick=async()=>{
       if(!importedPdfBytes)return alert('Open a PDF from Files first.');
       const operation=document.getElementById('pdf-tool-operation').value;
@@ -2022,7 +2090,32 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
         const count=source.getPageCount();
         const indices=parsePages(args,count,operation==='reorder');
         let result,ext='pdf',mime='application/pdf';
-        if(operation==='searchable'){
+        if(operation==='annotate'){
+          if(!pdfAnnotationMarks.length)throw Error('Select a mark and tap the Source PDF preview to place it.');
+          const output=await PDFLib.PDFDocument.load(importedPdfBytes.slice(0));
+          const font=await output.embedFont(PDFLib.StandardFonts.Helvetica);
+          const boldFont=await output.embedFont(PDFLib.StandardFonts.HelveticaBold);
+          for(const mark of pdfAnnotationMarks){
+            const page=output.getPage(mark.page-1);
+            if(!page)continue;
+            const {width,height}=page.getSize();
+            const x=mark.x*width,y=(1-mark.y)*height;
+            const color=mark.color==='red'?PDFLib.rgb(.8,.14,.16):mark.color==='black'?PDFLib.rgb(.1,.12,.16):PDFLib.rgb(.08,.34,.77);
+            if(mark.type==='highlight'){
+              page.drawRectangle({x,y:y-10,width:Math.min(160,width-x),height:18,color:PDFLib.rgb(1,.85,.15),opacity:.45});
+            }else if(mark.type==='check'){
+              // Draw a vector checkmark, avoiding unsupported glyphs in standard fonts.
+              page.drawLine({start:{x,y:y-3},end:{x:x+7,y:y-11},thickness:3,color});
+              page.drawLine({start:{x:x+7,y:y-11},end:{x:x+21,y:y+8},thickness:3,color});
+            }else{
+              const safe=mark.text.replace(/[^\x20-\x7e]/g,'').slice(0,180);
+              const lines=safe.match(/.{1,52}(?:\s|$)|.{1,52}/g)||[safe];
+              const size=12;
+              lines.slice(0,5).forEach((line,i)=>page.drawText(line.trim(),{x:Math.min(x,width-20),y:Math.max(8,y-i*15),size,font:boldFont,color,maxWidth:Math.max(15,width-x-8)}));
+            }
+          }
+          result=new Blob([await output.save()],{type:'application/pdf'});
+        }else if(operation==='searchable'){
           const ocr=await recognizeExistingPdf(importedPdfBytes);
           result=ocr.blob;
           document.getElementById('ocr-editor').value=ocr.text;
@@ -2103,6 +2196,7 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
     const qualityWrap=document.getElementById('pdf-image-quality-wrap');
     const operationSelect=document.getElementById('pdf-tool-operation');
     function updateWorkshopOptions(){
+      annotationUpdate();
       qualityWrap.hidden=!['image','compress'].includes(operationSelect.value);
       const textRow=document.getElementById('pdf-tool-text').previousElementSibling;
       const textInput=document.getElementById('pdf-tool-text');
@@ -2302,7 +2396,8 @@ body:not(.splash-active) button.is-active:not(:disabled),body:not(.splash-active
 @media(max-width:600px){.home-feature-actions{grid-template-columns:1fr}.template-line{grid-template-columns:1fr;gap:5px}#pdf-editor .watermark-compact{grid-template-columns:auto minmax(70px,1fr) 36px!important;gap:7px!important}#pdf-editor .watermark-compact>label{grid-column:1!important;grid-row:1!important}#pdf-editor .watermark-compact>input{grid-column:2!important;grid-row:1!important}#pdf-editor .watermark-compact .watermark-apply{grid-column:3!important;grid-row:1!important}#pdf-editor .watermark-compact>select{grid-column:1/3!important;grid-row:2!important;width:100%!important;max-width:none!important}#pdf-editor .watermark-opacity{grid-column:3!important;grid-row:2!important}#pdf-editor .watermark-opacity select{width:100%!important}#pdf-editor .editor-toolbar[aria-label="Document editing helpers"]{grid-template-columns:repeat(3,minmax(0,1fr))}#pdf-editor .editor-toolbar[aria-label="Document editing helpers"] button{font-size:12px!important;padding:8px 4px!important}}
 @media(max-width:370px){#pdf-editor .watermark-compact{grid-template-columns:auto minmax(50px,1fr) 36px!important}#pdf-editor .watermark-compact>label{font-size:11px!important}}
 </style>
-</head><body style="font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.5"><h1>${escapeHtml(currentBaseName)}</h1><p>${escaped}</p></body></html>`;
+</head><body style="font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.5"><h1>${escapeHtml(currentBaseName)}</h1><p>${escaped}</p>
+</body></html>`;
       return new Blob(['\\ufeff',html],{type:'application/msword;charset=utf-8'});
     }
     function requireText(blob) {
@@ -2944,7 +3039,7 @@ document.getElementById('splash-cache-clear').addEventListener('click',()=>clear
 // One-time, build-specific refresh of DocuScan Cache Storage only. Never touch
 // IndexedDB, localStorage consent, saved signatures, or unrelated app caches.
 (async()=>{try{
- const key='docuscan.cache-refreshed.4.6.0';
+ const key='docuscan.cache-refreshed.4.6.3';
  if(localStorage.getItem(key)==='yes')return;
  if('caches' in window){for(const name of await caches.keys()){if(/docuscan/i.test(name)||/docscan/i.test(name))await caches.delete(name);}}
  localStorage.setItem(key,'yes');
@@ -3080,6 +3175,79 @@ $('advanced-compare').onclick=async()=>{try{need();const f=$('advanced-compare-f
 $('advanced-receipt').onclick=async()=>{try{const t=(await getText()).join('\n');const dates=[...t.matchAll(/\b(?:\d{1,2}[\/.-]\d{1,2}[\/.-]\d{2,4}|\d{4}-\d{2}-\d{2})\b/g)].map(m=>m[0]);const amounts=[...t.matchAll(/(?:total|amount due|balance due)[^\n\r]{0,35}?([$€£]?\s?\d[\d,]*\.\d{2})/gi)].map(m=>m[1]);const esc=v=>'"'+String(v||'').replace(/"/g,'""')+'"';const csv='Field,Candidate,Verify manually\nDate,'+esc(dates[0])+',Yes\nTotal,'+esc(amounts[0])+',Yes\n';download(new Blob([csv],{type:'text/csv'}),'DocuScan_receipt_candidates.csv');say('Receipt candidates exported. Check every value against the original.');}catch(e){say(e.message);}};
 $('advanced-save-library').onclick=async()=>{if(!lastBlob)return say('Export a PDF first.');try{const n=prompt('Name this saved PDF',lastName);if(n===null)return;let name=n.trim().replace(/[\\/]/g,'_');if(!name)return say('Enter a name.');if(!/\.pdf$/i.test(name))name+='.pdf';if(typeof window.docuSaveToLibrary!=='function')throw Error('Library storage unavailable.');await window.docuSaveToLibrary(name,lastBlob);say('Saved '+name+' to Library.');}catch(e){say('Save failed: '+e.message);}};
 $('advanced-share').onclick=async()=>{if(!lastBlob)return say('Export a PDF first.');try{const file=new File([lastBlob],lastName,{type:'application/pdf'});if(navigator.canShare?.({files:[file]}))await navigator.share({files:[file],title:lastName});else download(lastBlob,lastName);}catch(e){say('Share cancelled or unavailable: '+e.message);}};
+})();
+</script>
+
+<style id="v461-studio-ocr-flow-style">
+#document-studio-tools #studio-process,#studio-finish-recognize{width:auto!important;min-height:40px!important;padding:9px 15px!important;margin:10px 0!important;font-size:14px!important}
+#studio-ocr-action-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:10px 0}
+#studio-ocr-action-hint,#studio-finish-guidance{font-size:13px;line-height:1.45;color:#50677d;margin:5px 0 12px}
+#studio-finish-recognize[hidden],#studio-finish-guidance[hidden]{display:none!important}
+</style>
+<script id="v461-studio-ocr-flow-script">
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+const studio=$('document-studio-tools'), process=$('studio-process');
+if(!studio||!process)return;
+const recognizeTab=[...studio.querySelectorAll('.context-tabs button')].find(b=>b.textContent.trim()==='Recognize');
+const finishTab=[...studio.querySelectorAll('.context-tabs button')].find(b=>b.textContent.trim()==='Finish');
+const recognizePane=recognizeTab&&$(recognizeTab.getAttribute('aria-controls'));
+const finishPane=finishTab&&$(finishTab.getAttribute('aria-controls'));
+if(!recognizePane||!finishPane)return;
+const wrap=document.createElement('div');wrap.id='studio-ocr-action-wrap';
+process.parentNode.removeChild(process);
+wrap.appendChild(process);
+const hint=document.createElement('span');hint.id='studio-ocr-action-hint';hint.textContent='Runs OCR on every imported page and builds a searchable PDF.';wrap.appendChild(hint);
+const benchmark=$('ocr-benchmark');if(benchmark)benchmark.before(wrap);else recognizePane.prepend(wrap);
+const guidance=document.createElement('p');guidance.id='studio-finish-guidance';guidance.setAttribute('role','status');
+const launch=document.createElement('button');launch.type='button';launch.id='studio-finish-recognize';launch.className='btn btn-primary';launch.textContent='Recognize & Create PDF';
+const finishActions=$('studio-final-actions');if(finishActions){finishActions.before(guidance,launch);}else finishPane.prepend(guidance,launch);
+function sync(){
+ const n=studio.querySelectorAll('#page-list .pagechip').length;
+ const hasPdf=!$('studio-save-final').disabled;
+ guidance.textContent=hasPdf?'Your searchable PDF is ready. Use the options below to save, share, print or continue editing.':n?`${n} page${n===1?'':'s'} added. Run OCR to create a searchable PDF before finishing.`:'Add a scanned page or photo in Capture first, then run OCR in Recognize.';
+ launch.hidden=hasPdf;
+ launch.disabled=!n||process.disabled;
+}
+launch.addEventListener('click',()=>{if(process.disabled)return;recognizeTab.click();process.click();});
+finishTab.addEventListener('click',sync);
+recognizeTab.addEventListener('click',sync);
+const observer=new MutationObserver(sync);
+observer.observe($('page-list'),{childList:true,subtree:true});
+observer.observe(process,{attributes:true,attributeFilter:['disabled']});
+observer.observe($('studio-save-final'),{attributes:true,attributeFilter:['disabled']});
+sync();
+})();
+</script>
+<script id="v462-capture-workflow-fix">
+(function(){'use strict';
+const studio=document.getElementById('document-studio-tools');if(!studio)return;
+const tabs=[...studio.querySelectorAll('.context-tabs button')];
+const tab=(name)=>tabs.find(b=>b.textContent.trim()===name);
+const capture=tab('Capture'),recognize=tab('Recognize'),finish=tab('Finish');
+const capturePane=capture&&document.getElementById(capture.getAttribute('aria-controls'));
+const photo=document.getElementById('studio-add-photo');
+const library=document.getElementById('studio-open-library');
+const process=document.getElementById('studio-process');
+const auto=document.getElementById('auto-straighten-toggle');
+if(!capturePane||!photo||!library||!process)return;
+const row=document.createElement('div');row.className='studio-capture-actions';row.setAttribute('role','group');row.setAttribute('aria-label','Document capture workflow');
+photo.before(row);row.appendChild(photo);
+library.textContent='Open from Library';row.appendChild(library);
+const scan=document.createElement('button');scan.type='button';scan.id='studio-scan-to-pdf';scan.textContent='Scan to PDF';
+scan.addEventListener('click',()=>{if(recognize)recognize.click();if(!process.disabled)process.click();else{const status=document.getElementById('studio-status');if(status)status.textContent='Add a photo first, then choose Scan to PDF.';}});
+row.appendChild(scan);
+const done=document.createElement('button');done.type='button';done.id='studio-go-finish';done.textContent='Finish';done.addEventListener('click',()=>{if(finish)finish.click();});row.appendChild(done);
+if(auto){
+ const autoButton=document.createElement('button');autoButton.type='button';autoButton.id='studio-auto-start';autoButton.setAttribute('aria-pressed',String(auto.checked));
+ const sync=()=>{autoButton.setAttribute('aria-pressed',String(auto.checked));autoButton.textContent=(auto.checked?'✓ ':'')+'Auto straighten';};
+ autoButton.addEventListener('click',()=>{auto.checked=!auto.checked;auto.dispatchEvent(new Event('change',{bubbles:true}));sync();});
+ auto.addEventListener('change',sync);sync();
+ const oldLabel=auto.closest('label');if(oldLabel){oldLabel.hidden=true;oldLabel.style.display='none';}
+ row.after(autoButton);
+}
+// Existing processing, library and photo handlers are preserved.
 })();
 </script>
 </body>

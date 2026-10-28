@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
-<title>DocuScan Pro v4.8.3 | Scanner &amp; PDF Studio</title>
+<title>DocuScan Pro v4.8.6 | Scanner &amp; PDF Studio</title>
 <!-- PWA & iOS Meta Tags -->
 <link href="manifest.json" rel="manifest"/>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
@@ -15,7 +15,8 @@
 <!-- External Libraries (OCR & PDF) -->
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-<style>
+<style id="docupro-consolidated-styles">/* SOURCE STYLE 0 base */
+
     :root {
       --primary: #007AFF;
       --bg: #F2F2F7;
@@ -184,7 +185,7 @@ body.splash-active #mobile-tabs, body.splash-active #task-nav {display:none!impo
 .help-illustration{background:#e2edf3;border-radius:23px;padding:20px;min-height:190px;display:flex;justify-content:center;align-items:center;position:relative}
 .help-sheet{background:white;border:3px solid #213b59;width:125px;height:170px;border-radius:6px;transform:rotate(-8deg);box-shadow:12px 13px 0 #c3d4df;padding:24px 13px}
 .help-sheet i{display:block;background:#9aafc0;height:7px;border-radius:5px;margin-bottom:12px}
-.help-illustration:after{content:'✦ OCR';position:absolute;right:14px;bottom:17px;color:white;background:#d25e38;border-radius:99px;padding:9px 13px;font-size:13px;font-weight:900}
+.help-illustration:after{content:"✦ OCR";position:absolute;right:14px;bottom:17px;color:white;background:#d25e38;border-radius:99px;padding:9px 13px;font-size:13px;font-weight:900}
 .help-section-title{font-size:23px;margin:20px 0 12px;color:#1d3856;border-bottom:3px solid #d5a448;padding-bottom:8px}
 .help-paths{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .help-path{border-radius:18px;background:white;border:1px solid #d9e0e5;padding:18px;box-shadow:0 4px 14px #2032470d}
@@ -325,7 +326,7 @@ body:not(.splash-active){background:var(--app-bg)!important;color:var(--app-ink)
 button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #60a5fa;outline-offset:3px}
 #task-home{max-width:1100px;margin:0 auto;padding:clamp(12px,3vw,28px) 18px 32px}
 .home-hero{position:relative;isolation:isolate;display:flex;align-items:center;justify-content:space-between;min-height:245px;overflow:hidden;padding:clamp(24px,5vw,44px);border-radius:32px;background:linear-gradient(125deg,#061c4c 0%,#075cc9 58%,#53c6f5 115%);box-shadow:0 20px 40px #0953a72b;color:white}
-.home-hero:after{content:'';position:absolute;z-index:-1;width:400px;height:400px;right:-120px;top:-220px;background:radial-gradient(circle,#c9f5ff55,transparent 65%);border-radius:50%}
+.home-hero:after{content:"";position:absolute;z-index:-1;width:400px;height:400px;right:-120px;top:-220px;background:radial-gradient(circle,#c9f5ff55,transparent 65%);border-radius:50%}
 .hero-overline{font-size:13px;letter-spacing:.17em;font-weight:850;color:#e0f3ff}.hero-overline span{color:#78caff}.hero-overline small{letter-spacing:0;border:1px solid #ffffff66;border-radius:50px;padding:3px 9px;margin-left:8px}
 .home-hero .task-home-title{font-size:clamp(30px,4.5vw,53px);color:white;line-height:1.06;margin:20px 0 12px;letter-spacing:-1.6px}.home-hero em{font-style:normal;color:#9fe7ff}.home-hero p{font-size:clamp(15px,2vw,19px);color:#d7eaff}
 .hero-art{width:32%;min-width:150px;display:grid;place-items:center;transform:rotate(8deg)}.hero-paper{position:relative;width:160px;height:190px;background:white;border-radius:17px;box-shadow:0 22px 32px #02193f77;padding:40px 22px;display:flex;flex-direction:column;gap:14px}.hero-paper span{height:9px;border-radius:10px;background:#d8e7f7}.hero-paper span:nth-child(2){width:80%}.hero-paper span:nth-child(3){width:92%}.hero-paper span:nth-child(4){width:55%}.hero-paper b{position:absolute;bottom:-17px;right:-18px;border-radius:50%;width:60px;height:60px;display:grid;place-items:center;color:white;background:#15bf94;font-size:32px;box-shadow:0 6px 18px #063c5050}
@@ -401,9 +402,9 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
 .pdf-compare>div{display:flex;flex-direction:column;min-width:0}
 .pdf-compare>div>strong{font-size:14px;color:#1b3c65}
 .pdf-compare canvas.preview-collapsed{display:none!important}
-.pdf-compare>div:has(canvas.preview-collapsed)::after{content:'Your document preview will appear here';display:grid;place-items:center;min-height:94px;border-radius:14px;border:1px dashed #d1e0f2;background:#fff;color:#7d91aa;font-size:13px;text-align:center;padding:12px}
+.pdf-compare>div:has(canvas.preview-collapsed)::after{content:"Your document preview will appear here";display:grid;place-items:center;min-height:94px;border-radius:14px;border:1px dashed #d1e0f2;background:#fff;color:#7d91aa;font-size:13px;text-align:center;padding:12px}
 #editor-paper:has(canvas.preview-collapsed){min-height:130px;display:grid;place-items:center;box-shadow:none;background:#f8fbff;border:1px dashed #c9d9ee}
-#editor-paper:has(canvas.preview-collapsed)::before{content:'Open a PDF or photo to begin';color:#748aa5;font-size:14px;padding:20px}
+#editor-paper:has(canvas.preview-collapsed)::before{content:"Open a PDF or photo to begin";color:#748aa5;font-size:14px;padding:20px}
 #editor-paper canvas.preview-collapsed{display:none!important}
 #pdf-toolbox .toolbox,#document-studio-tools.toolbox{border-radius:24px!important;box-shadow:0 10px 32px #173d6810!important}
 @media(min-width:760px){#pdf-toolbox .pdf-compare{grid-template-columns:1fr 1fr}#pdf-editor .editor-toolbar{justify-content:center}}
@@ -431,15 +432,16 @@ body.splash-active #mobile-tabs{display:none!important}
 }
 #pdf-editor .context-tabs button.editor-section-heading svg{display:none!important}
 #pdf-editor .context-tabs button.editor-section-heading::after{
- content:'Text · signatures · dates · watermark';display:block;font-size:11px;
+ content:"Text · signatures · dates · watermark";display:block;font-size:11px;
  font-weight:500;letter-spacing:0;color:#6a7d98;
 }
 #pdf-editor .context-tabs button.editor-section-heading[aria-selected="true"]{
  border-bottom:3px solid #1769d2!important;
 }
-</style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<style id="contextual-workspaces-style">
+
+
+/* SOURCE STYLE 1 contextual-workspaces-style */
+
 .context-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:8px 2px 13px;position:sticky;top:0;z-index:8;background:#f7faff}
 .context-tabs button{flex:1 0 auto;min-height:48px;padding:10px 16px;border:1px solid #d5e2f3;border-radius:15px;background:white;color:#314866;font-size:14px;font-weight:750;box-shadow:0 2px 7px #172b4910}
 .context-tabs button[aria-selected="true"]{background:#1166eb;color:white;border-color:#1166eb;box-shadow:0 5px 16px #1166eb30}
@@ -451,7 +453,10 @@ body.splash-active #mobile-tabs{display:none!important}
 .context-pane:empty{display:none!important}
 @keyframes context-in{from{opacity:.7;transform:translateY(4px)}to{opacity:1;transform:none}}
 @media(max-width:700px){.context-tabs{margin:0 -6px;padding:8px 6px 12px}.context-tabs button{font-size:13px;padding:9px 13px}.context-pane{padding:4px 0}.context-pane .toolgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-</style><style id="ipad-native-v36">
+
+
+/* SOURCE STYLE 2 ipad-native-v36 */
+
 /* v3.6: iPad-first visual hierarchy; functionality and IDs unchanged */
 :root{--app-ink:#142a46;--app-blue:#1766e9;--app-mist:#eef4ff}
 body{background:linear-gradient(160deg,#f5f9ff 0%,#edf4ff 50%,#f8fbff 100%)!important}
@@ -486,8 +491,10 @@ body.task-studio-mode #scanner-view,body.task-workshop-mode #scanner-view,body.t
 @media(min-width:900px){.context-tabs{grid-template-columns:repeat(4,minmax(0,1fr))}#pdf-toolbox .context-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}#pdf-editor .context-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.context-tabs{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px!important;padding:9px 0 15px!important}.context-tabs button{min-height:79px!important;padding:10px 2px!important;border-radius:17px!important;font-size:11px!important;gap:7px}.context-tabs button svg{width:22px;height:22px}.context-pane.context-active{border-radius:23px!important;padding:14px!important;min-height:180px}#document-studio-tools .toolgrid button,#pdf-toolbox .toolgrid button{min-height:75px!important;font-size:12px!important;border-radius:18px!important}#pdf-toolbox .context-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}#pdf-editor .context-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(prefers-reduced-motion:reduce){.context-pane,.context-tabs button{animation:none!important;transition:none!important}}
-</style>
-<style id="ipad-pro-v39">
+
+
+/* SOURCE STYLE 3 ipad-pro-v39 */
+
 /* A quieter, document-first iPad design. No changes to control IDs or event handlers. */
 :root{--app-ink:#182b42;--app-blue:#245fbb;--app-bg:#f3f4f6;--app-muted:#68798b}
 body:not(.splash-active){background:#f3f4f6!important;color:#182b42!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif!important}
@@ -526,8 +533,10 @@ body:not(.splash-active){background:#f3f4f6!important;color:#182b42!important;fo
 @media(max-width:600px){#scanner-view,#pdf-editor{padding:0 10px 24px!important}.context-tabs{margin:10px 0 14px!important}.context-tabs button{min-height:60px!important;padding:7px 2px!important;font-size:10.5px!important}.context-tabs button svg{width:19px!important;height:19px!important}.context-pane.context-active{padding:15px!important;border-radius:16px!important}#document-studio-tools .toolgrid button,#pdf-toolbox .toolgrid button{min-height:58px!important;font-size:12px!important}#task-nav{padding:10px 13px!important}}
 body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!important}
 @media(prefers-reduced-motion:reduce){.context-tabs button,.context-pane{transition:none!important}}
-</style>
-<style>
+
+
+/* SOURCE STYLE 4 base */
+
 .advanced-suite{background:#fff;border:1px solid #dce4ef;border-radius:20px;padding:20px;margin:18px 0;box-shadow:0 4px 18px #142b470b}
 .advanced-suite h3{margin:0 0 10px;font-size:21px}
 .advanced-suite input:not([type=file]){width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:11px}
@@ -541,21 +550,30 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
 .advanced-thumb[aria-pressed=true]{border-color:#1769d2;background:#eaf3ff}
 .advanced-thumb canvas{max-width:100%;height:105px;object-fit:contain;background:#fff}
 #advanced-results{white-space:pre-wrap;max-height:220px;overflow:auto}
-</style><style id="v443-ui">
+
+
+/* SOURCE STYLE 5 v443-ui */
+
 #editor-watermark-shortcut{background:#f4f7fb!important;color:#183b60!important;border:1px solid #cbd8e8!important;box-shadow:none!important}
 #editor-watermark-shortcut.is-active,#editor-tool-buttons button.is-active,.advanced-actions button:focus-visible,#run-pdf-tool:focus-visible{background:#1e65b8!important;color:#fff!important;border-color:#1e65b8!important}
 #editor-tool-buttons button,#editor-watermark-shortcut,#editor-download,#editor-save,#editor-share,#editor-save-library,#workshop-export-group button{border-radius:12px;min-height:46px;font-weight:600;transition:background .12s,border-color .12s}
 #editor-export-row button,#workshop-export-group button{background:#f4f7fb;color:#183b60;border:1px solid #cbd8e8}
 #editor-save{background:#1e65b8!important;color:white!important}
 #editor-watermark-angle,#pdf-watermark-angle{min-height:44px;width:100%;border:1px solid #cbd8e8;border-radius:10px;padding:8px;background:white}
-</style><style>
+
+
+/* SOURCE STYLE 6 base */
+
 .final-three,#workshop-export-group{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px;padding-top:16px;border-top:1px solid #e3e9f0}
 .final-three button,#workshop-export-group button{background:#fff!important;color:#185ba6!important;border:1px solid #a9c4e4!important;box-shadow:none!important;border-radius:13px!important;min-height:52px!important;font-weight:650!important}
 .final-three button:active,#workshop-export-group button:active{background:#dcecff!important;transform:scale(.98)}
 .final-three button:disabled,#workshop-export-group button:disabled{opacity:.45!important}
 #editor-save[hidden]{display:none!important}
 @media(max-width:540px){.final-three,#workshop-export-group{grid-template-columns:1fr!important}}
-</style><style id="v45-unified-ui">
+
+
+/* SOURCE STYLE 7 v45-unified-ui */
+
 body:not(.task-home-mode):not(.splash-active)>header{display:none!important}
 #task-nav{justify-content:flex-end!important}#task-nav #back-home{display:none!important}#task-heading{margin-right:auto;font-size:clamp(21px,3vw,30px)!important}
 #pdf-editor .watermark-compact{display:flex;align-items:center;gap:10px;flex-wrap:nowrap}
@@ -571,11 +589,14 @@ button:not(:disabled):not(.task-card):not(.launch-btn):not(.context-jump),.help-
 button.is-active,button[aria-selected="true"],button[aria-pressed="true"],#mobile-tabs button.active{background:linear-gradient(180deg,#408ff5,#1353b5)!important;color:#fff!important;border:2px solid #093f95!important;box-shadow:0 0 0 3px #a4d0ff,0 3px 8px #123d7040!important}
 button:active:not(:disabled){filter:brightness(.9);transform:translateY(1px)!important}
 button:disabled{opacity:.45!important;box-shadow:none!important}
-#mobile-tabs button{background:transparent!important;border:0!important;box-shadow:none!important}
+
 #pdf-editor #editor-watermark-shortcut{background:linear-gradient(180deg,#e9f6ff,#a8d1ff)!important;color:#0e4d90!important;border:2px solid #4b91db!important}
 #pdf-editor #editor-watermark-shortcut.is-active{background:linear-gradient(180deg,#318cf4,#1553ac)!important;color:white!important}
 @media(max-width:650px){#pdf-editor .editor-export-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}#pdf-editor .watermark-compact{gap:5px}#pdf-editor .watermark-compact label{font-size:11px}#pdf-editor .watermark-compact select{min-width:83px;font-size:11px;padding:5px}#pdf-editor .watermark-compact .watermark-apply{flex-basis:40px;min-width:40px;width:40px}#task-nav #task-tour{display:none!important}}
-</style><style id="v451-watermark-responsive">
+
+
+/* SOURCE STYLE 8 v451-watermark-responsive */
+
 /* Touch-friendly watermark controls: all settings visible on iPad, comfortable wrapping on iPhone. */
 #pdf-editor .watermark-compact{display:grid!important;grid-template-columns:auto minmax(90px,1fr) minmax(112px,1fr) minmax(104px,auto) 48px;gap:12px!important;align-items:center!important}
 #pdf-editor .watermark-compact>label{font-size:14px!important;white-space:nowrap}
@@ -593,13 +614,17 @@ button:disabled{opacity:.45!important;box-shadow:none!important}
  #pdf-editor #editor-controls .watermark-card{padding:14px!important}
 }
 @media(max-width:360px){#pdf-editor .watermark-compact{gap:7px!important}#pdf-editor .watermark-compact input,#pdf-editor .watermark-compact select{font-size:12px!important}}
-</style>
-<style id="v452-ipad-navigation-fix">
+
+
+/* SOURCE STYLE 9 v452-ipad-navigation-fix */
+
 html{max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%}body{width:100%;max-width:100%;overflow-x:hidden}main,#scanner-view,#pdf-editor,#task-nav,#task-home{min-width:0;max-width:100%!important}#pdf-editor *{box-sizing:border-box}#pdf-editor .editor-toolbar#editor-tool-buttons{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:12px 0!important;padding:10px!important;background:#eef5ff;border-radius:16px}#pdf-editor #editor-tool-buttons button{min-width:0!important;min-height:52px!important;padding:9px 6px!important;white-space:normal;font-size:13px!important;overflow-wrap:anywhere}#pdf-editor #editor-tool-buttons button.is-active{background:linear-gradient(180deg,#408ff5,#1353b5)!important;color:#fff!important;border:2px solid #093f95!important;box-shadow:0 0 0 2px #a4d0ff!important}#pdf-editor .watermark-compact{width:100%;max-width:100%;min-width:0}#pdf-editor .watermark-compact>*{max-width:100%}#pdf-editor .editor-export-row button{min-width:0;padding:10px 4px!important;font-size:12px!important;overflow-wrap:anywhere}#mobile-tabs{width:100%!important;max-width:min(100%,820px)!important;overflow:visible;box-sizing:border-box}#mobile-tabs button{min-width:0!important;flex:1 1 0!important;font-size:clamp(9px,1.3vw,12px)!important;overflow-wrap:anywhere;padding:6px 1px!important}#mobile-tabs .tab-icon{font-size:clamp(17px,2.5vw,23px)!important}#task-nav{flex-wrap:wrap;align-items:center}#task-nav #task-heading{min-width:0;overflow-wrap:anywhere}#pdf-editor input,#pdf-editor select{min-width:0;max-width:100%}#editor-paper{width:100%;max-width:100%;min-width:0}.help-destination-nav{position:sticky;top:0;z-index:5;display:flex;gap:7px;align-items:center;flex-wrap:wrap;background:#f6f3eb;padding:10px 2px;border-bottom:1px solid #d5dce5}.help-destination-nav span{font-weight:750;color:#284762}.help-destination-nav button{min-height:42px;padding:8px 11px;border-radius:12px;border:1px solid #7caee8;background:linear-gradient(#fff,#d9eaff);color:#164878;font-weight:750;cursor:pointer}
 @media(max-width:760px){#pdf-editor .editor-toolbar#editor-tool-buttons{grid-template-columns:repeat(2,minmax(0,1fr))}#pdf-editor .editor-export-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}#task-nav{gap:7px}#task-nav button{min-width:0;padding:8px!important}#pdf-editor .watermark-compact{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) minmax(0,1.1fr) 45px;gap:7px!important;align-items:end}#pdf-editor .watermark-compact>label{grid-column:1/-1;font-size:13px!important}#pdf-editor .watermark-compact input{width:100%!important;min-width:0!important}#pdf-editor .watermark-compact select{width:100%!important;min-width:0!important;font-size:12px!important}#pdf-editor .watermark-opacity{min-width:0}#pdf-editor .watermark-opacity label{font-size:11px}#pdf-editor .watermark-compact .watermark-apply{width:45px!important;min-width:45px!important}#mobile-tabs{padding-left:3px!important;padding-right:3px!important}}
 @media(max-width:390px){#pdf-editor .watermark-compact{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px}#pdf-editor .watermark-compact>label{grid-column:1/-1}#pdf-editor .watermark-opacity{grid-column:1/3;grid-row:3}#pdf-editor .watermark-compact .watermark-apply{grid-column:3;grid-row:2}#mobile-tabs button{font-size:9px!important}}
-</style>
-<style id="v453-jelly-polish">
+
+
+/* SOURCE STYLE 10 v453-jelly-polish */
+
 /* Compact watermark geometry: overrides legacy grid and oversized apply controls. */
 #pdf-editor .watermark-compact{display:grid!important;grid-template-columns:auto minmax(95px,1fr) 112px 92px 38px!important;gap:8px!important;align-items:center!important;width:100%!important}
 #pdf-editor .watermark-compact>label{grid-column:auto!important;grid-row:auto!important;font-size:13px!important;color:#33425b!important}
@@ -642,8 +667,10 @@ body:not(.splash-active) #mobile-tabs button.active{background:linear-gradient(1
 }
 @media(max-width:360px){#pdf-editor .watermark-compact{gap:5px!important}#pdf-editor .watermark-compact>select{width:100px!important;max-width:100px!important}#pdf-editor .watermark-opacity select{width:78px!important;max-width:78px!important}}
 @media(prefers-reduced-motion:reduce){body button{transition:none!important}}
-</style>
-<style id="v454-jelly-consistency">
+
+
+/* SOURCE STYLE 11 v454-jelly-consistency */
+
 /* Touch-friendly, glassy, visibly clickable controls across workspaces. */
 :root{--jelly-border:#86b7f1;--jelly-ink:#164878}
 body:not(.splash-active) button:not(.tab-icon):not(.editor-section-heading):not(.launch-btn):not(.help-close):not(.context-jump):not(.tour-target){
@@ -688,11 +715,14 @@ body:not(.splash-active) button:not(.tab-icon):not(.editor-section-heading):not(
  #mobile-tabs button{font-size:9px!important}
 }
 @media(max-width:380px){#pdf-editor .watermark-compact{grid-template-columns:auto minmax(58px,1fr) 38px!important}}
-</style><style id="v455-unified-visual-system">
+
+
+/* SOURCE STYLE 12 v455-unified-visual-system */
+
 /* Real translucent jelly with visible top highlight and lift, rather than blue-grey rectangles. */
 body:not(.splash-active) button:not(.task-card):not(.launch-btn):not(.tab-icon):not(:disabled),
 body:not(.splash-active) .help-trigger{background:linear-gradient(165deg,#fff 0%,#fff 27%,#e6f8ff 48%,#8bd8ff 76%,#45a6f5 100%)!important;color:#10395d!important;border:1px solid #4e9fe1!important;border-radius:18px!important;box-shadow:inset 0 3px 3px #fff,inset 0 -4px 8px #1374ba38,0 6px 13px #174c7d29!important;text-shadow:0 1px #fff9!important;position:relative;}
-body:not(.splash-active) button:not(.task-card):not(.launch-btn):not(.tab-icon):not(:disabled)::before{content:'';position:absolute;left:9%;right:9%;top:3px;height:32%;border-radius:90% 90% 45% 45%;background:linear-gradient(#ffffffc9,#ffffff08);pointer-events:none}
+body:not(.splash-active) button:not(.task-card):not(.launch-btn):not(.tab-icon):not(:disabled)::before{content:"";position:absolute;left:9%;right:9%;top:3px;height:32%;border-radius:90% 90% 45% 45%;background:linear-gradient(#ffffffc9,#ffffff08);pointer-events:none}
 body:not(.splash-active) button.is-active:not(:disabled),body:not(.splash-active) button[aria-pressed="true"]:not(:disabled),body:not(.splash-active) button[aria-selected="true"]:not(:disabled){background:linear-gradient(160deg,#9beeff 0%,#3bb6f7 35%,#1370df 100%)!important;color:#082a4c!important;border:2px solid #0753ae!important;box-shadow:inset 0 3px 3px #ffffffd9,inset 0 -4px 9px #03417d88,0 0 0 3px #6fceff9e,0 7px 15px #125eae55!important}
 #mobile-tabs button{background:transparent!important;border:0!important;box-shadow:none!important}#mobile-tabs button::before{display:none!important}
 #pdf-editor .watermark-compact{display:grid!important;grid-template-columns:auto minmax(75px,1fr) 106px 83px 36px!important;gap:7px!important;align-items:center!important}
@@ -708,11 +738,13 @@ body:not(.splash-active) button.is-active:not(:disabled),body:not(.splash-active
 .home-feature-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.home-feature-actions .task-card{margin:0!important;min-width:0!important;min-height:105px!important;box-shadow:0 8px 20px #1e4c8320!important;background:linear-gradient(155deg,#fff,#f1f9ff)!important;border:1px solid #a9d7f5!important}.home-feature-actions .task-card .task-icon{flex-shrink:0}.home-feature-actions .task-card strong{font-size:17px}.home-feature-actions .task-card small{font-size:12px}
 @media(max-width:600px){.home-feature-actions{grid-template-columns:1fr}.template-line{grid-template-columns:1fr;gap:5px}#pdf-editor .watermark-compact{grid-template-columns:auto minmax(70px,1fr) 36px!important;gap:7px!important}#pdf-editor .watermark-compact>label{grid-column:1!important;grid-row:1!important}#pdf-editor .watermark-compact>input{grid-column:2!important;grid-row:1!important}#pdf-editor .watermark-compact .watermark-apply{grid-column:3!important;grid-row:1!important}#pdf-editor .watermark-compact>select{grid-column:1/3!important;grid-row:2!important;width:100%!important;max-width:none!important}#pdf-editor .watermark-opacity{grid-column:3!important;grid-row:2!important}#pdf-editor .watermark-opacity select{width:100%!important}#pdf-editor .editor-toolbar[aria-label="Document editing helpers"]{grid-template-columns:repeat(3,minmax(0,1fr))}#pdf-editor .editor-toolbar[aria-label="Document editing helpers"] button{font-size:12px!important;padding:8px 4px!important}}
 @media(max-width:370px){#pdf-editor .watermark-compact{grid-template-columns:auto minmax(50px,1fr) 36px!important}#pdf-editor .watermark-compact>label{font-size:11px!important}}
-</style>
-<style id="v456-responsive-repair">
+
+
+/* SOURCE STYLE 13 v456-responsive-repair */
+
 /* v4.5.8: responsive layout correction, unified compact controls */
 html,body{width:100%;max-width:100%;overflow-x:hidden!important}
-*,*::before,*::after{box-sizing:border-box}
+
 #task-home,#scanner-view,#pdf-editor,#task-nav,.toolbox,.context-pane,#editor-controls{min-width:0;max-width:100%;overflow-wrap:anywhere}
 #pdf-editor{width:100%!important;max-width:100%!important;padding:10px clamp(10px,2vw,24px) 35px!important}
 #pdf-editor .context-pane.context-active{min-width:0;padding:clamp(10px,2vw,20px)!important}
@@ -754,8 +786,10 @@ html,body{width:100%;max-width:100%;overflow-x:hidden!important}
  #pdf-editor .editor-adjust-grid>div:last-child{grid-column:1/-1!important}
 }
 @media(max-width:390px){#pdf-editor .editor-open-row{grid-template-columns:minmax(0,1fr) minmax(110px,44%)}#pdf-editor .editor-open-row #editor-open{font-size:11px!important}}
-</style>
-<style id="v457-root-layout-fix">
+
+
+/* SOURCE STYLE 14 v457-root-layout-fix */
+
 /* Fix actual root cause: fixed 100vh flex body with independent page siblings.
    Let the document scroll normally; reserve footer space without clipping. */
 html{height:auto!important;min-height:100%;overflow-x:clip!important}
@@ -788,8 +822,10 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
  #pdf-editor .editor-adjust-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
  #pdf-editor .editor-adjust-grid>div:last-child{grid-column:1/-1!important}
 }
-</style>
-<style id="v458-sign-button-sizing">
+
+
+/* SOURCE STYLE 15 v458-sign-button-sizing */
+
 /* Sign page: standardize controls to the Save to Library footprint, not full-width tiles. */
 #pdf-editor{--sign-button-height:44px;--sign-button-radius:12px}
 #pdf-editor button:not(.watermark-apply):not(#editor-prev):not(#editor-next){
@@ -815,9 +851,11 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
  #pdf-editor .editor-toolbar[aria-label="Document editing helpers"] button{flex:1 1 calc(33.33% - 9px)!important;min-width:0!important}
  #pdf-editor .editor-export-row button{flex:1 1 calc(50% - 9px)!important;min-width:0!important}
 }
-</style>
-<style id="v459-pdf-tools-layout">
-/* v4.8.3: PDF Tools structure and compact shared action sizing */
+
+
+/* SOURCE STYLE 16 v459-pdf-tools-layout */
+
+/* v4.8.6: PDF Tools structure and compact shared action sizing */
 #pdf-toolbox>h3{margin:0 0 12px!important}
 #pdf-toolbox .editor-toolbar{display:flex!important;flex-wrap:wrap;gap:9px;margin:0 0 12px!important;padding:0!important;background:transparent!important}
 #pdf-toolbox .editor-toolbar button,#pdf-toolbox #workshop-export-group button,#pdf-toolbox #run-pdf-tool{flex:0 0 auto!important;width:auto!important;min-height:42px!important;min-width:0!important;padding:9px 14px!important;font-size:13px!important;line-height:1.3!important;border-radius:12px!important}
@@ -831,7 +869,10 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 #pdf-toolbox .workshop-pick-row{min-width:0}
 #pdf-toolbox .workshop-pick-row select{min-width:0;width:100%}
 @media(max-width:540px){#pdf-toolbox .pdf-compare{grid-template-columns:1fr!important}#pdf-toolbox .workshop-pick-row{grid-template-columns:minmax(0,1fr)!important}#pdf-toolbox #workshop-export-group button{flex:1 1 calc(50% - 9px)!important}}
-</style><style id="v460-workflow-layout">
+
+
+/* SOURCE STYLE 17 v460-workflow-layout */
+
 .workflow-intro{margin:0 0 16px;color:#526681;font-size:14px;line-height:1.55}
 #task-home .workflow-grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important;align-items:stretch}
 #task-home .workflow-grid .task-card{min-width:0!important;width:100%!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:10px!important;min-height:178px!important;padding:16px!important;text-align:left!important}
@@ -847,8 +888,10 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 #document-studio-tools #studio-add-photo,#document-studio-tools #studio-process{width:auto!important;max-width:100%!important;min-height:44px!important;padding:10px 16px!important;font-size:14px!important}
 @media(max-width:900px){#task-home .workflow-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:420px){#task-home .workflow-grid{gap:8px!important}#task-home .workflow-grid .task-card{padding:12px!important;min-height:172px!important}#task-home .workflow-grid .task-card strong{font-size:14px!important}#task-home .workflow-grid .task-card small{font-size:11px!important}}
-</style>
-<style id="v462-workflow-polish">
+
+
+/* SOURCE STYLE 18 v462-workflow-polish */
+
 /* Remove redundant workspace headings, retain accessible main page heading. */
 #document-studio-tools>.workspace-duplicate-title,#pdf-toolbox>.workspace-duplicate-title{display:none!important}
 #task-home .workflow-grid .task-card span:nth-child(2),#task-home .workflow-grid .task-card strong,#task-home .workflow-grid .task-card small{display:block!important;visibility:visible!important;opacity:1!important;color:#193e65!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
@@ -863,8 +906,10 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 #document-studio-tools #studio-auto-start[aria-pressed="false"]{background:linear-gradient(180deg,#fff,#e2efff)!important;color:#184c7d!important;border:1px solid #8db8e2!important}
 #document-studio-tools .studio-capture-actions button:disabled{opacity:.45}
 @media(max-width:640px){#document-studio-tools .studio-capture-actions{gap:4px}#document-studio-tools .studio-capture-actions button{font-size:10px!important;padding:7px 3px!important;min-height:48px!important}}
-</style>
-<style id="v463-annotation-ui">
+
+
+/* SOURCE STYLE 19 v463-annotation-ui */
+
 #pdf-annotation-controls{margin:12px 0;padding:14px;border:1px solid #cbdcf2;border-radius:14px;background:#f6faff}
 #pdf-annotation-controls[hidden]{display:none!important}
 #pdf-annotation-controls .annotation-controls-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0}
@@ -872,16 +917,18 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 #pdf-annotation-controls .annotation-controls-row label{margin:0}
 #pdf-annotation-controls .annotation-controls-row button{width:auto!important;min-height:42px!important;padding:8px 13px!important}
 #pdf-toolbox:has(#pdf-tool-operation option[value="annotate"]:checked) #source-preview{cursor:crosshair;touch-action:manipulation}
-</style>
-<style id="v470-clean-workflow">
+
+
+/* SOURCE STYLE 20 v470-clean-workflow */
+
 /* Single visible Studio workflow; previous context tabs remain in DOM for legacy handlers. */
 #document-studio-tools>.context-tabs{display:none!important}
 #document-studio-tools>.context-pane{display:block!important;visibility:visible!important;opacity:1!important;transform:none!important;animation:none!important;max-height:none!important;min-height:0!important;padding:14px 0!important;margin:0!important;border:0!important;border-bottom:1px solid #e3eaf3!important;border-radius:0!important;box-shadow:none!important;background:transparent!important}
 #document-studio-tools>.context-pane::before{display:block;font-size:15px;font-weight:750;color:#203d60;margin:0 0 10px}
-#document-studio-tools>.context-pane:nth-of-type(1)::before{content:'1  Add pages'}
-#document-studio-tools>.context-pane:nth-of-type(2)::before{content:'2  Improve pages (optional)'}
-#document-studio-tools>.context-pane:nth-of-type(3)::before{content:'3  Create PDF'}
-#document-studio-tools>.context-pane:nth-of-type(4)::before{content:'4  Save or continue'}
+#document-studio-tools>.context-pane:nth-of-type(1)::before{content:"1  Add pages"}
+#document-studio-tools>.context-pane:nth-of-type(2)::before{content:"2  Improve pages (optional)"}
+#document-studio-tools>.context-pane:nth-of-type(3)::before{content:"3  Create PDF"}
+#document-studio-tools>.context-pane:nth-of-type(4)::before{content:"4  Save or continue"}
 #studio-scan-to-pdf,#studio-go-finish,#studio-finish-recognize,#studio-finish-guidance,#studio-ready,#studio-ocr-action-hint,#studio-ocr-heading span,#ocr-benchmark,#studio-finish-start~p.tool-note,#pdf-toolbox #workshop-open-photo,#advanced-suite,#pdf-toolbox .workshop-sr-note,#pdf-toolbox .pdf-tool-limits{display:none!important}
 #document-studio-tools .studio-capture-actions{display:flex!important;flex-wrap:wrap!important;gap:8px!important}
 #document-studio-tools .studio-capture-actions button{flex:0 1 auto!important;font-size:13px!important;padding:10px 14px!important;min-height:42px!important}
@@ -901,9 +948,11 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 #pdf-toolbox .workshop-export-bottom button{min-width:0!important}
 #document-studio-tools,#pdf-toolbox,#pdf-editor{overflow-wrap:anywhere;min-width:0!important}
 @media(max-width:600px){#document-studio-tools>.context-pane{padding:12px 0!important}#document-studio-tools .studio-capture-actions button{font-size:12px!important}#document-studio-tools .ocr-compact-row{display:grid!important;grid-template-columns:minmax(0,1fr)!important}#pdf-toolbox .workshop-pick-row{display:flex!important;flex-wrap:wrap!important}#pdf-toolbox .workshop-pick-row select{min-width:0!important;width:100%!important}}
-</style>
-<style id="v471-sign-layout">
-/* v4.8.3 Sign compact controls; overrides older fixed-grid styles */
+
+
+/* SOURCE STYLE 21 v471-sign-layout */
+
+/* v4.8.6 Sign compact controls; overrides older fixed-grid styles */
 #pdf-editor #editor-add-position{min-width:0;max-width:100%;border:1px solid #d6e3f0;border-radius:14px;padding:12px;margin:12px 0 16px;box-sizing:border-box}
 #pdf-editor #editor-add-position legend{font-weight:800;color:#173c60;padding:0 8px}
 #pdf-editor #editor-tool-buttons{display:flex!important;flex-wrap:wrap!important;gap:7px!important;margin:0 0 12px!important;padding:0!important;background:none!important}
@@ -926,7 +975,10 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 #pdf-editor #editor-tool-buttons button[hidden]{display:none!important}
 @media(max-width:750px){#pdf-editor .sign-text-template-row{grid-template-columns:max-content minmax(0,1fr)!important}#pdf-editor .sign-text-template-row .template-line label{grid-column:1}#pdf-editor .sign-text-template-row .template-line select{grid-column:2}}
 @media(max-width:430px){#pdf-editor #editor-tool-buttons button{font-size:11px!important;padding:8px!important}#pdf-editor .editor-adjust-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}#pdf-editor .editor-adjust-grid>div:last-child{grid-column:1/-1!important}}
-</style><style id="v472-compact-watermark-and-inputs">
+
+
+/* SOURCE STYLE 22 v472-compact-watermark-and-inputs */
+
 /* Deliberately bounded fields; no expanding full-width text boxes. */
 #pdf-editor .sign-text-template-row{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:8px 12px!important;align-items:end!important}
 #pdf-editor .sign-text-template-row>label{grid-column:1!important;grid-row:1!important;align-self:end!important}
@@ -944,8 +996,10 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 #pdf-editor #editor-watermark-shortcut{grid-column:5!important;grid-row:1!important;min-width:64px!important;width:64px!important;max-width:64px!important;height:38px!important;min-height:38px!important;padding:5px!important;font-size:12px!important;border-radius:10px!important}
 #pdf-editor #editor-watermark-shortcut:not(.is-active){background:linear-gradient(#fff,#eaf4ff)!important;color:#184d81!important;border:1px solid #a4c4df!important;box-shadow:0 2px 5px #193e7018!important}
 @media(max-width:680px){#pdf-editor .watermark-compact{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)!important;justify-content:stretch!important}#pdf-editor .watermark-compact>label{grid-column:1!important;grid-row:1!important}#pdf-editor #editor-watermark-text{grid-column:2/4!important;grid-row:1!important;max-width:none!important}#pdf-editor #editor-watermark-angle{grid-column:1!important;grid-row:2!important;max-width:none!important}#pdf-editor .watermark-opacity{grid-column:2!important;grid-row:2!important}#pdf-editor #editor-watermark-shortcut{grid-column:3!important;grid-row:2!important;justify-self:end!important}#pdf-editor .sign-text-template-row{grid-template-columns:1fr!important}#pdf-editor .sign-text-template-row>label{grid-column:1!important;grid-row:1!important}#pdf-editor .sign-text-template-row>#editor-text{grid-column:1!important;grid-row:2!important;max-width:100%!important}#pdf-editor .sign-text-template-row>.template-line{grid-column:1!important;grid-row:3!important;max-width:100%!important}}
-</style>
-<style id="v474-specific-sign-layout">
+
+
+/* SOURCE STYLE 23 v474-specific-sign-layout */
+
 /* Document controls at left, page preview to the right. */
 #pdf-editor .sign-document-top{display:grid!important;grid-template-columns:minmax(180px, 245px) minmax(0,1fr)!important;align-items:start!important;gap:14px!important;margin-bottom:12px!important;max-width:100%!important}
 #pdf-editor .sign-open-column{min-width:0!important;display:flex!important;flex-direction:column!important;gap:8px!important}
@@ -971,9 +1025,10 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
  #pdf-editor .watermark-opacity{grid-column:3!important;grid-row:2!important}
  #pdf-editor #editor-watermark-shortcut{grid-column:4!important;grid-row:2!important}
 }
-</style>
 
-<style id="v476-ios-hig-consistency">
+
+/* SOURCE STYLE 24 v476-ios-hig-consistency */
+
 /* iOS-inspired touch sizing, grouping, and predictable 3 x 2 toolbar. */
 :root{--ios-grouped:#F2F2F7;--ios-card:#FFFFFF;--ios-border:#DADAE0;--ios-ink:#1C1C1E;--ios-blue:#007AFF}
 body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",system-ui,"Segoe UI",sans-serif!important;background:var(--ios-grouped)!important;color:var(--ios-ink)}
@@ -992,8 +1047,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display"
 #pdf-editor .editor-export-row button{min-height:44px!important}
 @media(max-width:430px){#pdf-editor #editor-tool-buttons{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}#pdf-editor #editor-tool-buttons button{font-size:11px!important;padding:6px 3px!important;min-height:50px!important}#pdf-editor #editor-add-position{padding:9px!important}}
 @media(prefers-reduced-motion:reduce){#pdf-editor button,#pdf-toolbox button,#scanner-view button,#mobile-tabs button{transition:none!important}}
-</style>
-<style id="v476-sign-watermark-position">
+
+
+/* SOURCE STYLE 25 v476-sign-watermark-position */
+
 /* One compact watermark bar immediately above the four final actions. */
 #pdf-editor .sign-watermark-before-export{margin:16px 0 10px!important;max-width:100%!important;min-width:0}
 #pdf-editor .sign-watermark-before-export .watermark-card{padding:10px 12px!important;margin:0!important}
@@ -1008,8 +1065,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display"
 #pdf-editor .sign-open-column .page-stepper{box-sizing:border-box!important;width:100%!important;max-width:245px!important;min-height:44px!important;display:flex!important;justify-content:space-between!important;align-items:center!important;border:1px solid #DADAE0!important;border-radius:12px!important;background:#fff!important;padding:3px 6px!important}
 #pdf-editor .sign-open-column .page-stepper #editor-page-label{flex:1!important;text-align:center!important;white-space:nowrap!important}
 @media(max-width:680px){#pdf-editor .sign-open-column .page-stepper{max-width:245px!important}#pdf-editor .sign-watermark-before-export .watermark-compact{gap:7px!important}}
-</style>
-<style id="v477-sign-typography-and-adjustments">
+
+
+/* SOURCE STYLE 26 v477-sign-typography-and-adjustments */
+
 /* Unified iOS form typography: labels 13px, controls 16px to avoid iOS zoom. */
 #pdf-editor{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,"Segoe UI",sans-serif!important;font-size:15px!important;line-height:1.4!important}
 #pdf-editor #editor-add-position label,#pdf-editor .sign-watermark-before-export label{font-family:inherit!important;font-size:13px!important;font-weight:600!important;line-height:1.35!important;letter-spacing:0!important}
@@ -1023,8 +1082,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display"
 #pdf-editor .sign-text-template-row>#editor-text,#pdf-editor .sign-text-template-row #editor-template{width:100%!important;max-width:190px!important}
 @media(max-width:700px){#pdf-editor .sign-text-template-row{grid-template-columns:max-content minmax(0,1fr)!important}#pdf-editor .sign-text-template-row>.template-line{display:contents!important}}
 @media(max-width:430px){#pdf-editor .editor-adjust-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(96px,.8fr)!important;gap:6px!important}#pdf-editor .editor-adjust-grid label{font-size:12px!important}#pdf-editor .editor-adjust-grid select{padding:5px!important}}
-</style>
-<style id="v480-unified-design-system">
+
+
+/* SOURCE STYLE 27 v480-unified-design-system */
+
 /* Final unified presentation layer. All existing PDF/scan handlers retained. */
 :root{--ui-bg:#f2f2f7;--ui-card:#fff;--ui-ink:#1c1c1e;--ui-muted:#636366;--ui-border:#d8d8df;--ui-blue:#007aff;--ui-radius:14px;--ui-gap:12px}
 *,*::before,*::after{box-sizing:border-box}
@@ -1082,99 +1143,120 @@ legend{font-size:17px;font-weight:700;padding:0 8px}
 @media(max-width:800px){#task-home .workflow-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}#document-studio-tools .ocr-compact-row{grid-template-columns:repeat(2,minmax(0,1fr))}#pdf-editor .sign-document-top{grid-template-columns:minmax(165px,34%) minmax(0,1fr)!important}}
 @media(max-width:560px){#pdf-editor .sign-document-top{grid-template-columns:minmax(0,1fr)!important}#pdf-editor .sign-open-column{max-width:100%}#pdf-editor .sign-document-top #editor-paper{width:100%}#editor-tool-buttons{gap:6px!important}#editor-tool-buttons>button{font-size:12px!important;padding:7px 3px!important}#editor-controls .sign-text-template-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}#editor-controls .editor-adjust-grid{gap:6px!important}#editor-controls .editor-adjust-grid label{font-size:12px!important}#pdf-toolbox .pdf-compare{grid-template-columns:minmax(0,1fr)!important}#document-studio-tools .toolgrid{grid-template-columns:repeat(2,minmax(0,1fr))}#document-studio-tools .ocr-compact-row{grid-template-columns:minmax(0,1fr)}#pdf-toolbox .workshop-pick-row{grid-template-columns:minmax(0,1fr)}#task-home .workflow-grid{gap:8px}}
 @media(prefers-reduced-motion:reduce){button{transition:none!important}}
-</style>
-<style id="v482-alignment-correction">
-/* Both controls belong to the same fixed-width column. */
-#pdf-editor .sign-document-top{display:grid!important;grid-template-columns:minmax(0,245px) minmax(0,1fr)!important;gap:14px!important;align-items:start!important}
-#pdf-editor .sign-open-column{display:flex!important;flex-direction:column!important;align-items:stretch!important;width:100%!important;max-width:245px!important;min-width:0!important;gap:8px!important}
-#pdf-editor .sign-open-column .editor-open-row,#pdf-editor .sign-open-column .editor-open-row>.editor-toolbar{display:block!important;width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;padding:0!important}
-#pdf-editor .sign-open-column #editor-open{display:block!important;box-sizing:border-box!important;width:100%!important;max-width:none!important;min-width:0!important;height:48px!important;min-height:48px!important;margin:0!important;padding:8px 10px!important;font-size:14px!important;line-height:1.2!important}
-#pdf-editor .sign-open-column .page-stepper{box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:space-between!important;flex-wrap:nowrap!important;width:100%!important;max-width:none!important;min-width:0!important;height:48px!important;min-height:48px!important;margin:0!important;padding:2px 4px!important}
-#pdf-editor .sign-open-column .page-stepper button{flex:0 0 40px!important;width:40px!important;height:40px!important;min-height:40px!important;padding:0!important}
-#pdf-editor .sign-open-column #editor-page-label{flex:1 1 auto!important;min-width:0!important;overflow:hidden!important;text-align:center!important;font-size:13px!important;white-space:nowrap!important}
-/* Watermark: explicit field groups, no competing implicit grid placements. */
-#pdf-editor .sign-watermark-before-export .watermark-compact{display:flex!important;flex-flow:row wrap!important;align-items:center!important;justify-content:flex-start!important;column-gap:8px!important;row-gap:10px!important;grid-template-columns:none!important;width:100%!important}
-#pdf-editor .sign-watermark-before-export .watermark-compact>label{display:inline-block!important;grid-column:auto!important;grid-row:auto!important;flex:0 0 auto!important;margin:0!important;font-size:13px!important}
-#pdf-editor .sign-watermark-before-export #editor-watermark-text{box-sizing:border-box!important;flex:0 1 115px!important;width:115px!important;min-width:85px!important;max-width:115px!important;grid-column:auto!important;grid-row:auto!important}
-#pdf-editor .sign-watermark-before-export #editor-watermark-angle{box-sizing:border-box!important;flex:0 1 145px!important;width:145px!important;min-width:110px!important;max-width:145px!important;grid-column:auto!important;grid-row:auto!important}
-#pdf-editor .sign-watermark-before-export .watermark-opacity{display:flex!important;flex-flow:row nowrap!important;align-items:center!important;gap:6px!important;grid-column:auto!important;grid-row:auto!important;margin:0!important}
-#pdf-editor .sign-watermark-before-export #editor-watermark-opacity{width:80px!important;min-width:80px!important;max-width:80px!important}
-#pdf-editor .sign-watermark-before-export #editor-watermark-shortcut{flex:0 0 76px!important;width:76px!important;min-width:76px!important;max-width:76px!important;height:44px!important;min-height:44px!important;grid-column:auto!important;grid-row:auto!important;margin:0!important}
-@media(max-width:680px){#pdf-editor .sign-document-top{grid-template-columns:minmax(0,1fr)!important}#pdf-editor .sign-open-column{max-width:245px!important}}
-</style>
-<style id="v482-unified-layout">
-/* v4.8.3: unified interface geometry — single final authority */
-:root{--ui-font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;--ui-control:48px;--ui-radius:12px;--ui-gap:12px}
-html,body,button,input,select,textarea{font-family:var(--ui-font)!important}
-*,*::before,*::after{box-sizing:border-box}
-button,input,select,textarea{font-size:16px}
-button,select,input:not([type=range]):not([type=checkbox]):not([type=radio]){min-height:44px}
-#pdf-editor,#pdf-toolbox,#document-studio-tools,#history-view{min-width:0;max-width:100%}
-#pdf-editor button,#pdf-toolbox button,#document-studio-tools button{border-radius:var(--ui-radius)}
-#pdf-editor label,#pdf-toolbox label,#document-studio-tools label{font-size:13px!important;font-weight:600!important;line-height:1.4!important}
-#pdf-editor input:not([type=range]),#pdf-editor select,#pdf-toolbox input:not([type=range]),#pdf-toolbox select{min-width:0;max-width:100%;border-radius:10px;font-size:16px!important}
-#pdf-editor .sign-open-column{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:10px!important;width:245px!important;min-width:245px!important;max-width:245px!important}
-#pdf-editor .sign-open-column .editor-open-row,#pdf-editor .sign-open-column .editor-toolbar,#pdf-editor .sign-open-column #editor-open,#pdf-editor .sign-open-column .page-stepper{display:flex!important;width:100%!important;min-width:0!important;max-width:none!important;box-sizing:border-box!important;margin:0!important}
-#pdf-editor .sign-open-column #editor-open,#pdf-editor .sign-open-column .page-stepper{height:48px!important;min-height:48px!important;align-items:center!important;justify-content:center!important}
-#pdf-editor .sign-open-column .page-stepper{display:grid!important;grid-template-columns:44px minmax(0,1fr) 44px!important;gap:0!important;padding:0!important;overflow:hidden!important}
-#pdf-editor .sign-open-column .page-stepper button{width:44px!important;min-width:44px!important;max-width:44px!important;height:46px!important;min-height:46px!important;padding:0!important;margin:0!important}
-#pdf-editor .sign-open-column .page-stepper span{min-width:0;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px!important}
+
+
+/* SOURCE STYLE 28 v484-consolidated-sign-layout */
+
+/* v4.8.6 — coherent Sign geometry; supersedes legacy declarations without changing handlers */
+#pdf-editor,#pdf-editor *{box-sizing:border-box}
+#pdf-editor .sign-open-column{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:10px!important;flex:0 0 245px!important;width:245px!important;max-width:100%!important;min-width:0!important}
+#pdf-editor .sign-open-column .editor-open-row,#pdf-editor .sign-open-column .editor-toolbar,#pdf-editor .sign-open-column #editor-open,#pdf-editor .sign-open-column .page-stepper{width:100%!important;min-width:0!important;max-width:100%!important;margin:0!important;box-sizing:border-box!important}
+#pdf-editor .sign-open-column #editor-open,#pdf-editor .sign-open-column .page-stepper{height:48px!important;min-height:48px!important;max-height:48px!important;border-radius:12px!important}
+#pdf-editor .sign-open-column #editor-open{display:flex!important;align-items:center!important;justify-content:center!important;padding:0 8px!important;white-space:normal!important;font-size:14px!important}
+#pdf-editor .sign-open-column .page-stepper{display:grid!important;grid-template-columns:44px minmax(0,1fr) 44px!important;align-items:center!important;padding:0!important}
+#pdf-editor .sign-open-column .page-stepper button{width:44px!important;min-width:44px!important;height:44px!important;min-height:44px!important;margin:0!important;padding:0!important}
+#pdf-editor .sign-open-column .page-stepper span{min-width:0!important;text-align:center!important;white-space:nowrap!important;font-size:14px!important}
 #pdf-editor #editor-tool-buttons{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important}
-#pdf-editor #editor-tool-buttons>button{width:100%!important;min-width:0!important;min-height:48px!important;margin:0!important;padding:8px 6px!important;font-size:14px!important}
-#pdf-editor .sign-text-template-row{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:8px 12px!important;align-items:end!important}
-#pdf-editor .sign-text-template-row>label[for=editor-text]{grid-column:1!important;grid-row:1!important;margin:0!important}
-#pdf-editor .sign-text-template-row>#editor-text{grid-column:1!important;grid-row:2!important;width:100%!important;margin:0!important}
-#pdf-editor .sign-text-template-row>.template-line{grid-column:2!important;grid-row:1/span 2!important;display:flex!important;flex-direction:column!important;gap:8px!important;min-width:0!important;margin:0!important}
-#pdf-editor .sign-text-template-row>.template-line select{width:100%!important;min-height:44px!important}
-#pdf-editor .editor-adjust-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important;align-items:end!important}
-#pdf-editor .editor-adjust-grid>div{min-width:0!important;display:flex!important;flex-direction:column!important;gap:8px!important;justify-content:end!important}
-#pdf-editor .editor-adjust-grid input[type=range]{width:100%!important;min-width:0!important;margin:0!important}
-#pdf-editor .editor-adjust-grid select{width:100%!important;height:44px!important;margin:0!important}
+#pdf-editor #editor-tool-buttons>button{width:100%!important;min-width:0!important;min-height:48px!important;margin:0!important;padding:8px 5px!important;font-size:14px!important;line-height:1.25!important}
+#pdf-editor #editor-add-position label{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif!important;font-size:13px!important;font-weight:600!important;line-height:1.35!important}
+#pdf-editor #editor-add-position input:not([type=range]):not([type=checkbox]),#pdf-editor #editor-add-position select,#pdf-editor #editor-add-position textarea{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif!important;font-size:16px!important;min-height:44px!important;border-radius:10px!important;box-sizing:border-box!important}
+#pdf-editor .sign-text-template-row{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;align-items:end!important}
+#pdf-editor .sign-text-template-row>label[for=editor-text]{grid-column:1!important;grid-row:1!important}
+#pdf-editor .sign-text-template-row>#editor-text{grid-column:1!important;grid-row:2!important;width:100%!important;min-width:0!important}
+#pdf-editor .sign-text-template-row>.template-line{grid-column:2!important;grid-row:1/span 2!important;min-width:0!important;display:flex!important;flex-direction:column!important;gap:8px!important}
+#pdf-editor .sign-text-template-row>.template-line select{width:100%!important;min-width:0!important}
+#pdf-editor .editor-adjust-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important;align-items:end!important;width:100%!important}
+#pdf-editor .editor-adjust-grid>div{display:flex!important;flex-direction:column!important;gap:8px!important;min-width:0!important}
+#pdf-editor .editor-adjust-grid input[type=range],#pdf-editor .editor-adjust-grid select{width:100%!important;min-width:0!important;margin:0!important}
 #pdf-editor .sign-watermark-before-export{width:100%!important;max-width:100%!important;margin:16px 0 12px!important}
-#pdf-editor .watermark-card{width:100%!important;max-width:100%!important;margin:0!important;padding:12px!important;overflow:visible!important}
-#pdf-editor .watermark-compact{display:grid!important;grid-template-columns:minmax(0,1.25fr) minmax(0,1.25fr) minmax(0,.85fr) minmax(90px,.65fr)!important;gap:10px!important;align-items:end!important;width:100%!important;max-width:100%!important}
+#pdf-editor .sign-watermark-before-export .watermark-card{width:100%!important;max-width:100%!important;margin:0!important;padding:12px!important;overflow:visible!important}
+#pdf-editor .sign-watermark-before-export .watermark-compact{display:grid!important;grid-template-columns:minmax(0,1.2fr) minmax(0,1.2fr) minmax(0,.9fr) minmax(90px,.75fr)!important;grid-template-rows:auto 44px!important;gap:8px 10px!important;align-items:stretch!important;width:100%!important;max-width:100%!important}
 #pdf-editor .watermark-compact>label[for=editor-watermark-text]{grid-column:1!important;grid-row:1!important}
-#pdf-editor .watermark-compact>#editor-watermark-text{grid-column:1!important;grid-row:2!important;width:100%!important}
+#pdf-editor .watermark-compact>#editor-watermark-text{grid-column:1!important;grid-row:2!important;width:100%!important;min-width:0!important}
 #pdf-editor .watermark-compact>.watermark-direction-label{grid-column:2!important;grid-row:1!important}
-#pdf-editor .watermark-compact>#editor-watermark-angle{grid-column:2!important;grid-row:2!important;width:100%!important}
-#pdf-editor .watermark-compact>.watermark-opacity{grid-column:3!important;grid-row:1/span 2!important;display:flex!important;flex-direction:column!important;gap:8px!important;min-width:0!important}
-#pdf-editor .watermark-compact>.watermark-opacity select{width:100%!important}
-#pdf-editor .watermark-compact>#editor-watermark-shortcut{grid-column:4!important;grid-row:2!important;width:100%!important;height:44px!important;margin:0!important}
+#pdf-editor .watermark-compact>#editor-watermark-angle{grid-column:2!important;grid-row:2!important;width:100%!important;min-width:0!important}
+#pdf-editor .watermark-compact>.watermark-opacity{grid-column:3!important;grid-row:1/span 2!important;display:flex!important;flex-direction:column!important;gap:8px!important;min-width:0!important;margin:0!important}
+#pdf-editor .watermark-compact>.watermark-opacity select{width:100%!important;min-width:0!important;flex:1!important}
+#pdf-editor .sign-watermark-before-export .watermark-card .watermark-compact button#editor-watermark-shortcut{grid-column:4!important;grid-row:2!important;display:flex!important;align-items:center!important;justify-content:center!important;position:static!important;transform:none!important;justify-self:stretch!important;width:100%!important;min-width:0!important;max-width:none!important;height:44px!important;min-height:44px!important;max-height:44px!important;margin:0!important;padding:0 10px!important;font-size:15px!important}
 #pdf-editor .editor-export-row{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:10px!important;width:100%!important}
 #pdf-editor .editor-export-row>button{width:100%!important;min-width:0!important;min-height:48px!important;margin:0!important;padding:8px!important}
-@media(max-width:700px){#pdf-editor .sign-document-top{display:flex!important;flex-direction:column!important;align-items:stretch!important}#pdf-editor .sign-open-column{width:100%!important;min-width:0!important;max-width:100%!important}#pdf-editor .watermark-compact{grid-template-columns:repeat(2,minmax(0,1fr))!important}#pdf-editor .watermark-compact>label[for=editor-watermark-text]{grid-column:1!important;grid-row:1!important}#pdf-editor .watermark-compact>#editor-watermark-text{grid-column:1!important;grid-row:2!important}#pdf-editor .watermark-compact>.watermark-direction-label{grid-column:2!important;grid-row:1!important}#pdf-editor .watermark-compact>#editor-watermark-angle{grid-column:2!important;grid-row:2!important}#pdf-editor .watermark-compact>.watermark-opacity{grid-column:1!important;grid-row:3!important}#pdf-editor .watermark-compact>#editor-watermark-shortcut{grid-column:2!important;grid-row:3!important}#pdf-editor .editor-export-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
-@media(max-width:380px){#pdf-editor #editor-tool-buttons{gap:6px!important}#pdf-editor #editor-tool-buttons>button{font-size:12px!important}#pdf-editor .sign-text-template-row{grid-template-columns:minmax(0,1fr)!important}#pdf-editor .sign-text-template-row>label[for=editor-text]{grid-column:1!important;grid-row:1!important}#pdf-editor .sign-text-template-row>#editor-text{grid-column:1!important;grid-row:2!important}#pdf-editor .sign-text-template-row>.template-line{grid-column:1!important;grid-row:3!important}}
+@media(max-width:700px){#pdf-editor .sign-document-top{display:flex!important;flex-direction:column!important;align-items:stretch!important}#pdf-editor .sign-open-column{flex:0 0 auto!important;width:min(100%,245px)!important}#pdf-editor .editor-export-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:650px){#pdf-editor .sign-watermark-before-export .watermark-compact{grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:auto 44px auto 44px!important}#pdf-editor .watermark-compact>.watermark-opacity{grid-column:1!important;grid-row:3/span 2!important}#pdf-editor .sign-watermark-before-export .watermark-card .watermark-compact button#editor-watermark-shortcut{grid-column:2!important;grid-row:4!important}}
+@media(max-width:420px){#pdf-editor #editor-tool-buttons{gap:6px!important}#pdf-editor #editor-tool-buttons>button{font-size:12px!important}#pdf-editor .sign-text-template-row{gap:8px!important}#pdf-editor .editor-adjust-grid{gap:8px!important}}
 
-/* measured browser corrections: exact left edge, width and touch height */
-#pdf-editor .sign-open-column .page-stepper{margin-left:1px!important;width:calc(100% - 2px)!important;max-width:calc(100% - 2px)!important}
-#pdf-editor .sign-open-column .editor-open-row #editor-open{height:48px!important;min-height:48px!important;max-height:none!important}
-#pdf-editor .sign-watermark-before-export .watermark-card .watermark-compact button#editor-watermark-shortcut{display:flex!important;align-items:center!important;justify-content:center!important;min-width:0!important;width:100%!important;height:44px!important;min-height:44px!important;max-height:none!important;padding:8px 10px!important;position:static!important;transform:none!important}
+
+/* SOURCE STYLE 29 v484-verified-control-dimensions */
+
+#pdf-editor .sign-open-column .editor-open-row{display:block!important;grid-template-columns:none!important;border:0!important;padding:0!important;}
+#pdf-editor .sign-open-column .editor-open-row .editor-toolbar button#editor-open{position:relative!important;left:0!important;width:100%!important;min-width:0!important;max-width:100%!important;display:flex!important;flex:1 1 100%!important;width:100%!important;min-width:100%!important;max-width:100%!important;height:48px!important;min-height:48px!important;max-height:48px!important;margin:0!important;padding:0 8px!important;width:calc(100% + 2px)!important;min-width:calc(100% + 2px)!important;max-width:calc(100% + 2px)!important}
+#pdf-editor .sign-open-column .editor-open-row .editor-toolbar{display:flex!important;flex:0 0 auto!important;width:100%!important;min-width:100%!important;max-width:100%!important}
+#pdf-editor .watermark-compact .watermark-opacity{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:end!important;gap:8px!important}
+#pdf-editor .watermark-compact .watermark-opacity select#editor-watermark-opacity{width:100%!important;max-width:100%!important;min-width:0!important;flex:0 0 44px!important;height:44px!important;min-height:44px!important;max-height:44px!important}
+
+
+/* SOURCE STYLE 30 v485-exact-open-stepper-alignment */
+
+#pdf-editor .sign-open-column .editor-open-row,
+#pdf-editor .sign-open-column .editor-open-row .editor-toolbar,
+#pdf-editor .sign-open-column .editor-open-row .editor-toolbar #editor-open,
+#pdf-editor .sign-open-column > .page-stepper {
+  width:100%!important;min-width:0!important;max-width:100%!important;
+  box-sizing:border-box!important;margin-left:0!important;margin-right:0!important;
+}
+#pdf-editor .sign-open-column .editor-open-row .editor-toolbar #editor-open,
+#pdf-editor .sign-open-column > .page-stepper {
+  height:48px!important;min-height:48px!important;max-height:48px!important;
+  box-sizing:border-box!important;border-width:1px!important;
+  border-style:solid!important;border-radius:12px!important;
+}
+#pdf-editor .sign-open-column .editor-open-row .editor-toolbar #editor-open {
+  flex:0 0 100%!important;position:static!important;left:auto!important;
+  padding:0 8px!important;line-height:20px!important;
+}
+#pdf-editor .sign-open-column > .page-stepper {
+  display:grid!important;grid-template-columns:44px minmax(0,1fr) 44px!important;
+  padding:0!important;gap:0!important;align-items:center!important;
+}
+
+
+/* SOURCE STYLE 31 v461-studio-ocr-flow-style */
+
+#document-studio-tools #studio-process,#studio-finish-recognize{width:auto!important;min-height:40px!important;padding:9px 15px!important;margin:10px 0!important;font-size:14px!important}
+#studio-ocr-action-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:10px 0}
+#studio-ocr-action-hint,#studio-finish-guidance{font-size:13px;line-height:1.45;color:#50677d;margin:5px 0 12px}
+#studio-finish-recognize[hidden],#studio-finish-guidance[hidden]{display:none!important}
 </style>
-<style id="v483-final-alignment-system">
-/* Shared sizing and alignment: intentionally last to supersede legacy patches. */
-#pdf-editor, #pdf-editor * { box-sizing:border-box; }
-#pdf-editor .sign-open-column { display:flex!important; flex-direction:column!important; align-items:stretch!important; gap:10px!important; width:min(100%,245px)!important; min-width:0!important; }
-#pdf-editor .sign-open-column .editor-open-row, #pdf-editor .sign-open-column .editor-toolbar, #pdf-editor .sign-open-column #editor-open, #pdf-editor .sign-open-column .page-stepper { width:100%!important; max-width:none!important; min-width:0!important; margin-left:0!important; margin-right:0!important; box-sizing:border-box!important; }
-#pdf-editor .sign-open-column #editor-open, #pdf-editor .sign-open-column .page-stepper { min-height:48px!important; height:48px!important; border-radius:12px!important; }
-#pdf-editor .page-stepper { display:grid!important; grid-template-columns:44px minmax(0,1fr) 44px!important; align-items:center!important; padding:0!important; }
-#pdf-editor .page-stepper button { width:44px!important; min-width:44px!important; height:44px!important; min-height:44px!important; margin:0!important; padding:0!important; }
-#pdf-editor .page-stepper span { min-width:0!important; text-align:center!important; white-space:nowrap!important; font-size:14px!important; }
-#pdf-editor #editor-add-position label { font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',system-ui,sans-serif!important; font-size:13px!important; font-weight:600!important; line-height:1.35!important; }
-#pdf-editor #editor-add-position input:not([type=range]):not([type=checkbox]), #pdf-editor #editor-add-position select, #pdf-editor #editor-add-position textarea { font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',system-ui,sans-serif!important; font-size:16px!important; min-height:44px!important; border-radius:10px!important; box-sizing:border-box!important; }
-#pdf-editor .editor-adjust-grid { display:grid!important; grid-template-columns:repeat(3,minmax(0,1fr))!important; gap:12px!important; width:100%!important; align-items:end!important; }
-#pdf-editor .editor-adjust-grid > div { min-width:0!important; display:flex!important; flex-direction:column!important; gap:8px!important; }
-#pdf-editor .editor-adjust-grid input[type=range], #pdf-editor .editor-adjust-grid select { width:100%!important; min-width:0!important; margin:0!important; }
-#pdf-editor .sign-watermark-before-export { width:100%!important; max-width:100%!important; }
-#pdf-editor .watermark-card { width:100%!important; max-width:100%!important; box-sizing:border-box!important; }
-#pdf-editor .watermark-compact { display:grid!important; grid-template-columns:auto minmax(95px,1fr) auto minmax(140px,1fr) minmax(135px,auto) minmax(90px,auto)!important; gap:10px!important; align-items:center!important; width:100%!important; max-width:100%!important; }
-#pdf-editor .watermark-compact > * { min-width:0!important; margin:0!important; }
-#pdf-editor .watermark-compact .watermark-opacity { display:flex!important; align-items:center!important; gap:8px!important; min-width:0!important; }
-#pdf-editor .watermark-compact .watermark-opacity select { flex:1!important; min-width:65px!important; }
-#pdf-editor #editor-watermark-shortcut { width:auto!important; min-width:90px!important; max-width:none!important; height:44px!important; min-height:44px!important; padding:0 16px!important; justify-self:stretch!important; font-size:15px!important; }
-@media(max-width:850px){ #pdf-editor .watermark-compact { grid-template-columns:auto minmax(0,1fr) auto minmax(0,1fr)!important; } #pdf-editor .watermark-compact .watermark-opacity { grid-column:1 / span 2!important; } #pdf-editor #editor-watermark-shortcut { grid-column:3 / span 2!important; } }
-@media(max-width:520px){ #pdf-editor .watermark-compact { grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important; gap:8px!important; } #pdf-editor .watermark-compact > label { grid-column:auto!important; } #pdf-editor .watermark-compact > input { grid-column:auto!important; } #pdf-editor .watermark-compact .watermark-direction-label { grid-column:1!important; } #pdf-editor #editor-watermark-angle { grid-column:2!important; } #pdf-editor .watermark-compact .watermark-opacity { grid-column:1 / -1!important; } #pdf-editor #editor-watermark-shortcut { grid-column:1 / -1!important; width:100%!important; } #pdf-editor .editor-adjust-grid { gap:8px!important; } }
-</style>
-</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="docupro-final-geometry">
+/* Final measured Sign control geometry. Both children share the same parent width. */
+#pdf-editor .sign-open-column { display:flex !important; flex-direction:column !important; align-items:stretch !important; width:245px !important; max-width:100% !important; box-sizing:border-box !important; }
+#pdf-editor .sign-open-column .editor-open-row,
+#pdf-editor .sign-open-column .page-stepper { width:100% !important; min-width:0 !important; max-width:none !important; margin-left:0 !important; margin-right:0 !important; box-sizing:border-box !important; height:48px !important; min-height:48px !important; }
+#pdf-editor .sign-open-column .editor-open-row .editor-toolbar {width:100% !important; height:100% !important; padding:0 !important; margin:0 !important; display:block !important; box-sizing:border-box !important;}
+#pdf-editor .sign-open-column #editor-open {width:100% !important; max-width:none !important; min-width:0 !important; height:48px !important; min-height:48px !important; box-sizing:border-box !important; margin:0 !important;}
+#pdf-editor .sign-open-column .page-stepper {display:flex !important; align-items:center !important; justify-content:space-between !important;}
+#pdf-editor #editor-watermark-shortcut {min-width:80px !important; width:auto !important; height:44px !important; min-height:44px !important; padding:0 14px !important;}
+</style></head>
 <body class="splash-active">
 <section aria-labelledby="splash-title" class="splash-screen" id="splash-screen">
 <div class="splash-card">
@@ -1199,7 +1281,7 @@ button,select,input:not([type=range]):not([type=checkbox]):not([type=radio]){min
 <button class="splash-secondary" id="splash-help-btn" type="button">How it works</button>
 <button class="splash-secondary" id="splash-cache-clear" type="button">↻ Refresh cached app files (keep documents &amp; signatures)</button>
 <p aria-live="polite" id="splash-cache-status" role="status" style="color:#d7eaff;font-size:12px;margin:8px 0 0"></p>
-<p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 4.8.3 · Jelly UI refinement</p>
+<p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 4.8.6 · Jelly UI refinement</p>
 <button class="review-agreements" hidden="" id="review-agreements" type="button">Review agreements</button>
 </div>
 </section>
@@ -1262,7 +1344,7 @@ button,select,input:not([type=range]):not([type=checkbox]):not([type=radio]){min
 <h3 class="help-section-title">If something goes wrong</h3>
 <div class="help-paths"><div class="help-path"><h3>Camera shows black</h3><p style="font-size:14px;line-height:1.6">Use <strong>Choose Photo or Camera</strong> and pick a photo from the iPad Photos app instead. Check Safari camera permission if you want to capture directly.</p></div><div class="help-path"><h3>Text looks wrong</h3><p style="font-size:14px;line-height:1.6">Crop tighter, use better light, try another OCR mode, then retake. Correct mistakes in the editable text box. The PDF's hidden OCR layer may still need review.</p></div></div>
 <article class="help-path"><div class="help-kicker">Mission 03 · PDF Tools</div><h3>🧰 Edit a PDF you already have</h3><ol class="help-steps"><li><div><strong>Open PDF from Files</strong> to select your document.</div></li><li><div><strong>Scroll to PDF Tools</strong> and select a tool: merge, split/extract, reorder, rotate, delete, watermark, number, flatten, extract text, JPG or compress.</div></li><li><div><strong>Enter page numbers</strong> when relevant. For example, 1,3-5 selects pages 1, 3, 4 and 5.</div></li><li><div><strong>Tap Run selected tool,</strong> then Download or Share result.</div></li><li><div><strong>Tap Use result for next tool</strong> to make another edit or sign the result.</div></li></ol><p class="help-note">For signing, use the separate signing panel. These tools are experimental until tested on your iPad.</p></article>
-<div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br/><strong>Version:</strong> 4.8.3<br/><strong>Build:</strong> 2026-10-27 · combined-tools-validation-01<br/><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br/><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br/><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br/><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br/><strong>Support:</strong> Support email/website — <em>not yet configured</em><br/><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
+<div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br/><strong>Version:</strong> 4.8.6<br/><strong>Build:</strong> 2026-10-27 · combined-tools-validation-01<br/><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br/><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br/><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br/><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br/><strong>Support:</strong> Support email/website — <em>not yet configured</em><br/><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
 </div><!-- general-help-content -->
 <p style="margin-top:22px;text-align:center"><button class="help-close" id="help-done-btn" type="button">Got it — back to DocuScan</button></p>
 <section class="help-tile" id="help-sign-layout"><h3>Add Text &amp; Sign — placing and adjusting items</h3><p>Open a PDF, then select Signature, Text, or Date. To draw a signature, use the signature pad; alternatively type your name and tap Signature again.</p><p>Drag an item to move it. Drag any blue corner handle to resize the box in both directions. Use the width and height sliders for precise adjustment; long text wraps inside. Use font size to change the text itself.</p><p>When finished, use Save to Library, Download PDF, Share PDF, or Print PDF. Each action creates the latest edited version.</p></section></div></section>
@@ -1271,7 +1353,7 @@ button,select,input:not([type=range]):not([type=checkbox]):not([type=radio]){min
 <div aria-hidden="true" class="header-hidden-actions"><button class="icon-btn" id="history-btn" tabindex="-1" type="button">Library</button><button class="help-trigger" id="help-btn" tabindex="-1" type="button">Help</button></div>
 </header>
 <section aria-label="Choose a task" id="task-home"><button class="legal-home-link" id="home-legal" type="button">Terms &amp; privacy</button>
-<div class="home-hero"><div class="home-hero-copy"><div class="hero-overline">DOCUSCAN <span>PRO</span> <small>4.8.3</small></div><h1 class="task-home-title">Make paperwork<br/><em>feel effortless.</em></h1><p>Scan. Recognize. Keep moving.</p></div><div aria-hidden="true" class="hero-art"><div class="hero-paper"><span></span><span></span><span></span><span></span><b>✓</b></div></div></div>
+<div class="home-hero"><div class="home-hero-copy"><div class="hero-overline">DOCUSCAN <span>PRO</span> <small>4.8.6</small></div><h1 class="task-home-title">Make paperwork<br/><em>feel effortless.</em></h1><p>Scan. Recognize. Keep moving.</p></div><div aria-hidden="true" class="hero-art"><div class="hero-paper"><span></span><span></span><span></span><span></span><b>✓</b></div></div></div>
 <div class="dashboard-section-head"><h2>Your document workflow</h2><span>FOUR SIMPLE STEPS</span></div>
 <p class="workflow-intro">Scan in Studio, sign in Sign, edit in PDF Tools, and save in Library. Your document moves with you—no need to import it again.</p>
 <div class="task-grid workflow-grid"><button class="task-card" data-task="studio"><span class="task-icon"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 7h3l2-3h6l2 3h3v13H4z"></path><circle cx="12" cy="13" r="4"></circle></svg></span><span><strong>Document Studio</strong><small>Scan or import photos, then create a PDF.</small></span><span aria-hidden="true">›</span></button><button class="task-card" data-task="sign"><span class="task-icon"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 20h16M7 16l-2 3 3-1 10-10-2-2L7 16ZM14 8l2 2"></path></svg></span><span><strong>Add Text &amp; Sign</strong><small>Add a signature, text or date.</small></span><span aria-hidden="true">›</span></button><button class="task-card" data-task="workshop"><span class="task-icon"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><rect height="15" rx="2" width="18" x="3" y="6"></rect><path d="M8 6V4h8v2M8 11h8M12 9v9"></path></svg></span><span><strong>PDF Tools</strong><small>Arrange pages, annotate and edit PDFs.</small></span><span aria-hidden="true">›</span></button><button class="task-card" id="home-library-shortcut" type="button"><span class="task-icon">▥</span><span><strong>Library</strong><small>Find, open and organize your saved documents.</small></span><span aria-hidden="true">›</span></button></div>
@@ -1283,10 +1365,9 @@ button,select,input:not([type=range]):not([type=checkbox]):not([type=radio]){min
 <section aria-label="Add text and sign PDF" id="pdf-editor" style="display:none">
 <div class="sign-document-top"><div class="sign-open-column"><div class="editor-open-row"><div class="editor-toolbar"><button class="primary" id="editor-open" type="button">📂 Open PDF from Files</button><button aria-hidden="true" hidden="" id="editor-photo" tabindex="-1" type="button">📷 Use a photo</button></div></div><div aria-label="PDF page navigation" class="page-stepper"><button aria-label="Previous page" id="editor-prev" type="button">‹</button><span id="editor-page-label">‹No document›</span><button aria-label="Next page" id="editor-next" type="button">›</button></div>
 </div><div id="editor-paper"><canvas class="preview-collapsed" height="780" id="editor-page-canvas" width="600"></canvas><div id="editor-overlays"></div></div></div>
-<fieldset id="editor-add-position"><legend>Add &amp; Position</legend><div class="editor-toolbar" id="editor-tool-buttons"><button id="editor-add-sign" type="button">✍ Signature</button><button id="editor-add-text" type="button"><span class="boxed-text-icon" aria-hidden="true">T</span> Text</button><button id="editor-add-date" type="button">▦ Date</button><button id="editor-undo" type="button">↶ Undo</button><button id="editor-redo" type="button">↷ Redo</button><button id="editor-delete" type="button">🗑 Remove Selected</button></div><div id="editor-controls">
+<fieldset id="editor-add-position"><legend>Add &amp; Position</legend><div class="editor-toolbar" id="editor-tool-buttons"><button id="editor-add-sign" type="button">✍ Signature</button><button id="editor-add-text" type="button"><span aria-hidden="true" class="boxed-text-icon">T</span> Text</button><button id="editor-add-date" type="button">▦ Date</button><button id="editor-undo" type="button">↶ Undo</button><button id="editor-redo" type="button">↷ Redo</button><button id="editor-delete" type="button">🗑 Remove Selected</button></div><div id="editor-controls">
 <div aria-hidden="true" aria-label="Document editing helpers" class="editor-toolbar" hidden=""><button aria-hidden="true" hidden="" id="editor-clear-all" type="button">✕ Clear All</button></div>
 <div class="sign-text-template-row"><label for="editor-text">Text / typed signature</label><input id="editor-text" placeholder="Enter text to place on the document"/><div class="template-line"><label for="editor-template">Quick Text Templates</label><select id="editor-template"><option value="">Choose a reusable phrase</option><option value="Approved">Approved</option><option value="Reviewed">Reviewed</option><option value="Received">Received</option><option value="Please sign and return">Please sign and return</option><option value="Confidential">Confidential</option><option value="Date: ">Date label</option></select></div></div>
-
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
 <div><label for="editor-font">Font style</label><select id="editor-font" style="width:100%;padding:10px;border:1px solid #c8d7e6;border-radius:9px"><option value="Helvetica">Helvetica</option><option value="TimesRoman">Times Roman</option><option value="Courier">Courier</option><option value="HelveticaBold">Helvetica Bold</option><option value="TimesRomanItalic">Times Italic</option><option value="HelveticaOblique">Helvetica Italic</option></select></div>
 <div><label for="editor-font-size">Font size (points)</label><input id="editor-font-size" max="72" min="6" type="number" value="16"/></div>
@@ -1296,7 +1377,6 @@ button,select,input:not([type=range]):not([type=checkbox]):not([type=radio]){min
 <div><label for="editor-height">Height: <span id="editor-height-label">9%</span></label><input id="editor-height" max="75" min="2" type="range" value="9"/></div>
 <div><label for="editor-ink">Ink color</label><select id="editor-ink"><option value="#174ea6">Blue</option><option value="#123b70">Navy</option><option value="#111827">Black</option></select></div>
 </div>
-
 <div hidden="" id="editor-signature-panel"><p class="editor-hint">Draw with a finger or Apple Pencil, then tap Add signature above. This panel is hidden when using Text or Date.</p>
 <canvas height="180" id="editor-sign-pad" width="700"></canvas><button id="editor-clear-sign" type="button">Clear drawing</button></div>
 <div class="toolbox" hidden="" id="signature-library" style="margin:10px 0">
@@ -1314,12 +1394,10 @@ button,select,input:not([type=range]):not([type=checkbox]):not([type=radio]){min
 <img alt="Saved signature preview" id="sig-preview" style="display:none;max-width:100%;height:75px;object-fit:contain;background:white;border:1px solid #d6e1ee;border-radius:8px;margin-top:10px"/>
 <p class="editor-hint" id="sig-library-status" role="status"></p>
 </div>
-<div class="sign-watermark-before-export"><div class="watermark-card"><div class="watermark-compact"><label for="editor-watermark-text">Watermark</label><input aria-label="Watermark text" id="editor-watermark-text" maxlength="60" value="DRAFT"/><label class="watermark-direction-label" for="editor-watermark-angle">Direction</label><select aria-label="Direction" title="Direction" id="editor-watermark-angle"><option selected="" value="-45">Diagonal ↗</option><option value="0">Horizontal →</option><option value="45">Diagonal ↘</option><option value="-90">Vertical ↑</option></select><div class="watermark-opacity"><label for="editor-watermark-opacity">Opacity</label><select aria-label="Watermark opacity" id="editor-watermark-opacity" title="Opacity"><option value="0">100%</option><option value="25">75%</option><option selected="" value="50">50%</option><option value="75">25%</option><option value="90">10%</option></select></div><button aria-label="Insert watermark" aria-pressed="false" class="watermark-apply" id="editor-watermark-shortcut" title="Insert watermark" type="button">Insert</button></div></div></div>
+<div class="sign-watermark-before-export"><div class="watermark-card"><div class="watermark-compact"><label for="editor-watermark-text">Watermark</label><input aria-label="Watermark text" id="editor-watermark-text" maxlength="60" value="DRAFT"/><label class="watermark-direction-label" for="editor-watermark-angle">Direction</label><select aria-label="Direction" id="editor-watermark-angle" title="Direction"><option selected="" value="-45">Diagonal ↗</option><option value="0">Horizontal →</option><option value="45">Diagonal ↘</option><option value="-90">Vertical ↑</option></select><div class="watermark-opacity"><label for="editor-watermark-opacity">Opacity</label><select aria-label="Watermark opacity" id="editor-watermark-opacity" title="Opacity"><option value="0">100%</option><option value="25">75%</option><option selected="" value="50">50%</option><option value="75">25%</option><option value="90">10%</option></select></div><button aria-label="Insert watermark" aria-pressed="false" class="watermark-apply" id="editor-watermark-shortcut" title="Insert watermark" type="button">Insert</button></div></div></div>
 <div class="editor-toolbar editor-export-row final-three"><button id="editor-save-library" type="button">Save to Library</button><button id="editor-download" type="button">Download PDF</button><button id="editor-share" type="button">Share PDF</button><button id="editor-print" type="button">Print PDF</button></div><button aria-hidden="true" hidden="" id="editor-save" tabindex="-1" type="button">Generate PDF</button>
-
 <p aria-live="polite" class="editor-hint" id="editor-status" role="status"></p>
 </div></fieldset>
-
 </section>
 <main id="scanner-view">
 <div class="scan-area" id="scan-area">
@@ -1508,7 +1586,7 @@ button,select,input:not([type=range]):not([type=checkbox]):not([type=radio]){min
 </div>
 </main>
 <!-- History View -->
-<p class="help-footer">DocuScan Pro · Version 4.8.3 · <button data-build-check="" style="border:1px solid #a4bfd9;border-radius:8px;padding:6px 9px;background:#f2f8ff;color:#154b7c" type="button">Check version &amp; cache</button> · <button id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer" type="button">Help &amp; developer information</button></p>
+<p class="help-footer">DocuScan Pro · Version 4.8.6 · <button data-build-check="" style="border:1px solid #a4bfd9;border-radius:8px;padding:6px 9px;background:#f2f8ff;color:#154b7c" type="button">Check version &amp; cache</button> · <button id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer" type="button">Help &amp; developer information</button></p>
 <main class="history-view" id="history-view">
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
 <h2 style="font-size:24px; font-weight:700;">Saved Document Library</h2>
@@ -1534,7 +1612,7 @@ button,select,input:not([type=range]):not([type=checkbox]):not([type=radio]){min
 </div></section>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
 <script>
     // --- STATE & ELEMENTS ---
     let currentImageBlob = null;
@@ -2696,7 +2774,7 @@ body:not(.splash-active) button.is-active:not(:disabled),body:not(.splash-active
 @media(max-width:370px){#pdf-editor .watermark-compact{grid-template-columns:auto minmax(50px,1fr) 36px!important}#pdf-editor .watermark-compact>label{font-size:11px!important}}
 </style>
 <style id="v482-unified-layout">
-/* v4.8.3: unified interface geometry — single final authority */
+/* v4.8.6: unified interface geometry — single final authority */
 :root{--ui-font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;--ui-control:48px;--ui-radius:12px;--ui-gap:12px}
 html,body,button,input,select,textarea{font-family:var(--ui-font)!important}
 *,*::before,*::after{box-sizing:border-box}
@@ -2737,7 +2815,36 @@ button,select,input:not([type=range]):not([type=checkbox]):not([type=radio]){min
 #pdf-editor .editor-export-row>button{width:100%!important;min-width:0!important;min-height:48px!important;margin:0!important;padding:8px!important}
 @media(max-width:700px){#pdf-editor .sign-document-top{display:flex!important;flex-direction:column!important;align-items:stretch!important}#pdf-editor .sign-open-column{width:100%!important;min-width:0!important;max-width:100%!important}#pdf-editor .watermark-compact{grid-template-columns:repeat(2,minmax(0,1fr))!important}#pdf-editor .watermark-compact>label[for=editor-watermark-text]{grid-column:1!important;grid-row:1!important}#pdf-editor .watermark-compact>#editor-watermark-text{grid-column:1!important;grid-row:2!important}#pdf-editor .watermark-compact>.watermark-direction-label{grid-column:2!important;grid-row:1!important}#pdf-editor .watermark-compact>#editor-watermark-angle{grid-column:2!important;grid-row:2!important}#pdf-editor .watermark-compact>.watermark-opacity{grid-column:1!important;grid-row:3!important}#pdf-editor .watermark-compact>#editor-watermark-shortcut{grid-column:2!important;grid-row:3!important}#pdf-editor .editor-export-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:380px){#pdf-editor #editor-tool-buttons{gap:6px!important}#pdf-editor #editor-tool-buttons>button{font-size:12px!important}#pdf-editor .sign-text-template-row{grid-template-columns:minmax(0,1fr)!important}#pdf-editor .sign-text-template-row>label[for=editor-text]{grid-column:1!important;grid-row:1!important}#pdf-editor .sign-text-template-row>#editor-text{grid-column:1!important;grid-row:2!important}#pdf-editor .sign-text-template-row>.template-line{grid-column:1!important;grid-row:3!important}}
-</style></head><body style="font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.5"><h1>${escapeHtml(currentBaseName)}</h1><p>${escaped}</p>
+</style><style id="v484-verified-control-dimensions">
+#pdf-editor .sign-open-column .editor-open-row{display:block!important;grid-template-columns:none!important;border:0!important;padding:0!important;}
+#pdf-editor .sign-open-column .editor-open-row .editor-toolbar button#editor-open{position:relative!important;left:0!important;width:100%!important;min-width:0!important;max-width:100%!important;display:flex!important;flex:1 1 100%!important;width:100%!important;min-width:100%!important;max-width:100%!important;height:48px!important;min-height:48px!important;max-height:48px!important;margin:0!important;padding:0 8px!important;width:calc(100% + 2px)!important;min-width:calc(100% + 2px)!important;max-width:calc(100% + 2px)!important}
+#pdf-editor .sign-open-column .editor-open-row .editor-toolbar{display:flex!important;flex:0 0 auto!important;width:100%!important;min-width:100%!important;max-width:100%!important}
+#pdf-editor .watermark-compact .watermark-opacity{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:end!important;gap:8px!important}
+#pdf-editor .watermark-compact .watermark-opacity select#editor-watermark-opacity{width:100%!important;max-width:100%!important;min-width:0!important;flex:0 0 44px!important;height:44px!important;min-height:44px!important;max-height:44px!important}
+</style><style id="v485-exact-open-stepper-alignment">
+#pdf-editor .sign-open-column .editor-open-row,
+#pdf-editor .sign-open-column .editor-open-row .editor-toolbar,
+#pdf-editor .sign-open-column .editor-open-row .editor-toolbar #editor-open,
+#pdf-editor .sign-open-column > .page-stepper {
+  width:100%!important;min-width:0!important;max-width:100%!important;
+  box-sizing:border-box!important;margin-left:0!important;margin-right:0!important;
+}
+#pdf-editor .sign-open-column .editor-open-row .editor-toolbar #editor-open,
+#pdf-editor .sign-open-column > .page-stepper {
+  height:48px!important;min-height:48px!important;max-height:48px!important;
+  box-sizing:border-box!important;border-width:1px!important;
+  border-style:solid!important;border-radius:12px!important;
+}
+#pdf-editor .sign-open-column .editor-open-row .editor-toolbar #editor-open {
+  flex:0 0 100%!important;position:static!important;left:auto!important;
+  padding:0 8px!important;line-height:20px!important;
+}
+#pdf-editor .sign-open-column > .page-stepper {
+  display:grid!important;grid-template-columns:44px minmax(0,1fr) 44px!important;
+  padding:0!important;gap:0!important;align-items:center!important;
+}
+</style>
+</head><body style="font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.5"><h1>${escapeHtml(currentBaseName)}</h1><p>${escaped}</p>
 </body></html>`;
       return new Blob(['\\ufeff',html],{type:'application/msword;charset=utf-8'});
     }
@@ -3380,7 +3487,7 @@ document.getElementById('splash-cache-clear').addEventListener('click',()=>clear
 // One-time, build-specific refresh of DocuScan Cache Storage only. Never touch
 // IndexedDB, localStorage consent, saved signatures, or unrelated app caches.
 (async()=>{try{
- const key='docuscan.cache-refreshed.4.8.3';
+ const key='docuscan.cache-refreshed.4.8.5';
  if(localStorage.getItem(key)==='yes')return;
  if('caches' in window){for(const name of await caches.keys()){if(/docuscan/i.test(name)||/docscan/i.test(name))await caches.delete(name);}}
  localStorage.setItem(key,'yes');
@@ -3518,12 +3625,7 @@ $('advanced-save-library').onclick=async()=>{if(!lastBlob)return say('Export a P
 $('advanced-share').onclick=async()=>{if(!lastBlob)return say('Export a PDF first.');try{const file=new File([lastBlob],lastName,{type:'application/pdf'});if(navigator.canShare?.({files:[file]}))await navigator.share({files:[file],title:lastName});else download(lastBlob,lastName);}catch(e){say('Share cancelled or unavailable: '+e.message);}};
 })();
 </script>
-<style id="v461-studio-ocr-flow-style">
-#document-studio-tools #studio-process,#studio-finish-recognize{width:auto!important;min-height:40px!important;padding:9px 15px!important;margin:10px 0!important;font-size:14px!important}
-#studio-ocr-action-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:10px 0}
-#studio-ocr-action-hint,#studio-finish-guidance{font-size:13px;line-height:1.45;color:#50677d;margin:5px 0 12px}
-#studio-finish-recognize[hidden],#studio-finish-guidance[hidden]{display:none!important}
-</style>
+
 <script id="v461-studio-ocr-flow-script">
 (()=>{
 'use strict';

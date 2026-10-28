@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
-<title>DocuScan Pro v4.7.7 | Scanner &amp; PDF Studio</title>
+<title>DocuScan Pro v4.8.0 | Scanner &amp; PDF Studio</title>
 <!-- PWA & iOS Meta Tags -->
 <link href="manifest.json" rel="manifest"/>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
@@ -817,7 +817,7 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 }
 </style>
 <style id="v459-pdf-tools-layout">
-/* v4.7.7: PDF Tools structure and compact shared action sizing */
+/* v4.8.0: PDF Tools structure and compact shared action sizing */
 #pdf-toolbox>h3{margin:0 0 12px!important}
 #pdf-toolbox .editor-toolbar{display:flex!important;flex-wrap:wrap;gap:9px;margin:0 0 12px!important;padding:0!important;background:transparent!important}
 #pdf-toolbox .editor-toolbar button,#pdf-toolbox #workshop-export-group button,#pdf-toolbox #run-pdf-tool{flex:0 0 auto!important;width:auto!important;min-height:42px!important;min-width:0!important;padding:9px 14px!important;font-size:13px!important;line-height:1.3!important;border-radius:12px!important}
@@ -903,7 +903,7 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 @media(max-width:600px){#document-studio-tools>.context-pane{padding:12px 0!important}#document-studio-tools .studio-capture-actions button{font-size:12px!important}#document-studio-tools .ocr-compact-row{display:grid!important;grid-template-columns:minmax(0,1fr)!important}#pdf-toolbox .workshop-pick-row{display:flex!important;flex-wrap:wrap!important}#pdf-toolbox .workshop-pick-row select{min-width:0!important;width:100%!important}}
 </style>
 <style id="v471-sign-layout">
-/* v4.7.7 Sign compact controls; overrides older fixed-grid styles */
+/* v4.8.0 Sign compact controls; overrides older fixed-grid styles */
 #pdf-editor #editor-add-position{min-width:0;max-width:100%;border:1px solid #d6e3f0;border-radius:14px;padding:12px;margin:12px 0 16px;box-sizing:border-box}
 #pdf-editor #editor-add-position legend{font-weight:800;color:#173c60;padding:0 8px}
 #pdf-editor #editor-tool-buttons{display:flex!important;flex-wrap:wrap!important;gap:7px!important;margin:0 0 12px!important;padding:0!important;background:none!important}
@@ -1024,6 +1024,65 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display"
 @media(max-width:700px){#pdf-editor .sign-text-template-row{grid-template-columns:max-content minmax(0,1fr)!important}#pdf-editor .sign-text-template-row>.template-line{display:contents!important}}
 @media(max-width:430px){#pdf-editor .editor-adjust-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(96px,.8fr)!important;gap:6px!important}#pdf-editor .editor-adjust-grid label{font-size:12px!important}#pdf-editor .editor-adjust-grid select{padding:5px!important}}
 </style>
+<style id="v480-unified-design-system">
+/* Final unified presentation layer. All existing PDF/scan handlers retained. */
+:root{--ui-bg:#f2f2f7;--ui-card:#fff;--ui-ink:#1c1c1e;--ui-muted:#636366;--ui-border:#d8d8df;--ui-blue:#007aff;--ui-radius:14px;--ui-gap:12px}
+*,*::before,*::after{box-sizing:border-box}
+html,body{max-width:100%;overflow-x:clip}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Arial,sans-serif!important;background:var(--ui-bg);color:var(--ui-ink);font-size:16px;line-height:1.45;-webkit-text-size-adjust:100%}
+button,input,select,textarea{font-family:inherit!important;letter-spacing:normal!important}
+button:not([hidden]),[role=button]:not([hidden]){min-height:44px;line-height:1.25;font-size:15px;font-weight:600;border-radius:12px;max-width:100%;transition:transform .12s ease,background-color .12s ease}
+button:active:not(:disabled){transform:scale(.98)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(0,122,255,.35);outline-offset:2px}
+button:disabled{opacity:.5;cursor:not-allowed}
+input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]),select,textarea{min-height:44px;max-width:100%;min-width:0;font-size:16px!important;border-radius:10px;border:1px solid var(--ui-border);padding:9px 12px;background:#fff;color:var(--ui-ink)}
+label{display:block;font-size:14px!important;font-weight:600!important;line-height:1.35;color:#3a3a3c;margin-bottom:5px}
+fieldset{min-width:0;max-width:100%;border:1px solid var(--ui-border);border-radius:16px;padding:16px;margin:12px 0;background:#fff}
+legend{font-size:17px;font-weight:700;padding:0 8px}
+#pdf-editor,#pdf-toolbox,#document-studio-tools,#history-view,#task-home,#help-screen{max-width:100%;min-width:0}
+#pdf-editor .sign-document-top{display:grid!important;grid-template-columns:minmax(190px,30%) minmax(0,1fr)!important;gap:16px;align-items:start}
+#pdf-editor .sign-open-column{min-width:0}
+#pdf-editor .editor-open-row,#pdf-editor .editor-open-row .editor-toolbar{width:100%;min-width:0}
+#editor-open{width:100%;white-space:normal}
+#pdf-editor .page-stepper{width:100%!important;max-width:100%!important;display:grid!important;grid-template-columns:44px minmax(0,1fr) 44px;gap:4px;align-items:center;margin-top:8px}
+#editor-page-label{min-width:0;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
+#editor-paper{min-width:0;max-width:100%;overflow:hidden}
+#editor-page-canvas{max-width:100%;height:auto}
+#editor-add-position{display:block;width:100%;min-width:0}
+#editor-tool-buttons{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;margin-bottom:16px}
+#editor-tool-buttons>button{width:100%!important;min-width:0;min-height:48px!important;margin:0!important;padding:9px 6px!important;white-space:normal;font-size:14px!important}
+#editor-controls{min-width:0;display:grid;gap:14px}
+#editor-controls .sign-text-template-row{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-rows:auto auto!important;gap:5px 12px!important;align-items:end;min-width:0}
+#editor-controls .sign-text-template-row>label{grid-column:1;grid-row:1;margin:0}
+#editor-text{grid-column:1!important;grid-row:2!important;width:100%!important;min-width:0!important;max-width:none!important;margin:0!important}
+#editor-controls .template-line{grid-column:2!important;grid-row:1/span 2!important;display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto 44px!important;gap:5px!important;min-width:0!important;width:100%!important;align-items:end}
+#editor-template{width:100%!important;max-width:none!important;margin:0!important}
+#editor-controls>div[style*="grid-template-columns:1fr 1fr"]{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;min-width:0}
+#editor-font{width:100%!important;min-height:44px!important;padding:9px 12px!important;border:1px solid var(--ui-border)!important;border-radius:10px!important}
+#editor-controls .editor-adjust-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important;align-items:end}
+#editor-controls .editor-adjust-grid>div{min-width:0;max-width:100%}
+#editor-controls .editor-adjust-grid input[type=range]{width:100%;min-width:0;height:44px;margin:0;accent-color:var(--ui-blue)}
+#editor-ink{width:100%;min-width:0}
+#editor-watermark-row,#editor-watermark-controls,.editor-watermark-row,.watermark-compact-row{min-width:0;max-width:100%}
+#pdf-editor :is(.editor-toolbar,.toolgrid,.annotation-controls-row){max-width:100%}
+#pdf-toolbox .pdf-compare{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px}
+#pdf-toolbox .pdf-compare>div{min-width:0;max-width:100%;overflow:hidden}
+#pdf-toolbox canvas{max-width:100%;height:auto}
+#pdf-toolbox .workshop-pick-row{display:grid!important;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center}
+#pdf-tool-operation{width:100%;min-width:0}
+#document-studio-tools .toolgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+#document-studio-tools .toolgrid>button{min-width:0;white-space:normal}
+#document-studio-tools .ocr-compact-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+#document-studio-tools .ocr-compact-row>div{min-width:0}
+#task-home .workflow-grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px}
+#task-home .workflow-grid>.task-card{min-width:0;width:100%;height:100%;text-align:left}
+#task-home .workflow-grid .task-card strong,#task-home .workflow-grid .task-card small{overflow-wrap:anywhere}
+#history-view :is(.toolgrid,.history-grid),#help-screen :is(.toolgrid,.help-grid){max-width:100%}
+.mobile-tabs{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+@media(max-width:800px){#task-home .workflow-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}#document-studio-tools .ocr-compact-row{grid-template-columns:repeat(2,minmax(0,1fr))}#pdf-editor .sign-document-top{grid-template-columns:minmax(165px,34%) minmax(0,1fr)!important}}
+@media(max-width:560px){#pdf-editor .sign-document-top{grid-template-columns:minmax(0,1fr)!important}#pdf-editor .sign-open-column{max-width:100%}#pdf-editor .sign-document-top #editor-paper{width:100%}#editor-tool-buttons{gap:6px!important}#editor-tool-buttons>button{font-size:12px!important;padding:7px 3px!important}#editor-controls .sign-text-template-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}#editor-controls .editor-adjust-grid{gap:6px!important}#editor-controls .editor-adjust-grid label{font-size:12px!important}#pdf-toolbox .pdf-compare{grid-template-columns:minmax(0,1fr)!important}#document-studio-tools .toolgrid{grid-template-columns:repeat(2,minmax(0,1fr))}#document-studio-tools .ocr-compact-row{grid-template-columns:minmax(0,1fr)}#pdf-toolbox .workshop-pick-row{grid-template-columns:minmax(0,1fr)}#task-home .workflow-grid{gap:8px}}
+@media(prefers-reduced-motion:reduce){button{transition:none!important}}
+</style>
 </head>
 <body class="splash-active">
 <section aria-labelledby="splash-title" class="splash-screen" id="splash-screen">
@@ -1049,7 +1108,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display"
 <button class="splash-secondary" id="splash-help-btn" type="button">How it works</button>
 <button class="splash-secondary" id="splash-cache-clear" type="button">↻ Refresh cached app files (keep documents &amp; signatures)</button>
 <p aria-live="polite" id="splash-cache-status" role="status" style="color:#d7eaff;font-size:12px;margin:8px 0 0"></p>
-<p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 4.7.7 · Jelly UI refinement</p>
+<p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 4.8.0 · Jelly UI refinement</p>
 <button class="review-agreements" hidden="" id="review-agreements" type="button">Review agreements</button>
 </div>
 </section>
@@ -1112,7 +1171,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display"
 <h3 class="help-section-title">If something goes wrong</h3>
 <div class="help-paths"><div class="help-path"><h3>Camera shows black</h3><p style="font-size:14px;line-height:1.6">Use <strong>Choose Photo or Camera</strong> and pick a photo from the iPad Photos app instead. Check Safari camera permission if you want to capture directly.</p></div><div class="help-path"><h3>Text looks wrong</h3><p style="font-size:14px;line-height:1.6">Crop tighter, use better light, try another OCR mode, then retake. Correct mistakes in the editable text box. The PDF's hidden OCR layer may still need review.</p></div></div>
 <article class="help-path"><div class="help-kicker">Mission 03 · PDF Tools</div><h3>🧰 Edit a PDF you already have</h3><ol class="help-steps"><li><div><strong>Open PDF from Files</strong> to select your document.</div></li><li><div><strong>Scroll to PDF Tools</strong> and select a tool: merge, split/extract, reorder, rotate, delete, watermark, number, flatten, extract text, JPG or compress.</div></li><li><div><strong>Enter page numbers</strong> when relevant. For example, 1,3-5 selects pages 1, 3, 4 and 5.</div></li><li><div><strong>Tap Run selected tool,</strong> then Download or Share result.</div></li><li><div><strong>Tap Use result for next tool</strong> to make another edit or sign the result.</div></li></ol><p class="help-note">For signing, use the separate signing panel. These tools are experimental until tested on your iPad.</p></article>
-<div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br/><strong>Version:</strong> 4.7.7<br/><strong>Build:</strong> 2026-10-27 · combined-tools-validation-01<br/><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br/><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br/><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br/><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br/><strong>Support:</strong> Support email/website — <em>not yet configured</em><br/><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
+<div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br/><strong>Version:</strong> 4.8.0<br/><strong>Build:</strong> 2026-10-27 · combined-tools-validation-01<br/><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br/><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br/><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br/><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br/><strong>Support:</strong> Support email/website — <em>not yet configured</em><br/><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
 </div><!-- general-help-content -->
 <p style="margin-top:22px;text-align:center"><button class="help-close" id="help-done-btn" type="button">Got it — back to DocuScan</button></p>
 <section class="help-tile" id="help-sign-layout"><h3>Add Text &amp; Sign — placing and adjusting items</h3><p>Open a PDF, then select Signature, Text, or Date. To draw a signature, use the signature pad; alternatively type your name and tap Signature again.</p><p>Drag an item to move it. Drag any blue corner handle to resize the box in both directions. Use the width and height sliders for precise adjustment; long text wraps inside. Use font size to change the text itself.</p><p>When finished, use Save to Library, Download PDF, Share PDF, or Print PDF. Each action creates the latest edited version.</p></section></div></section>
@@ -1121,7 +1180,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display"
 <div aria-hidden="true" class="header-hidden-actions"><button class="icon-btn" id="history-btn" tabindex="-1" type="button">Library</button><button class="help-trigger" id="help-btn" tabindex="-1" type="button">Help</button></div>
 </header>
 <section aria-label="Choose a task" id="task-home"><button class="legal-home-link" id="home-legal" type="button">Terms &amp; privacy</button>
-<div class="home-hero"><div class="home-hero-copy"><div class="hero-overline">DOCUSCAN <span>PRO</span> <small>4.7.7</small></div><h1 class="task-home-title">Make paperwork<br/><em>feel effortless.</em></h1><p>Scan. Recognize. Keep moving.</p></div><div aria-hidden="true" class="hero-art"><div class="hero-paper"><span></span><span></span><span></span><span></span><b>✓</b></div></div></div>
+<div class="home-hero"><div class="home-hero-copy"><div class="hero-overline">DOCUSCAN <span>PRO</span> <small>4.8.0</small></div><h1 class="task-home-title">Make paperwork<br/><em>feel effortless.</em></h1><p>Scan. Recognize. Keep moving.</p></div><div aria-hidden="true" class="hero-art"><div class="hero-paper"><span></span><span></span><span></span><span></span><b>✓</b></div></div></div>
 <div class="dashboard-section-head"><h2>Your document workflow</h2><span>FOUR SIMPLE STEPS</span></div>
 <p class="workflow-intro">Scan in Studio, sign in Sign, edit in PDF Tools, and save in Library. Your document moves with you—no need to import it again.</p>
 <div class="task-grid workflow-grid"><button class="task-card" data-task="studio"><span class="task-icon"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 7h3l2-3h6l2 3h3v13H4z"></path><circle cx="12" cy="13" r="4"></circle></svg></span><span><strong>Document Studio</strong><small>Scan or import photos, then create a PDF.</small></span><span aria-hidden="true">›</span></button><button class="task-card" data-task="sign"><span class="task-icon"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 20h16M7 16l-2 3 3-1 10-10-2-2L7 16ZM14 8l2 2"></path></svg></span><span><strong>Add Text &amp; Sign</strong><small>Add a signature, text or date.</small></span><span aria-hidden="true">›</span></button><button class="task-card" data-task="workshop"><span class="task-icon"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><rect height="15" rx="2" width="18" x="3" y="6"></rect><path d="M8 6V4h8v2M8 11h8M12 9v9"></path></svg></span><span><strong>PDF Tools</strong><small>Arrange pages, annotate and edit PDFs.</small></span><span aria-hidden="true">›</span></button><button class="task-card" id="home-library-shortcut" type="button"><span class="task-icon">▥</span><span><strong>Library</strong><small>Find, open and organize your saved documents.</small></span><span aria-hidden="true">›</span></button></div>
@@ -1205,8 +1264,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display"
 <section aria-label="PDF editing tools" class="toolbox" id="pdf-toolbox">
 <h3 class="workspace-duplicate-title" hidden="">PDF Tools</h3>
 <div class="editor-toolbar"><button class="primary" id="workshop-open-pdf" type="button">📂 Open existing PDF</button><button id="workshop-open-photo" type="button">📷 Use photo as PDF</button></div><div class="pdf-compare" id="workshop-preview-group"><div><strong>Source PDF preview</strong><div class="pdf-page-controls page-stepper"><button aria-label="Previous source page" id="source-prev" type="button">‹</button><span id="source-page-label">No document</span><button aria-label="Next source page" id="source-next" type="button">›</button></div><canvas aria-label="Source PDF page preview" class="preview-collapsed" id="source-preview"></canvas></div><div><strong>Result preview — review before saving</strong><div class="pdf-page-controls page-stepper"><button aria-label="Previous result page" id="result-prev" type="button">‹</button><span id="result-page-label">No document</span><button aria-label="Next result page" id="result-next" type="button">›</button></div><canvas aria-label="Result PDF page preview" class="preview-collapsed" id="result-preview"></canvas><pre id="result-text-preview" style="display:none;white-space:pre-wrap;max-height:340px;overflow:auto"></pre></div></div>
-<p class="workshop-sr-note tool-note" id="workshop-source-status">Open a PDF, select a tool, then apply it.</p>
-<p class="workshop-sr-note tool-note">Import a PDF using “Open PDF from Files” above. Tools work on the imported PDF, create a separate copy, and do not overwrite your original. Select an operation, then tap Run tool.</p>
+<p class="workshop-sr-note tool-note" id="workshop-source-status"></p>
+<p class="workshop-sr-note tool-note"></p>
 <label for="pdf-tool-operation" id="workshop-tool-start">Choose a PDF tool</label>
 <div class="workshop-pick-row"><select id="pdf-tool-operation">
 <option value="annotate">Annotate PDF — text notes, highlight, or mark</option>
@@ -1358,7 +1417,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display"
 </div>
 </main>
 <!-- History View -->
-<p class="help-footer">DocuScan Pro · Version 4.7.7 · <button data-build-check="" style="border:1px solid #a4bfd9;border-radius:8px;padding:6px 9px;background:#f2f8ff;color:#154b7c" type="button">Check version &amp; cache</button> · <button id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer" type="button">Help &amp; developer information</button></p>
+<p class="help-footer">DocuScan Pro · Version 4.8.0 · <button data-build-check="" style="border:1px solid #a4bfd9;border-radius:8px;padding:6px 9px;background:#f2f8ff;color:#154b7c" type="button">Check version &amp; cache</button> · <button id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer" type="button">Help &amp; developer information</button></p>
 <main class="history-view" id="history-view">
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
 <h2 style="font-size:24px; font-weight:700;">Saved Document Library</h2>
@@ -3188,7 +3247,7 @@ document.getElementById('splash-cache-clear').addEventListener('click',()=>clear
 // One-time, build-specific refresh of DocuScan Cache Storage only. Never touch
 // IndexedDB, localStorage consent, saved signatures, or unrelated app caches.
 (async()=>{try{
- const key='docuscan.cache-refreshed.4.7.7';
+ const key='docuscan.cache-refreshed.4.8.0';
  if(localStorage.getItem(key)==='yes')return;
  if('caches' in window){for(const name of await caches.keys()){if(/docuscan/i.test(name)||/docscan/i.test(name))await caches.delete(name);}}
  localStorage.setItem(key,'yes');

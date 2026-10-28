@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>DocuScan Pro v3.7.0 | Scanner & PDF Studio</title>
+  <title>DocuScan Pro v3.8.0 | Scanner & PDF Studio</title>
   
   <!-- PWA & iOS Meta Tags -->
   <link rel="manifest" href="manifest.json">
@@ -158,6 +158,7 @@
     .launch-btn:active { transform: scale(.99); }
     .splash-footnote { margin-top: 14px; color: #b5c4d8; text-align: center; font-size: 11px; line-height: 1.5; }
     body.splash-active { overflow: hidden; }
+body.splash-active #mobile-tabs, body.splash-active #task-nav {display:none!important;visibility:hidden!important;pointer-events:none!important;}
     @media (max-width: 380px) { .feature-list { grid-template-columns: 1fr; } .feature { padding: 12px; } }
 
   
@@ -204,7 +205,7 @@
 .help-footer{max-width:900px;margin:25px auto 10px;text-align:center;color:#708096;font-size:12px}
 @media(max-width:650px){.help-hero{grid-template-columns:1fr}.help-paths{grid-template-columns:1fr}.help-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.help-shell{padding:12px 13px 65px}}
 
-/* v3.7.0 task-based navigation */
+/* v3.8.0 task-based navigation */
 #task-home{max-width:920px;margin:22px auto;padding:16px}
 .task-intro{font-size:13px;letter-spacing:.13em;font-weight:800;color:#517496;text-transform:uppercase}
 .task-home-title{font-size:clamp(28px,5vw,42px);color:#18334e;margin:9px 0 8px}
@@ -413,6 +414,12 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
 body.library-mode #history-view{position:relative;z-index:40;isolation:isolate}
 body.library-mode #close-history-btn{position:sticky;top:12px;z-index:50;min-width:52px;min-height:52px;touch-action:manipulation;cursor:pointer}
 body.library-mode #tour-backdrop,body.library-mode #tour-card{display:none!important}
+
+/* v3.8: true launch screen and legible, always visible watermark controls */
+body.splash-active #mobile-tabs{display:none!important}
+#editor-controls .watermark-card{padding:16px;border:1px solid #c9ddf6;border-radius:20px;background:#edf5ff;margin-bottom:18px}
+#editor-watermark-shortcut{background:#1768d8!important;color:white!important;border:0!important}
+#editor-paper .pdf-overlay{white-space:normal;overflow-wrap:anywhere}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style id="contextual-workspaces-style">
@@ -493,7 +500,7 @@ body.task-studio-mode #scanner-view,body.task-workshop-mode #scanner-view,body.t
 
 <section id="help-screen" class="help-screen" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
 <div class="help-shell">
-  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v3.7.0</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
+  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v3.8.0</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
 
 <div class="help-mode-nav" aria-label="Choose a help topic">
 <button type="button" data-help-mode="sign">✍️ Add Text &amp; Sign</button>
@@ -1194,7 +1201,7 @@ body.task-studio-mode #scanner-view,body.task-workshop-mode #scanner-view,body.t
     const consentError=document.getElementById('consent-error');
     const reviewAgreements=document.getElementById('review-agreements');
     const hasAccepted=()=>{try{return localStorage.getItem(CONSENT_KEY)==='accepted';}catch(e){return false;}};
-    const dismissSplash=()=>{splashScreen.style.display='none';document.body.classList.remove('splash-active');};
+    const dismissSplash=()=>{splashScreen.style.display='none';document.body.classList.remove('splash-active');document.body.style.overflow='';};
     if(hasAccepted()){
       consentBox.hidden=true;
       reviewAgreements.hidden=false;
@@ -2052,9 +2059,11 @@ body.task-studio-mode #scanner-view,body.task-workshop-mode #scanner-view,body.t
     }
 // Cache maintenance is user-initiated. Never delete saved IndexedDB documents
 // or localStorage signatures as part of a routine page load.
-        // v3.7.0 task navigation and WYSIWYG PDF editor
+        // v3.8.0 task navigation and WYSIWYG PDF editor
     const taskNames={sign:'Add Text & Sign',workshop:'PDF Workshop',studio:'Document Studio'};
     function switchTask(task){
+      if(typeof closeTour==='function')closeTour();
+      if(typeof closeHelp==='function'&&document.getElementById('help-screen')?.classList.contains('active'))closeHelp();
       document.body.classList.remove('task-home-mode','task-sign-mode','task-workshop-mode','task-studio-mode','library-mode');
       els.historyView.classList.remove('active');
       document.getElementById('tabs-library').classList.remove('active');
@@ -2091,7 +2100,7 @@ body.task-studio-mode #scanner-view,body.task-workshop-mode #scanner-view,body.t
     document.getElementById('task-help').onclick=()=>openHelp(document.body.classList.contains('task-sign-mode')?'sign':document.body.classList.contains('task-workshop-mode')?'workshop':'studio');
     document.getElementById('launch-app-btn').addEventListener('click',()=>switchTask('home'));
     document.body.classList.add('task-home-mode');
-    console.info('[DocuScan v3.7.0] Navigation initialized');
+    console.info('[DocuScan v3.8.0] Navigation initialized');
 
     document.getElementById('home-legal').addEventListener('click',()=>{
       splashScreen.style.display='flex';document.body.classList.add('splash-active');
@@ -2186,10 +2195,10 @@ body.task-studio-mode #scanner-view,body.task-workshop-mode #scanner-view,body.t
     editorPhotoInput.onchange=async e=>{
       const f=e.target.files?.[0];if(!f)return;
       try{
-        const img=await createImageBitmap(f);const c=document.createElement('canvas');c.width=img.width;c.height=img.height;c.getContext('2d').drawImage(img,0,0);img.close();
+        const img=await createImageBitmap(f);const c=document.createElement('canvas');const ratio=Math.min(1,1800/Math.max(img.width,img.height));c.width=Math.max(1,Math.round(img.width*ratio));c.height=Math.max(1,Math.round(img.height*ratio));c.getContext('2d').drawImage(img,0,0,c.width,c.height);img.close();
         const doc=await PDFLib.PDFDocument.create();const jpg=await doc.embedJpg(new Uint8Array(await (await new Promise(r=>c.toBlob(r,'image/jpeg',.93))).arrayBuffer()));
         const page=doc.addPage([jpg.width,jpg.height]);page.drawImage(jpg,{x:0,y:0,width:jpg.width,height:jpg.height});
-        await loadEditorPdf((await doc.save()).buffer,f.name.replace(/\.[^.]+$/,'')+'.pdf');
+        await loadEditorPdf((await doc.save()).slice().buffer,f.name.replace(/\.[^.]+$/,'')+'.pdf');
       }catch(err){console.error(err);estatus.textContent='Could not open photo: '+err.message;}
       editorPhotoInput.value='';
     };
@@ -2225,7 +2234,7 @@ body.task-studio-mode #scanner-view,body.task-workshop-mode #scanner-view,body.t
         el.style.left=(item.x*100)+'%';el.style.top=(item.y*100)+'%';el.style.width=(item.w*100)+'%';
         el.style.fontSize=((item.fontSize||16)*ecanvas.getBoundingClientRect().width/Math.max(1,ecanvas.width))+'px';
         el.style.color=item.ink||'#174ea6';
-        if(item.type==='watermark'){el.style.opacity='.45';el.style.textAlign='center';el.style.fontWeight='bold';}
+        if(item.type==='watermark'){el.style.opacity='.55';el.style.textAlign='center';el.style.fontWeight='bold';el.style.background='rgba(255,255,255,.12)';el.style.letterSpacing='1px';el.style.zIndex='8';}
         el.style.fontFamily=(item.font||'Helvetica').includes('Courier')?'monospace':(item.font||'Helvetica').includes('Times')?'Georgia,serif':'Arial,sans-serif';
         el.style.fontWeight=(item.font||'').includes('Bold')?'bold':'normal';
         el.style.fontStyle=/(Italic|Oblique)/.test(item.font||'')?'italic':'normal';
@@ -2336,9 +2345,10 @@ body.task-studio-mode #scanner-view,body.task-workshop-mode #scanner-view,body.t
       const all=document.getElementById('editor-watermark-all').checked;
       const pages=all?Array.from({length:edoc.numPages},(_,i)=>i+1):[epage];
       eitems=eitems.filter(item=>!(item.type==='watermark'&&pages.includes(item.page)));
-      for(const page of pages)eitems.push({page,type:'watermark',x:.1,y:.45,w:.8,h:.12,text:value,font:'HelveticaBold',fontSize:44,ink:'#60728a'});
+      for(const page of pages)eitems.push({page,type:'watermark',x:.1,y:.45,w:.8,h:.12,text:value,font:'HelveticaBold',fontSize:Math.min(44,Math.max(18,Math.round(300/Math.max(5,value.length)))),ink:'#60728a'});
       eselected=eitems.find(item=>item.type==='watermark'&&item.page===epage)||null;
       drawEditorItems();
+      document.getElementById('editor-page-label').scrollIntoView({block:'center',behavior:'instant'});
       estatus.textContent='Watermark visible on '+(all?'all '+pages.length+' pages':'page '+epage)+'. Tap Save PDF to embed it.';
     };
     document.getElementById('editor-text').addEventListener('input',e=>{if(eselected&&eselected.type!=='signature-image'){eselected.text=e.target.value;drawEditorItems();}});
@@ -2417,7 +2427,7 @@ try{
  const url=new URL(location.href);url.searchParams.set('_docscan_verify',Date.now().toString());
  const response=await fetch(url.href,{cache:'no-store',redirect:'follow'});
  const html=await response.text();
- const match=html.match(/DocuScan Pro[^<\n]{0,100}v(2\.\d+\.\d+)/i)||html.match(/Version\s*(2\.\d+\.\d+)/i);
+ const match=html.match(/DocuScan Pro[^<\n]{0,100}v([2-9]\.\d+\.\d+)/i)||html.match(/Version\s*([2-9]\.\d+\.\d+)/i);
  line('Server response: HTTP '+response.status+' ('+response.url+')');
  line('Server version detected: '+(match?.[1]||'unknown'));
  line('Build marker on server: '+(html.includes(BUILD)?'matches current build':'not found — server may have an older/different file'));

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>DocuScan Pro v3.1.0 | Scanner & PDF Studio</title>
+  <title>DocuScan Pro v3.4.0 | Scanner & PDF Studio</title>
   
   <!-- PWA & iOS Meta Tags -->
   <link rel="manifest" href="manifest.json">
@@ -98,8 +98,14 @@
     .library-actions button{padding:7px 10px;border:1px solid #cbd9e8;border-radius:8px;background:#f1f6fc;color:#1b3857;font-weight:600}
     .doc-item{flex-wrap:wrap;gap:8px}
     .smart-ocr-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:14px 0 8px;flex-wrap:wrap}.smart-ocr-heading strong{font-size:17px;color:#143a62}.smart-ocr-heading span{font-size:12px;color:#55718b}.ocr-review{background:#f3f8fe;border:1px solid #d4e3f3;border-radius:12px;padding:12px;margin:12px 0;color:#28435e;font-size:13px}.ocr-review mark{background:#ffdf92;border-radius:3px;padding:1px 3px}.ocr-review .review-words{max-height:140px;overflow:auto;line-height:2}
-    .history-view { display: none; flex-direction: column; height: 100%; }
+    .history-view { display: none; flex-direction: column; min-height: 55vh; max-width: 920px; margin: 20px auto 100px; padding: 22px; background: white; border-radius: 20px; }
     .history-view.active { display: flex; }
+    body.library-mode #task-home, body.library-mode #scanner-view, body.library-mode #pdf-editor, body.library-mode #task-nav { display: none !important; }
+    body.library-mode #history-view { display: flex !important; }
+    body.library-mode #mobile-tabs #tabs-library { color: #096af5; }
+    #close-history-btn { min-width: 48px; min-height: 48px; position: relative; z-index: 2; }
+    #history-view .library-actions button { min-height: 44px; }
+
     .doc-item {
       background: var(--card); padding: 16px; border-radius: 12px; margin-bottom: 12px;
       display: flex; justify-content: space-between; align-items: center;
@@ -193,7 +199,7 @@
 .help-footer{max-width:900px;margin:25px auto 10px;text-align:center;color:#708096;font-size:12px}
 @media(max-width:650px){.help-hero{grid-template-columns:1fr}.help-paths{grid-template-columns:1fr}.help-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.help-shell{padding:12px 13px 65px}}
 
-/* v3.1.0 task-based navigation */
+/* v3.4.0 task-based navigation */
 #task-home{max-width:920px;margin:22px auto;padding:16px}
 .task-intro{font-size:13px;letter-spacing:.13em;font-weight:800;color:#517496;text-transform:uppercase}
 .task-home-title{font-size:clamp(28px,5vw,42px);color:#18334e;margin:9px 0 8px}
@@ -342,7 +348,7 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
 .splash-card{max-width:560px}.splash-card h1{font-size:clamp(40px,8vw,64px)!important;letter-spacing:-2.5px}.brand-mark{box-shadow:0 14px 30px #0005}
 @media(min-width:900px){#mobile-tabs{max-width:560px;left:50%;right:auto;transform:translateX(-50%);border:1px solid #dce5f1;border-radius:23px 23px 0 0;width:100%}body:not(.splash-active){padding-bottom:110px}}
 @media(max-width:700px){.task-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.task-grid .task-card{min-height:175px;padding:18px}.task-grid .task-card:last-child{grid-column:1/-1;min-height:145px}.hero-art{min-width:100px}.hero-paper{width:95px;height:125px;padding:28px 15px;gap:8px}.hero-paper b{width:42px;height:42px;font-size:23px}.hero-paper span{height:6px}#task-nav #task-tour{font-size:12px}#task-nav button{padding:9px}}
-@media(max-width:420px){.home-hero{min-height:210px;padding:23px;border-radius:26px}.hero-art{min-width:65px;width:24%}.hero-paper{transform:scale(.75)}.task-grid{gap:10px}.task-grid .task-card{min-height:165px;padding:15px;border-radius:20px}.task-grid .task-card strong{font-size:17px}.task-grid .task-card small{font-size:11px}.task-grid .task-icon{width:52px;height:52px;flex-basis:52px}.home-quick-actions{grid-template-columns:1fr}#task-nav #task-help{display:none}}
+@media(max-width:420px){.home-hero{min-height:210px;padding:23px;border-radius:26px}.hero-art{min-width:65px;width:24%}.hero-paper{transform:scale(.75)}.task-grid{gap:10px}.task-grid .task-card{min-height:165px;padding:15px;border-radius:20px}.task-grid .task-card strong{font-size:17px}.task-grid .task-card small{font-size:11px}.task-grid .task-icon{width:52px;height:52px;flex-basis:52px}.home-quick-actions{grid-template-columns:1fr}#task-nav #task-help{display:inline-flex}}
 @media(prefers-reduced-motion:reduce){.task-grid .task-card{transition:none}}
 
 /* v3.1 — touch-first task workspaces, preserving existing processing logic */
@@ -376,9 +382,43 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
 #tour-card{max-width:min(390px,calc(100vw - 24px));border-radius:22px!important;box-shadow:0 20px 65px #102d5266!important}#tour-card button{min-height:44px;border-radius:12px}
 @media(max-width:700px){#document-studio-tools .toolgrid,#pdf-toolbox .toolgrid{grid-template-columns:repeat(2,minmax(0,1fr))}#document-studio-tools .toolgrid button{min-height:66px}#task-nav{gap:6px}#task-nav #task-tour{font-size:11px}}
 @media(max-width:410px){#document-studio-tools .ocr-compact-row{grid-template-columns:repeat(3,minmax(0,1fr))}#document-studio-tools .ocr-compact-row>div:last-child{grid-column:auto}#document-studio-tools .ocr-compact-row select{font-size:11px}#mobile-tabs{padding-left:4px;padding-right:4px}#mobile-tabs button{font-size:9px}}
+
+/* v3.2 touch-first workspaces: compact empty states, large native-style controls */
+.header-hidden-actions{display:none!important}
+#task-nav #task-help{display:inline-flex!important;align-items:center;justify-content:center}
+#task-nav{box-shadow:0 8px 22px #1b35510b}
+#pdf-editor,#pdf-toolbox,#document-studio-tools{--touch-blue:#1167e8}
+#pdf-editor .editor-toolbar,#pdf-toolbox .editor-toolbar,#document-studio-tools .toolgrid{border-radius:22px;background:#f0f5fc;padding:12px;gap:10px}
+#pdf-editor .editor-toolbar button,#pdf-toolbox button,#document-studio-tools button{min-height:48px;border-radius:15px!important}
+.page-stepper{display:flex!important;align-items:center;justify-content:center;gap:10px;max-width:380px;margin:10px auto 16px!important;padding:7px!important;background:#eef4fc;border:1px solid #dbe6f4;border-radius:18px!important}
+.page-stepper button{display:grid;place-items:center;flex:0 0 48px;width:48px;height:44px;min-height:44px!important;font-size:28px;line-height:1;background:white!important;color:#1657a6!important;border:1px solid #d7e5f7!important;border-radius:13px!important;padding:0!important;box-shadow:0 2px 5px #193e7010}
+.page-stepper button:disabled{opacity:.35;box-shadow:none}
+.page-stepper span{flex:1;min-width:0;text-align:center;font-size:13px;font-weight:750;color:#47617e}
+.pdf-compare>div{display:flex;flex-direction:column;min-width:0}
+.pdf-compare>div>strong{font-size:14px;color:#1b3c65}
+.pdf-compare canvas.preview-collapsed{display:none!important}
+.pdf-compare>div:has(canvas.preview-collapsed)::after{content:'Your document preview will appear here';display:grid;place-items:center;min-height:94px;border-radius:14px;border:1px dashed #d1e0f2;background:#fff;color:#7d91aa;font-size:13px;text-align:center;padding:12px}
+#editor-paper:has(canvas.preview-collapsed){min-height:130px;display:grid;place-items:center;box-shadow:none;background:#f8fbff;border:1px dashed #c9d9ee}
+#editor-paper:has(canvas.preview-collapsed)::before{content:'Open a PDF or photo to begin';color:#748aa5;font-size:14px;padding:20px}
+#editor-paper canvas.preview-collapsed{display:none!important}
+#pdf-toolbox .toolbox,#document-studio-tools.toolbox{border-radius:24px!important;box-shadow:0 10px 32px #173d6810!important}
+@media(min-width:760px){#pdf-toolbox .pdf-compare{grid-template-columns:1fr 1fr}#pdf-editor .editor-toolbar{justify-content:center}}
+@media(max-width:600px){#task-nav{padding:9px!important}#task-nav #task-heading{font-size:15px}#task-nav #task-tour{font-size:11px;max-width:145px}#pdf-toolbox .pdf-compare{grid-template-columns:1fr}#pdf-editor .editor-toolbar button{flex:1 1 42%}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-</head>
+<style id="contextual-workspaces-style">
+.context-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:8px 2px 13px;position:sticky;top:0;z-index:8;background:#f7faff}
+.context-tabs button{flex:1 0 auto;min-height:48px;padding:10px 16px;border:1px solid #d5e2f3;border-radius:15px;background:white;color:#314866;font-size:14px;font-weight:750;box-shadow:0 2px 7px #172b4910}
+.context-tabs button[aria-selected="true"]{background:#1166eb;color:white;border-color:#1166eb;box-shadow:0 5px 16px #1166eb30}
+.context-pane{display:none!important;animation:context-in .16s ease-out}
+.context-pane.context-active{display:block!important}
+.context-pane>.toolgrid{margin:12px 0}
+.context-pane>label{display:block;margin-top:12px}
+.context-pane>button{margin:7px 4px 7px 0}
+.context-pane:empty{display:none!important}
+@keyframes context-in{from{opacity:.7;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media(max-width:700px){.context-tabs{margin:0 -6px;padding:8px 6px 12px}.context-tabs button{font-size:13px;padding:9px 13px}.context-pane{padding:4px 0}.context-pane .toolgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style></head>
 <body class="splash-active">
   <section class="splash-screen" id="splash-screen" aria-labelledby="splash-title">
     <div class="splash-card">
@@ -401,7 +441,7 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
       </div>
       <button class="launch-btn" id="launch-app-btn" type="button">Continue to DocuScan <span aria-hidden="true">→</span></button>
       <button id="splash-help-btn" type="button" class="splash-secondary">How it works</button>
-      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 3.1.0 · Build 2026-10-27-touch-workspaces-01</p>
+      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 3.4.0 · Build 2026-10-27-navigation-audit-01</p>
       <button id="review-agreements" type="button" class="review-agreements" hidden>Review agreements</button>
     </div>
   </section>
@@ -409,7 +449,7 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
 
 <section id="help-screen" class="help-screen" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
 <div class="help-shell">
-  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v3.1.0</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
+  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v3.4.0</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
 
 <div class="help-mode-nav" aria-label="Choose a help topic">
 <button type="button" data-help-mode="sign">✍️ Add Text &amp; Sign</button>
@@ -467,19 +507,19 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
   <h3 class="help-section-title">If something goes wrong</h3>
   <div class="help-paths"><div class="help-path"><h3>Camera shows black</h3><p style="font-size:14px;line-height:1.6">Use <strong>Choose Photo or Camera</strong> and pick a photo from the iPad Photos app instead. Check Safari camera permission if you want to capture directly.</p></div><div class="help-path"><h3>Text looks wrong</h3><p style="font-size:14px;line-height:1.6">Crop tighter, use better light, try another OCR mode, then retake. Correct mistakes in the editable text box. The PDF's hidden OCR layer may still need review.</p></div></div>
   <article class="help-path"><div class="help-kicker">Mission 03 · PDF Workshop</div><h3>🧰 Edit a PDF you already have</h3><ol class="help-steps"><li><div><strong>Open PDF from Files</strong> to select your document.</div></li><li><div><strong>Scroll to PDF Workshop</strong> and select a tool: merge, split/extract, reorder, rotate, delete, watermark, number, flatten, extract text, JPG or compress.</div></li><li><div><strong>Enter page numbers</strong> when relevant. For example, 1,3-5 selects pages 1, 3, 4 and 5.</div></li><li><div><strong>Tap Run selected tool,</strong> then Download or Share result.</div></li><li><div><strong>Tap Use result for next tool</strong> to make another edit or sign the result.</div></li></ol><p class="help-note">For signing, use the separate signing panel. These tools are experimental until tested on your iPad.</p></article>
-  <div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br><strong>Version:</strong> 3.1.0<br><strong>Build:</strong> 2026-10-27 · intelligent-ocr-01<br><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br><strong>Support:</strong> Support email/website — <em>not yet configured</em><br><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
+  <div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br><strong>Version:</strong> 3.4.0<br><strong>Build:</strong> 2026-10-27 · touch-navigation-02<br><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br><strong>Support:</strong> Support email/website — <em>not yet configured</em><br><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
   </div><!-- general-help-content -->
   <p style="margin-top:22px;text-align:center"><button type="button" class="help-close" id="help-done-btn">Got it — back to DocuScan</button></p>
 </div></section>
 
   <header>
     <h1><span style="color:#477bb4;margin-right:8px;">▤</span>DocuScan <span style="font-weight:450;color:#72839a;">Pro</span></h1>
-    <div style="display:flex;align-items:center;gap:8px"><button class="icon-btn" id="history-btn" type="button" title="Open saved documents stored on this device" aria-label="Open saved documents stored on this device">🗂️</button><button class="help-trigger" id="help-btn" type="button" aria-label="Open illustrated help guide">? Help</button></div>
+    <div class="header-hidden-actions" aria-hidden="true"><button class="icon-btn" id="history-btn" type="button" tabindex="-1">Library</button><button class="help-trigger" id="help-btn" type="button" tabindex="-1">Help</button></div>
   </header>
 
   
 <section id="task-home" aria-label="Choose a task"><button type="button" id="home-legal" class="legal-home-link">Terms &amp; privacy</button>
-  <div class="home-hero"><div class="home-hero-copy"><div class="hero-overline">DOCUSCAN <span>PRO</span> <small>3.0</small></div><h1 class="task-home-title">Make paperwork<br><em>feel effortless.</em></h1><p>Scan. Recognize. Keep moving.</p></div><div class="hero-art" aria-hidden="true"><div class="hero-paper"><span></span><span></span><span></span><span></span><b>✓</b></div></div></div>
+  <div class="home-hero"><div class="home-hero-copy"><div class="hero-overline">DOCUSCAN <span>PRO</span> <small>3.2</small></div><h1 class="task-home-title">Make paperwork<br><em>feel effortless.</em></h1><p>Scan. Recognize. Keep moving.</p></div><div class="hero-art" aria-hidden="true"><div class="hero-paper"><span></span><span></span><span></span><span></span><b>✓</b></div></div></div>
   <div class="dashboard-section-head"><h2>What would you like to do?</h2><span>YOUR WORKSPACE</span></div><div class="task-grid">
   <button class="task-card" data-task="sign"><span class="task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M7 16l-2 3 3-1 10-10-2-2L7 16ZM14 8l2 2"/></svg></span><span><strong>Add Text &amp; Sign</strong><small>Open an existing PDF, drag a signature anywhere, insert a date or text box, then save.</small></span><span aria-hidden="true">›</span></button>
   <button class="task-card" data-task="workshop"><span class="task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="15" rx="2"/><path d="M8 6V4h8v2M8 11h8M12 9v9"/></svg></span><span><strong>PDF Workshop</strong><small>Merge, split, rotate, reorder, watermark, extract pages and more.</small></span><span aria-hidden="true">›</span></button>
@@ -489,12 +529,12 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
 </section>
 <div id="task-nav"><button id="back-home" type="button">← All tools</button><strong id="task-heading">Document Studio</strong><button id="task-help" type="button">? Help for this tool</button><button id="task-tour" type="button">👆 Show me on this screen</button></div>
 <nav id="mobile-tabs" aria-label="Main navigation"><button type="button" data-task="home"><span class="tab-icon">⌂</span>Home</button><button type="button" data-task="studio"><span class="tab-icon">▣</span>Studio</button><button type="button" data-task="workshop"><span class="tab-icon">▤</span>PDF tools</button><button type="button" data-task="sign"><span class="tab-icon">✎</span>Sign</button><button type="button" id="tabs-library"><span class="tab-icon">▥</span>Library</button><button type="button" id="tabs-help"><span class="tab-icon">ⓘ</span>Help</button></nav>
-<div id="tour-backdrop" aria-hidden="true"></div><aside id="tour-card" role="dialog" aria-label="Guided tour" aria-live="polite"><div id="tour-progress" style="font-size:12px;font-weight:700;color:#66788f"></div><h3 id="tour-title"></h3><p id="tour-copy"></p><button id="tour-next" type="button">Next →</button><button id="tour-exit" type="button">Close tour</button></aside>
+<div id="tour-backdrop" aria-hidden="true"></div><aside id="tour-card" role="dialog" aria-label="Guided tour" aria-live="polite"><div id="tour-progress" style="font-size:12px;font-weight:700;color:#66788f"></div><h3 id="tour-title"></h3><p id="tour-copy"></p><button id="tour-previous" type="button">← Previous</button><button id="tour-next" type="button">Next →</button><button id="tour-exit" type="button">Close tour</button></aside>
 <section id="pdf-editor" aria-label="Add text and sign PDF" style="display:none">
   <div class="task-intro">Add Text &amp; Sign</div><h2 style="font-size:26px;margin:8px 0">Place it exactly where you want.</h2>
   <p class="editor-hint">Start with a PDF from Files. Tap Sign, Text or Date, then touch and drag the item onto the page. Choose its font, size and width below. No OCR is needed to edit an existing PDF.</p>
-  <div class="editor-toolbar"><button id="editor-open" class="primary" type="button">📂 Open PDF from Files</button><button id="editor-photo" type="button">📷 Use a photo</button><button id="editor-prev" type="button">← Previous page</button><span id="editor-page-label" style="align-self:center">No document</span><button id="editor-next" type="button">Next page →</button></div>
-  <div id="editor-paper"><canvas id="editor-page-canvas" width="600" height="780"></canvas><div id="editor-overlays"></div></div>
+  <div class="editor-toolbar"><button id="editor-open" class="primary" type="button">📂 Open PDF from Files</button><button id="editor-photo" type="button">📷 Use a photo</button></div><div class="page-stepper" aria-label="PDF page navigation"><button id="editor-prev" type="button" aria-label="Previous page">‹</button><span id="editor-page-label">No document</span><button id="editor-next" type="button" aria-label="Next page">›</button></div>
+  <div id="editor-paper"><canvas class="preview-collapsed" id="editor-page-canvas" width="600" height="780"></canvas><div id="editor-overlays"></div></div>
   <div class="editor-toolbar" id="editor-tool-buttons"><button id="editor-add-sign" type="button">✍ Add signature</button><button id="editor-add-text" type="button">T Add text</button><button id="editor-add-date" type="button">▦ Add date</button><button id="editor-delete" type="button">🗑 Remove selected</button></div>
   <div id="editor-controls">
     <label for="editor-text">Text / typed signature</label><input id="editor-text" placeholder="Enter text to place on the document" />
@@ -572,7 +612,7 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
       <div class="editor-toolbar"><button id="workshop-open-pdf" type="button" class="primary">📂 Open existing PDF</button><button id="workshop-open-photo" type="button">📷 Use photo as PDF</button></div>
       <p id="workshop-source-status" class="tool-note">First open a PDF or photograph. Then select a tool below.</p>
       <p class="tool-note">Import a PDF using “Open PDF from Files” above. Tools work on the imported PDF, create a separate copy, and do not overwrite your original. Select an operation, then tap Run tool.</p>
-      <label for="pdf-tool-operation">Choose a PDF tool</label>
+      <label id="workshop-tool-start" for="pdf-tool-operation">Choose a PDF tool</label>
       <div class="workshop-pick-row"><select id="pdf-tool-operation">
         <option value="searchable">Make PDF searchable / extract editable text (OCR)</option>
         <option value="rotate">Rotate selected pages 90° clockwise</option>
@@ -596,8 +636,8 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
       <select id="pdf-image-quality"><option value="0.82">Balanced</option><option value="0.6">Smaller file</option><option value="0.94">Higher quality</option></select></div>
       <div class="workshop-next-row"><button type="button" id="use-tool-result" disabled>↻ Continue editing this result</button></div>
       <p id="pdf-tool-status" class="tool-note" role="status" aria-live="polite">Ready when a PDF is imported.</p>
-      <div class="pdf-compare"><div><strong>Source PDF preview</strong><div class="pdf-page-controls"><button id="source-prev" type="button">←</button><span id="source-page-label">No PDF</span><button id="source-next" type="button">→</button></div><canvas id="source-preview" aria-label="Source PDF page preview"></canvas></div><div><strong>Result preview — review before saving</strong><div class="pdf-page-controls"><button id="result-prev" type="button">←</button><span id="result-page-label">Run a tool first</span><button id="result-next" type="button">→</button></div><canvas id="result-preview" aria-label="Result PDF page preview"></canvas><pre id="result-text-preview" style="display:none;white-space:pre-wrap;max-height:340px;overflow:auto"></pre></div></div>
-      <div class="toolgrid workshop-export-bottom"><button type="button" id="download-tool-result" disabled>↓ Download result</button><button type="button" id="share-tool-result" disabled>↗ Share result</button></div>
+      <div class="pdf-compare" id="workshop-preview-group"><div><strong>Source PDF preview</strong><div class="pdf-page-controls page-stepper"><button id="source-prev" type="button" aria-label="Previous source page">‹</button><span id="source-page-label">No document</span><button id="source-next" type="button" aria-label="Next source page">›</button></div><canvas class="preview-collapsed" id="source-preview" aria-label="Source PDF page preview"></canvas></div><div><strong>Result preview — review before saving</strong><div class="pdf-page-controls page-stepper"><button id="result-prev" type="button" aria-label="Previous result page">‹</button><span id="result-page-label">No document</span><button id="result-next" type="button" aria-label="Next result page">›</button></div><canvas class="preview-collapsed" id="result-preview" aria-label="Result PDF page preview"></canvas><pre id="result-text-preview" style="display:none;white-space:pre-wrap;max-height:340px;overflow:auto"></pre></div></div>
+      <div class="toolgrid workshop-export-bottom" id="workshop-export-group"><button type="button" id="download-tool-result" disabled>↓ Download result</button><button type="button" id="share-tool-result" disabled>↗ Share result</button></div>
       <p class="tool-note"><strong>Limitations:</strong> Password-protected PDFs, certificate-based signatures, translation, AI chat, and precise automatic form recognition are not included. Image-based compression can increase size and removes searchable text. Text extraction only works on PDFs that already contain text.</p>
     </section>
     <section class="toolbox" id="document-studio-tools" aria-label="Scan and editing tools">
@@ -609,7 +649,7 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
       <button id="studio-process" type="button" class="btn btn-primary" style="margin-top:8px" disabled>🔎 Recognize &amp; Create PDF</button>
       <p id="studio-status" class="tool-note" role="status">No pages yet. Add a photo to begin.</p>
       <div id="studio-ready" class="tool-note" style="padding:12px;background:#eaf4ff;border-radius:12px">Start with <strong>Add photo or scan page</strong>. After the image appears, the editing tools and OCR button will be available.</div>
-      <div class="toolgrid">
+      <div class="toolgrid" id="studio-edit-actions">
         <button type="button" id="add-page-btn">＋ Add page</button>
         <button type="button" id="crop-page-btn">✂ Crop last page</button>
         <button type="button" id="straighten-page-btn">▱ Straighten / crop</button>
@@ -630,7 +670,7 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
           <button type="button" id="cancel-crop-btn">Cancel</button>
         </div>
       </div>
-      <div class="smart-ocr-heading"><strong>Smart OCR settings</strong><span>From paper to polished, searchable, signed documents—all in one private workspace. Recognition runs locally in your browser; Smart Auto can take longer</span></div>
+      <div class="smart-ocr-heading" id="studio-ocr-heading"><strong>Smart OCR settings</strong><span>From paper to polished, searchable, signed documents—all in one private workspace. Recognition runs locally in your browser; Smart Auto can take longer</span></div>
       <div class="ocr-compact-row"><div><label for="ocr-language">Language</label>
       <select id="ocr-language"><option value="eng">English</option><option value="spa">Spanish</option><option value="eng+spa">English + Spanish</option><option value="fra">French</option><option value="deu">German</option><option value="ita">Italian</option></select>
       </div><div><label for="ocr-quality">Accuracy</label>
@@ -638,7 +678,7 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
       </div><div><label for="ocr-mode" style="font-size:12px;font-weight:650">Image</label>
       <select id="ocr-mode"><option value="auto">Auto: improve contrast for OCR</option><option value="original">Original photo</option><option value="bw">Black &amp; white document</option><option value="adaptive">Adaptive threshold · faint text / uneven light</option></select>
       </div></div><div class="tool-note" id="ocr-benchmark" aria-live="polite">OCR diagnostics: waiting for a document. Smart Auto compares two passes and chooses a result using confidence and coverage heuristics.</div>
-      <label for="doc-title" style="font-size:12px;font-weight:650">Document name</label>
+      <label id="studio-finish-start" for="doc-title" style="font-size:12px;font-weight:650">Document name</label>
       <input id="doc-title" placeholder="My scanned document" maxlength="100">
       <label for="stamp-text" style="font-size:12px;font-weight:650">Optional PDF stamp / watermark</label>
       <input id="stamp-text" placeholder="e.g. DRAFT or CONFIDENTIAL" maxlength="60">
@@ -688,11 +728,11 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
   </main>
 
   <!-- History View -->
-  <p class="help-footer">DocuScan Pro · Version 3.1.0 · <button type="button" data-build-check style="border:1px solid #a4bfd9;border-radius:8px;padding:6px 9px;background:#f2f8ff;color:#154b7c">Check version &amp; cache</button> · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
+  <p class="help-footer">DocuScan Pro · Version 3.4.0 · <button type="button" data-build-check style="border:1px solid #a4bfd9;border-radius:8px;padding:6px 9px;background:#f2f8ff;color:#154b7c">Check version &amp; cache</button> · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
   <main class="history-view" id="history-view">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
       <h2 style="font-size:24px; font-weight:700;">Saved Document Library</h2>
-      <button class="icon-btn" id="close-history-btn">✕</button>
+      <button class="icon-btn" id="close-history-btn" type="button" aria-label="Close document library">✕</button>
     </div>
     <p class="tool-note">Stored locally on this browser/device. Clearing website data can erase these files; download important documents.</p><div id="history-list"></div>
   </main>
@@ -1174,7 +1214,8 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
     const tourSteps={
       sign:[
         ['editor-open','1 · Open a document','Choose an existing PDF from Files. You do not need OCR to add a signature or date.'],
-        ['editor-paper','2 · This is your actual PDF','Your document appears here. Touch an item to select it, drag it anywhere, and use its corner handle to resize it.'],
+        ['editor-page-label','2 · Move between PDF pages','Use the paired arrows to go backward or forward. The current page appears between them.'],
+        ['editor-paper','3 · This is your actual PDF','Your document appears here. Touch an item to select it, drag it anywhere, and use its corner handle to resize it.'],
         ['editor-prev','3 · Change pages','Navigate to the page you want to sign or annotate.'],
         ['editor-tool-buttons','4 · Choose what to add','Add signature, text, or today’s date. The selected tool is highlighted.'],
         ['editor-controls','5 · Adjust the item','Change font, font size, box width, and box height.'],
@@ -1228,13 +1269,14 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
       if(tourElement)tourElement.classList.remove('tour-target');
       const steps=tourSteps[tourMode],step=steps[tourIndex];
       tourElement=document.getElementById(step[0]);
-      if(!tourElement){document.getElementById('tour-title').textContent=step[1];document.getElementById('tour-copy').textContent=step[2]+' (This control is unavailable in the current view.)';document.getElementById('tour-progress').textContent=`${tourMode.toUpperCase()} · ${tourIndex+1} OF ${steps.length}`;return;}
+      if(!tourElement){document.getElementById('tour-title').textContent=step[1];document.getElementById('tour-copy').textContent=step[2]+' (This control is unavailable in the current view.)';document.getElementById('tour-progress').textContent=`${tourMode.toUpperCase()} · ${tourIndex+1} OF ${steps.length}`;document.getElementById('tour-previous').disabled=tourIndex===0;document.getElementById('tour-next').textContent=tourIndex===steps.length-1?'Finish ✓':'Next →';return;}
       tourElement.classList.add('tour-target');
       tourElement.scrollIntoView({behavior:'smooth',block:'center'});
       document.getElementById('tour-progress').textContent=`${tourMode.toUpperCase()} · ${tourIndex+1} OF ${steps.length}`;
       document.getElementById('tour-title').textContent=step[1];
       document.getElementById('tour-copy').textContent=step[2];
       document.getElementById('tour-next').textContent=tourIndex===steps.length-1?'Finish ✓':'Next →';
+      document.getElementById('tour-previous').disabled=tourIndex===0;
     }
     document.getElementById('task-tour').onclick=()=>{
       tourMode=document.body.classList.contains('task-sign-mode')?'sign':document.body.classList.contains('task-workshop-mode')?'workshop':'studio';
@@ -1242,6 +1284,7 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
       document.getElementById('tour-backdrop').style.display='block';showTourStep();
     };
     document.getElementById('tour-next').onclick=()=>{if(++tourIndex>=tourSteps[tourMode].length)closeTour();else showTourStep();};
+    document.getElementById('tour-previous').onclick=()=>{if(tourIndex>0){tourIndex--;showTourStep();}};
     document.getElementById('tour-exit').onclick=closeTour;
 
     const initialAutoStraighten=document.getElementById('auto-straighten-toggle');
@@ -1786,15 +1829,25 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
     }
 
     // --- HISTORY (IndexedDB) ---
-    els.historyBtn.onclick = () => {
-      els.scannerView.style.display = 'none';
+    // Library is a dedicated navigation state, not an overlay on the scanner.
+    let previousLibraryTask='home';
+    function openLibrary(){
+      const match=document.body.className.match(/task-(home|studio|workshop|sign)-mode/);
+      previousLibraryTask=match?match[1]:'home';
+      document.body.classList.add('library-mode');
       els.historyView.classList.add('active');
+      document.querySelectorAll('#mobile-tabs [data-task]').forEach(b=>b.classList.remove('active'));
+      document.getElementById('tabs-library').classList.add('active');
       loadHistory();
-    };
-    els.closeHistoryBtn.onclick = () => {
+      window.scrollTo(0,0);
+    }
+    function closeLibrary(){
+      document.body.classList.remove('library-mode');
       els.historyView.classList.remove('active');
-      els.scannerView.style.display = 'flex';
-    };
+      switchTask(previousLibraryTask);
+    }
+    els.historyBtn.onclick=openLibrary;
+    els.closeHistoryBtn.onclick=closeLibrary;
 
     async function getSavedDocs(){
       const db=await openDB();
@@ -1815,7 +1868,7 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
           const bytes=await doc.blob.arrayBuffer();
           const parsed=await PDFLib.PDFDocument.load(bytes.slice(0));
           importedPdfBytes=bytes;toolResultBlob=null;
-          document.getElementById('close-history-btn').click();
+          closeLibrary();
           switchTask('workshop');
           document.getElementById('workshop-source-status').textContent=`Opened saved document: ${doc.name} (${parsed.getPageCount()} pages)`;
           workshopPreviewState.source.page=1;await previewWorkshop('source');
@@ -1863,7 +1916,7 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
         }
       }catch(e){els.historyList.textContent='Document library unavailable: '+e.message;}
     }
-    document.getElementById('studio-open-library').onclick=()=>els.historyBtn.click();
+    document.getElementById('studio-open-library').onclick=openLibrary;
 
     // --- UTILITIES ---
     function resetScanner() {
@@ -1918,28 +1971,46 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
     }
 // Cache maintenance is user-initiated. Never delete saved IndexedDB documents
 // or localStorage signatures as part of a routine page load.
-        // v3.1.0 task navigation and WYSIWYG PDF editor
+        // v3.4.0 task navigation and WYSIWYG PDF editor
     const taskNames={sign:'Add Text & Sign',workshop:'PDF Workshop',studio:'Document Studio'};
     function switchTask(task){
-      document.body.classList.remove('task-home-mode','task-sign-mode','task-workshop-mode','task-studio-mode');
+      document.body.classList.remove('task-home-mode','task-sign-mode','task-workshop-mode','task-studio-mode','library-mode');
+      els.historyView.classList.remove('active');
+      document.getElementById('tabs-library').classList.remove('active');
       document.body.classList.add('task-'+task+'-mode');
       document.getElementById('pdf-editor').style.display=task==='sign'?'block':'none';
       document.getElementById('task-heading').textContent=taskNames[task]||'All tools';
       document.querySelectorAll('#mobile-tabs [data-task]').forEach(b=>{const active=b.dataset.task===task;b.classList.toggle('active',active);b.setAttribute('aria-current',active?'page':'false');});
-      window.scrollTo({top:0,behavior:'instant'});
+      window.scrollTo(0,0);
     }
     document.querySelectorAll('[data-task]').forEach(el=>el.addEventListener('click',()=>switchTask(el.dataset.task)));
     document.getElementById('back-home').onclick=()=>switchTask('home');
     document.getElementById('home-help').onclick=openHelp;
-    document.getElementById('home-library-shortcut').onclick=()=>els.historyBtn.click();
-    document.getElementById('tabs-library').onclick=()=>els.historyBtn.click();
+    document.getElementById('home-library-shortcut').onclick=openLibrary;
+    document.getElementById('tabs-library').onclick=openLibrary;
     document.getElementById('tabs-help').onclick=openHelp;
     document.getElementById('home-cache-shortcut').onclick=()=>{const b=document.querySelector('[data-build-check]');if(b)b.click();};
+
+    // v3.2: keep empty preview panels compact until a real page is rendered.
+    function syncEmptyPreviews(){
+      for(const [canvasId,labelId] of [['editor-page-canvas','editor-page-label'],['source-preview','source-page-label'],['result-preview','result-page-label']]){
+        const canvas=document.getElementById(canvasId),label=document.getElementById(labelId);
+        if(!canvas||!label)continue;
+        const t=label.textContent.trim().toLowerCase();
+        const empty=t.includes('no document')||t.includes('no pdf')||t.includes('run a tool')||t.includes('loading')||t.includes('open a');
+        canvas.classList.toggle('preview-collapsed',empty);
+      }
+    }
+    ['editor-page-label','source-page-label','result-page-label'].forEach(id=>{
+      const el=document.getElementById(id);if(el)new MutationObserver(syncEmptyPreviews).observe(el,{childList:true,characterData:true,subtree:true});
+    });
+    syncEmptyPreviews();
     const originalSwitchTask=switchTask;
 
     document.getElementById('task-help').onclick=()=>openHelp(document.body.classList.contains('task-sign-mode')?'sign':document.body.classList.contains('task-workshop-mode')?'workshop':'studio');
     document.getElementById('launch-app-btn').addEventListener('click',()=>switchTask('home'));
     document.body.classList.add('task-home-mode');
+    console.info('[DocuScan v3.4.0] Navigation initialized');
 
     document.getElementById('home-legal').addEventListener('click',()=>{
       splashScreen.style.display='flex';document.body.classList.add('splash-active');
@@ -2223,7 +2294,7 @@ button,select,input{font-family:inherit}button:focus-visible{outline:3px solid #
 <script>
 (function(){
 'use strict';
-const VERSION='3.1.0', BUILD='2026-10-27-touch-workspaces-01';
+const VERSION='3.4.0', BUILD='2026-10-27-navigation-audit-01';
 const panel=document.getElementById('build-check-panel');
 const output=document.getElementById('build-check-output');
 let report='';
@@ -2267,6 +2338,65 @@ document.getElementById('build-check-close').addEventListener('click',close);
 document.getElementById('build-run-check').addEventListener('click',run);
 document.getElementById('build-clear-reload').addEventListener('click',clearAndReload);
 document.getElementById('build-copy-report').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(report);alert('Diagnostic report copied.');}catch(e){alert('Copy unavailable; select the report text manually.');}});
+})();
+</script>
+<script id="contextual-workspaces-script">
+(function(){
+'use strict';
+// Keep the existing feature buttons and event handlers; only regroup their nodes.
+function group(sectionId, groups){
+ const section=document.getElementById(sectionId);if(!section)return;
+ const tabs=document.createElement('nav');tabs.className='context-tabs';tabs.setAttribute('aria-label','Workspace tools');
+ const panes=[];
+ groups.forEach((g,i)=>{
+  const first=document.getElementById(g.start),last=document.getElementById(g.end);
+  if(!first||!last||first.parentElement!==section||last.parentElement!==section)return;
+  const pane=document.createElement('div');pane.className='context-pane';pane.id=sectionId+'-context-'+i;
+  const nodes=[];let n=first;while(n){nodes.push(n);if(n===last)break;n=n.nextElementSibling;}
+  if(nodes[nodes.length-1]!==last)return;
+  section.insertBefore(pane,first);nodes.forEach(el=>pane.appendChild(el));
+  const btn=document.createElement('button');btn.type='button';btn.textContent=g.label;
+  btn.setAttribute('aria-controls',pane.id);btn.setAttribute('aria-selected','false');
+  tabs.appendChild(btn);panes.push({pane,btn});
+  btn.addEventListener('click',()=>activate(pane));
+ });
+ if(!panes.length)return;
+ section.insertBefore(tabs,panes[0].pane);
+ function activate(pane){panes.forEach(x=>{const yes=x.pane===pane;x.pane.classList.toggle('context-active',yes);x.btn.setAttribute('aria-selected',String(yes));});}
+ activate(panes[0].pane);
+ // Guided help must reveal the panel containing the highlighted control.
+ const observer=new MutationObserver(()=>{
+  const highlighted=section.querySelector('.tour-highlight, .tour-target, .tour-active, [data-tour-active="true"]');
+  const pane=highlighted&&highlighted.closest('.context-pane');if(pane&&!pane.classList.contains('context-active'))activate(pane);
+ });
+ observer.observe(section,{attributes:true,subtree:true,attributeFilter:['class','data-tour-active']});
+ section.addEventListener('focusin',e=>{const pane=e.target.closest('.context-pane');if(pane&&!pane.classList.contains('context-active'))activate(pane);});
+ return {activate,panes};
+}
+const studio=group('document-studio-tools',[
+ {label:'📷 Capture',start:'studio-add-photo',end:'studio-ready'},
+ {label:'✂ Edit',start:'add-page-btn',end:'crop-panel'},
+ {label:'🔎 Recognize',start:'ocr-language',end:'ocr-benchmark'},
+ {label:'↗ Finish',start:'doc-title',end:'studio-final-actions'}
+]);
+// OCR heading is kept visible above the tabs, so settings can be reached in one tap.
+const workshop=group('pdf-toolbox',[
+ {label:'🧰 Choose tool',start:'pdf-tool-operation',end:'pdf-tool-status'},
+ {label:'👁 Preview',start:'source-prev',end:'result-preview'},
+ {label:'↓ Export',start:'download-tool-result',end:'share-tool-result'}
+]);
+// Workshop controls are nested in comparison containers, so only wrap if direct siblings.
+const editor=group('pdf-editor',[
+ {label:'📂 Open',start:'editor-open',end:'editor-paper'},
+ {label:'✍ Place',start:'editor-tool-buttons',end:'editor-controls'}
+]);
+// Provide a clear route to every panel from the guided tour even if controls were moved.
+const tourCard=document.getElementById('tour-card');
+if(tourCard){new MutationObserver(()=>{
+  const highlighted=document.querySelector('.tour-highlight, .tour-target, .tour-active, [data-tour-active="true"]');
+  if(!highlighted)return;const pane=highlighted.closest('.context-pane');
+  if(pane){const tab=document.querySelector('[aria-controls="'+pane.id+'"]');if(tab&&tab.getAttribute('aria-selected')!=='true')tab.click();}
+}).observe(tourCard,{subtree:true,childList:true,characterData:true});}
 })();
 </script>
 </body>

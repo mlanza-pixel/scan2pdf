@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>DocuScan Pro v4.4.1 | Scanner & PDF Studio</title>
+  <title>DocuScan Pro v4.4.2 | Scanner & PDF Studio</title>
   
   <!-- PWA & iOS Meta Tags -->
   <link rel="manifest" href="manifest.json">
@@ -205,7 +205,7 @@ body.splash-active #mobile-tabs, body.splash-active #task-nav {display:none!impo
 .help-footer{max-width:900px;margin:25px auto 10px;text-align:center;color:#708096;font-size:12px}
 @media(max-width:650px){.help-hero{grid-template-columns:1fr}.help-paths{grid-template-columns:1fr}.help-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.help-shell{padding:12px 13px 65px}}
 
-/* v4.4.1 task-based navigation */
+/* v4.4.2 task-based navigation */
 #task-home{max-width:920px;margin:22px auto;padding:16px}
 .task-intro{font-size:13px;letter-spacing:.13em;font-weight:800;color:#517496;text-transform:uppercase}
 .task-home-title{font-size:clamp(28px,5vw,42px);color:#18334e;margin:9px 0 8px}
@@ -543,6 +543,13 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
 .advanced-thumb[aria-pressed=true]{border-color:#1769d2;background:#eaf3ff}
 .advanced-thumb canvas{max-width:100%;height:105px;object-fit:contain;background:#fff}
 #advanced-results{white-space:pre-wrap;max-height:220px;overflow:auto}
+</style><style id="v442-ui">
+#editor-watermark-shortcut{background:#f4f7fb!important;color:#183b60!important;border:1px solid #cbd8e8!important;box-shadow:none!important}
+#editor-watermark-shortcut.is-active,#editor-tool-buttons button.is-active,.advanced-actions button:focus-visible,#run-pdf-tool:focus-visible{background:#1e65b8!important;color:#fff!important;border-color:#1e65b8!important}
+#editor-tool-buttons button,#editor-watermark-shortcut,#editor-download,#editor-save,#editor-share,#editor-save-library,#workshop-export-group button{border-radius:12px;min-height:46px;font-weight:600;transition:background .12s,border-color .12s}
+#editor-export-row button,#workshop-export-group button{background:#f4f7fb;color:#183b60;border:1px solid #cbd8e8}
+#editor-save{background:#1e65b8!important;color:white!important}
+#editor-watermark-angle,#pdf-watermark-angle{min-height:44px;width:100%;border:1px solid #cbd8e8;border-radius:10px;padding:8px;background:white}
 </style></head>
 <body class="splash-active">
   <section class="splash-screen" id="splash-screen" aria-labelledby="splash-title">
@@ -576,7 +583,7 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
 
 <section id="help-screen" class="help-screen" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
 <div class="help-shell">
-  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v4.4.1</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
+  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v4.4.2</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
 
 <div class="help-mode-nav" aria-label="Choose a help topic">
 <button type="button" data-help-mode="sign">✍️ Add Text &amp; Sign</button>
@@ -663,8 +670,8 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
   <div class="editor-toolbar"><button id="editor-open" class="primary" type="button">📂 Open PDF from Files</button><button id="editor-photo" type="button">📷 Use a photo</button></div><div class="page-stepper" aria-label="PDF page navigation"><button id="editor-prev" type="button" aria-label="Previous page">‹</button><span id="editor-page-label">No document</span><button id="editor-next" type="button" aria-label="Next page">›</button></div>
   <div id="editor-paper"><canvas class="preview-collapsed" id="editor-page-canvas" width="600" height="780"></canvas><div id="editor-overlays"></div></div>
   <div class="editor-toolbar" id="editor-tool-buttons"><button id="editor-add-sign" type="button">✍ Add signature</button><button id="editor-add-text" type="button">T Add text</button><button id="editor-add-date" type="button">▦ Add date</button><button id="editor-delete" type="button">🗑 Remove selected</button></div>
-  <div id="editor-controls"><div class="watermark-card"><label for="editor-watermark-text">Watermark your document</label><div class="watermark-row"><input id="editor-watermark-text" placeholder="DRAFT or CONFIDENTIAL" value="DRAFT" maxlength="60"><button type="button" id="editor-watermark-shortcut" class="btn btn-secondary">＋ Add watermark</button></div><label class="watermark-option"><input type="checkbox" id="editor-watermark-all" checked> Apply to every page</label><p class="editor-hint">Watermark appears on the document preview and is embedded when you save the PDF. Tap Add watermark again to update it.</p></div>
-    <div class="editor-toolbar" aria-label="Document editing helpers"><button type="button" id="editor-undo">↶ Undo</button><button type="button" id="editor-redo">↷ Redo</button><button type="button" id="editor-print">Print saved PDF</button><button type="button" id="editor-save-library">Save finished PDF to Library</button></div>
+  <div id="editor-controls"><div class="watermark-card"><label for="editor-watermark-text">Watermark your document</label><div class="watermark-row"><input id="editor-watermark-text" placeholder="DRAFT or CONFIDENTIAL" value="DRAFT" maxlength="60"><button type="button" id="editor-watermark-shortcut" class="btn btn-secondary">Add watermark</button></div><p class="editor-hint">Watermark is applied to every page by default.</p><label for="editor-watermark-angle">Watermark angle</label><select id="editor-watermark-angle"><option value="-45" selected>Diagonal ↗</option><option value="0">Horizontal →</option><option value="45">Diagonal ↘</option><option value="-90">Vertical ↑</option></select><p class="editor-hint">Watermark appears on the document preview and is embedded when you save the PDF. Tap Add watermark again to update it.</p></div>
+    <div class="editor-toolbar" aria-label="Document editing helpers"><button type="button" id="editor-undo">↶ Undo</button><button type="button" id="editor-redo">↷ Redo</button><button type="button" id="editor-print">Print saved PDF</button><button type="button" id="editor-save-library">Save to Library</button></div>
     <label for="editor-template">Quick text templates</label><select id="editor-template"><option value="">Choose a reusable phrase</option><option value="Approved">Approved</option><option value="Reviewed">Reviewed</option><option value="Received">Received</option><option value="Please sign and return">Please sign and return</option><option value="Confidential">Confidential</option><option value="Date: ">Date label</option></select>
     <label for="editor-text">Text / typed signature</label><input id="editor-text" placeholder="Enter text to place on the document" />
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
@@ -695,8 +702,8 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
       <p id="sig-library-status" class="editor-hint" role="status"></p>
     </div>
 
-    <div class="editor-toolbar editor-export-row"><button id="editor-save" class="primary" type="button">↓ Save PDF</button><button id="editor-share" type="button" disabled>↗ Share PDF</button></div>
-    <p class="editor-hint">Save PDF downloads a copy using your browser. On iPad, look in Safari Downloads or the Files app → Downloads. Share PDF opens the iPad share sheet, where you can choose Save to Files and select a folder.</p>
+    <div class="editor-toolbar editor-export-row"><button id="editor-save" class="primary" type="button">Prepare PDF</button><button id="editor-download" type="button" disabled>Download PDF</button><button id="editor-share" type="button" disabled>↗ Share PDF</button></div>
+    <p class="editor-hint">Prepare PDF builds your edited document. Download PDF saves a copy to Files/Downloads. Save to Library stores it inside DocuScan Pro. Share PDF opens the iPad share sheet.</p>
     <p id="editor-status" class="editor-hint" role="status">No document loaded. PDF pages are previewed using PDF.js. Requires internet for libraries.</p>
   </div>
 </section>
@@ -760,13 +767,13 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
       <label for="pdf-pages">Pages or order (examples: 1,3-5 or 3,1,2)</label>
       <input id="pdf-pages" placeholder="Leave blank for all pages">
       <label for="pdf-tool-text">Watermark / title / author (depending on tool)</label>
-      <input id="pdf-tool-text" placeholder="CONFIDENTIAL or My document">
+      <input id="pdf-tool-text" placeholder="CONFIDENTIAL or My document"><div id="pdf-watermark-angle-wrap"><label for="pdf-watermark-angle">Watermark angle</label><select id="pdf-watermark-angle"><option value="-45" selected>Diagonal ↗</option><option value="0">Horizontal →</option><option value="45">Diagonal ↘</option></select></div>
       <div id="pdf-image-quality-wrap"><label for="pdf-image-quality">Image quality for JPG or image-based compression</label>
       <select id="pdf-image-quality"><option value="0.82">Balanced</option><option value="0.6">Smaller file</option><option value="0.94">Higher quality</option></select></div>
       <div class="workshop-next-row"><button type="button" id="use-tool-result" disabled>↻ Continue editing this result</button></div>
       <p id="pdf-tool-status" class="tool-note" role="status" aria-live="polite">Ready when a PDF is imported.</p>
       <div class="pdf-compare" id="workshop-preview-group"><div><strong>Source PDF preview</strong><div class="pdf-page-controls page-stepper"><button id="source-prev" type="button" aria-label="Previous source page">‹</button><span id="source-page-label">No document</span><button id="source-next" type="button" aria-label="Next source page">›</button></div><canvas class="preview-collapsed" id="source-preview" aria-label="Source PDF page preview"></canvas></div><div><strong>Result preview — review before saving</strong><div class="pdf-page-controls page-stepper"><button id="result-prev" type="button" aria-label="Previous result page">‹</button><span id="result-page-label">No document</span><button id="result-next" type="button" aria-label="Next result page">›</button></div><canvas class="preview-collapsed" id="result-preview" aria-label="Result PDF page preview"></canvas><pre id="result-text-preview" style="display:none;white-space:pre-wrap;max-height:340px;overflow:auto"></pre></div></div>
-      <div class="toolgrid workshop-export-bottom" id="workshop-export-group"><button type="button" id="save-tool-library" disabled>▣ Save PDF to Library</button><button type="button" id="download-tool-result" disabled>↓ Download result</button><button type="button" id="share-tool-result" disabled>↗ Share result</button></div>
+      <div class="toolgrid workshop-export-bottom" id="workshop-export-group"><button type="button" id="save-tool-library" disabled>Save to Library</button><button type="button" id="download-tool-result" disabled>Download file</button><button type="button" id="share-tool-result" disabled>Share file</button></div>
       <p class="tool-note"><strong>Limitations:</strong> Automatic form-field recognition and Apple Pencil freehand annotation are not implemented. Batch watermarking and page organization are available below.  Password-protected PDFs, certificate-based signatures, translation, AI chat, and precise automatic form recognition are not included. Image-based compression can increase size and removes searchable text. Text extraction only works on PDFs that already contain text.</p>
       <section class="advanced-suite" id="advanced-suite" aria-label="Advanced document tools">
         <h3>Advanced document tools</h3>
@@ -1800,9 +1807,9 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
                   const value=(label||'DRAFT').replace(/[^\x20-\x7E]/g,'').slice(0,60);
                   const size=Math.min(62,Math.max(16,width/(Math.max(1,value.length)*.66)));
                   const textWidth=font.widthOfTextAtSize(value,size);
-                  const x=Math.max(16,(width-textWidth)/2);
-                  page.drawText(value,{x,y:height*.50,size,font,color:PDFLib.rgb(.22,.28,.38),opacity:.38,rotate:PDFLib.degrees(0)});
-                  page.drawText(value,{x:x+1,y:height*.50+1,size,font,color:PDFLib.rgb(.22,.28,.38),opacity:.15});
+                  const angle=Number(document.getElementById("pdf-watermark-angle").value);
+                  const rad=angle*Math.PI/180;const x=width/2-(textWidth/2)*Math.cos(rad);const y=height/2-(textWidth/2)*Math.sin(rad);
+                  page.drawText(value,{x,y,size,font,color:PDFLib.rgb(.22,.28,.38),opacity:.38,rotate:PDFLib.degrees(angle)});
                 }else page.drawText(`${i+1} / ${count}`,{x:width/2-12,y:18,size:10,font,color:PDFLib.rgb(.35,.4,.45)});
               }
             }else if(operation==='flatten'){
@@ -1826,7 +1833,7 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
       const textRow=document.getElementById('pdf-tool-text').previousElementSibling;
       const textInput=document.getElementById('pdf-tool-text');
       const needsText=['watermark','metadata'].includes(operationSelect.value);
-      textRow.hidden=!needsText;textInput.hidden=!needsText;
+      textRow.hidden=!needsText;textInput.hidden=!needsText;document.getElementById("pdf-watermark-angle-wrap").hidden=operationSelect.value!=="watermark";
     }
     operationSelect.addEventListener('change',updateWorkshopOptions);
     updateWorkshopOptions();
@@ -2178,7 +2185,7 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
     window.docuSaveToLibrary=saveToHistory;
 // Cache maintenance is user-initiated. Never delete saved IndexedDB documents
 // or localStorage signatures as part of a routine page load.
-        // v4.4.1 task navigation and WYSIWYG PDF editor
+        // v4.4.2 task navigation and WYSIWYG PDF editor
     const taskNames={sign:'Add Text & Sign',workshop:'PDF Workshop',studio:'Document Studio'};
     function switchTask(task){
       if(typeof closeTour==='function')closeTour();
@@ -2219,7 +2226,7 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
     document.getElementById('task-help').onclick=()=>openHelp(document.body.classList.contains('task-sign-mode')?'sign':document.body.classList.contains('task-workshop-mode')?'workshop':'studio');
     document.getElementById('launch-app-btn').addEventListener('click',()=>switchTask('home'));
     document.body.classList.add('task-home-mode');
-    console.info('[DocuScan v4.4.1] Navigation initialized');
+    console.info('[DocuScan v4.4.2] Navigation initialized');
 
     document.getElementById('home-legal').addEventListener('click',()=>{
       splashScreen.style.display='flex';document.body.classList.add('splash-active');
@@ -2353,7 +2360,7 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
         el.style.left=(item.x*100)+'%';el.style.top=(item.y*100)+'%';el.style.width=(item.w*100)+'%';
         el.style.fontSize=((item.fontSize||16)*ecanvas.getBoundingClientRect().width/Math.max(1,ecanvas.width))+'px';
         el.style.color=item.ink||'#174ea6';
-        if(item.type==='watermark'){el.style.opacity='.55';el.style.textAlign='center';el.style.fontWeight='bold';el.style.background='rgba(255,255,255,.12)';el.style.letterSpacing='1px';el.style.zIndex='8';}
+        if(item.type==='watermark'){el.style.opacity='.55';el.style.textAlign='center';el.style.fontWeight='bold';el.style.background='rgba(255,255,255,.12)';el.style.letterSpacing='1px';el.style.zIndex='8';el.style.transform='rotate('+(-Number(item.angle||0))+'deg)';el.style.transformOrigin='center center';}
         el.style.fontFamily=(item.font||'Helvetica').includes('Courier')?'monospace':(item.font||'Helvetica').includes('Times')?'Georgia,serif':'Arial,sans-serif';
         el.style.fontWeight=(item.font||'').includes('Bold')?'bold':'normal';
         el.style.fontStyle=/(Italic|Oblique)/.test(item.font||'')?'italic':'normal';
@@ -2441,7 +2448,7 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
     document.getElementById('editor-undo').onclick=()=>{if(!editorUndoStack.length)return;editorRedoStack.push(snapshotEditor());restoreEditorSnapshot(editorUndoStack.pop());};
     document.getElementById('editor-redo').onclick=()=>{if(!editorRedoStack.length)return;editorUndoStack.push(snapshotEditor());restoreEditorSnapshot(editorRedoStack.pop());};
     document.getElementById('editor-template').onchange=e=>{if(!e.target.value)return;document.getElementById('editor-text').value=e.target.value;document.getElementById('editor-add-text').click();e.target.value='';};
-    document.getElementById('editor-save-library').onclick=async()=>{if(!eout)return alert('First tap Save PDF to generate your finished document.');const name=prompt('Save finished PDF to Library',eoutName);if(name===null)return;const safe=name.trim().replace(/[\\/]/g,'_');if(!safe)return;try{await saveToHistory(/\.pdf$/i.test(safe)?safe:safe+'.pdf',eout);estatus.textContent='Saved to Library. Open Library to find it.';}catch(e){alert('Library save failed: '+e.message);}};
+    document.getElementById('editor-save-library').onclick=async()=>{if(!eout)return alert('First tap Prepare PDF to generate your finished document.');const name=prompt('Save finished PDF to Library',eoutName);if(name===null)return;const safe=name.trim().replace(/[\\/]/g,'_');if(!safe)return;try{await saveToHistory(/\.pdf$/i.test(safe)?safe:safe+'.pdf',eout);estatus.textContent='Saved to Library. Open Library to find it.';}catch(e){alert('Library save failed: '+e.message);}};
     document.getElementById('editor-print').onclick=()=>{if(!eout)return alert('Save PDF first, then print.');const url=URL.createObjectURL(eout);const w=window.open(url,'_blank');if(!w){URL.revokeObjectURL(url);alert('Allow a new tab to print the PDF.');return;}setTimeout(()=>URL.revokeObjectURL(url),120000);estatus.textContent='PDF opened in a new tab. Use the browser Print command.';};
     function addEditorItem(type){
       if(!edoc)return alert('Open a PDF or photo first.');
@@ -2470,12 +2477,13 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
       if(!edoc)return alert('Open a PDF or photo first.');
       const value=document.getElementById('editor-watermark-text').value.trim();
       if(!value)return alert('Enter watermark text.');
-      const all=document.getElementById('editor-watermark-all').checked;
+      const all=true; const angle=Number(document.getElementById('editor-watermark-angle').value);
       const pages=all?Array.from({length:edoc.numPages},(_,i)=>i+1):[epage];
       recordEditorChange();eitems=eitems.filter(item=>!(item.type==='watermark'&&pages.includes(item.page)));
-      for(const page of pages)eitems.push({page,type:'watermark',x:.1,y:.45,w:.8,h:.12,text:value,font:'HelveticaBold',fontSize:Math.min(44,Math.max(18,Math.round(300/Math.max(5,value.length)))),ink:'#60728a'});
+      for(const page of pages)eitems.push({page,type:'watermark',x:.1,y:.45,w:.8,h:.12,text:value,font:'HelveticaBold',fontSize:Math.min(44,Math.max(18,Math.round(300/Math.max(5,value.length)))),ink:'#60728a',angle});
       eselected=eitems.find(item=>item.type==='watermark'&&item.page===epage)||null;
       drawEditorItems();
+      document.getElementById('editor-watermark-shortcut').classList.add('is-active');
       document.getElementById('editor-page-label').scrollIntoView({block:'center',behavior:'instant'});
       estatus.textContent='Watermark visible on '+(all?'all '+pages.length+' pages':'page '+epage)+'. Tap Save PDF to embed it.';
     };
@@ -2489,7 +2497,7 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
     document.getElementById('editor-delete').onclick=()=>{if(eselected){recordEditorChange();eitems=eitems.filter(i=>i!==eselected);eselected=null;drawEditorItems();}};
     document.getElementById('editor-save').onclick=async()=>{
       if(!edocBytes)return alert('Open a PDF first.');
-      if(!eitems.length)return alert('Add text, a date, or a signature before saving.');
+      if(!eitems.length)return alert('Add text, a date, a signature, or a watermark before preparing the PDF.');
       try{
         estatus.textContent='Saving PDF...';
         const doc=await PDFLib.PDFDocument.load(edocBytes.slice(0));const fonts={};
@@ -2501,7 +2509,7 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
             const font=fonts.watermark||(fonts.watermark=await doc.embedFont(PDFLib.StandardFonts.HelveticaBold));
             const size=Math.min(64,Math.max(16,width/(Math.max(text.length,1)*.68)));
             const tw=font.widthOfTextAtSize(text,size);
-            page.drawText(text,{x:Math.max(12,(width-tw)/2),y:height*.5-size*.35,size,font,color:PDFLib.rgb(.28,.35,.45),opacity:.38});
+            page.drawText(text,{x:Math.max(12,(width-tw)/2),y:height*.5-size*.35,size,font,color:PDFLib.rgb(.28,.35,.45),opacity:.38,rotate:PDFLib.degrees(Number(item.angle||0))});
           }else if(item.type==='signature-image'){
             const colored=await recolorSignature(item.image,item.ink||'#174ea6');const png=await doc.embedPng(colored);page.drawImage(png,{x,y:height-yTop-item.h*height,width:iw,height:item.h*height});
           }else{
@@ -2520,12 +2528,13 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
         }
         eout=new Blob([await doc.save()],{type:'application/pdf'});
         document.getElementById('editor-share').disabled=false;
-        downloadBlob(eout,eoutName);
-        estatus.textContent='Download requested for '+eoutName+'. Check Safari Downloads or Files → Downloads. Use Share PDF to choose Save to Files and select a folder.';
+        document.getElementById("editor-download").disabled=false;
+        estatus.textContent="PDF prepared. Choose Download PDF, Save to Library, or Share PDF.";
       }catch(err){console.error(err);estatus.textContent='Save failed: '+err.message;}
     };
+    document.getElementById('editor-download').onclick=()=>{if(eout)downloadBlob(eout,eoutName);};
     document.getElementById('editor-share').onclick=async()=>{
-      if(!eout){estatus.textContent='Tap Save PDF first to create the file.';return;}
+      if(!eout){estatus.textContent='Tap Prepare PDF first to create the file.';return;}
       await shareFile(eout,eoutName,'application/pdf');
     };
 
@@ -2533,7 +2542,7 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
 <script>
 (function(){
 'use strict';
-const VERSION='4.4.0', BUILD='2026-10-27-v441-validation-01';
+const VERSION='4.4.2', BUILD='2026-10-28-v442-consistent-actions';
 const panel=document.getElementById('build-check-panel');
 const output=document.getElementById('build-check-output');
 let report='';
@@ -2581,7 +2590,7 @@ document.getElementById('splash-cache-clear').addEventListener('click',()=>clear
 // One-time, build-specific refresh of DocuScan Cache Storage only. Never touch
 // IndexedDB, localStorage consent, saved signatures, or unrelated app caches.
 (async()=>{try{
- const key='docuscan.cache-refreshed.4.4.0';
+ const key='docuscan.cache-refreshed.4.4.2';
  if(localStorage.getItem(key)==='yes')return;
  if('caches' in window){for(const name of await caches.keys()){if(/docuscan/i.test(name))await caches.delete(name);}}
  localStorage.setItem(key,'yes');

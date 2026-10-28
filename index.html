@@ -1,23 +1,21 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>DocuScan Pro v4.5.7 | Scanner & PDF Studio</title>
-  
-  <!-- PWA & iOS Meta Tags -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="DocuScan">
-  <meta name="theme-color" content="#ffffff">
-  <link rel="apple-touch-icon" href="icon-192.png">
-
-  <!-- External Libraries (OCR & PDF) -->
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>DocuScan Pro v4.6.0 | Scanner &amp; PDF Studio</title>
+<!-- PWA & iOS Meta Tags -->
+<link href="manifest.json" rel="manifest"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="DocuScan" name="apple-mobile-web-app-title"/>
+<meta content="#ffffff" name="theme-color"/>
+<link href="icon-192.png" rel="apple-touch-icon"/>
+<!-- External Libraries (OCR & PDF) -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<style>
     :root {
       --primary: #007AFF;
       --bg: #F2F2F7;
@@ -712,7 +710,7 @@ body:not(.splash-active) button.is-active:not(:disabled),body:not(.splash-active
 @media(max-width:370px){#pdf-editor .watermark-compact{grid-template-columns:auto minmax(50px,1fr) 36px!important}#pdf-editor .watermark-compact>label{font-size:11px!important}}
 </style>
 <style id="v456-responsive-repair">
-/* v4.5.7: responsive layout correction, unified compact controls */
+/* v4.5.8: responsive layout correction, unified compact controls */
 html,body{width:100%;max-width:100%;overflow-x:hidden!important}
 *,*::before,*::after{box-sizing:border-box}
 #task-home,#scanner-view,#pdf-editor,#task-nav,.toolbox,.context-pane,#editor-controls{min-width:0;max-width:100%;overflow-wrap:anywhere}
@@ -791,386 +789,421 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
  #pdf-editor .editor-adjust-grid>div:last-child{grid-column:1/-1!important}
 }
 </style>
+<style id="v458-sign-button-sizing">
+/* Sign page: standardize controls to the Save to Library footprint, not full-width tiles. */
+#pdf-editor{--sign-button-height:44px;--sign-button-radius:12px}
+#pdf-editor button:not(.watermark-apply):not(#editor-prev):not(#editor-next){
+  min-height:var(--sign-button-height)!important;height:auto!important;
+  padding:9px 12px!important;border-radius:var(--sign-button-radius)!important;
+  font-size:13px!important;line-height:1.25!important;
+}
+#pdf-editor .editor-open-row{grid-template-columns:max-content minmax(0,210px)!important;justify-content:start!important;align-items:center!important;gap:10px!important}
+#pdf-editor .editor-open-row>.editor-toolbar{display:flex!important;width:auto!important;flex:0 0 auto!important}
+#pdf-editor .editor-open-row #editor-open{width:auto!important;min-width:0!important;max-width:220px!important;min-height:44px!important;white-space:normal!important;flex:none!important}
+#pdf-editor #editor-tool-buttons{display:flex!important;flex-wrap:wrap!important;gap:9px!important;background:transparent!important;padding:0!important}
+#pdf-editor #editor-tool-buttons button{flex:0 1 auto!important;min-width:112px!important;min-height:44px!important;padding:9px 12px!important}
+#pdf-editor .editor-toolbar[aria-label="Document editing helpers"]{display:flex!important;flex-wrap:wrap!important;gap:9px!important;background:transparent!important;padding:0!important}
+#pdf-editor .editor-toolbar[aria-label="Document editing helpers"] button{flex:0 1 auto!important;min-width:96px!important}
+#pdf-editor .editor-export-row{display:flex!important;flex-wrap:wrap!important;gap:9px!important;background:transparent!important;padding:0!important}
+#pdf-editor .editor-export-row button{flex:0 1 auto!important;min-width:120px!important;min-height:44px!important;padding:9px 12px!important}
+/* Watermark Apply is a compact action, never preselected. */
+#pdf-editor #editor-watermark-shortcut.watermark-apply:not(.is-active){width:36px!important;min-width:36px!important;max-width:36px!important;height:36px!important;min-height:36px!important;padding:0!important;border-radius:10px!important;background:linear-gradient(180deg,#fff,#e8f5ff)!important;color:#275a88!important;border:1px solid #a4c4df!important;box-shadow:0 2px 5px #193e7018!important}
+@media(max-width:600px){
+ #pdf-editor .editor-open-row{grid-template-columns:minmax(0,1fr) minmax(0,45%)!important;gap:7px!important}
+ #pdf-editor .editor-open-row #editor-open{width:100%!important;max-width:100%!important;font-size:11px!important;padding:7px 8px!important}
+ #pdf-editor #editor-tool-buttons button{flex:1 1 calc(50% - 9px)!important;min-width:0!important}
+ #pdf-editor .editor-toolbar[aria-label="Document editing helpers"] button{flex:1 1 calc(33.33% - 9px)!important;min-width:0!important}
+ #pdf-editor .editor-export-row button{flex:1 1 calc(50% - 9px)!important;min-width:0!important}
+}
+</style>
+<style id="v459-pdf-tools-layout">
+/* v4.6.0: PDF Tools structure and compact shared action sizing */
+#pdf-toolbox>h3{margin:0 0 12px!important}
+#pdf-toolbox .editor-toolbar{display:flex!important;flex-wrap:wrap;gap:9px;margin:0 0 12px!important;padding:0!important;background:transparent!important}
+#pdf-toolbox .editor-toolbar button,#pdf-toolbox #workshop-export-group button,#pdf-toolbox #run-pdf-tool{flex:0 0 auto!important;width:auto!important;min-height:42px!important;min-width:0!important;padding:9px 14px!important;font-size:13px!important;line-height:1.3!important;border-radius:12px!important}
+#pdf-toolbox #workshop-preview-group{margin:10px 0 16px!important;min-width:0}
+#pdf-toolbox #workshop-preview-group>div{min-width:0!important;overflow:hidden}
+#pdf-toolbox #workshop-tool-start{display:block;margin:10px 0 7px;font-size:15px;font-weight:750}
+#pdf-toolbox .workshop-sr-note{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+#pdf-toolbox #workshop-export-group{display:flex!important;flex-wrap:wrap!important;gap:9px!important;align-items:center;margin:18px 0!important;padding:12px 0!important;background:transparent!important;border:0!important}
+#pdf-toolbox #workshop-export-group button{background:linear-gradient(180deg,#fff 0%,#e3f3ff 45%,#a8d9ff 100%)!important;color:#153f70!important;border:1px solid #75b3ed!important;box-shadow:inset 0 2px 2px #fff,0 3px 8px #2b73b82a!important}
+#pdf-toolbox #workshop-export-group button:disabled{opacity:.45!important}
+#pdf-toolbox .workshop-pick-row{min-width:0}
+#pdf-toolbox .workshop-pick-row select{min-width:0;width:100%}
+@media(max-width:540px){#pdf-toolbox .pdf-compare{grid-template-columns:1fr!important}#pdf-toolbox .workshop-pick-row{grid-template-columns:minmax(0,1fr)!important}#pdf-toolbox #workshop-export-group button{flex:1 1 calc(50% - 9px)!important}}
+</style><style id="v460-workflow-layout">
+.workflow-intro{margin:0 0 16px;color:#526681;font-size:14px;line-height:1.55}
+#task-home .workflow-grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important;align-items:stretch}
+#task-home .workflow-grid .task-card{min-width:0!important;width:100%!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:10px!important;min-height:178px!important;padding:16px!important;text-align:left!important}
+#task-home .workflow-grid .task-card>span:nth-child(2){min-width:0!important;overflow-wrap:anywhere}
+#task-home .workflow-grid .task-card>span:last-child{display:none!important}
+#task-home .workflow-grid .task-card strong{font-size:16px!important;line-height:1.25!important}
+#task-home .workflow-grid .task-card small{font-size:12px!important;line-height:1.45!important}
+#task-home .home-feature-actions{display:grid;grid-template-columns:minmax(0,1fr)!important;max-width:520px}
+#document-studio-tools .studio-exports{display:flex!important;flex-wrap:wrap!important;gap:8px!important}
+#document-studio-tools .studio-exports button,#document-studio-tools .studio-handoff button{width:auto!important;min-width:0!important;flex:0 1 auto!important;min-height:42px!important;padding:9px 13px!important;font-size:13px!important;border-radius:13px!important}
+#document-studio-tools .studio-handoff{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+#document-studio-tools .studio-handoff button{background:linear-gradient(145deg,#eff7ff,#dcecff)!important;color:#144d8a!important;border:1px solid #b9d3f1!important}
+#document-studio-tools #studio-add-photo,#document-studio-tools #studio-process{width:auto!important;max-width:100%!important;min-height:44px!important;padding:10px 16px!important;font-size:14px!important}
+@media(max-width:900px){#task-home .workflow-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:420px){#task-home .workflow-grid{gap:8px!important}#task-home .workflow-grid .task-card{padding:12px!important;min-height:172px!important}#task-home .workflow-grid .task-card strong{font-size:14px!important}#task-home .workflow-grid .task-card small{font-size:11px!important}}
+</style>
 </head>
 <body class="splash-active">
-  <section class="splash-screen" id="splash-screen" aria-labelledby="splash-title">
-    <div class="splash-card">
-      <div class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3.5h7l4 4V20a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 20V5a1.5 1.5 0 0 1 1-1.5Z"/><path d="M14 3.8V8h4M8.5 12h7M8.5 15h7M8.5 18h4"/></svg>
-      </div>
-      <div class="eyebrow">YOUR DOCUMENTS. BEAUTIFULLY DONE.</div>
-      <h1 id="splash-title">Scan. Recognize.<br>Keep moving.</h1>
-      <p class="splash-subtitle">Your pocket-sized document studio. Scan, refine, sign and share with confidence.</p>
-      <p class="splash-promise">Scan · Edit · Sign · Share</p>
-      <div id="first-use-consent" class="first-use-consent">
-        <details class="legal-details"><summary>Terms of Use and Privacy Notice — review before continuing</summary>
-          <p><strong>Terms:</strong> This software is provided as-is. Document recognition may be incomplete or inaccurate. Review every result before using it for legal, financial, medical or other important decisions. You are responsible for keeping backups of important documents and complying with laws when handling other people's information.</p>
-          <p><strong>Privacy:</strong> Documents and saved signatures are stored locally in this browser when you choose to save them. OCR/PDF libraries may be loaded from external content-delivery networks, which can receive network metadata. Documents are not intentionally uploaded by the app's local processing workflow. Browser storage may be deleted when you clear website data or change devices.</p>
-          <p><strong>Device access:</strong> Camera and file access are used only when you choose those actions. Sharing uses the device's native sharing interface where available.</p>
-          <p><strong>Important:</strong> These are draft product terms and a plain-language privacy disclosure, not legal advice. The app publisher should review and finalize them before public distribution.</p>
-        </details>
-        <label class="accept-label"><input type="checkbox" id="accept-terms"> <span>I have reviewed and agree to the Terms of Use and acknowledge the Privacy Notice.</span></label>
-        <p id="consent-error" role="alert" hidden>Please accept the terms to continue.</p>
-      </div>
-      <button class="launch-btn" id="launch-app-btn" type="button">Continue to DocuScan <span aria-hidden="true">→</span></button>
-      <button id="splash-help-btn" type="button" class="splash-secondary">How it works</button>
-      <button id="splash-cache-clear" type="button" class="splash-secondary">↻ Refresh cached app files (keep documents & signatures)</button>
-      <p id="splash-cache-status" role="status" aria-live="polite" style="color:#d7eaff;font-size:12px;margin:8px 0 0"></p>
-      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 4.5.6 · Jelly UI refinement</p>
-      <button id="review-agreements" type="button" class="review-agreements" hidden>Review agreements</button>
-    </div>
-  </section>
-
-
-<section id="help-screen" class="help-screen" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
-<div class="help-shell"><nav class="help-destination-nav" aria-label="Go to application page"><span>Go to:</span><button type="button" data-help-destination="home">Home</button><button type="button" data-help-destination="sign">Sign</button><button type="button" data-help-destination="workshop">PDF Tools</button><button type="button" data-help-destination="studio">Studio</button><button type="button" data-help-destination="library">Library</button></nav>
-  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v4.5.7</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
-
-<div class="help-mode-nav" aria-label="Choose a help topic">
-<button type="button" data-help-mode="sign">✍️ Add Text &amp; Sign</button>
-<button type="button" data-help-mode="workshop">🧰 PDF Workshop</button>
-<button type="button" data-help-mode="studio">📷 Document Studio</button>
-<button type="button" data-help-mode="general">📖 Full guide</button>
+<section aria-labelledby="splash-title" class="splash-screen" id="splash-screen">
+<div class="splash-card">
+<div aria-hidden="true" class="brand-mark">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24"><path d="M7 3.5h7l4 4V20a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 20V5a1.5 1.5 0 0 1 1-1.5Z"></path><path d="M14 3.8V8h4M8.5 12h7M8.5 15h7M8.5 18h4"></path></svg>
 </div>
-<section id="context-help-sign" class="context-help" hidden><figure class="guided-figure" id="guide-snapshot-sign"><div class="guide-snapshot-content">Open the Add Text &amp; Sign screen and tap <strong>Help for this tool</strong> to capture the actual controls and see numbered pointers.</div><p><strong>Real-screen guide:</strong> ① Open your PDF · ② Add signature, text, or date · ③ Position, format, and save.</p></figure>
-  <div class="context-hero"><div><div class="help-kicker">FIELD GUIDE 01 · EDIT A DOCUMENT</div><h2>Add Text &amp; Sign</h2><p>Use a PDF you already have. No scanning or OCR required.</p></div><div class="context-symbol" aria-hidden="true">✍️</div></div>
-  <div class="context-cards">
-    <article class="context-card"><span class="context-graphic">📂 → 📄</span><h3>1 · Open the document</h3><p>Tap <strong>Open PDF from Files</strong>. To scan a paper document first, use Document Studio. Wait for the page preview. Use Previous/Next page to find the page to edit.</p></article>
-    <article class="context-card"><span class="context-graphic">✍️ ↔️</span><h3>2 · Add and position</h3><p>Tap <strong>Add signature</strong>, <strong>Add text</strong> or <strong>Add date</strong>. Touch and drag the new item across the page. Drag the blue resize handle to make the text box wider.</p></article>
-    <article class="context-card"><span class="context-graphic">🔤 → 💾</span><h3>3 · Format, save, share</h3><p>Select the item to edit its words, font, size and width. Tap <strong>Save PDF</strong> for a download, or <strong>Share PDF</strong> and choose <strong>Save to Files</strong> to pick a folder.</p></article>
-  </div>
-  <div class="context-check"><strong>Look for:</strong> A selected tool is highlighted. The drawing pad appears only for signatures. Check the saved PDF to confirm every item landed in the right place. If dragging fails, try touching the middle of the item rather than its resize handle.</div>
-  <button type="button" class="context-jump" data-help-close="true">Back to Add Text &amp; Sign</button>
+<div class="eyebrow">YOUR DOCUMENTS. BEAUTIFULLY DONE.</div>
+<h1 id="splash-title">Scan. Recognize.<br/>Keep moving.</h1>
+<p class="splash-subtitle">Your pocket-sized document studio. Scan, refine, sign and share with confidence.</p>
+<p class="splash-promise">Scan · Edit · Sign · Share</p>
+<div class="first-use-consent" id="first-use-consent">
+<details class="legal-details"><summary>Terms of Use and Privacy Notice — review before continuing</summary>
+<p><strong>Terms:</strong> This software is provided as-is. Document recognition may be incomplete or inaccurate. Review every result before using it for legal, financial, medical or other important decisions. You are responsible for keeping backups of important documents and complying with laws when handling other people's information.</p>
+<p><strong>Privacy:</strong> Documents and saved signatures are stored locally in this browser when you choose to save them. OCR/PDF libraries may be loaded from external content-delivery networks, which can receive network metadata. Documents are not intentionally uploaded by the app's local processing workflow. Browser storage may be deleted when you clear website data or change devices.</p>
+<p><strong>Device access:</strong> Camera and file access are used only when you choose those actions. Sharing uses the device's native sharing interface where available.</p>
+<p><strong>Important:</strong> These are draft product terms and a plain-language privacy disclosure, not legal advice. The app publisher should review and finalize them before public distribution.</p>
+</details>
+<label class="accept-label"><input id="accept-terms" type="checkbox"/> <span>I have reviewed and agree to the Terms of Use and acknowledge the Privacy Notice.</span></label>
+<p hidden="" id="consent-error" role="alert">Please accept the terms to continue.</p>
+</div>
+<button class="launch-btn" id="launch-app-btn" type="button">Continue to DocuScan <span aria-hidden="true">→</span></button>
+<button class="splash-secondary" id="splash-help-btn" type="button">How it works</button>
+<button class="splash-secondary" id="splash-cache-clear" type="button">↻ Refresh cached app files (keep documents &amp; signatures)</button>
+<p aria-live="polite" id="splash-cache-status" role="status" style="color:#d7eaff;font-size:12px;margin:8px 0 0"></p>
+<p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 4.6.0 · Jelly UI refinement</p>
+<button class="review-agreements" hidden="" id="review-agreements" type="button">Review agreements</button>
+</div>
 </section>
-<section id="context-help-workshop" class="context-help" hidden><figure class="guided-figure" id="guide-snapshot-workshop"><div class="guide-snapshot-content">Open the PDF Workshop screen and tap <strong>Help for this tool</strong> to capture the actual controls and see numbered pointers.</div><p><strong>Real-screen guide:</strong> ① Open source PDF or photo · ② Choose a PDF operation · ③ Run, preview, then export.</p></figure>
-  <div class="context-hero"><div><div class="help-kicker">FIELD GUIDE 02 · REARRANGE A PDF</div><h2>PDF Workshop</h2><p>Start with an existing PDF, or turn a photograph into a PDF.</p></div><div class="context-symbol" aria-hidden="true">🧰</div></div>
-  <div class="context-cards">
-    <article class="context-card"><span class="context-graphic">📂 + 📷</span><h3>1 · Choose a source</h3><p>Tap <strong>Open existing PDF</strong> to browse Files, or <strong>Use photo as PDF</strong> to start from an image. Wait for the document to load.</p></article>
-    <article class="context-card"><span class="context-graphic">📑 ⇄ 📑</span><h3>2 · Pick a tool</h3><p>Choose merge, extract, rotate, reorder, delete, watermark, page numbers or another operation. Follow the tool's prompts. Page ranges such as <strong>1,3-5</strong> mean pages 1, 3, 4 and 5.</p></article>
-    <article class="context-card"><span class="context-graphic">⚙️ → 💾</span><h3>3 · Run and review</h3><p>Tap <strong>Run selected tool</strong>, then download or share the result. Use <strong>Use result for next tool</strong> when you need to make another change.</p></article>
-  </div>
-  <div class="context-check"><strong>Before you export:</strong> Check the page count and order. Some tools, especially image-based compression, may remove searchable text. Work on a copy of important documents.</div>
-  <button type="button" class="context-jump" data-help-close="true">Back to PDF Workshop</button>
+<section aria-hidden="true" aria-labelledby="help-title" aria-modal="true" class="help-screen" id="help-screen" role="dialog">
+<div class="help-shell"><nav aria-label="Go to application page" class="help-destination-nav"><span>Go to:</span><button data-help-destination="home" type="button">Home</button><button data-help-destination="sign" type="button">Sign</button><button data-help-destination="workshop" type="button">PDF Tools</button><button data-help-destination="studio" type="button">Studio</button><button data-help-destination="library" type="button">Library</button></nav>
+<div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v4.5.8</strong></div><button class="help-close" id="help-close-btn" type="button">✕ Close guide</button></div>
+<div aria-label="Choose a help topic" class="help-mode-nav">
+<button data-help-mode="sign" type="button">✍️ Add Text &amp; Sign</button>
+<button data-help-mode="workshop" type="button">🧰 PDF Tools</button>
+<button data-help-mode="studio" type="button">📷 Document Studio</button>
+<button data-help-mode="general" type="button">📖 Full guide</button>
+</div>
+<section class="context-help" hidden="" id="context-help-sign"><figure class="guided-figure" id="guide-snapshot-sign"><div class="guide-snapshot-content">Open the Add Text &amp; Sign screen and tap <strong>Help for this tool</strong> to capture the actual controls and see numbered pointers.</div><p><strong>Real-screen guide:</strong> ① Open your PDF · ② Add signature, text, or date · ③ Position, format, and save.</p></figure>
+<div class="context-hero"><div><div class="help-kicker">FIELD GUIDE 01 · EDIT A DOCUMENT</div><h2>Add Text &amp; Sign</h2><p>Use a PDF you already have. No scanning or OCR required.</p></div><div aria-hidden="true" class="context-symbol">✍️</div></div>
+<div class="context-cards">
+<article class="context-card"><span class="context-graphic">📂 → 📄</span><h3>1 · Open the document</h3><p>Tap <strong>Open PDF from Files</strong>. To scan a paper document first, use Document Studio. Wait for the page preview. Use Previous/Next page to find the page to edit.</p></article>
+<article class="context-card"><span class="context-graphic">✍️ ↔️</span><h3>2 · Add and position</h3><p>Tap <strong>Add signature</strong>, <strong>Add text</strong> or <strong>Add date</strong>. Touch and drag the new item across the page. Drag the blue resize handle to make the text box wider.</p></article>
+<article class="context-card"><span class="context-graphic">🔤 → 💾</span><h3>3 · Format, save, share</h3><p>Select the item to edit its words, font, size and width. Tap <strong>Save PDF</strong> for a download, or <strong>Share PDF</strong> and choose <strong>Save to Files</strong> to pick a folder.</p></article>
+</div>
+<div class="context-check"><strong>Look for:</strong> A selected tool is highlighted. The drawing pad appears only for signatures. Check the saved PDF to confirm every item landed in the right place. If dragging fails, try touching the middle of the item rather than its resize handle.</div>
+<button class="context-jump" data-help-close="true" type="button">Back to Add Text &amp; Sign</button>
 </section>
-<section id="context-help-studio" class="context-help" hidden><figure class="guided-figure" id="guide-snapshot-studio"><div class="guide-snapshot-content">Open the Document Studio screen and tap <strong>Help for this tool</strong> to capture the actual controls and see numbered pointers.</div><p><strong>Real-screen guide:</strong> ① Add a photo · ② Crop or straighten · ③ Run OCR and export.</p></figure>
-  <div class="context-hero"><div><div class="help-kicker">FIELD GUIDE 03 · FROM PHOTO TO PDF</div><h2>Document Studio</h2><p>Capture, crop, straighten, recognize text, and export.</p></div><div class="context-symbol" aria-hidden="true">📷</div></div>
-  <div class="context-cards">
-    <article class="context-card"><span class="context-graphic">📷 → 📄</span><h3>1 · Add a page</h3><p>Tap <strong>Choose Photo or Camera</strong>. On iPad, take a photo or choose one from Photos/Files. Use <strong>Add page</strong> for multipage documents.</p></article>
-    <article class="context-card"><span class="context-graphic">✂️ ▱</span><h3>2 · Clean up the image</h3><p>Try <strong>Auto straighten</strong>, then <strong>Crop last page</strong> to remove background. Rotate or Enhance if needed. Choose the OCR image mode that makes letters clearest.</p></article>
-    <article class="context-card"><span class="context-graphic">🔎 → 📤</span><h3>3 · Recognize and export</h3><p>Tap <strong>Recognize &amp; Create PDF</strong>. Review the editable OCR text. Download or share PDF, TXT or Word; use JPG when you only need the photo.</p></article>
-  </div>
-  <div class="context-check"><strong>Better OCR:</strong> Keep the camera parallel to the page, avoid shadows and reflections, fill the frame with the paper, and crop out the table or screen borders <em>before</em> recognition. Always proofread important text.</div>
-  <button type="button" class="context-jump" data-help-close="true">Back to Document Studio</button>
+<section class="context-help" hidden="" id="context-help-workshop"><figure class="guided-figure" id="guide-snapshot-workshop"><div class="guide-snapshot-content">Open the PDF Tools screen and tap <strong>Help for this tool</strong> to capture the actual controls and see numbered pointers.</div><p><strong>Real-screen guide:</strong> ① Open source PDF or photo · ② Choose a PDF operation · ③ Run, preview, then export.</p></figure>
+<div class="context-hero"><div><div class="help-kicker">FIELD GUIDE 02 · REARRANGE A PDF</div><h2>PDF Tools</h2><p>Start with an existing PDF, or turn a photograph into a PDF.</p></div><div aria-hidden="true" class="context-symbol">🧰</div></div>
+<div class="context-cards">
+<article class="context-card"><span class="context-graphic">📂 + 📷</span><h3>1 · Choose a source</h3><p>Tap <strong>Open existing PDF</strong> to browse Files, or <strong>Use photo as PDF</strong> to start from an image. Wait for the document to load.</p></article>
+<article class="context-card"><span class="context-graphic">📑 ⇄ 📑</span><h3>2 · Pick a tool</h3><p>Choose merge, extract, rotate, reorder, delete, watermark, page numbers or another operation. Follow the tool's prompts. Page ranges such as <strong>1,3-5</strong> mean pages 1, 3, 4 and 5.</p></article>
+<article class="context-card"><span class="context-graphic">⚙️ → 💾</span><h3>3 · Run and review</h3><p>Tap <strong>Run selected tool</strong>, then download or share the result. Use <strong>Use result for next tool</strong> when you need to make another change.</p></article>
+</div>
+<div class="context-check"><strong>Before you export:</strong> Check the page count and order. Some tools, especially image-based compression, may remove searchable text. Work on a copy of important documents.</div>
+<button class="context-jump" data-help-close="true" type="button">Back to PDF Tools</button>
+</section>
+<section class="context-help" hidden="" id="context-help-studio"><figure class="guided-figure" id="guide-snapshot-studio"><div class="guide-snapshot-content">Open the Document Studio screen and tap <strong>Help for this tool</strong> to capture the actual controls and see numbered pointers.</div><p><strong>Real-screen guide:</strong> ① Add a photo · ② Crop or straighten · ③ Run OCR and export.</p></figure>
+<div class="context-hero"><div><div class="help-kicker">FIELD GUIDE 03 · FROM PHOTO TO PDF</div><h2>Document Studio</h2><p>Capture, crop, straighten, recognize text, and export.</p></div><div aria-hidden="true" class="context-symbol">📷</div></div>
+<div class="context-cards">
+<article class="context-card"><span class="context-graphic">📷 → 📄</span><h3>1 · Add a page</h3><p>Tap <strong>Choose Photo or Camera</strong>. On iPad, take a photo or choose one from Photos/Files. Use <strong>Add page</strong> for multipage documents.</p></article>
+<article class="context-card"><span class="context-graphic">✂️ ▱</span><h3>2 · Clean up the image</h3><p>Try <strong>Auto straighten</strong>, then <strong>Crop last page</strong> to remove background. Rotate or Enhance if needed. Choose the OCR image mode that makes letters clearest.</p></article>
+<article class="context-card"><span class="context-graphic">🔎 → 📤</span><h3>3 · Recognize and export</h3><p>Tap <strong>Recognize &amp; Create PDF</strong>. Review the editable OCR text. Download or share PDF, TXT or Word; use JPG when you only need the photo.</p></article>
+</div>
+<div class="context-check"><strong>Better OCR:</strong> Keep the camera parallel to the page, avoid shadows and reflections, fill the frame with the paper, and crop out the table or screen borders <em>before</em> recognition. Always proofread important text.</div>
+<button class="context-jump" data-help-close="true" type="button">Back to Document Studio</button>
 </section>
 <div id="general-help-content">
-  <div class="help-hero"><div><div class="help-kicker">Your illustrated quick-start</div><h2 id="help-title">From paper to PDF.<br>In a few taps.</h2><p>A picture-first guide to scanning, cropping, straightening, reading text and signing PDFs on your iPad. Pick the job you want to do below.</p></div><div class="help-illustration" aria-hidden="true"><div class="help-sheet"><i></i><i></i><i style="width:65%"></i><i></i><i style="width:75%"></i></div></div></div>
-  <h3 class="help-section-title">Choose your mission</h3>
-  <div class="help-paths">
-    <article class="help-path"><div class="help-kicker">Mission 01 · Scan a document</div><h3>📷 Make a searchable PDF</h3><ol class="help-steps"><li><div><strong>Tap “Choose Photo or Camera”.</strong> On iPad, select Take Photo or choose a picture from Photos/Files.</div></li><li><div><strong>Check the preview.</strong> If Auto straighten is on, the app attempts to find the page and square it up. If it misses, use <strong>Crop last page</strong> and drag the blue corners around the paper.</div></li><li><div><strong>Improve readability.</strong> Try <strong>Enhance last page</strong> or select <strong>Black &amp; white document</strong> for OCR. Use Restore if the result looks worse.</div></li><li><div><strong>Tap “Recognize &amp; Create PDF”.</strong> Wait for processing, then check the OCR preview for mistakes.</div></li><li><div><strong>Download PDF</strong> or share it. Use TXT/DOCX when you want editable words.</div></li></ol></article>
-    <article class="help-path"><div class="help-kicker">Mission 02 · Existing file</div><h3>✍️ Sign a PDF you already have</h3><ol class="help-steps"><li><div><strong>Tap “Open PDF from Files”.</strong> Pick an existing PDF on your iPad.</div></li><li><div><strong>Select the page number</strong> where your signature belongs.</div></li><li><div><strong>Choose a position</strong> (such as bottom right). Drag the signature to the correct place on the page.</div></li><li><div><strong>Draw your signature</strong> with your finger or Apple Pencil, or type your name. Tap Clear signature to try again.</div></li><li><div><strong>Tap “Apply signature &amp; save”,</strong> then Download signed PDF or Share signed PDF. Open the result and check its placement.</div></li></ol></article>
-  </div>
-  <div class="help-tip"><strong>⭐ Best OCR tip:</strong> Fill the photo with the page, avoid shadows and reflections, keep the camera parallel to the document, and crop away the table or computer-screen borders <em>before</em> recognizing text. OCR is not perfect—always compare important text with the original.</div>
-  <h3 class="help-section-title">What do these buttons do?</h3>
-  <div class="help-tiles">
-    <div class="help-tile"><span class="symbol">✂️</span><strong>Crop</strong>Keep only the page. Drag the four blue corner handles; tap Apply crop.</div>
-    <div class="help-tile"><span class="symbol">▱</span><strong>Auto straighten</strong>Tries to detect edges and correct perspective. May fail on cluttered backgrounds.</div>
-    <div class="help-tile"><span class="symbol">↻</span><strong>Rotate</strong>Turn the last scanned page 90° when it is sideways.</div>
-    <div class="help-tile"><span class="symbol">◐</span><strong>Enhance</strong>Increase contrast for faint print. Restore if fine detail disappears.</div>
-    <div class="help-tile"><span class="symbol">＋</span><strong>Add page</strong>Make a multipage PDF. Repeat for each sheet, then run OCR.</div>
-    <div class="help-tile"><span class="symbol">↗</span><strong>Share / Export</strong>PDF keeps the photographed page; TXT/DOC/DOCX contain editable OCR text.</div>
-  </div>
-  <h3 class="help-section-title">If something goes wrong</h3>
-  <div class="help-paths"><div class="help-path"><h3>Camera shows black</h3><p style="font-size:14px;line-height:1.6">Use <strong>Choose Photo or Camera</strong> and pick a photo from the iPad Photos app instead. Check Safari camera permission if you want to capture directly.</p></div><div class="help-path"><h3>Text looks wrong</h3><p style="font-size:14px;line-height:1.6">Crop tighter, use better light, try another OCR mode, then retake. Correct mistakes in the editable text box. The PDF's hidden OCR layer may still need review.</p></div></div>
-  <article class="help-path"><div class="help-kicker">Mission 03 · PDF Tools</div><h3>🧰 Edit a PDF you already have</h3><ol class="help-steps"><li><div><strong>Open PDF from Files</strong> to select your document.</div></li><li><div><strong>Scroll to PDF Tools</strong> and select a tool: merge, split/extract, reorder, rotate, delete, watermark, number, flatten, extract text, JPG or compress.</div></li><li><div><strong>Enter page numbers</strong> when relevant. For example, 1,3-5 selects pages 1, 3, 4 and 5.</div></li><li><div><strong>Tap Run selected tool,</strong> then Download or Share result.</div></li><li><div><strong>Tap Use result for next tool</strong> to make another edit or sign the result.</div></li></ol><p class="help-note">For signing, use the separate signing panel. These tools are experimental until tested on your iPad.</p></article>
-  <div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br><strong>Version:</strong> 4.5.6<br><strong>Build:</strong> 2026-10-27 · combined-tools-validation-01<br><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br><strong>Support:</strong> Support email/website — <em>not yet configured</em><br><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
-  </div><!-- general-help-content -->
-  <p style="margin-top:22px;text-align:center"><button type="button" class="help-close" id="help-done-btn">Got it — back to DocuScan</button></p>
+<div class="help-hero"><div><div class="help-kicker">Your illustrated quick-start</div><h2 id="help-title">From paper to PDF.<br/>In a few taps.</h2><p>A picture-first guide to scanning, cropping, straightening, reading text and signing PDFs on your iPad. Pick the job you want to do below.</p></div><div aria-hidden="true" class="help-illustration"><div class="help-sheet"><i></i><i></i><i style="width:65%"></i><i></i><i style="width:75%"></i></div></div></div>
+<h3 class="help-section-title">Choose your mission</h3>
+<div class="help-paths">
+<article class="help-path"><div class="help-kicker">Mission 01 · Scan a document</div><h3>📷 Make a searchable PDF</h3><ol class="help-steps"><li><div><strong>Tap “Choose Photo or Camera”.</strong> On iPad, select Take Photo or choose a picture from Photos/Files.</div></li><li><div><strong>Check the preview.</strong> If Auto straighten is on, the app attempts to find the page and square it up. If it misses, use <strong>Crop last page</strong> and drag the blue corners around the paper.</div></li><li><div><strong>Improve readability.</strong> Try <strong>Enhance last page</strong> or select <strong>Black &amp; white document</strong> for OCR. Use Restore if the result looks worse.</div></li><li><div><strong>Tap “Recognize &amp; Create PDF”.</strong> Wait for processing, then check the OCR preview for mistakes.</div></li><li><div><strong>Download PDF</strong> or share it. Use TXT/DOCX when you want editable words.</div></li></ol></article>
+<article class="help-path"><div class="help-kicker">Mission 02 · Existing file</div><h3>✍️ Sign a PDF you already have</h3><ol class="help-steps"><li><div><strong>Tap “Open PDF from Files”.</strong> Pick an existing PDF on your iPad.</div></li><li><div><strong>Select the page number</strong> where your signature belongs.</div></li><li><div><strong>Choose a position</strong> (such as bottom right). Drag the signature to the correct place on the page.</div></li><li><div><strong>Draw your signature</strong> with your finger or Apple Pencil, or type your name. Tap Clear signature to try again.</div></li><li><div><strong>Tap “Apply signature &amp; save”,</strong> then Download signed PDF or Share signed PDF. Open the result and check its placement.</div></li></ol></article>
+</div>
+<div class="help-tip"><strong>⭐ Best OCR tip:</strong> Fill the photo with the page, avoid shadows and reflections, keep the camera parallel to the document, and crop away the table or computer-screen borders <em>before</em> recognizing text. OCR is not perfect—always compare important text with the original.</div>
+<h3 class="help-section-title">What do these buttons do?</h3>
+<div class="help-tiles">
+<div class="help-tile"><span class="symbol">✂️</span><strong>Crop</strong>Keep only the page. Drag the four blue corner handles; tap Apply crop.</div>
+<div class="help-tile"><span class="symbol">▱</span><strong>Auto straighten</strong>Tries to detect edges and correct perspective. May fail on cluttered backgrounds.</div>
+<div class="help-tile"><span class="symbol">↻</span><strong>Rotate</strong>Turn the last scanned page 90° when it is sideways.</div>
+<div class="help-tile"><span class="symbol">◐</span><strong>Enhance</strong>Increase contrast for faint print. Restore if fine detail disappears.</div>
+<div class="help-tile"><span class="symbol">＋</span><strong>Add page</strong>Make a multipage PDF. Repeat for each sheet, then run OCR.</div>
+<div class="help-tile"><span class="symbol">↗</span><strong>Share / Export</strong>PDF keeps the photographed page; TXT/DOC/DOCX contain editable OCR text.</div>
+</div>
+<h3 class="help-section-title">If something goes wrong</h3>
+<div class="help-paths"><div class="help-path"><h3>Camera shows black</h3><p style="font-size:14px;line-height:1.6">Use <strong>Choose Photo or Camera</strong> and pick a photo from the iPad Photos app instead. Check Safari camera permission if you want to capture directly.</p></div><div class="help-path"><h3>Text looks wrong</h3><p style="font-size:14px;line-height:1.6">Crop tighter, use better light, try another OCR mode, then retake. Correct mistakes in the editable text box. The PDF's hidden OCR layer may still need review.</p></div></div>
+<article class="help-path"><div class="help-kicker">Mission 03 · PDF Tools</div><h3>🧰 Edit a PDF you already have</h3><ol class="help-steps"><li><div><strong>Open PDF from Files</strong> to select your document.</div></li><li><div><strong>Scroll to PDF Tools</strong> and select a tool: merge, split/extract, reorder, rotate, delete, watermark, number, flatten, extract text, JPG or compress.</div></li><li><div><strong>Enter page numbers</strong> when relevant. For example, 1,3-5 selects pages 1, 3, 4 and 5.</div></li><li><div><strong>Tap Run selected tool,</strong> then Download or Share result.</div></li><li><div><strong>Tap Use result for next tool</strong> to make another edit or sign the result.</div></li></ol><p class="help-note">For signing, use the separate signing panel. These tools are experimental until tested on your iPad.</p></article>
+<div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br/><strong>Version:</strong> 4.6.0<br/><strong>Build:</strong> 2026-10-27 · combined-tools-validation-01<br/><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br/><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br/><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br/><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br/><strong>Support:</strong> Support email/website — <em>not yet configured</em><br/><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
+</div><!-- general-help-content -->
+<p style="margin-top:22px;text-align:center"><button class="help-close" id="help-done-btn" type="button">Got it — back to DocuScan</button></p>
 </div></section>
-
-  <header>
-    <h1><span style="color:#477bb4;margin-right:8px;">▤</span>DocuScan <span style="font-weight:450;color:#72839a;">Pro</span></h1>
-    <div class="header-hidden-actions" aria-hidden="true"><button class="icon-btn" id="history-btn" type="button" tabindex="-1">Library</button><button class="help-trigger" id="help-btn" type="button" tabindex="-1">Help</button></div>
-  </header>
-
-  
-<section id="task-home" aria-label="Choose a task"><button type="button" id="home-legal" class="legal-home-link">Terms &amp; privacy</button>
-  <div class="home-hero"><div class="home-hero-copy"><div class="hero-overline">DOCUSCAN <span>PRO</span> <small>4.5.6</small></div><h1 class="task-home-title">Make paperwork<br><em>feel effortless.</em></h1><p>Scan. Recognize. Keep moving.</p></div><div class="hero-art" aria-hidden="true"><div class="hero-paper"><span></span><span></span><span></span><span></span><b>✓</b></div></div></div>
-  <div class="dashboard-section-head"><h2>What would you like to do?</h2><span>YOUR WORKSPACE</span></div><div class="task-grid">
-  <button class="task-card" data-task="sign"><span class="task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M7 16l-2 3 3-1 10-10-2-2L7 16ZM14 8l2 2"/></svg></span><span><strong>Add Text &amp; Sign</strong><small>Open an existing PDF, drag a signature anywhere, insert a date or text box, then save.</small></span><span aria-hidden="true">›</span></button>
-  <button class="task-card" data-task="workshop"><span class="task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="15" rx="2"/><path d="M8 6V4h8v2M8 11h8M12 9v9"/></svg></span><span><strong>PDF Tools</strong><small>Merge, split, rotate, reorder, watermark, extract pages and more.</small></span><span aria-hidden="true">›</span></button>
-  <button class="task-card" data-task="studio"><span class="task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h3l2-3h6l2 3h3v13H4z"/><circle cx="12" cy="13" r="4"/></svg></span><span><strong>Document Studio</strong><small>Take a photo, crop, straighten, recognize text and export.</small></span><span aria-hidden="true">›</span></button>
-  </div><div class="dashboard-section-head dashboard-more"><h2>Your documents &amp; guidance</h2></div><div class="home-feature-actions"><button class="task-card" id="home-help" type="button"><span class="task-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h7a3 3 0 0 1 3 3v12a3 3 0 0 0-3-3H4zM20 5h-3a3 3 0 0 0-3 3v12a3 3 0 0 1 3-3h3z"/></svg></span><span><strong>Visual Help Guide</strong><small>Step-by-step instructions and temporary developer details.</small></span><span aria-hidden="true">›</span></button><button class="task-card" type="button" id="home-library-shortcut"><span class="task-icon">▤</span><span><strong>Saved Documents</strong><small>Open, manage, and reuse PDFs stored in your library.</small></span><span aria-hidden="true">›</span></button></div><div class="home-quick-actions"><button type="button" id="home-cache-shortcut">↻ &nbsp;Version &amp; cache check <span>→</span></button></div>
+<header>
+<h1><span style="color:#477bb4;margin-right:8px;">▤</span>DocuScan <span style="font-weight:450;color:#72839a;">Pro</span></h1>
+<div aria-hidden="true" class="header-hidden-actions"><button class="icon-btn" id="history-btn" tabindex="-1" type="button">Library</button><button class="help-trigger" id="help-btn" tabindex="-1" type="button">Help</button></div>
+</header>
+<section aria-label="Choose a task" id="task-home"><button class="legal-home-link" id="home-legal" type="button">Terms &amp; privacy</button>
+<div class="home-hero"><div class="home-hero-copy"><div class="hero-overline">DOCUSCAN <span>PRO</span> <small>4.6.0</small></div><h1 class="task-home-title">Make paperwork<br/><em>feel effortless.</em></h1><p>Scan. Recognize. Keep moving.</p></div><div aria-hidden="true" class="hero-art"><div class="hero-paper"><span></span><span></span><span></span><span></span><b>✓</b></div></div></div>
+<div class="dashboard-section-head"><h2>Your document workflow</h2><span>FOUR SIMPLE STEPS</span></div>
+<p class="workflow-intro">Create a document in Studio, finish it with Sign, adjust pages in PDF Tools, and keep the finished copy in Library. Start at any step.</p>
+<div class="task-grid workflow-grid"><button class="task-card" data-task="studio"><span class="task-icon"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 7h3l2-3h6l2 3h3v13H4z"></path><circle cx="12" cy="13" r="4"></circle></svg></span><span><strong>Document Studio</strong><small>Take a photo, crop, straighten, recognize text and export.</small></span><span aria-hidden="true">›</span></button><button class="task-card" data-task="sign"><span class="task-icon"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 20h16M7 16l-2 3 3-1 10-10-2-2L7 16ZM14 8l2 2"></path></svg></span><span><strong>Add Text &amp; Sign</strong><small>Open an existing PDF, drag a signature anywhere, insert a date or text box, then save.</small></span><span aria-hidden="true">›</span></button><button class="task-card" data-task="workshop"><span class="task-icon"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><rect height="15" rx="2" width="18" x="3" y="6"></rect><path d="M8 6V4h8v2M8 11h8M12 9v9"></path></svg></span><span><strong>PDF Tools</strong><small>Merge, split, rotate, reorder, watermark, extract pages and more.</small></span><span aria-hidden="true">›</span></button><button class="task-card" id="home-library-shortcut" type="button"><span class="task-icon">▥</span><span><strong>Library</strong><small>Find, open and organize your saved documents.</small></span><span aria-hidden="true">›</span></button></div>
+<div class="dashboard-section-head dashboard-more"><h2>Guidance &amp; settings</h2></div><div class="home-feature-actions"><button class="task-card" id="home-help" type="button"><span class="task-icon">ⓘ</span><span><strong>Visual Help Guide</strong><small>Step-by-step instructions for each workspace.</small></span><span aria-hidden="true">›</span></button></div><div class="home-quick-actions"><button id="home-cache-shortcut" type="button">↻ &nbsp;Version &amp; cache check <span>→</span></button></div>
 </section>
 <div id="task-nav"><button id="back-home" type="button">← All tools</button><strong id="task-heading">Document Studio</strong><button id="task-help" type="button">? Help for this tool</button><button id="task-tour" type="button">👆 Show me on this screen</button></div>
-<nav id="mobile-tabs" aria-label="Main navigation"><button type="button" data-task="home"><span class="tab-icon">⌂</span>Home</button><button type="button" data-task="sign"><span class="tab-icon">✎</span>Sign</button><button type="button" data-task="workshop"><span class="tab-icon">▤</span>PDF Tools</button><button type="button" data-task="studio"><span class="tab-icon">▣</span>Studio</button><button type="button" id="tabs-library"><span class="tab-icon">▥</span>Library</button><button type="button" id="tabs-help"><span class="tab-icon">ⓘ</span>Help</button></nav>
-<div id="tour-backdrop" aria-hidden="true"></div><aside id="tour-card" role="dialog" aria-label="Guided tour" aria-live="polite"><div id="tour-progress" style="font-size:12px;font-weight:700;color:#66788f"></div><h3 id="tour-title"></h3><p id="tour-copy"></p><button id="tour-previous" type="button">← Previous</button><button id="tour-next" type="button">Next →</button><button id="tour-exit" type="button">Close tour</button></aside>
-<section id="pdf-editor" aria-label="Add text and sign PDF" style="display:none">
-  
-  
-  <div class="editor-open-row"><div class="editor-toolbar"><button id="editor-open" class="primary" type="button">📂 Open PDF from Files</button><button id="editor-photo" type="button" hidden aria-hidden="true" tabindex="-1">📷 Use a photo</button></div><div class="page-stepper" aria-label="PDF page navigation"><button id="editor-prev" type="button" aria-label="Previous page">‹</button><span id="editor-page-label">No document</span><button id="editor-next" type="button" aria-label="Next page">›</button></div></div>
-  <div id="editor-paper"><canvas class="preview-collapsed" id="editor-page-canvas" width="600" height="780"></canvas><div id="editor-overlays"></div></div>
-  <div class="editor-toolbar" id="editor-tool-buttons"><button id="editor-add-sign" type="button">✍ Add signature</button><button id="editor-add-text" type="button">T Add text</button><button id="editor-add-date" type="button">▦ Add date</button><button id="editor-delete" type="button">🗑 Remove selected</button></div>
-  <div id="editor-controls"><div class="watermark-card"><div class="watermark-compact"><label for="editor-watermark-text">Watermark</label><input id="editor-watermark-text" aria-label="Watermark text" value="DRAFT" maxlength="60"><select id="editor-watermark-angle" aria-label="Watermark direction"><option value="-45" selected>Diagonal ↗</option><option value="0">Horizontal →</option><option value="45">Diagonal ↘</option><option value="-90">Vertical ↑</option></select><div class="watermark-opacity"><label for="editor-watermark-opacity">Transparency</label><select id="editor-watermark-opacity" aria-label="Watermark transparency" title="Transparency"><option value="0">0%</option><option value="25">25%</option><option value="50" selected>50%</option><option value="75">75%</option><option value="90">90%</option></select></div><button type="button" id="editor-watermark-shortcut" class="watermark-apply" aria-label="Apply watermark" title="Apply watermark" aria-pressed="false">✓</button></div></div>
-    <div class="editor-toolbar" aria-label="Document editing helpers"><button type="button" id="editor-undo">↶ Undo</button><button type="button" id="editor-redo">↷ Redo</button><button type="button" id="editor-clear-all">✕ Clear All</button></div>
-    <div class="template-line"><label for="editor-template">Quick Text Templates</label><select id="editor-template"><option value="">Choose a reusable phrase</option><option value="Approved">Approved</option><option value="Reviewed">Reviewed</option><option value="Received">Received</option><option value="Please sign and return">Please sign and return</option><option value="Confidential">Confidential</option><option value="Date: ">Date label</option></select></div>
-    <label for="editor-text">Text / typed signature</label><input id="editor-text" placeholder="Enter text to place on the document" />
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div><label for="editor-font">Font style</label><select id="editor-font" style="width:100%;padding:10px;border:1px solid #c8d7e6;border-radius:9px"><option value="Helvetica">Helvetica</option><option value="TimesRoman">Times Roman</option><option value="Courier">Courier</option><option value="HelveticaBold">Helvetica Bold</option><option value="TimesRomanItalic">Times Italic</option><option value="HelveticaOblique">Helvetica Italic</option></select></div>
-      <div><label for="editor-font-size">Font size (points)</label><input id="editor-font-size" type="number" min="6" max="72" value="16" /></div>
-    </div>
-    <div class="editor-adjust-grid">
-      <div><label for="editor-width">Width: <span id="editor-width-label">30%</span></label><input id="editor-width" type="range" min="5" max="100" value="30" /></div>
-      <div><label for="editor-height">Height: <span id="editor-height-label">9%</span></label><input id="editor-height" type="range" min="2" max="75" value="9" /></div>
-      <div><label for="editor-ink">Ink color</label><select id="editor-ink"><option value="#174ea6">Blue</option><option value="#123b70">Navy</option><option value="#111827">Black</option></select></div>
-    </div>
-    <p class="editor-hint">Drag an item to move it. Drag any blue corner handle to resize the box in both directions. Use the width and height sliders for precise adjustment; long text wraps inside. Use font size to change the text itself.</p>
-    <div id="editor-signature-panel" hidden><p class="editor-hint">Draw with a finger or Apple Pencil, then tap Add signature above. This panel is hidden when using Text or Date.</p>
-    <canvas id="editor-sign-pad" width="700" height="180"></canvas><button id="editor-clear-sign" type="button">Clear drawing</button></div>
-    <div id="signature-library" class="toolbox" style="margin:10px 0" hidden>
-      <h3>Saved signature</h3>
-      <p class="editor-hint">Save a handwritten signature on this device, or import a transparent PNG. Choose blue or black ink before placing it. For best results, import a signature on a transparent background. Saved signatures stay in this browser unless its site data is cleared.</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
-        <button type="button" id="sig-save">Save current drawing</button>
-        <button type="button" id="sig-use">Use saved signature</button>
-        <button type="button" id="sig-import">Import signature image</button>
-        <button type="button" id="sig-remove">Delete saved signature</button>
-      </div>
-      <input id="sig-file" type="file" accept="image/png,image/jpeg,image/webp" hidden>
-      <label for="sig-ink" style="display:block;margin-top:10px">Signature ink color</label>
-      <select id="sig-ink" style="width:100%;padding:9px"><option value="#174ea6">Blue ink</option><option value="#123b70">Navy blue</option><option value="#111827">Black ink</option></select>
-      <img id="sig-preview" alt="Saved signature preview" style="display:none;max-width:100%;height:75px;object-fit:contain;background:white;border:1px solid #d6e1ee;border-radius:8px;margin-top:10px">
-      <p id="sig-library-status" class="editor-hint" role="status"></p>
-    </div>
-
-    <div class="editor-toolbar editor-export-row final-three"><button id="editor-save-library" type="button">Save to Library</button><button id="editor-download" type="button">Download PDF</button><button id="editor-share" type="button">Share PDF</button><button id="editor-print" type="button">Print PDF</button></div><button id="editor-save" type="button" hidden aria-hidden="true" tabindex="-1">Generate PDF</button>
-    <p class="editor-hint">Choose what to do with your edited PDF. Each action automatically creates the latest version.</p>
-    <p id="editor-status" class="editor-hint" role="status">No document loaded. PDF pages are previewed using PDF.js. Requires internet for libraries.</p>
-  </div>
+<nav aria-label="Main navigation" id="mobile-tabs"><button data-task="home" type="button"><span class="tab-icon">⌂</span>Home</button><button data-task="studio" type="button"><span class="tab-icon">▣</span>Studio</button><button data-task="sign" type="button"><span class="tab-icon">✎</span>Sign</button><button data-task="workshop" type="button"><span class="tab-icon">▤</span>PDF Tools</button><button id="tabs-library" type="button"><span class="tab-icon">▥</span>Library</button><button id="tabs-help" type="button"><span class="tab-icon">ⓘ</span>Help</button></nav>
+<div aria-hidden="true" id="tour-backdrop"></div><aside aria-label="Guided tour" aria-live="polite" id="tour-card" role="dialog"><div id="tour-progress" style="font-size:12px;font-weight:700;color:#66788f"></div><h3 id="tour-title"></h3><p id="tour-copy"></p><button id="tour-previous" type="button">← Previous</button><button id="tour-next" type="button">Next →</button><button id="tour-exit" type="button">Close tour</button></aside>
+<section aria-label="Add text and sign PDF" id="pdf-editor" style="display:none">
+<div class="editor-open-row"><div class="editor-toolbar"><button class="primary" id="editor-open" type="button">📂 Open PDF from Files</button><button aria-hidden="true" hidden="" id="editor-photo" tabindex="-1" type="button">📷 Use a photo</button></div><div aria-label="PDF page navigation" class="page-stepper"><button aria-label="Previous page" id="editor-prev" type="button">‹</button><span id="editor-page-label">No document</span><button aria-label="Next page" id="editor-next" type="button">›</button></div></div>
+<div id="editor-paper"><canvas class="preview-collapsed" height="780" id="editor-page-canvas" width="600"></canvas><div id="editor-overlays"></div></div>
+<div class="editor-toolbar" id="editor-tool-buttons"><button id="editor-add-sign" type="button">✍ Add signature</button><button id="editor-add-text" type="button">T Add text</button><button id="editor-add-date" type="button">▦ Add date</button><button id="editor-delete" type="button">🗑 Remove selected</button></div>
+<div id="editor-controls"><div class="watermark-card"><div class="watermark-compact"><label for="editor-watermark-text">Watermark</label><input aria-label="Watermark text" id="editor-watermark-text" maxlength="60" value="DRAFT"/><select aria-label="Watermark direction" id="editor-watermark-angle"><option selected="" value="-45">Diagonal ↗</option><option value="0">Horizontal →</option><option value="45">Diagonal ↘</option><option value="-90">Vertical ↑</option></select><div class="watermark-opacity"><label for="editor-watermark-opacity">Transparency</label><select aria-label="Watermark transparency" id="editor-watermark-opacity" title="Transparency"><option value="0">0%</option><option value="25">25%</option><option selected="" value="50">50%</option><option value="75">75%</option><option value="90">90%</option></select></div><button aria-label="Apply watermark" aria-pressed="false" class="watermark-apply" id="editor-watermark-shortcut" title="Apply watermark" type="button">✓</button></div></div>
+<div aria-label="Document editing helpers" class="editor-toolbar"><button id="editor-undo" type="button">↶ Undo</button><button id="editor-redo" type="button">↷ Redo</button><button id="editor-clear-all" type="button">✕ Clear All</button></div>
+<div class="template-line"><label for="editor-template">Quick Text Templates</label><select id="editor-template"><option value="">Choose a reusable phrase</option><option value="Approved">Approved</option><option value="Reviewed">Reviewed</option><option value="Received">Received</option><option value="Please sign and return">Please sign and return</option><option value="Confidential">Confidential</option><option value="Date: ">Date label</option></select></div>
+<label for="editor-text">Text / typed signature</label><input id="editor-text" placeholder="Enter text to place on the document">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<div><label for="editor-font">Font style</label><select id="editor-font" style="width:100%;padding:10px;border:1px solid #c8d7e6;border-radius:9px"><option value="Helvetica">Helvetica</option><option value="TimesRoman">Times Roman</option><option value="Courier">Courier</option><option value="HelveticaBold">Helvetica Bold</option><option value="TimesRomanItalic">Times Italic</option><option value="HelveticaOblique">Helvetica Italic</option></select></div>
+<div><label for="editor-font-size">Font size (points)</label><input id="editor-font-size" max="72" min="6" type="number" value="16"/></div>
+</div>
+<div class="editor-adjust-grid">
+<div><label for="editor-width">Width: <span id="editor-width-label">30%</span></label><input id="editor-width" max="100" min="5" type="range" value="30"/></div>
+<div><label for="editor-height">Height: <span id="editor-height-label">9%</span></label><input id="editor-height" max="75" min="2" type="range" value="9"/></div>
+<div><label for="editor-ink">Ink color</label><select id="editor-ink"><option value="#174ea6">Blue</option><option value="#123b70">Navy</option><option value="#111827">Black</option></select></div>
+</div>
+<p class="editor-hint">Drag an item to move it. Drag any blue corner handle to resize the box in both directions. Use the width and height sliders for precise adjustment; long text wraps inside. Use font size to change the text itself.</p>
+<div hidden="" id="editor-signature-panel"><p class="editor-hint">Draw with a finger or Apple Pencil, then tap Add signature above. This panel is hidden when using Text or Date.</p>
+<canvas height="180" id="editor-sign-pad" width="700"></canvas><button id="editor-clear-sign" type="button">Clear drawing</button></div>
+<div class="toolbox" hidden="" id="signature-library" style="margin:10px 0">
+<h3>Saved signature</h3>
+<p class="editor-hint">Save a handwritten signature on this device, or import a transparent PNG. Choose blue or black ink before placing it. For best results, import a signature on a transparent background. Saved signatures stay in this browser unless its site data is cleared.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+<button id="sig-save" type="button">Save current drawing</button>
+<button id="sig-use" type="button">Use saved signature</button>
+<button id="sig-import" type="button">Import signature image</button>
+<button id="sig-remove" type="button">Delete saved signature</button>
+</div>
+<input accept="image/png,image/jpeg,image/webp" hidden="" id="sig-file" type="file"/>
+<label for="sig-ink" style="display:block;margin-top:10px">Signature ink color</label>
+<select id="sig-ink" style="width:100%;padding:9px"><option value="#174ea6">Blue ink</option><option value="#123b70">Navy blue</option><option value="#111827">Black ink</option></select>
+<img alt="Saved signature preview" id="sig-preview" style="display:none;max-width:100%;height:75px;object-fit:contain;background:white;border:1px solid #d6e1ee;border-radius:8px;margin-top:10px"/>
+<p class="editor-hint" id="sig-library-status" role="status"></p>
+</div>
+<div class="editor-toolbar editor-export-row final-three"><button id="editor-save-library" type="button">Save to Library</button><button id="editor-download" type="button">Download PDF</button><button id="editor-share" type="button">Share PDF</button><button id="editor-print" type="button">Print PDF</button></div><button aria-hidden="true" hidden="" id="editor-save" tabindex="-1" type="button">Generate PDF</button>
+<p class="editor-hint">Choose what to do with your edited PDF. Each action automatically creates the latest version.</p>
+<p class="editor-hint" id="editor-status" role="status">No document loaded. PDF pages are previewed using PDF.js. Requires internet for libraries.</p>
+</input></div>
 </section>
 <main id="scanner-view">
+<div class="scan-area" id="scan-area">
+<div class="placeholder" id="placeholder">
+<svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+<p>Tap the button below to scan a document</p>
+</div>
+<img alt="Document Preview" id="preview-img"/>
+</div>
+<div class="actions">
+<button class="btn btn-primary" id="scan-btn" type="button"><span>📷</span> Choose Photo or Camera</button>
+</div>
+<section aria-label="Import an existing PDF" class="toolbox">
+<h3>Open &amp; sign an existing PDF</h3>
+<button class="btn btn-primary" id="import-pdf-btn" type="button">Open PDF from Files</button>
+<p class="tool-note" id="pdf-import-status">Import a PDF, add a typed or drawn signature, position it, and save or share the signed copy. The original file is not overwritten.</p>
+<div id="pdf-sign-panel" style="display:none">
+<label for="pdf-page-number">Page to sign</label><input id="pdf-page-number" min="1" type="number" value="1"/>
+<label for="signature-position">Signature position</label>
+<select id="signature-position"><option value="bottom-right">Bottom right</option><option value="bottom-left">Bottom left</option><option value="center">Center</option><option value="top-right">Top right</option></select>
+<label for="pdf-signer-name">Typed signature (optional)</label><input id="pdf-signer-name" placeholder="Your name"/>
+<label>Draw signature using finger or Apple Pencil</label>
+<canvas height="200" id="signature-canvas" style="display:block;width:100%;height:110px;background:white;border:1px solid #c9d8e9;border-radius:10px;touch-action:none" width="680"></canvas>
+<div class="toolgrid">
+<button id="clear-signature-btn" type="button">Clear signature</button>
+<button id="sign-pdf-btn" type="button">Apply signature &amp; save</button>
+<button disabled="" id="download-signed-btn" type="button">Download signed PDF</button>
+<button disabled="" id="share-signed-btn" type="button">Share signed PDF</button>
+</div>
+<p class="tool-note">Signature placement is approximate. Review the saved PDF carefully before sending. This is a visual signature, not a certificate-based digital signature.</p>
+</div>
+</section>
+<section aria-label="PDF editing tools" class="toolbox" id="pdf-toolbox">
+<h3>PDF Tools</h3>
+<div class="editor-toolbar"><button class="primary" id="workshop-open-pdf" type="button">📂 Open existing PDF</button><button id="workshop-open-photo" type="button">📷 Use photo as PDF</button></div><div class="pdf-compare" id="workshop-preview-group"><div><strong>Source PDF preview</strong><div class="pdf-page-controls page-stepper"><button aria-label="Previous source page" id="source-prev" type="button">‹</button><span id="source-page-label">No document</span><button aria-label="Next source page" id="source-next" type="button">›</button></div><canvas aria-label="Source PDF page preview" class="preview-collapsed" id="source-preview"></canvas></div><div><strong>Result preview — review before saving</strong><div class="pdf-page-controls page-stepper"><button aria-label="Previous result page" id="result-prev" type="button">‹</button><span id="result-page-label">No document</span><button aria-label="Next result page" id="result-next" type="button">›</button></div><canvas aria-label="Result PDF page preview" class="preview-collapsed" id="result-preview"></canvas><pre id="result-text-preview" style="display:none;white-space:pre-wrap;max-height:340px;overflow:auto"></pre></div></div>
+<p class="workshop-sr-note tool-note" id="workshop-source-status">First open a PDF or photograph. Then select a tool below.</p>
+<p class="workshop-sr-note tool-note">Import a PDF using “Open PDF from Files” above. Tools work on the imported PDF, create a separate copy, and do not overwrite your original. Select an operation, then tap Run tool.</p>
+<label for="pdf-tool-operation" id="workshop-tool-start">Choose a PDF tool</label>
+<div class="workshop-pick-row"><select id="pdf-tool-operation">
+<option value="searchable">Make PDF searchable / extract editable text (OCR)</option>
+<option value="rotate">Rotate selected pages 90° clockwise</option>
+<option value="extract">Extract selected pages into a new PDF</option>
+<option value="delete">Delete selected pages from a copy</option>
+<option value="reorder">Reorder pages (enter new page order)</option>
+<option value="merge">Merge another PDF onto this PDF</option>
+<option value="watermark">Add watermark or stamp</option>
+<option value="numbers">Add page numbers</option>
+<option value="flatten">Flatten fillable form fields</option>
+<option value="metadata">Set PDF title / author</option>
+<option value="text">Extract existing PDF text to TXT</option>
+<option value="image">Export a PDF page to JPG</option>
+<option value="compress">Compress by rebuilding as images (loses selectable text)</option>
+</select><button id="run-pdf-tool" type="button">▶ Apply tool</button></div>
+<label for="pdf-pages">Pages or order (examples: 1,3-5 or 3,1,2)</label>
+<input id="pdf-pages" placeholder="Leave blank for all pages"/>
+<label for="pdf-tool-text">Watermark / title / author (depending on tool)</label>
+<input id="pdf-tool-text" placeholder="CONFIDENTIAL or My document"/><div id="pdf-watermark-angle-wrap"><label for="pdf-watermark-angle">Watermark angle</label><select id="pdf-watermark-angle"><option selected="" value="-45">Diagonal ↗</option><option value="0">Horizontal →</option><option value="45">Diagonal ↘</option></select></div>
+<div id="pdf-image-quality-wrap"><label for="pdf-image-quality">Image quality for JPG or image-based compression</label>
+<select id="pdf-image-quality"><option value="0.82">Balanced</option><option value="0.6">Smaller file</option><option value="0.94">Higher quality</option></select></div>
+<div class="workshop-next-row"><button disabled="" id="use-tool-result" type="button">↻ Continue editing this result</button></div>
+<p aria-live="polite" class="tool-note" id="pdf-tool-status" role="status">Ready when a PDF is imported.</p>
 
-    <div class="scan-area" id="scan-area">
-      <div class="placeholder" id="placeholder">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-        <p>Tap the button below to scan a document</p>
-      </div>
-      <img id="preview-img" alt="Document Preview">
-    </div>
 
-    <div class="actions">
-      <button class="btn btn-primary" id="scan-btn" type="button"><span>📷</span> Choose Photo or Camera</button>
-    </div>
-    
+<p class="tool-note"><strong>Limitations:</strong> Automatic form-field recognition and Apple Pencil freehand annotation are not implemented. Page organization is available below. Password-protected PDFs, certificate-based signatures, translation, AI chat, and precise automatic form recognition are not included. Image-based compression can increase size and removes searchable text. Text extraction only works on PDFs that already contain text.</p>
+<div class="toolgrid workshop-export-bottom" id="workshop-export-group"><button disabled="" id="save-tool-library" type="button">Save to Library</button><button disabled="" id="download-tool-result" type="button">Download PDF</button><button disabled="" id="share-tool-result" type="button">Share PDF</button><button disabled="True" id="print-tool-result" type="button">Print PDF</button></div><section aria-label="Advanced document tools" class="advanced-suite" id="advanced-suite">
+<h3>Advanced document tools</h3>
+<p class="tool-note">Work on a separate copy. Your original and saved documents remain unchanged.</p>
+<label for="advanced-file">Choose a PDF to organize, inspect or process</label>
+<input accept="application/pdf,.pdf" id="advanced-file" type="file"/>
+<p id="advanced-status" role="status">Choose a PDF to begin.</p>
+<div aria-label="PDF page organizer" id="advanced-page-grid"></div>
+<div class="advanced-actions">
+<button id="advanced-up" type="button">Move selected page earlier</button>
+<button id="advanced-down" type="button">Move selected page later</button>
+<button id="advanced-rotate" type="button">Rotate selected page</button>
+<button id="advanced-duplicate" type="button">Duplicate selected page</button>
+<button id="advanced-remove" type="button">Remove selected page</button>
+<button id="advanced-export" type="button">Export organized PDF</button>
+</div>
+<details hidden=""><summary>Batch watermark</summary>
+<label for="advanced-stamp">Text for every page</label><input id="advanced-stamp" value="CONFIDENTIAL"/>
+<button id="advanced-batch" type="button">Apply watermark to all pages and export</button>
+</details>
+<details><summary>Search and extract PDF text</summary>
+<label for="advanced-search">Find words in a text-based PDF</label><input id="advanced-search" placeholder="Search PDF text" type="search"/>
+<button id="advanced-find" type="button">Search pages</button>
+<button id="advanced-extract" type="button">Export extracted text</button>
+<pre aria-live="polite" id="advanced-results"></pre>
+</details>
+<details><summary>Compare two documents</summary>
+<label for="advanced-compare-file">Second PDF</label><input accept="application/pdf,.pdf" id="advanced-compare-file" type="file"/>
+<button id="advanced-compare" type="button">Compare text by page</button>
+<p class="tool-note">Compares extractable text, not visual layout or scanned images without OCR.</p>
+</details>
+<details hidden=""><summary>Receipt / expense extraction</summary>
+<button id="advanced-receipt" type="button">Extract candidate dates and totals to CSV</button>
+<p class="tool-note">Rule-based candidates from existing PDF text; verify against the original receipt.</p>
+</details>
+<div class="advanced-actions"><button id="advanced-save-library" type="button">Save last exported PDF to Library</button><button id="advanced-share" type="button">Share last exported PDF</button></div>
+</section>
+</section>
+<section aria-label="Scan and editing tools" class="toolbox" id="document-studio-tools">
+<h3>Document Studio</h3>
+<p class="tool-note">Capture or import photos, improve each page, recognize text, then save a searchable PDF.</p>
+<button class="btn btn-primary" id="studio-add-photo" type="button">📷 Add photo or scan page</button>
 
-    <section class="toolbox" aria-label="Import an existing PDF">
-      <h3>Open &amp; sign an existing PDF</h3>
-      <button class="btn btn-primary" type="button" id="import-pdf-btn">Open PDF from Files</button>
-      <p id="pdf-import-status" class="tool-note">Import a PDF, add a typed or drawn signature, position it, and save or share the signed copy. The original file is not overwritten.</p>
-      <div id="pdf-sign-panel" style="display:none">
-        <label for="pdf-page-number">Page to sign</label><input id="pdf-page-number" type="number" min="1" value="1">
-        <label for="signature-position">Signature position</label>
-        <select id="signature-position"><option value="bottom-right">Bottom right</option><option value="bottom-left">Bottom left</option><option value="center">Center</option><option value="top-right">Top right</option></select>
-        <label for="pdf-signer-name">Typed signature (optional)</label><input id="pdf-signer-name" placeholder="Your name">
-        <label>Draw signature using finger or Apple Pencil</label>
-        <canvas id="signature-canvas" width="680" height="200" style="display:block;width:100%;height:110px;background:white;border:1px solid #c9d8e9;border-radius:10px;touch-action:none"></canvas>
-        <div class="toolgrid">
-          <button type="button" id="clear-signature-btn">Clear signature</button>
-          <button type="button" id="sign-pdf-btn">Apply signature &amp; save</button>
-          <button type="button" id="download-signed-btn" disabled>Download signed PDF</button>
-          <button type="button" id="share-signed-btn" disabled>Share signed PDF</button>
-        </div>
-        <p class="tool-note">Signature placement is approximate. Review the saved PDF carefully before sending. This is a visual signature, not a certificate-based digital signature.</p>
-      </div>
-    </section>
-
-    <section class="toolbox" id="pdf-toolbox" aria-label="PDF editing tools">
-      <h3>🧰 PDF Workshop · Test Lab</h3>
-      <div class="editor-toolbar"><button id="workshop-open-pdf" type="button" class="primary">📂 Open existing PDF</button><button id="workshop-open-photo" type="button">📷 Use photo as PDF</button></div>
-      <p id="workshop-source-status" class="tool-note">First open a PDF or photograph. Then select a tool below.</p>
-      <p class="tool-note">Import a PDF using “Open PDF from Files” above. Tools work on the imported PDF, create a separate copy, and do not overwrite your original. Select an operation, then tap Run tool.</p>
-      <label id="workshop-tool-start" for="pdf-tool-operation">Choose a PDF tool</label>
-      <div class="workshop-pick-row"><select id="pdf-tool-operation">
-        <option value="searchable">Make PDF searchable / extract editable text (OCR)</option>
-        <option value="rotate">Rotate selected pages 90° clockwise</option>
-        <option value="extract">Extract selected pages into a new PDF</option>
-        <option value="delete">Delete selected pages from a copy</option>
-        <option value="reorder">Reorder pages (enter new page order)</option>
-        <option value="merge">Merge another PDF onto this PDF</option>
-        <option value="watermark">Add watermark or stamp</option>
-        <option value="numbers">Add page numbers</option>
-        <option value="flatten">Flatten fillable form fields</option>
-        <option value="metadata">Set PDF title / author</option>
-        <option value="text">Extract existing PDF text to TXT</option>
-        <option value="image">Export a PDF page to JPG</option>
-        <option value="compress">Compress by rebuilding as images (loses selectable text)</option>
-      </select><button type="button" id="run-pdf-tool">▶ Apply tool</button></div>
-      <label for="pdf-pages">Pages or order (examples: 1,3-5 or 3,1,2)</label>
-      <input id="pdf-pages" placeholder="Leave blank for all pages">
-      <label for="pdf-tool-text">Watermark / title / author (depending on tool)</label>
-      <input id="pdf-tool-text" placeholder="CONFIDENTIAL or My document"><div id="pdf-watermark-angle-wrap"><label for="pdf-watermark-angle">Watermark angle</label><select id="pdf-watermark-angle"><option value="-45" selected>Diagonal ↗</option><option value="0">Horizontal →</option><option value="45">Diagonal ↘</option></select></div>
-      <div id="pdf-image-quality-wrap"><label for="pdf-image-quality">Image quality for JPG or image-based compression</label>
-      <select id="pdf-image-quality"><option value="0.82">Balanced</option><option value="0.6">Smaller file</option><option value="0.94">Higher quality</option></select></div>
-      <div class="workshop-next-row"><button type="button" id="use-tool-result" disabled>↻ Continue editing this result</button></div>
-      <p id="pdf-tool-status" class="tool-note" role="status" aria-live="polite">Ready when a PDF is imported.</p>
-      <div class="pdf-compare" id="workshop-preview-group"><div><strong>Source PDF preview</strong><div class="pdf-page-controls page-stepper"><button id="source-prev" type="button" aria-label="Previous source page">‹</button><span id="source-page-label">No document</span><button id="source-next" type="button" aria-label="Next source page">›</button></div><canvas class="preview-collapsed" id="source-preview" aria-label="Source PDF page preview"></canvas></div><div><strong>Result preview — review before saving</strong><div class="pdf-page-controls page-stepper"><button id="result-prev" type="button" aria-label="Previous result page">‹</button><span id="result-page-label">No document</span><button id="result-next" type="button" aria-label="Next result page">›</button></div><canvas class="preview-collapsed" id="result-preview" aria-label="Result PDF page preview"></canvas><pre id="result-text-preview" style="display:none;white-space:pre-wrap;max-height:340px;overflow:auto"></pre></div></div>
-      <div class="toolgrid workshop-export-bottom" id="workshop-export-group"><button type="button" id="save-tool-library" disabled>Save to Library</button><button type="button" id="download-tool-result" disabled>Download PDF</button><button type="button" id="share-tool-result" disabled>Share PDF</button></div>
-      <p class="tool-note"><strong>Limitations:</strong> Automatic form-field recognition and Apple Pencil freehand annotation are not implemented. Page organization is available below. Password-protected PDFs, certificate-based signatures, translation, AI chat, and precise automatic form recognition are not included. Image-based compression can increase size and removes searchable text. Text extraction only works on PDFs that already contain text.</p>
-      <section class="advanced-suite" id="advanced-suite" aria-label="Advanced document tools">
-        <h3>Advanced document tools</h3>
-        <p class="tool-note">Work on a separate copy. Your original and saved documents remain unchanged.</p>
-        <label for="advanced-file">Choose a PDF to organize, inspect or process</label>
-        <input type="file" id="advanced-file" accept="application/pdf,.pdf">
-        <p id="advanced-status" role="status">Choose a PDF to begin.</p>
-        <div id="advanced-page-grid" aria-label="PDF page organizer"></div>
-        <div class="advanced-actions">
-          <button type="button" id="advanced-up">Move selected page earlier</button>
-          <button type="button" id="advanced-down">Move selected page later</button>
-          <button type="button" id="advanced-rotate">Rotate selected page</button>
-          <button type="button" id="advanced-duplicate">Duplicate selected page</button>
-          <button type="button" id="advanced-remove">Remove selected page</button>
-          <button type="button" id="advanced-export">Export organized PDF</button>
-        </div>
-        <details hidden><summary>Batch watermark</summary>
-          <label for="advanced-stamp">Text for every page</label><input id="advanced-stamp" value="CONFIDENTIAL">
-          <button type="button" id="advanced-batch">Apply watermark to all pages and export</button>
-        </details>
-        <details><summary>Search and extract PDF text</summary>
-          <label for="advanced-search">Find words in a text-based PDF</label><input id="advanced-search" type="search" placeholder="Search PDF text">
-          <button type="button" id="advanced-find">Search pages</button>
-          <button type="button" id="advanced-extract">Export extracted text</button>
-          <pre id="advanced-results" aria-live="polite"></pre>
-        </details>
-        <details><summary>Compare two documents</summary>
-          <label for="advanced-compare-file">Second PDF</label><input type="file" id="advanced-compare-file" accept="application/pdf,.pdf">
-          <button type="button" id="advanced-compare">Compare text by page</button>
-          <p class="tool-note">Compares extractable text, not visual layout or scanned images without OCR.</p>
-        </details>
-        <details hidden><summary>Receipt / expense extraction</summary>
-          <button type="button" id="advanced-receipt">Extract candidate dates and totals to CSV</button>
-          <p class="tool-note">Rule-based candidates from existing PDF text; verify against the original receipt.</p>
-        </details>
-        <div class="advanced-actions"><button type="button" id="advanced-save-library">Save last exported PDF to Library</button><button type="button" id="advanced-share">Share last exported PDF</button></div>
-      </section>
-    </section>
-    <section class="toolbox" id="document-studio-tools" aria-label="Scan and editing tools">
-      <h3>Document studio</h3>
-      <p class="tool-note">Step 1: Choose a photo. Step 2: crop or straighten it. Step 3: tap <strong>Recognize &amp; Create PDF</strong>. Step 4: review and export.</p>
-      <button id="studio-add-photo" type="button" class="btn btn-primary">📷 Add photo or scan page</button>
-      <button id="studio-open-pdf" type="button" class="btn btn-secondary" style="margin-top:8px">📄 Open existing PDF instead</button>
-      <p class="tool-note">Document Studio recognizes text from photos. If your file in Recents is already a PDF, use <strong>Open existing PDF</strong> to work with it in PDF Workshop. PDF files cannot be loaded as camera photos.</p>
-      <button id="studio-process" type="button" class="btn btn-primary" style="margin-top:8px" disabled>🔎 Recognize &amp; Create PDF</button>
-      <p id="studio-status" class="tool-note" role="status">No pages yet. Add a photo to begin.</p>
-      <div id="studio-ready" class="tool-note" style="padding:12px;background:#eaf4ff;border-radius:12px">Start with <strong>Add photo or scan page</strong>. After the image appears, the editing tools and OCR button will be available.</div>
-      <div class="toolgrid" id="studio-edit-actions">
-        <button type="button" id="add-page-btn">＋ Add page</button>
-        <button type="button" id="crop-page-btn">✂ Crop last page</button>
-        <button type="button" id="straighten-page-btn">▱ Straighten / crop</button>
-        <button type="button" id="rotate-page-btn">↻ Rotate last page</button>
-        <button type="button" id="enhance-page-btn">◐ Enhance last page</button>
-        <button type="button" id="original-page-btn">↩ Restore last page</button>
-      </div>
-      <label style="display:flex;gap:9px;align-items:center;margin-top:12px;font-size:13px"><input type="checkbox" id="auto-straighten-toggle" style="width:auto;margin:0"> Automatically straighten new photos (experimental)</label>
-      <p id="straighten-status" class="tool-note" role="status" aria-live="polite">Detects the document edges and corrects perspective when possible. Use manual crop if detection misses.</p>
-      <div id="page-list" aria-live="polite"></div><button type="button" id="studio-open-library" class="btn btn-secondary">🗂 Open saved document library</button>
-      <div id="crop-panel" style="display:none;margin:12px 0">
-        <p class="tool-note" style="margin-bottom:8px">Drag the corners of the crop box to exclude desks, hands, backgrounds, or screen borders. The selected area is kept for OCR and PDF export.</p>
-        <div id="crop-stage" style="position:relative;touch-action:none;user-select:none;max-width:100%;background:#15283e;border-radius:12px;overflow:hidden">
-          <canvas id="crop-canvas" style="display:block;width:100%;height:auto;touch-action:none"></canvas>
-        </div>
-        <div class="toolgrid" style="margin-top:9px">
-          <button type="button" id="apply-crop-btn">Apply crop</button>
-          <button type="button" id="cancel-crop-btn">Cancel</button>
-        </div>
-      </div>
-      <div class="smart-ocr-heading" id="studio-ocr-heading"><strong>Smart OCR settings</strong><span>From paper to polished, searchable, signed documents—all in one private workspace. Recognition runs locally in your browser; Smart Auto can take longer</span></div>
-      <div class="ocr-compact-row"><div><label for="ocr-language">Language</label>
-      <select id="ocr-language"><option value="eng">English</option><option value="spa">Spanish</option><option value="eng+spa">English + Spanish</option><option value="fra">French</option><option value="deu">German</option><option value="ita">Italian</option></select>
-      </div><div><label for="ocr-quality">Accuracy</label>
-      <select id="ocr-quality"><option value="accurate">Accurate · text pages (recommended)</option><option value="fast">Fast · simple documents</option><option value="sparse">Sparse text · forms, receipts, labels</option><option value="smart">Smart Auto · compare OCR passes (slower)</option></select>
-      </div><div><label for="ocr-mode" style="font-size:12px;font-weight:650">Image</label>
-      <select id="ocr-mode"><option value="auto">Auto: improve contrast for OCR</option><option value="original">Original photo</option><option value="bw">Black &amp; white document</option><option value="adaptive">Adaptive threshold · faint text / uneven light</option></select>
-      </div></div><div class="tool-note" id="ocr-benchmark" aria-live="polite">OCR diagnostics: waiting for a document. Smart Auto compares two passes and chooses a result using confidence and coverage heuristics.</div>
-      <label id="studio-finish-start" for="doc-title" style="font-size:12px;font-weight:650">Document name</label>
-      <input id="doc-title" placeholder="My scanned document" maxlength="100">
-      <label for="stamp-text" style="font-size:12px;font-weight:650">Optional PDF stamp / watermark</label>
-      <input id="stamp-text" placeholder="e.g. DRAFT or CONFIDENTIAL" maxlength="60">
-      <label for="signature-text" style="font-size:12px;font-weight:650">Optional typed signature on last page</label>
-      <input id="signature-text" placeholder="Type your name" maxlength="80">
-      <p class="tool-note">Add multiple pages before OCR. Stamp and typed signature are visual annotations, not cryptographic digital signatures. Review all documents before sharing.</p>
-      <div class="studio-final-actions" id="studio-final-actions">
-        <h3>Save or share your document</h3>
-        <p id="studio-export-status" class="tool-note">After recognizing your document, choose Save to Library, Download PDF, or Share PDF.</p>
-        <div class="toolgrid final-three"><button id="studio-library-final" type="button" disabled>Save to Library</button><button id="studio-save-final" type="button" disabled>Download PDF</button><button id="studio-share-final" type="button" disabled>Share PDF</button></div>
-      </div>
-    </section>
-    <div class="actions" id="post-scan-actions" style="display: none;">
-      <button class="btn btn-secondary" id="retake-btn">Retake</button>
-      <button class="btn btn-primary" id="process-btn">Recognize &amp; Create PDF</button>
-    </div>
-
-    <div id="results-panel" style="display:none;">
-      <div class="section-kicker">YOUR FILES</div>
-      <div class="output-options">
-        <button class="output-card" id="download-pdf-btn" type="button"><span class="output-symbol">PDF</span><span><strong>Searchable PDF</strong><small>Original image with selectable/searchable OCR text, when recognized.</small></span></button>
-        <button class="output-card" id="download-txt-btn" type="button"><span class="output-symbol">TXT</span><span><strong>Plain text</strong><small>Extracted text you can edit, copy, or search.</small></span></button>
-        <button class="output-card" id="download-word-btn" type="button"><span class="output-symbol">DOC</span><span><strong>Open in Word</strong><small>Editable Word-compatible document made from recognized text.</small></span></button>
-      </div>
-      <p id="ocr-status" style="font-size:12px;line-height:1.5;color:#718198;margin-top:12px;"></p>
-      <label for="ocr-editor" style="display:block;font-size:13px;font-weight:750;color:#203653;margin:16px 0 7px;">Review and correct recognized text</label>
-      <textarea id="ocr-editor" aria-label="Editable recognized text" placeholder="Recognized text will appear here. You can correct it before exporting." style="width:100%;min-height:170px;resize:vertical;border:1px solid #dce5f0;border-radius:14px;padding:14px;font:14px/1.6 system-ui;color:#203653;background:white;"></textarea>
-      <div id="ocr-confidence-review" class="ocr-review" aria-live="polite">Confidence information appears after recognition.</div>
-      <button id="ocr-apply-corrections" type="button" class="btn btn-secondary" disabled>Apply corrected text to searchable PDF</button>
-      <p class="tool-note">Review the text before sharing. Apply corrections rebuilds the searchable PDF with the edited text. The corrected layer is aligned by line rather than by each original word; precise positioning is best when edits preserve the original line breaks.</p>
-      <div class="section-kicker" style="margin-top:18px;">ADDITIONAL EXPORTS</div>
-      <div class="output-options">
-        <button class="output-card" id="download-jpg-btn" type="button"><span class="output-symbol">JPG</span><span><strong>Export first page image</strong><small>Save an image of the scan.</small></span></button>
-        <button class="output-card" id="download-docx-btn" type="button"><span class="output-symbol">DOCX</span><span><strong>Native Word document</strong><small>Editable text in a .docx file.</small></span></button>
-      </div>
-      <div class="section-kicker" style="margin-top:18px;">SHARE FILES</div>
-      <div class="output-options">
-        <button class="output-card" id="share-pdf-btn" type="button"><span class="output-symbol">↗</span><span><strong>Share PDF</strong><small>Original image and invisible OCR layer.</small></span></button>
-        <button class="output-card" id="share-txt-btn" type="button"><span class="output-symbol">↗</span><span><strong>Share text</strong><small>Send the corrected editable text.</small></span></button>
-        <button class="output-card" id="share-word-btn" type="button"><span class="output-symbol">↗</span><span><strong>Share Word</strong><small>Send a Word-compatible editable file.</small></span></button>
-      </div>
-      <div class="actions" id="final-actions">
-        <button class="btn btn-secondary" id="new-scan-btn">Scan Another</button>
-        <button class="btn btn-primary" id="share-btn">Share PDF</button>
-      </div>
-    </div>
-  </main>
-
-  <!-- History View -->
-  <p class="help-footer">DocuScan Pro · Version 4.5.6 · <button type="button" data-build-check style="border:1px solid #a4bfd9;border-radius:8px;padding:6px 9px;background:#f2f8ff;color:#154b7c">Check version &amp; cache</button> · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
-  <main class="history-view" id="history-view">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-      <h2 style="font-size:24px; font-weight:700;">Saved Document Library</h2>
-      <button class="icon-btn" id="close-history-btn" type="button" aria-label="Close document library">✕</button>
-    </div>
-    <p class="tool-note">Stored locally on this browser/device. Clearing website data can erase these files; download important documents.</p><label for="library-search">Find a saved document</label><input id="library-search" type="search" placeholder="Search document names" autocomplete="off" style="width:100%;margin:8px 0 16px;padding:13px;border:1px solid #cbd5e1;border-radius:12px"><div id="history-list"></div>
-  </main>
-
-  <!-- Native Camera Input (Triggers iOS Camera directly) -->
-  <input type="file" id="camera-input" accept="image/*">
-  <input type="file" id="direct-camera-input" accept="image/*" capture="environment" style="display:none">
-  <input type="file" id="pdf-input" accept="application/pdf,.pdf" style="display:none">
-
-  <!-- Processing Overlay -->
-  <div class="overlay" id="overlay">
-    <div class="spinner"></div>
-    <div id="progress-text">Initializing Scanner...</div>
-  </div>
-
-  <section id="build-check-panel" role="dialog" aria-modal="true" aria-label="App version and cache diagnostics"><div class="build-check-card">
+<button class="btn btn-primary" disabled="" id="studio-process" style="margin-top:8px" type="button">🔎 Recognize &amp; Create PDF</button>
+<p class="tool-note" id="studio-status" role="status">No pages yet. Add a photo to begin.</p>
+<div class="tool-note" id="studio-ready" style="padding:12px;background:#eaf4ff;border-radius:12px">Start with <strong>Add photo or scan page</strong>. After the image appears, the editing tools and OCR button will be available.</div>
+<div class="toolgrid" id="studio-edit-actions">
+<button id="add-page-btn" type="button">＋ Add page</button>
+<button id="crop-page-btn" type="button">✂ Crop last page</button>
+<button id="straighten-page-btn" type="button">▱ Straighten / crop</button>
+<button id="rotate-page-btn" type="button">↻ Rotate last page</button>
+<button id="enhance-page-btn" type="button">◐ Enhance last page</button>
+<button id="original-page-btn" type="button">↩ Restore last page</button>
+</div>
+<label style="display:flex;gap:9px;align-items:center;margin-top:12px;font-size:13px"><input id="auto-straighten-toggle" style="width:auto;margin:0" type="checkbox"/> Automatically straighten new photos (experimental)</label>
+<p aria-live="polite" class="tool-note" id="straighten-status" role="status">Detects the document edges and corrects perspective when possible. Use manual crop if detection misses.</p>
+<div aria-live="polite" id="page-list"></div><button class="btn btn-secondary" id="studio-open-library" type="button">🗂 Open saved document library</button>
+<div id="crop-panel" style="display:none;margin:12px 0">
+<p class="tool-note" style="margin-bottom:8px">Drag the corners of the crop box to exclude desks, hands, backgrounds, or screen borders. The selected area is kept for OCR and PDF export.</p>
+<div id="crop-stage" style="position:relative;touch-action:none;user-select:none;max-width:100%;background:#15283e;border-radius:12px;overflow:hidden">
+<canvas id="crop-canvas" style="display:block;width:100%;height:auto;touch-action:none"></canvas>
+</div>
+<div class="toolgrid" style="margin-top:9px">
+<button id="apply-crop-btn" type="button">Apply crop</button>
+<button id="cancel-crop-btn" type="button">Cancel</button>
+</div>
+</div>
+<div class="smart-ocr-heading" id="studio-ocr-heading"><strong>Smart OCR settings</strong><span>Turn photographed pages into searchable documents. Recognition runs locally in your browser; Smart Auto can take longer</span></div>
+<div class="ocr-compact-row"><div><label for="ocr-language">Language</label>
+<select id="ocr-language"><option value="eng">English</option><option value="spa">Spanish</option><option value="eng+spa">English + Spanish</option><option value="fra">French</option><option value="deu">German</option><option value="ita">Italian</option></select>
+</div><div><label for="ocr-quality">Accuracy</label>
+<select id="ocr-quality"><option value="accurate">Accurate · text pages (recommended)</option><option value="fast">Fast · simple documents</option><option value="sparse">Sparse text · forms, receipts, labels</option><option value="smart">Smart Auto · compare OCR passes (slower)</option></select>
+</div><div><label for="ocr-mode" style="font-size:12px;font-weight:650">Image</label>
+<select id="ocr-mode"><option value="auto">Auto: improve contrast for OCR</option><option value="original">Original photo</option><option value="bw">Black &amp; white document</option><option value="adaptive">Adaptive threshold · faint text / uneven light</option></select>
+</div></div><div aria-live="polite" class="tool-note" id="ocr-benchmark">OCR diagnostics: waiting for a document. Smart Auto compares two passes and chooses a result using confidence and coverage heuristics.</div>
+<label for="doc-title" id="studio-finish-start" style="font-size:12px;font-weight:650">Document name</label>
+<input id="doc-title" maxlength="100" placeholder="My scanned document"/>
+<p class="tool-note">Add and review all pages before recognition. Use Sign for signatures or watermarks after creating the PDF.</p>
+<input type="hidden" id="stamp-text" value=""/><input type="hidden" id="signature-text" value=""/>
+<div class="studio-final-actions" id="studio-final-actions">
+<h3>Save or share your document</h3>
+<p class="tool-note" id="studio-export-status">After recognizing your document, choose Save to Library, Download PDF, or Share PDF.</p>
+<div class="toolgrid studio-exports"><button disabled="" id="studio-library-final" type="button">Save to Library</button><button disabled="" id="studio-save-final" type="button">Download PDF</button><button disabled="" id="studio-share-final" type="button">Share PDF</button><button disabled="" id="studio-print-final" type="button">Print PDF</button></div><div class="studio-handoff"><button disabled="" id="studio-to-sign" type="button">Continue to Sign →</button><button disabled="" id="studio-to-tools" type="button">Open in PDF Tools →</button></div>
+</div>
+</section>
+<div class="actions" id="post-scan-actions" style="display: none;">
+<button class="btn btn-secondary" id="retake-btn">Retake</button>
+<button class="btn btn-primary" id="process-btn">Recognize &amp; Create PDF</button>
+</div>
+<div id="results-panel" style="display:none;">
+<div class="section-kicker">YOUR FILES</div>
+<div class="output-options">
+<button class="output-card" id="download-pdf-btn" type="button"><span class="output-symbol">PDF</span><span><strong>Searchable PDF</strong><small>Original image with selectable/searchable OCR text, when recognized.</small></span></button>
+<button class="output-card" id="download-txt-btn" type="button"><span class="output-symbol">TXT</span><span><strong>Plain text</strong><small>Extracted text you can edit, copy, or search.</small></span></button>
+<button class="output-card" id="download-word-btn" type="button"><span class="output-symbol">DOC</span><span><strong>Open in Word</strong><small>Editable Word-compatible document made from recognized text.</small></span></button>
+</div>
+<p id="ocr-status" style="font-size:12px;line-height:1.5;color:#718198;margin-top:12px;"></p>
+<label for="ocr-editor" style="display:block;font-size:13px;font-weight:750;color:#203653;margin:16px 0 7px;">Review and correct recognized text</label>
+<textarea aria-label="Editable recognized text" id="ocr-editor" placeholder="Recognized text will appear here. You can correct it before exporting." style="width:100%;min-height:170px;resize:vertical;border:1px solid #dce5f0;border-radius:14px;padding:14px;font:14px/1.6 system-ui;color:#203653;background:white;"></textarea>
+<div aria-live="polite" class="ocr-review" id="ocr-confidence-review">Confidence information appears after recognition.</div>
+<button class="btn btn-secondary" disabled="" id="ocr-apply-corrections" type="button">Apply corrected text to searchable PDF</button>
+<p class="tool-note">Review the text before sharing. Apply corrections rebuilds the searchable PDF with the edited text. The corrected layer is aligned by line rather than by each original word; precise positioning is best when edits preserve the original line breaks.</p>
+<div class="section-kicker" style="margin-top:18px;">ADDITIONAL EXPORTS</div>
+<div class="output-options">
+<button class="output-card" id="download-jpg-btn" type="button"><span class="output-symbol">JPG</span><span><strong>Export first page image</strong><small>Save an image of the scan.</small></span></button>
+<button class="output-card" id="download-docx-btn" type="button"><span class="output-symbol">DOCX</span><span><strong>Native Word document</strong><small>Editable text in a .docx file.</small></span></button>
+</div>
+<div class="section-kicker" style="margin-top:18px;">SHARE FILES</div>
+<div class="output-options">
+<button class="output-card" id="share-pdf-btn" type="button"><span class="output-symbol">↗</span><span><strong>Share PDF</strong><small>Original image and invisible OCR layer.</small></span></button>
+<button class="output-card" id="share-txt-btn" type="button"><span class="output-symbol">↗</span><span><strong>Share text</strong><small>Send the corrected editable text.</small></span></button>
+<button class="output-card" id="share-word-btn" type="button"><span class="output-symbol">↗</span><span><strong>Share Word</strong><small>Send a Word-compatible editable file.</small></span></button>
+</div>
+<div class="actions" id="final-actions">
+<button class="btn btn-secondary" id="new-scan-btn">Scan Another</button>
+<button class="btn btn-primary" id="share-btn">Share PDF</button>
+</div>
+</div>
+</main>
+<!-- History View -->
+<p class="help-footer">DocuScan Pro · Version 4.6.0 · <button data-build-check="" style="border:1px solid #a4bfd9;border-radius:8px;padding:6px 9px;background:#f2f8ff;color:#154b7c" type="button">Check version &amp; cache</button> · <button id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer" type="button">Help &amp; developer information</button></p>
+<main class="history-view" id="history-view">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+<h2 style="font-size:24px; font-weight:700;">Saved Document Library</h2>
+<button aria-label="Close document library" class="icon-btn" id="close-history-btn" type="button">✕</button>
+</div>
+<p class="tool-note">Stored locally on this browser/device. Clearing website data can erase these files; download important documents.</p><label for="library-search">Find a saved document</label><input autocomplete="off" id="library-search" placeholder="Search document names" style="width:100%;margin:8px 0 16px;padding:13px;border:1px solid #cbd5e1;border-radius:12px" type="search"/><div id="history-list"></div>
+</main>
+<!-- Native Camera Input (Triggers iOS Camera directly) -->
+<input accept="image/*" id="camera-input" type="file"/>
+<input accept="image/*" capture="environment" id="direct-camera-input" style="display:none" type="file"/>
+<input accept="application/pdf,.pdf" id="pdf-input" style="display:none" type="file"/>
+<!-- Processing Overlay -->
+<div class="overlay" id="overlay">
+<div class="spinner"></div>
+<div id="progress-text">Initializing Scanner...</div>
+</div>
+<section aria-label="App version and cache diagnostics" aria-modal="true" id="build-check-panel" role="dialog"><div class="build-check-card">
 <h2 style="margin:0 0 8px">Version &amp; Cache Check</h2>
 <p>Confirm which build this tab is running, check whether the server returns the same edition, and optionally clear the app's cached files. Your saved documents, signature, and Terms acceptance are preserved. The action only targets DocuScan-named Cache Storage and its own service worker.</p>
-<div id="build-check-output" role="status" aria-live="polite">Select Run checks.</div>
-<div style="display:flex;flex-wrap:wrap;margin-top:12px"><button type="button" id="build-run-check">Run checks</button><button type="button" id="build-clear-reload">Clear app caches &amp; reload</button><button type="button" id="build-copy-report">Copy report</button><button type="button" id="build-check-close">Close</button></div>
+<div aria-live="polite" id="build-check-output" role="status">Select Run checks.</div>
+<div style="display:flex;flex-wrap:wrap;margin-top:12px"><button id="build-run-check" type="button">Run checks</button><button id="build-clear-reload" type="button">Clear app caches &amp; reload</button><button id="build-copy-report" type="button">Copy report</button><button id="build-check-close" type="button">Close</button></div>
 <p style="font-size:12px;color:#586e84">Note: This cannot confirm whether the newest HTML was uploaded to your hosting service without a known published build to compare against. The server check reports the version actually served at this page URL. Safari's Home Screen app and Chrome may use different storage.</p>
 </div></section>
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
     // --- STATE & ELEMENTS ---
     let currentImageBlob = null;
     let currentPdfBlob = null;
@@ -1187,7 +1220,7 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
       const studioGo=document.getElementById('studio-process');if(studioGo)studioGo.disabled=!scanPages.length;
       for(const id of ['crop-page-btn','straighten-page-btn','rotate-page-btn','enhance-page-btn','original-page-btn']){const b=document.getElementById(id);if(b)b.disabled=!scanPages.length;}
       const hasOutput=!!currentPdfBlob;
-      for(const id of ['studio-save-final','studio-share-final','studio-library-final']){const b=document.getElementById(id);if(b)b.disabled=!hasOutput;}
+      for(const id of ['studio-save-final','studio-share-final','studio-library-final','studio-print-final','studio-to-sign','studio-to-tools']){const b=document.getElementById(id);if(b)b.disabled=!hasOutput;}
       const outputStatus=document.getElementById('studio-export-status');if(outputStatus)outputStatus.textContent=hasOutput?`PDF ready: ${currentFileName}. Download or use Share to choose Save to Files.`:'After recognizing your document, choose Save to Library, Download PDF, or Share PDF.';
       const studioStatus=document.getElementById('studio-status');if(studioStatus)studioStatus.textContent=scanPages.length?`${scanPages.length} page(s) ready. Crop, straighten, or tap Recognize & Create PDF.`:'No pages yet. Add a photo to begin.';
       scanPages.forEach((blob,i) => {
@@ -1725,7 +1758,7 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
     els.scanBtn.onclick = () => els.cameraInput.click();
     document.getElementById('studio-add-photo').onclick=()=>els.cameraInput.click();
     document.getElementById('studio-process').onclick=()=>processScannedDocument();
-    document.getElementById('studio-open-pdf').onclick=()=>{document.querySelector('[data-task="workshop"]').click();document.getElementById('workshop-open-pdf').click();};
+    // Studio now handles scans and photos only; existing PDFs open from Sign or PDF Tools.
     document.getElementById('direct-camera-input').onchange = e => {
       const f=e.target.files && e.target.files[0];
       if(f) handleImageFile(f);
@@ -1886,6 +1919,7 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
       toolResultBlob=blob;toolResultName=name;
       for(const id of ['download-tool-result','share-tool-result'])document.getElementById(id).disabled=false;
       document.getElementById('save-tool-library').disabled=blob.type!=='application/pdf';
+      document.getElementById('print-tool-result').disabled=blob.type!=='application/pdf';
       document.getElementById('use-tool-result').disabled=blob.type!=='application/pdf';
       toolStatus.textContent=`Ready: ${name} (${(blob.size/1024).toFixed(0)} KB). Check the result preview before sharing or downloading.`;
       workshopPreviewState.result.page=1;
@@ -2094,6 +2128,16 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
     };
     document.getElementById('download-tool-result').onclick=()=>toolResultBlob&&downloadBlob(toolResultBlob,toolResultName);
     document.getElementById('share-tool-result').onclick=()=>toolResultBlob&&shareFile(toolResultBlob,toolResultName,toolResultBlob.type);
+    document.getElementById('print-tool-result').onclick=()=>{
+      if(!toolResultBlob || toolResultBlob.type!=='application/pdf')return;
+      const url=URL.createObjectURL(toolResultBlob);
+      const frame=document.createElement('iframe');
+      frame.title='Print PDF';frame.style.cssText='position:fixed;width:1px;height:1px;opacity:0;pointer-events:none';
+      frame.onload=()=>{try{frame.contentWindow.focus();frame.contentWindow.print();}catch(e){window.open(url,'_blank');}};
+      frame.src=url;document.body.appendChild(frame);
+      setTimeout(()=>{frame.remove();URL.revokeObjectURL(url)},120000);
+    };
+
     document.getElementById('use-tool-result').onclick=async()=>{
       if(!toolResultBlob||toolResultBlob.type!=='application/pdf')return;
       importedPdfBytes=await toolResultBlob.arrayBuffer();
@@ -2296,6 +2340,25 @@ body:not(.splash-active) button.is-active:not(:disabled),body:not(.splash-active
     };
     document.getElementById('studio-save-final').onclick=()=>downloadBlob(currentPdfBlob,currentFileName);
     document.getElementById('studio-share-final').onclick=()=>shareFile(currentPdfBlob,currentFileName,'application/pdf');
+    document.getElementById('studio-print-final').onclick=()=>{
+      if(!currentPdfBlob)return alert('Create a PDF first.');
+      const url=URL.createObjectURL(currentPdfBlob);
+      const frame=document.createElement('iframe');frame.style.cssText='position:fixed;width:1px;height:1px;opacity:0;pointer-events:none';frame.src=url;document.body.append(frame);
+      frame.onload=()=>{try{frame.contentWindow.focus();frame.contentWindow.print();}catch(err){window.open(url,'_blank');}setTimeout(()=>{frame.remove();URL.revokeObjectURL(url);},60000);};
+    };
+    async function sendStudioPdfTo(task){
+      if(!currentPdfBlob)return alert('Create a PDF first.');
+      try{
+        const file=new File([currentPdfBlob],currentFileName||'scanned-document.pdf',{type:'application/pdf'});
+        const transfer=new DataTransfer();transfer.items.add(file);
+        switchTask(task);
+        const input=document.getElementById('pdf-input');input.files=transfer.files;
+        input.dispatchEvent(new Event('change',{bubbles:true}));
+      }catch(error){alert('Unable to transfer PDF: '+error.message);}
+    }
+    document.getElementById('studio-to-sign').onclick=()=>sendStudioPdfTo('sign');
+    document.getElementById('studio-to-tools').onclick=()=>sendStudioPdfTo('workshop');
+
     document.getElementById('download-jpg-btn').onclick=()=>{
       if(scanPages[0])downloadBlob(scanPages[0],`${currentBaseName}_page1.jpg`);
     };
@@ -2472,7 +2535,7 @@ body:not(.splash-active) button.is-active:not(:disabled),body:not(.splash-active
 // Cache maintenance is user-initiated. Never delete saved IndexedDB documents
 // or localStorage signatures as part of a routine page load.
         // v4.4.3 task navigation and WYSIWYG PDF editor
-    const taskNames={sign:'Add Text & Sign',workshop:'PDF Tools',studio:'Document Studio'};
+    const taskNames={sign:'✍️ Add Text & Sign',workshop:'🧰 PDF Tools',studio:'📷 Document Studio'};
     function switchTask(task){
       if(typeof closeTour==='function')closeTour();
       if(document.getElementById('help-screen')?.classList.contains('open'))closeHelp();
@@ -2881,7 +2944,7 @@ document.getElementById('splash-cache-clear').addEventListener('click',()=>clear
 // One-time, build-specific refresh of DocuScan Cache Storage only. Never touch
 // IndexedDB, localStorage consent, saved signatures, or unrelated app caches.
 (async()=>{try{
- const key='docuscan.cache-refreshed.4.5.6';
+ const key='docuscan.cache-refreshed.4.6.0';
  if(localStorage.getItem(key)==='yes')return;
  if('caches' in window){for(const name of await caches.keys()){if(/docuscan/i.test(name)||/docscan/i.test(name))await caches.delete(name);}}
  localStorage.setItem(key,'yes');

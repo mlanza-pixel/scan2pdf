@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>DocuScan Pro v4.0.0 | Scanner & PDF Studio</title>
+  <title>DocuScan Pro v4.4.1 | Scanner & PDF Studio</title>
   
   <!-- PWA & iOS Meta Tags -->
   <link rel="manifest" href="manifest.json">
@@ -205,7 +205,7 @@ body.splash-active #mobile-tabs, body.splash-active #task-nav {display:none!impo
 .help-footer{max-width:900px;margin:25px auto 10px;text-align:center;color:#708096;font-size:12px}
 @media(max-width:650px){.help-hero{grid-template-columns:1fr}.help-paths{grid-template-columns:1fr}.help-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.help-shell{padding:12px 13px 65px}}
 
-/* v4.0.0 task-based navigation */
+/* v4.4.1 task-based navigation */
 #task-home{max-width:920px;margin:22px auto;padding:16px}
 .task-intro{font-size:13px;letter-spacing:.13em;font-weight:800;color:#517496;text-transform:uppercase}
 .task-home-title{font-size:clamp(28px,5vw,42px);color:#18334e;margin:9px 0 8px}
@@ -529,7 +529,21 @@ body:not(.splash-active){background:#f3f4f6!important;color:#182b42!important;fo
 body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!important}
 @media(prefers-reduced-motion:reduce){.context-tabs button,.context-pane{transition:none!important}}
 </style>
-</head>
+<style>
+.advanced-suite{background:#fff;border:1px solid #dce4ef;border-radius:20px;padding:20px;margin:18px 0;box-shadow:0 4px 18px #142b470b}
+.advanced-suite h3{margin:0 0 10px;font-size:21px}
+.advanced-suite input:not([type=file]){width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:11px}
+.advanced-suite input[type=file]{display:block;margin:10px 0;width:100%}
+.advanced-suite details{border-top:1px solid #e6ebf2;padding:13px 0}
+.advanced-suite summary{font-weight:650;cursor:pointer;padding:8px}
+.advanced-actions{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0}
+.advanced-actions button,.advanced-suite details button{min-height:44px;padding:10px 14px;border:1px solid #cbd5e1;background:#f7f9fc;color:#183452;border-radius:11px}
+#advanced-page-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin:12px 0}
+.advanced-thumb{border:2px solid #d8e1ec;border-radius:12px;padding:8px;background:#f7f9fc;text-align:center;min-height:140px}
+.advanced-thumb[aria-pressed=true]{border-color:#1769d2;background:#eaf3ff}
+.advanced-thumb canvas{max-width:100%;height:105px;object-fit:contain;background:#fff}
+#advanced-results{white-space:pre-wrap;max-height:220px;overflow:auto}
+</style></head>
 <body class="splash-active">
   <section class="splash-screen" id="splash-screen" aria-labelledby="splash-title">
     <div class="splash-card">
@@ -552,9 +566,9 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
       </div>
       <button class="launch-btn" id="launch-app-btn" type="button">Continue to DocuScan <span aria-hidden="true">→</span></button>
       <button id="splash-help-btn" type="button" class="splash-secondary">How it works</button>
-      <button id="splash-cache-clear" type="button" class="splash-secondary">↻ Refresh app files (keep my documents)</button>
+      <button id="splash-cache-clear" type="button" class="splash-secondary">↻ Refresh cached app files (keep documents & signatures)</button>
       <p id="splash-cache-status" role="status" aria-live="polite" style="color:#d7eaff;font-size:12px;margin:8px 0 0"></p>
-      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 4.0.0 · Build 2026-10-27-tour-navigation-repair-01</p>
+      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 4.4.1 · Build 2026-10-27-v441-validation-01</p>
       <button id="review-agreements" type="button" class="review-agreements" hidden>Review agreements</button>
     </div>
   </section>
@@ -562,7 +576,7 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
 
 <section id="help-screen" class="help-screen" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
 <div class="help-shell">
-  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v4.0.0</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
+  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v4.4.1</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
 
 <div class="help-mode-nav" aria-label="Choose a help topic">
 <button type="button" data-help-mode="sign">✍️ Add Text &amp; Sign</button>
@@ -620,7 +634,7 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
   <h3 class="help-section-title">If something goes wrong</h3>
   <div class="help-paths"><div class="help-path"><h3>Camera shows black</h3><p style="font-size:14px;line-height:1.6">Use <strong>Choose Photo or Camera</strong> and pick a photo from the iPad Photos app instead. Check Safari camera permission if you want to capture directly.</p></div><div class="help-path"><h3>Text looks wrong</h3><p style="font-size:14px;line-height:1.6">Crop tighter, use better light, try another OCR mode, then retake. Correct mistakes in the editable text box. The PDF's hidden OCR layer may still need review.</p></div></div>
   <article class="help-path"><div class="help-kicker">Mission 03 · PDF Workshop</div><h3>🧰 Edit a PDF you already have</h3><ol class="help-steps"><li><div><strong>Open PDF from Files</strong> to select your document.</div></li><li><div><strong>Scroll to PDF Workshop</strong> and select a tool: merge, split/extract, reorder, rotate, delete, watermark, number, flatten, extract text, JPG or compress.</div></li><li><div><strong>Enter page numbers</strong> when relevant. For example, 1,3-5 selects pages 1, 3, 4 and 5.</div></li><li><div><strong>Tap Run selected tool,</strong> then Download or Share result.</div></li><li><div><strong>Tap Use result for next tool</strong> to make another edit or sign the result.</div></li></ol><p class="help-note">For signing, use the separate signing panel. These tools are experimental until tested on your iPad.</p></article>
-  <div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br><strong>Version:</strong> 3.7.0<br><strong>Build:</strong> 2026-10-27 · tour-navigation-repair-01<br><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br><strong>Support:</strong> Support email/website — <em>not yet configured</em><br><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
+  <div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br><strong>Version:</strong> 4.4.1<br><strong>Build:</strong> 2026-10-27 · combined-tools-validation-01<br><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br><strong>Support:</strong> Support email/website — <em>not yet configured</em><br><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
   </div><!-- general-help-content -->
   <p style="margin-top:22px;text-align:center"><button type="button" class="help-close" id="help-done-btn">Got it — back to DocuScan</button></p>
 </div></section>
@@ -650,6 +664,8 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
   <div id="editor-paper"><canvas class="preview-collapsed" id="editor-page-canvas" width="600" height="780"></canvas><div id="editor-overlays"></div></div>
   <div class="editor-toolbar" id="editor-tool-buttons"><button id="editor-add-sign" type="button">✍ Add signature</button><button id="editor-add-text" type="button">T Add text</button><button id="editor-add-date" type="button">▦ Add date</button><button id="editor-delete" type="button">🗑 Remove selected</button></div>
   <div id="editor-controls"><div class="watermark-card"><label for="editor-watermark-text">Watermark your document</label><div class="watermark-row"><input id="editor-watermark-text" placeholder="DRAFT or CONFIDENTIAL" value="DRAFT" maxlength="60"><button type="button" id="editor-watermark-shortcut" class="btn btn-secondary">＋ Add watermark</button></div><label class="watermark-option"><input type="checkbox" id="editor-watermark-all" checked> Apply to every page</label><p class="editor-hint">Watermark appears on the document preview and is embedded when you save the PDF. Tap Add watermark again to update it.</p></div>
+    <div class="editor-toolbar" aria-label="Document editing helpers"><button type="button" id="editor-undo">↶ Undo</button><button type="button" id="editor-redo">↷ Redo</button><button type="button" id="editor-print">Print saved PDF</button><button type="button" id="editor-save-library">Save finished PDF to Library</button></div>
+    <label for="editor-template">Quick text templates</label><select id="editor-template"><option value="">Choose a reusable phrase</option><option value="Approved">Approved</option><option value="Reviewed">Reviewed</option><option value="Received">Received</option><option value="Please sign and return">Please sign and return</option><option value="Confidential">Confidential</option><option value="Date: ">Date label</option></select>
     <label for="editor-text">Text / typed signature</label><input id="editor-text" placeholder="Enter text to place on the document" />
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
       <div><label for="editor-font">Font style</label><select id="editor-font" style="width:100%;padding:10px;border:1px solid #c8d7e6;border-radius:9px"><option value="Helvetica">Helvetica</option><option value="TimesRoman">Times Roman</option><option value="Courier">Courier</option><option value="HelveticaBold">Helvetica Bold</option><option value="TimesRomanItalic">Times Italic</option><option value="HelveticaOblique">Helvetica Italic</option></select></div>
@@ -751,7 +767,43 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
       <p id="pdf-tool-status" class="tool-note" role="status" aria-live="polite">Ready when a PDF is imported.</p>
       <div class="pdf-compare" id="workshop-preview-group"><div><strong>Source PDF preview</strong><div class="pdf-page-controls page-stepper"><button id="source-prev" type="button" aria-label="Previous source page">‹</button><span id="source-page-label">No document</span><button id="source-next" type="button" aria-label="Next source page">›</button></div><canvas class="preview-collapsed" id="source-preview" aria-label="Source PDF page preview"></canvas></div><div><strong>Result preview — review before saving</strong><div class="pdf-page-controls page-stepper"><button id="result-prev" type="button" aria-label="Previous result page">‹</button><span id="result-page-label">No document</span><button id="result-next" type="button" aria-label="Next result page">›</button></div><canvas class="preview-collapsed" id="result-preview" aria-label="Result PDF page preview"></canvas><pre id="result-text-preview" style="display:none;white-space:pre-wrap;max-height:340px;overflow:auto"></pre></div></div>
       <div class="toolgrid workshop-export-bottom" id="workshop-export-group"><button type="button" id="save-tool-library" disabled>▣ Save PDF to Library</button><button type="button" id="download-tool-result" disabled>↓ Download result</button><button type="button" id="share-tool-result" disabled>↗ Share result</button></div>
-      <p class="tool-note"><strong>Limitations:</strong> Password-protected PDFs, certificate-based signatures, translation, AI chat, and precise automatic form recognition are not included. Image-based compression can increase size and removes searchable text. Text extraction only works on PDFs that already contain text.</p>
+      <p class="tool-note"><strong>Limitations:</strong> Automatic form-field recognition and Apple Pencil freehand annotation are not implemented. Batch watermarking and page organization are available below.  Password-protected PDFs, certificate-based signatures, translation, AI chat, and precise automatic form recognition are not included. Image-based compression can increase size and removes searchable text. Text extraction only works on PDFs that already contain text.</p>
+      <section class="advanced-suite" id="advanced-suite" aria-label="Advanced document tools">
+        <h3>Advanced document tools</h3>
+        <p class="tool-note">Work on a separate copy. Your original and saved documents remain unchanged.</p>
+        <label for="advanced-file">Choose a PDF to organize, inspect or process</label>
+        <input type="file" id="advanced-file" accept="application/pdf,.pdf">
+        <p id="advanced-status" role="status">Choose a PDF to begin.</p>
+        <div id="advanced-page-grid" aria-label="PDF page organizer"></div>
+        <div class="advanced-actions">
+          <button type="button" id="advanced-up">Move selected page earlier</button>
+          <button type="button" id="advanced-down">Move selected page later</button>
+          <button type="button" id="advanced-rotate">Rotate selected page</button>
+          <button type="button" id="advanced-duplicate">Duplicate selected page</button>
+          <button type="button" id="advanced-remove">Remove selected page</button>
+          <button type="button" id="advanced-export">Export organized PDF</button>
+        </div>
+        <details><summary>Batch watermark</summary>
+          <label for="advanced-stamp">Text for every page</label><input id="advanced-stamp" value="CONFIDENTIAL">
+          <button type="button" id="advanced-batch">Apply watermark to all pages and export</button>
+        </details>
+        <details><summary>Search and extract PDF text</summary>
+          <label for="advanced-search">Find words in a text-based PDF</label><input id="advanced-search" type="search" placeholder="Search PDF text">
+          <button type="button" id="advanced-find">Search pages</button>
+          <button type="button" id="advanced-extract">Export extracted text</button>
+          <pre id="advanced-results" aria-live="polite"></pre>
+        </details>
+        <details><summary>Compare two documents</summary>
+          <label for="advanced-compare-file">Second PDF</label><input type="file" id="advanced-compare-file" accept="application/pdf,.pdf">
+          <button type="button" id="advanced-compare">Compare text by page</button>
+          <p class="tool-note">Compares extractable text, not visual layout or scanned images without OCR.</p>
+        </details>
+        <details><summary>Receipt / expense extraction</summary>
+          <button type="button" id="advanced-receipt">Extract candidate dates and totals to CSV</button>
+          <p class="tool-note">Rule-based candidates from existing PDF text; verify against the original receipt.</p>
+        </details>
+        <div class="advanced-actions"><button type="button" id="advanced-save-library">Save last exported PDF to Library</button><button type="button" id="advanced-share">Share last exported PDF</button></div>
+      </section>
     </section>
     <section class="toolbox" id="document-studio-tools" aria-label="Scan and editing tools">
       <h3>Document studio</h3>
@@ -841,13 +893,13 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
   </main>
 
   <!-- History View -->
-  <p class="help-footer">DocuScan Pro · Version 4.0.0 · <button type="button" data-build-check style="border:1px solid #a4bfd9;border-radius:8px;padding:6px 9px;background:#f2f8ff;color:#154b7c">Check version &amp; cache</button> · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
+  <p class="help-footer">DocuScan Pro · Version 4.4.1 · <button type="button" data-build-check style="border:1px solid #a4bfd9;border-radius:8px;padding:6px 9px;background:#f2f8ff;color:#154b7c">Check version &amp; cache</button> · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
   <main class="history-view" id="history-view">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
       <h2 style="font-size:24px; font-weight:700;">Saved Document Library</h2>
       <button class="icon-btn" id="close-history-btn" type="button" aria-label="Close document library">✕</button>
     </div>
-    <p class="tool-note">Stored locally on this browser/device. Clearing website data can erase these files; download important documents.</p><div id="history-list"></div>
+    <p class="tool-note">Stored locally on this browser/device. Clearing website data can erase these files; download important documents.</p><label for="library-search">Find a saved document</label><input id="library-search" type="search" placeholder="Search document names" autocomplete="off" style="width:100%;margin:8px 0 16px;padding:13px;border:1px solid #cbd5e1;border-radius:12px"><div id="history-list"></div>
   </main>
 
   <!-- Native Camera Input (Triggers iOS Camera directly) -->
@@ -2050,7 +2102,10 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
         const docs=await getSavedDocs();
         els.historyList.replaceChildren();
         if(!docs.length){els.historyList.textContent='No saved PDFs yet. Create a document in Document Studio first.';return;}
-        for(const doc of docs){
+        const query=(document.getElementById("library-search")?.value||"").trim().toLocaleLowerCase();
+        const visibleDocs=docs.filter(d=>d.name.toLocaleLowerCase().includes(query));
+        if(!visibleDocs.length){els.historyList.textContent="No document names match your search.";return;}
+        for(const doc of visibleDocs){
           const item=document.createElement('div');item.className='doc-item';
           const info=document.createElement('div');info.className='doc-info';
           const name=document.createElement('h3');name.textContent=doc.name;
@@ -2066,6 +2121,7 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
         }
       }catch(e){els.historyList.textContent='Document library unavailable: '+e.message;}
     }
+    document.getElementById('library-search').addEventListener('input',()=>loadHistory());
     document.getElementById('studio-open-library').onclick=openLibrary;
 
     // --- UTILITIES ---
@@ -2119,9 +2175,10 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
         tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);
       });
     }
+    window.docuSaveToLibrary=saveToHistory;
 // Cache maintenance is user-initiated. Never delete saved IndexedDB documents
 // or localStorage signatures as part of a routine page load.
-        // v4.0.0 task navigation and WYSIWYG PDF editor
+        // v4.4.1 task navigation and WYSIWYG PDF editor
     const taskNames={sign:'Add Text & Sign',workshop:'PDF Workshop',studio:'Document Studio'};
     function switchTask(task){
       if(typeof closeTour==='function')closeTour();
@@ -2162,7 +2219,7 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
     document.getElementById('task-help').onclick=()=>openHelp(document.body.classList.contains('task-sign-mode')?'sign':document.body.classList.contains('task-workshop-mode')?'workshop':'studio');
     document.getElementById('launch-app-btn').addEventListener('click',()=>switchTask('home'));
     document.body.classList.add('task-home-mode');
-    console.info('[DocuScan v4.0.0] Navigation initialized');
+    console.info('[DocuScan v4.4.1] Navigation initialized');
 
     document.getElementById('home-legal').addEventListener('click',()=>{
       splashScreen.style.display='flex';document.body.classList.add('splash-active');
@@ -2213,7 +2270,7 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
       if(!edoc)return alert('Open a PDF first.');
       if(!savedSignature)return alert('Draw and save a signature, or import one first.');
       const item={page:epage,type:'signature-image',x:.18,y:.25,w:.3,h:.09,image:savedSignature,ink:document.getElementById('sig-ink').value};
-      eitems.push(item);selectEditorItem(item);estatus.textContent='Saved signature added. Drag and resize it on the page.';
+      recordEditorChange();eitems.push(item);selectEditorItem(item);estatus.textContent='Saved signature added. Drag and resize it on the page.';
     }
     document.getElementById('sig-use').onclick=addSavedSignature;
     async function recolorSignature(dataUrl,color){
@@ -2377,6 +2434,15 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
       document.getElementById('editor-height-label').textContent=e.target.value+'%';
       drawEditorItems();
     });
+    const editorUndoStack=[],editorRedoStack=[];
+    const snapshotEditor=()=>JSON.stringify(eitems);
+    function recordEditorChange(){eout=null;document.getElementById("editor-share").disabled=true;editorUndoStack.push(snapshotEditor());if(editorUndoStack.length>60)editorUndoStack.shift();editorRedoStack.length=0;}
+    function restoreEditorSnapshot(snapshot){eitems=JSON.parse(snapshot);eselected=null;drawEditorItems();}
+    document.getElementById('editor-undo').onclick=()=>{if(!editorUndoStack.length)return;editorRedoStack.push(snapshotEditor());restoreEditorSnapshot(editorUndoStack.pop());};
+    document.getElementById('editor-redo').onclick=()=>{if(!editorRedoStack.length)return;editorUndoStack.push(snapshotEditor());restoreEditorSnapshot(editorRedoStack.pop());};
+    document.getElementById('editor-template').onchange=e=>{if(!e.target.value)return;document.getElementById('editor-text').value=e.target.value;document.getElementById('editor-add-text').click();e.target.value='';};
+    document.getElementById('editor-save-library').onclick=async()=>{if(!eout)return alert('First tap Save PDF to generate your finished document.');const name=prompt('Save finished PDF to Library',eoutName);if(name===null)return;const safe=name.trim().replace(/[\\/]/g,'_');if(!safe)return;try{await saveToHistory(/\.pdf$/i.test(safe)?safe:safe+'.pdf',eout);estatus.textContent='Saved to Library. Open Library to find it.';}catch(e){alert('Library save failed: '+e.message);}};
+    document.getElementById('editor-print').onclick=()=>{if(!eout)return alert('Save PDF first, then print.');const url=URL.createObjectURL(eout);const w=window.open(url,'_blank');if(!w){URL.revokeObjectURL(url);alert('Allow a new tab to print the PDF.');return;}setTimeout(()=>URL.revokeObjectURL(url),120000);estatus.textContent='PDF opened in a new tab. Use the browser Print command.';};
     function addEditorItem(type){
       if(!edoc)return alert('Open a PDF or photo first.');
       const typed=document.getElementById('editor-text').value.trim();
@@ -2388,7 +2454,7 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
         else if(typed)item.text=typed;
         else return alert('Draw a signature or type your name first.');
       }
-      eitems.push(item);selectEditorItem(item);estatus.textContent='Drag the selected item on the PDF preview. Save when ready.';
+      recordEditorChange();eitems.push(item);selectEditorItem(item);estatus.textContent='Drag the selected item on the PDF preview. Save when ready.';
     }
     function chooseEditorTool(type){
       document.querySelectorAll('#editor-tool-buttons button').forEach(b=>b.classList.remove('is-active'));
@@ -2406,20 +2472,21 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
       if(!value)return alert('Enter watermark text.');
       const all=document.getElementById('editor-watermark-all').checked;
       const pages=all?Array.from({length:edoc.numPages},(_,i)=>i+1):[epage];
-      eitems=eitems.filter(item=>!(item.type==='watermark'&&pages.includes(item.page)));
+      recordEditorChange();eitems=eitems.filter(item=>!(item.type==='watermark'&&pages.includes(item.page)));
       for(const page of pages)eitems.push({page,type:'watermark',x:.1,y:.45,w:.8,h:.12,text:value,font:'HelveticaBold',fontSize:Math.min(44,Math.max(18,Math.round(300/Math.max(5,value.length)))),ink:'#60728a'});
       eselected=eitems.find(item=>item.type==='watermark'&&item.page===epage)||null;
       drawEditorItems();
       document.getElementById('editor-page-label').scrollIntoView({block:'center',behavior:'instant'});
       estatus.textContent='Watermark visible on '+(all?'all '+pages.length+' pages':'page '+epage)+'. Tap Save PDF to embed it.';
     };
+    document.getElementById('editor-text').addEventListener('change',()=>{if(eselected)recordEditorChange();});
     document.getElementById('editor-text').addEventListener('input',e=>{if(eselected&&eselected.type!=='signature-image'){eselected.text=e.target.value;drawEditorItems();}});
     document.getElementById('editor-width').addEventListener('input',e=>{if(eselected){eselected.w=Math.min(1-eselected.x,Number(e.target.value)/100);drawEditorItems();}document.getElementById('editor-width-label').textContent=e.target.value+'%';});
     document.getElementById('editor-font').addEventListener('change',e=>{if(eselected){eselected.font=e.target.value;drawEditorItems();}});
     document.getElementById('editor-font-size').addEventListener('input',e=>{if(eselected){eselected.fontSize=Math.max(6,Math.min(72,Number(e.target.value)||16));drawEditorItems();}});
     document.getElementById('editor-ink').addEventListener('change',e=>{if(eselected){eselected.ink=e.target.value;drawEditorItems();}});
     document.getElementById('sig-ink').addEventListener('change',e=>{if(eselected?.type==='signature-image'){eselected.ink=e.target.value;drawEditorItems();}});
-    document.getElementById('editor-delete').onclick=()=>{if(eselected){eitems=eitems.filter(i=>i!==eselected);eselected=null;drawEditorItems();}};
+    document.getElementById('editor-delete').onclick=()=>{if(eselected){recordEditorChange();eitems=eitems.filter(i=>i!==eselected);eselected=null;drawEditorItems();}};
     document.getElementById('editor-save').onclick=async()=>{
       if(!edocBytes)return alert('Open a PDF first.');
       if(!eitems.length)return alert('Add text, a date, or a signature before saving.');
@@ -2466,7 +2533,7 @@ body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!import
 <script>
 (function(){
 'use strict';
-const VERSION='4.0.0', BUILD='2026-10-27-preserving-cache-refresh-01';
+const VERSION='4.4.0', BUILD='2026-10-27-v441-validation-01';
 const panel=document.getElementById('build-check-panel');
 const output=document.getElementById('build-check-output');
 let report='';
@@ -2514,7 +2581,7 @@ document.getElementById('splash-cache-clear').addEventListener('click',()=>clear
 // One-time, build-specific refresh of DocuScan Cache Storage only. Never touch
 // IndexedDB, localStorage consent, saved signatures, or unrelated app caches.
 (async()=>{try{
- const key='docuscan.cache-refreshed.4.0.0';
+ const key='docuscan.cache-refreshed.4.4.0';
  if(localStorage.getItem(key)==='yes')return;
  if('caches' in window){for(const name of await caches.keys()){if(/docuscan/i.test(name))await caches.delete(name);}}
  localStorage.setItem(key,'yes');
@@ -2596,6 +2663,60 @@ if(tourCard){new MutationObserver(()=>{
   if(!highlighted)return;const pane=highlighted.closest('.context-pane');
   if(pane){const tab=document.querySelector('[aria-controls="'+pane.id+'"]');if(tab&&tab.getAttribute('aria-selected')!=='true')tab.click();}
 }).observe(tourCard,{subtree:true,childList:true,characterData:true});}
+})();
+</script>
+<script id="advanced-suite-script">
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id), status=$('advanced-status');
+let source=null, sourceBytes=null, entries=[], chosen=0, lastBlob=null, lastName='DocuScan_organized.pdf', textPages=null;
+const need=()=>{if(!source)throw Error('Choose a PDF first.');if(!window.PDFLib||!window.pdfjsLib)throw Error('PDF libraries are unavailable. Connect to the internet and reload.');};
+function say(t){status.textContent=t;}
+function download(blob,name){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),60000);}
+async function readText(pdf){let result=[];for(let i=1;i<=pdf.numPages;i++){const page=await pdf.getPage(i);const data=await page.getTextContent();result.push(data.items.map(x=>x.str||'').join(' '));}return result;}
+async function renderThumbs(){
+const grid=$('advanced-page-grid');grid.replaceChildren();
+for(let i=0;i<entries.length;i++){
+ const e=entries[i],btn=document.createElement('button');btn.type='button';btn.className='advanced-thumb';btn.setAttribute('aria-pressed',String(i===chosen));
+ const label=document.createElement('div');label.textContent='Page '+(i+1)+(e.rotation?' · '+e.rotation+'°':'');btn.append(label);
+ const cv=document.createElement('canvas');btn.append(cv);grid.append(btn);
+ btn.onclick=()=>{chosen=i;grid.querySelectorAll('button').forEach((b,j)=>b.setAttribute('aria-pressed',String(i===j)));};
+ try{const page=await source.getPage(e.original);const vp=page.getViewport({scale:.22,rotation:e.rotation});cv.width=Math.ceil(vp.width);cv.height=Math.ceil(vp.height);await page.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;}catch(err){cv.replaceWith(document.createTextNode('Preview unavailable'));}
+ }
+}
+$('advanced-file').onchange=async e=>{
+ const f=e.target.files?.[0];if(!f)return;
+ try{say('Opening '+f.name+'…');if(!window.pdfjsLib||!window.PDFLib)throw Error('PDF libraries not loaded.');
+ sourceBytes=new Uint8Array(await f.arrayBuffer());source=await pdfjsLib.getDocument({data:sourceBytes.slice()}).promise;
+ entries=Array.from({length:source.numPages},(_,i)=>({original:i+1,rotation:0}));chosen=0;lastBlob=null;textPages=null;
+ await renderThumbs();say(source.numPages+' pages ready. Tap a thumbnail to select it.');
+ }catch(err){say('Open failed: '+err.message);source=null;entries=[];}
+};
+async function action(fn){try{need();await fn();await renderThumbs();say(entries.length+' pages in the working copy. Original is unchanged.');}catch(err){say(err.message);}}
+$('advanced-up').onclick=()=>action(()=>{if(chosen>0){[entries[chosen-1],entries[chosen]]=[entries[chosen],entries[chosen-1]];chosen--;}});
+$('advanced-down').onclick=()=>action(()=>{if(chosen<entries.length-1){[entries[chosen+1],entries[chosen]]=[entries[chosen],entries[chosen+1]];chosen++;}});
+$('advanced-rotate').onclick=()=>action(()=>{entries[chosen].rotation=(entries[chosen].rotation+90)%360;});
+$('advanced-duplicate').onclick=()=>action(()=>{entries.splice(chosen+1,0,{...entries[chosen]});chosen++;});
+$('advanced-remove').onclick=()=>action(()=>{if(entries.length<2)throw Error('Cannot delete the final page.');entries.splice(chosen,1);chosen=Math.min(chosen,entries.length-1);});
+async function makePdf(stamp){
+ need();say('Building PDF…');const input=await PDFLib.PDFDocument.load(sourceBytes.slice()),out=await PDFLib.PDFDocument.create();
+ const font=stamp?await out.embedFont(PDFLib.StandardFonts.HelveticaBold):null;
+ for(const e of entries){const [page]=await out.copyPages(input,[e.original-1]);out.addPage(page);
+ page.setRotation(PDFLib.degrees((page.getRotation().angle+e.rotation)%360));
+ if(stamp){const {width,height}=page.getSize();const size=Math.min(44,Math.max(12,width/(Math.max(1,stamp.length)*.7)));const tw=font.widthOfTextAtSize(stamp,size);page.drawText(stamp,{x:Math.max(10,(width-tw)/2),y:height/2,size,font,color:PDFLib.rgb(.35,.38,.43),opacity:.35});}
+ }
+ lastBlob=new Blob([await out.save()],{type:'application/pdf'});
+ lastName=stamp?'DocuScan_watermarked.pdf':'DocuScan_organized.pdf';download(lastBlob,lastName);say('Exported '+lastName+'. You can also save this copy to Library.');
+}
+$('advanced-export').onclick=()=>makePdf().catch(e=>say('Export failed: '+e.message));
+$('advanced-batch').onclick=()=>{const t=$('advanced-stamp').value.trim().replace(/[^\x20-\x7E]/g,'').slice(0,60);if(!t)return say('Enter watermark text.');makePdf(t).catch(e=>say('Batch failed: '+e.message));};
+async function getText(){need();if(!textPages)textPages=await readText(source);return textPages;}
+$('advanced-find').onclick=async()=>{try{const q=$('advanced-search').value.trim().toLowerCase();if(!q)return say('Enter a search term.');const pages=await getText(),hits=[];pages.forEach((s,i)=>{if(s.toLowerCase().includes(q))hits.push('Page '+(i+1)+': '+s.slice(Math.max(0,s.toLowerCase().indexOf(q)-60),s.toLowerCase().indexOf(q)+100));});$('advanced-results').textContent=hits.join('\n\n')||'No matches in extractable text.';say(hits.length+' matching pages.');}catch(e){say(e.message);}};
+$('advanced-extract').onclick=async()=>{try{const t=await getText();download(new Blob([t.map((v,i)=>'Page '+(i+1)+'\n'+v).join('\n\n')],{type:'text/plain'}),'DocuScan_extracted.txt');say('Extracted text downloaded.');}catch(e){say(e.message);}};
+$('advanced-compare').onclick=async()=>{try{need();const f=$('advanced-compare-file').files[0];if(!f)throw Error('Choose a second PDF.');const other=await pdfjsLib.getDocument({data:new Uint8Array(await f.arrayBuffer())}).promise;const a=await getText(),b=await readText(other),dif=[];for(let i=0;i<Math.max(a.length,b.length);i++){if((a[i]||'').trim()!==(b[i]||'').trim())dif.push('Page '+(i+1)+' differs');}$('advanced-results').textContent=dif.join('\n')||'Extractable page text matches.';say(dif.length+' pages differ by extracted text.');}catch(e){say(e.message);}};
+$('advanced-receipt').onclick=async()=>{try{const t=(await getText()).join('\n');const dates=[...t.matchAll(/\b(?:\d{1,2}[\/.-]\d{1,2}[\/.-]\d{2,4}|\d{4}-\d{2}-\d{2})\b/g)].map(m=>m[0]);const amounts=[...t.matchAll(/(?:total|amount due|balance due)[^\n\r]{0,35}?([$€£]?\s?\d[\d,]*\.\d{2})/gi)].map(m=>m[1]);const esc=v=>'"'+String(v||'').replace(/"/g,'""')+'"';const csv='Field,Candidate,Verify manually\nDate,'+esc(dates[0])+',Yes\nTotal,'+esc(amounts[0])+',Yes\n';download(new Blob([csv],{type:'text/csv'}),'DocuScan_receipt_candidates.csv');say('Receipt candidates exported. Check every value against the original.');}catch(e){say(e.message);}};
+$('advanced-save-library').onclick=async()=>{if(!lastBlob)return say('Export a PDF first.');try{const n=prompt('Name this saved PDF',lastName);if(n===null)return;let name=n.trim().replace(/[\\/]/g,'_');if(!name)return say('Enter a name.');if(!/\.pdf$/i.test(name))name+='.pdf';if(typeof window.docuSaveToLibrary!=='function')throw Error('Library storage unavailable.');await window.docuSaveToLibrary(name,lastBlob);say('Saved '+name+' to Library.');}catch(e){say('Save failed: '+e.message);}};
+$('advanced-share').onclick=async()=>{if(!lastBlob)return say('Export a PDF first.');try{const file=new File([lastBlob],lastName,{type:'application/pdf'});if(navigator.canShare?.({files:[file]}))await navigator.share({files:[file],title:lastName});else download(lastBlob,lastName);}catch(e){say('Share cancelled or unavailable: '+e.message);}};
 })();
 </script>
 </body>

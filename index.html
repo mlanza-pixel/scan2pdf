@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>DocuScan Pro v3.8.0 | Scanner & PDF Studio</title>
+  <title>DocuScan Pro v4.0.0 | Scanner & PDF Studio</title>
   
   <!-- PWA & iOS Meta Tags -->
   <link rel="manifest" href="manifest.json">
@@ -205,7 +205,7 @@ body.splash-active #mobile-tabs, body.splash-active #task-nav {display:none!impo
 .help-footer{max-width:900px;margin:25px auto 10px;text-align:center;color:#708096;font-size:12px}
 @media(max-width:650px){.help-hero{grid-template-columns:1fr}.help-paths{grid-template-columns:1fr}.help-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.help-shell{padding:12px 13px 65px}}
 
-/* v3.8.0 task-based navigation */
+/* v4.0.0 task-based navigation */
 #task-home{max-width:920px;margin:22px auto;padding:16px}
 .task-intro{font-size:13px;letter-spacing:.13em;font-weight:800;color:#517496;text-transform:uppercase}
 .task-home-title{font-size:clamp(28px,5vw,42px);color:#18334e;margin:9px 0 8px}
@@ -420,6 +420,25 @@ body.splash-active #mobile-tabs{display:none!important}
 #editor-controls .watermark-card{padding:16px;border:1px solid #c9ddf6;border-radius:20px;background:#edf5ff;margin-bottom:18px}
 #editor-watermark-shortcut{background:#1768d8!important;color:white!important;border:0!important}
 #editor-paper .pdf-overlay{white-space:normal;overflow-wrap:anywhere}
+
+/* Add & position is a section heading, not a raised action tile.
+   It remains keyboard/touch accessible to reveal its tools. */
+#pdf-editor .context-tabs button.editor-section-heading,
+#pdf-editor .context-tabs button.editor-section-heading[aria-selected="true"]{
+ background:transparent!important;border:0!important;box-shadow:none!important;
+ transform:none!important;border-radius:0!important;color:#1c3556!important;
+ font-size:20px!important;font-weight:800!important;min-height:68px!important;
+ padding:12px 6px!important;align-items:flex-start!important;text-align:left!important;
+ gap:5px!important;letter-spacing:-.45px!important;
+}
+#pdf-editor .context-tabs button.editor-section-heading svg{display:none!important}
+#pdf-editor .context-tabs button.editor-section-heading::after{
+ content:'Text · signatures · dates · watermark';display:block;font-size:11px;
+ font-weight:500;letter-spacing:0;color:#6a7d98;
+}
+#pdf-editor .context-tabs button.editor-section-heading[aria-selected="true"]{
+ border-bottom:3px solid #1769d2!important;
+}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style id="contextual-workspaces-style">
@@ -469,7 +488,48 @@ body.task-studio-mode #scanner-view,body.task-workshop-mode #scanner-view,body.t
 @media(min-width:900px){.context-tabs{grid-template-columns:repeat(4,minmax(0,1fr))}#pdf-toolbox .context-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}#pdf-editor .context-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.context-tabs{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px!important;padding:9px 0 15px!important}.context-tabs button{min-height:79px!important;padding:10px 2px!important;border-radius:17px!important;font-size:11px!important;gap:7px}.context-tabs button svg{width:22px;height:22px}.context-pane.context-active{border-radius:23px!important;padding:14px!important;min-height:180px}#document-studio-tools .toolgrid button,#pdf-toolbox .toolgrid button{min-height:75px!important;font-size:12px!important;border-radius:18px!important}#pdf-toolbox .context-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}#pdf-editor .context-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(prefers-reduced-motion:reduce){.context-pane,.context-tabs button{animation:none!important;transition:none!important}}
-</style></head>
+</style>
+<style id="ipad-pro-v39">
+/* A quieter, document-first iPad design. No changes to control IDs or event handlers. */
+:root{--app-ink:#182b42;--app-blue:#245fbb;--app-bg:#f3f4f6;--app-muted:#68798b}
+body:not(.splash-active){background:#f3f4f6!important;color:#182b42!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif!important}
+#task-nav{max-width:1080px!important;background:transparent!important;padding:15px 22px 10px!important;align-items:center}
+#task-heading{font-weight:760!important;letter-spacing:-.45px!important}
+#task-nav button{border:1px solid #e3e6eb!important;background:#fff!important;box-shadow:0 2px 5px #10263a08!important;border-radius:12px!important}
+#scanner-view,#pdf-editor{max-width:1080px!important;padding:0 18px 36px!important}
+#document-studio-tools,#pdf-toolbox,#pdf-editor{padding:12px 0 24px!important}
+#document-studio-tools>h3,#pdf-toolbox>h3{font-size:clamp(24px,3vw,32px)!important;letter-spacing:-.85px!important;font-weight:760!important;margin:0 0 6px!important}
+/* Segmented workspace navigation instead of a grid of oversized buttons */
+.context-tabs,.context-tabs#editor-context-tabs{display:flex!important;grid-template-columns:none!important;gap:4px!important;background:#e7e9ed!important;border:1px solid #dce0e5!important;border-radius:17px!important;padding:5px!important;margin:14px 0 20px!important;overflow-x:auto!important;box-shadow:inset 0 1px 3px #1b34410a!important}
+.context-tabs button,.context-tabs button.editor-section-heading,.context-tabs button.editor-section-heading[aria-selected="true"]{flex:1 1 0!important;min-width:0!important;min-height:65px!important;padding:9px 6px!important;border:1px solid transparent!important;border-radius:12px!important;box-shadow:none!important;background:transparent!important;color:#637083!important;font-size:clamp(11px,1.6vw,13px)!important;font-weight:680!important;letter-spacing:0!important;gap:5px!important;transform:none!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important}
+.context-tabs button svg{width:21px!important;height:21px!important;stroke-width:1.8!important;display:block!important}
+.context-tabs button[aria-selected="true"],.context-tabs button.editor-section-heading[aria-selected="true"]{background:#fff!important;color:#1c4f9b!important;border-color:#e0e4e9!important;box-shadow:0 2px 6px #102e4c18!important;transform:none!important}
+#pdf-editor .context-tabs button.editor-section-heading::after{content:none!important}
+.context-pane.context-active{background:#fff!important;border:1px solid #e3e6eb!important;border-radius:20px!important;padding:clamp(18px,3vw,28px)!important;box-shadow:0 4px 20px #102c490b!important;min-height:0!important;animation:none!important}
+.context-pane h3{font-size:18px!important;font-weight:750!important;letter-spacing:-.35px!important;color:#25374d!important;margin:8px 0 12px!important}
+.context-pane label{font-size:12px!important;font-weight:700!important;color:#53667a!important}
+.context-pane input,.context-pane select,.context-pane textarea{background:#fff!important;border:1px solid #d7dde5!important;border-radius:11px!important;min-height:44px!important;box-shadow:none!important;font-size:15px!important}
+.context-pane input:focus,.context-pane textarea:focus,.context-pane select:focus{outline:2px solid #91b8ec!important;outline-offset:1px}
+.context-pane button,.context-pane .btn{min-height:46px!important;border-radius:12px!important;box-shadow:none!important;font-weight:670!important}
+#document-studio-tools .toolgrid,#pdf-toolbox .toolgrid{gap:9px!important;padding:0!important}
+#document-studio-tools .toolgrid button,#pdf-toolbox .toolgrid button,#pdf-editor #editor-tool-buttons button{background:#f7f9fb!important;color:#274563!important;border:1px solid #e0e6ed!important;min-height:65px!important;border-radius:13px!important;font-size:13px!important;box-shadow:none!important;line-height:1.3!important}
+#document-studio-tools .toolgrid button:active,#pdf-toolbox .toolgrid button:active{background:#e8f0fa!important}
+#studio-add-photo,#studio-process,#run-pdf-tool,#editor-save,.btn-primary{background:#2565bd!important;color:white!important;border:1px solid #2565bd!important;box-shadow:none!important}
+#document-studio-tools .studio-final-actions,#pdf-toolbox .workshop-export-bottom{background:#f6f8fb!important;border:1px solid #e4e9ef!important;border-radius:15px!important;padding:14px!important}
+#document-studio-tools .studio-final-actions button,#pdf-toolbox .workshop-export-bottom button{background:#2565bd!important;color:#fff!important;border-radius:12px!important;min-height:49px!important;box-shadow:none!important}
+#document-studio-tools #page-list,#document-studio-tools .ocr-compact-row,#pdf-toolbox .pdf-compare>div{background:#f7f8fa!important;border:1px solid #e4e8ed!important;border-radius:14px!important;padding:13px!important}
+#pdf-editor .editor-toolbar,#pdf-editor #editor-controls{border:1px solid #e2e6eb!important;background:#fff!important;border-radius:18px!important;padding:16px!important;box-shadow:0 4px 16px #102c490a!important}
+#editor-paper{border-radius:12px!important;box-shadow:0 6px 20px #132d4a18!important}
+.page-stepper{border:1px solid #e2e7ee!important;background:#fff!important;border-radius:15px!important;padding:6px!important}
+.page-stepper button{border-radius:10px!important;min-height:43px!important;height:43px!important;width:47px!important;flex-basis:47px!important}
+#mobile-tabs{background:#ffffffed!important;border-top:1px solid #e4e7ec!important;box-shadow:0 -2px 12px #102c490a!important}
+#mobile-tabs button.active{color:#245fbb!important}
+@media(min-width:900px){#mobile-tabs{max-width:560px!important;border-radius:18px 18px 0 0!important}}
+@media(max-width:600px){#scanner-view,#pdf-editor{padding:0 10px 24px!important}.context-tabs{margin:10px 0 14px!important}.context-tabs button{min-height:60px!important;padding:7px 2px!important;font-size:10.5px!important}.context-tabs button svg{width:19px!important;height:19px!important}.context-pane.context-active{padding:15px!important;border-radius:16px!important}#document-studio-tools .toolgrid button,#pdf-toolbox .toolgrid button{min-height:58px!important;font-size:12px!important}#task-nav{padding:10px 13px!important}}
+body.splash-active #mobile-tabs,body.splash-active #task-nav{display:none!important}
+@media(prefers-reduced-motion:reduce){.context-tabs button,.context-pane{transition:none!important}}
+</style>
+</head>
 <body class="splash-active">
   <section class="splash-screen" id="splash-screen" aria-labelledby="splash-title">
     <div class="splash-card">
@@ -492,7 +552,9 @@ body.task-studio-mode #scanner-view,body.task-workshop-mode #scanner-view,body.t
       </div>
       <button class="launch-btn" id="launch-app-btn" type="button">Continue to DocuScan <span aria-hidden="true">→</span></button>
       <button id="splash-help-btn" type="button" class="splash-secondary">How it works</button>
-      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 3.7.0 · Build 2026-10-27-tour-navigation-repair-01</p>
+      <button id="splash-cache-clear" type="button" class="splash-secondary">↻ Refresh app files (keep my documents)</button>
+      <p id="splash-cache-status" role="status" aria-live="polite" style="color:#d7eaff;font-size:12px;margin:8px 0 0"></p>
+      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 4.0.0 · Build 2026-10-27-tour-navigation-repair-01</p>
       <button id="review-agreements" type="button" class="review-agreements" hidden>Review agreements</button>
     </div>
   </section>
@@ -500,7 +562,7 @@ body.task-studio-mode #scanner-view,body.task-workshop-mode #scanner-view,body.t
 
 <section id="help-screen" class="help-screen" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
 <div class="help-shell">
-  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v3.8.0</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
+  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v4.0.0</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
 
 <div class="help-mode-nav" aria-label="Choose a help topic">
 <button type="button" data-help-mode="sign">✍️ Add Text &amp; Sign</button>
@@ -779,7 +841,7 @@ body.task-studio-mode #scanner-view,body.task-workshop-mode #scanner-view,body.t
   </main>
 
   <!-- History View -->
-  <p class="help-footer">DocuScan Pro · Version 3.7.0 · <button type="button" data-build-check style="border:1px solid #a4bfd9;border-radius:8px;padding:6px 9px;background:#f2f8ff;color:#154b7c">Check version &amp; cache</button> · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
+  <p class="help-footer">DocuScan Pro · Version 4.0.0 · <button type="button" data-build-check style="border:1px solid #a4bfd9;border-radius:8px;padding:6px 9px;background:#f2f8ff;color:#154b7c">Check version &amp; cache</button> · <button type="button" id="footer-help-btn" style="border:0;background:none;text-decoration:underline;color:#345d8a;cursor:pointer">Help &amp; developer information</button></p>
   <main class="history-view" id="history-view">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
       <h2 style="font-size:24px; font-weight:700;">Saved Document Library</h2>
@@ -801,7 +863,7 @@ body.task-studio-mode #scanner-view,body.task-workshop-mode #scanner-view,body.t
 
   <section id="build-check-panel" role="dialog" aria-modal="true" aria-label="App version and cache diagnostics"><div class="build-check-card">
 <h2 style="margin:0 0 8px">Version &amp; Cache Check</h2>
-<p>Confirm which build this tab is running, check whether the server returns the same edition, and optionally clear the app's cached files. Your saved documents and signature are not intentionally deleted.</p>
+<p>Confirm which build this tab is running, check whether the server returns the same edition, and optionally clear the app's cached files. Your saved documents, signature, and Terms acceptance are preserved. The action only targets DocuScan-named Cache Storage and its own service worker.</p>
 <div id="build-check-output" role="status" aria-live="polite">Select Run checks.</div>
 <div style="display:flex;flex-wrap:wrap;margin-top:12px"><button type="button" id="build-run-check">Run checks</button><button type="button" id="build-clear-reload">Clear app caches &amp; reload</button><button type="button" id="build-copy-report">Copy report</button><button type="button" id="build-check-close">Close</button></div>
 <p style="font-size:12px;color:#586e84">Note: This cannot confirm whether the newest HTML was uploaded to your hosting service without a known published build to compare against. The server check reports the version actually served at this page URL. Safari's Home Screen app and Chrome may use different storage.</p>
@@ -2059,7 +2121,7 @@ body.task-studio-mode #scanner-view,body.task-workshop-mode #scanner-view,body.t
     }
 // Cache maintenance is user-initiated. Never delete saved IndexedDB documents
 // or localStorage signatures as part of a routine page load.
-        // v3.8.0 task navigation and WYSIWYG PDF editor
+        // v4.0.0 task navigation and WYSIWYG PDF editor
     const taskNames={sign:'Add Text & Sign',workshop:'PDF Workshop',studio:'Document Studio'};
     function switchTask(task){
       if(typeof closeTour==='function')closeTour();
@@ -2100,7 +2162,7 @@ body.task-studio-mode #scanner-view,body.task-workshop-mode #scanner-view,body.t
     document.getElementById('task-help').onclick=()=>openHelp(document.body.classList.contains('task-sign-mode')?'sign':document.body.classList.contains('task-workshop-mode')?'workshop':'studio');
     document.getElementById('launch-app-btn').addEventListener('click',()=>switchTask('home'));
     document.body.classList.add('task-home-mode');
-    console.info('[DocuScan v3.8.0] Navigation initialized');
+    console.info('[DocuScan v4.0.0] Navigation initialized');
 
     document.getElementById('home-legal').addEventListener('click',()=>{
       splashScreen.style.display='flex';document.body.classList.add('splash-active');
@@ -2404,7 +2466,7 @@ body.task-studio-mode #scanner-view,body.task-workshop-mode #scanner-view,body.t
 <script>
 (function(){
 'use strict';
-const VERSION='3.7.0', BUILD='2026-10-27-tour-navigation-repair-01';
+const VERSION='4.0.0', BUILD='2026-10-27-preserving-cache-refresh-01';
 const panel=document.getElementById('build-check-panel');
 const output=document.getElementById('build-check-output');
 let report='';
@@ -2434,19 +2496,29 @@ try{
  line('Warning: an active service worker can still intercept this request.');
 }catch(e){line('Server verification failed: '+e.message);}
 }
-async function clearAndReload(){
-if(!confirm('Remove app Cache Storage entries and unregister service workers for this app, then reload? Saved scans and signatures in IndexedDB/localStorage will not be deliberately erased.'))return;
+async function clearAndReload(fromSplash=false){
+if(!confirm('Refresh DocuScan app files? Saved documents, signatures, and Terms acceptance will be kept. This will not clear Safari website data.'))return;
 report='';line('Starting app cache cleanup…');
-try{if('serviceWorker' in navigator){const regs=await navigator.serviceWorker.getRegistrations();const base=new URL('./',location.href).href;let count=0;for(const r of regs){if(r.scope.startsWith(base)){if(await r.unregister())count++;}}line('Unregistered app service workers: '+count);}}catch(e){line('Service worker cleanup error: '+e.message);}
+try{if('serviceWorker' in navigator){const regs=await navigator.serviceWorker.getRegistrations();const base=new URL('./',location.href).href;let count=0;for(const r of regs){if(r.scope.startsWith(base)&&/docuscan|\/sw\.js(?:\?|$)/i.test(r.active?.scriptURL||'')){if(await r.unregister())count++;}}line('Unregistered app service workers: '+count);}}catch(e){line('Service worker cleanup error: '+e.message);}
 try{if('caches' in window){const keys=await caches.keys();let count=0;for(const k of keys){if(/docuscan/i.test(k)){if(await caches.delete(k))count++;}}line('Removed DocuScan caches: '+count);}}catch(e){line('Cache cleanup error: '+e.message);}
 line('Reloading with a fresh URL…');
+const status=document.getElementById('splash-cache-status');if(status&&fromSplash)status.textContent='Refreshing app files. Your saved content is preserved.';
 const url=new URL(location.href);url.searchParams.set('_docscan_refresh',Date.now().toString());
 location.replace(url.href);
 }
 document.querySelectorAll('[data-build-check]').forEach(b=>b.addEventListener('click',open));
 document.getElementById('build-check-close').addEventListener('click',close);
 document.getElementById('build-run-check').addEventListener('click',run);
-document.getElementById('build-clear-reload').addEventListener('click',clearAndReload);
+document.getElementById('build-clear-reload').addEventListener('click',()=>clearAndReload());
+document.getElementById('splash-cache-clear').addEventListener('click',()=>clearAndReload(true));
+// One-time, build-specific refresh of DocuScan Cache Storage only. Never touch
+// IndexedDB, localStorage consent, saved signatures, or unrelated app caches.
+(async()=>{try{
+ const key='docuscan.cache-refreshed.4.0.0';
+ if(localStorage.getItem(key)==='yes')return;
+ if('caches' in window){for(const name of await caches.keys()){if(/docuscan/i.test(name))await caches.delete(name);}}
+ localStorage.setItem(key,'yes');
+}catch(e){console.warn('Non-destructive cache refresh skipped:',e);}})();
 document.getElementById('build-copy-report').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(report);alert('Diagnostic report copied.');}catch(e){alert('Copy unavailable; select the report text manually.');}});
 })();
 </script>
@@ -2472,6 +2544,7 @@ function group(sectionId, groups){
   btn.textContent=g.label.replace(/^[^\w]+\s*/, '');
   const paths={camera:'<rect x="3" y="6" width="18" height="14" rx="3"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.3-2h5.4L16 6"/>',edit:'<path d="M4 20l4.5-1 11-11a2 2 0 0 0-3-3l-11 11L4 20z"/><path d="M14.5 7.5l3 3"/>',search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/>',finish:'<path d="M12 3v12m-5-5l5 5 5-5M4 17v3h16v-3"/>',tools:'<path d="M4 7h16M4 12h16M4 17h16"/><circle cx="8" cy="7" r="2" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="2" fill="currentColor" stroke="none"/>',preview:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',export:'<path d="M12 3v12m-5-5l5 5 5-5M4 17v3h16v-3"/>',open:'<path d="M3 7V5a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v2M3 10h18l-2 11H5L3 10z"/>',sign:'<path d="M3 18c4-7 4 1 8-4s3 4 10-1M4 21h16"/>'};
   btn.insertAdjacentHTML('afterbegin','<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+paths[icon]+'</svg>');
+  if(sectionId==='pdf-editor' && i===1){btn.classList.add('editor-section-heading');btn.setAttribute('aria-label','Show Add and Position tools');btn.title='Show Add and Position tools';}
   tabs.appendChild(btn);panes.push({pane,btn});
   btn.addEventListener('click',()=>activate(pane));
  });

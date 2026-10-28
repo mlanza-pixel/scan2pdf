@@ -902,6 +902,49 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 #document-studio-tools,#pdf-toolbox,#pdf-editor{overflow-wrap:anywhere;min-width:0!important}
 @media(max-width:600px){#document-studio-tools>.context-pane{padding:12px 0!important}#document-studio-tools .studio-capture-actions button{font-size:12px!important}#document-studio-tools .ocr-compact-row{display:grid!important;grid-template-columns:minmax(0,1fr)!important}#pdf-toolbox .workshop-pick-row{display:flex!important;flex-wrap:wrap!important}#pdf-toolbox .workshop-pick-row select{min-width:0!important;width:100%!important}}
 </style>
+<style id="v471-sign-layout">
+/* v4.7.2 Sign compact controls; overrides older fixed-grid styles */
+#pdf-editor #editor-add-position{min-width:0;max-width:100%;border:1px solid #d6e3f0;border-radius:14px;padding:12px;margin:12px 0 16px;box-sizing:border-box}
+#pdf-editor #editor-add-position legend{font-weight:800;color:#173c60;padding:0 8px}
+#pdf-editor #editor-tool-buttons{display:flex!important;flex-wrap:wrap!important;gap:7px!important;margin:0 0 12px!important;padding:0!important;background:none!important}
+#pdf-editor #editor-tool-buttons button{flex:0 0 auto!important;width:auto!important;min-width:0!important;min-height:40px!important;padding:8px 11px!important;font-size:12px!important;white-space:nowrap!important}
+#pdf-editor #editor-tool-buttons #editor-add-text{letter-spacing:.01em}
+#pdf-editor .editor-toolbar[aria-label="Document editing helpers"]{display:none!important}
+#pdf-editor .sign-text-template-row{display:grid!important;grid-template-columns:max-content minmax(105px,1fr) max-content minmax(110px,.8fr);gap:7px;align-items:center;margin:9px 0 12px;min-width:0}
+#pdf-editor .sign-text-template-row>label{margin:0!important;font-size:12px;white-space:nowrap}
+#pdf-editor .sign-text-template-row>#editor-text{width:100%!important;min-width:0!important;margin:0!important;padding:8px!important;box-sizing:border-box}
+#pdf-editor .sign-text-template-row>.template-line{display:contents!important}
+#pdf-editor .sign-text-template-row .template-line label{margin:0!important;font-size:12px!important;white-space:nowrap}
+#pdf-editor .sign-text-template-row .template-line select{width:100%!important;min-width:0!important;margin:0!important;padding:8px!important;box-sizing:border-box}
+#pdf-editor .editor-adjust-grid{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(105px,.75fr)!important;gap:10px!important;align-items:end}
+#pdf-editor .editor-adjust-grid>div{grid-column:auto!important;min-width:0}
+#pdf-editor .editor-adjust-grid input[type=range]{width:100%!important;min-width:0}
+#pdf-editor .editor-adjust-grid select{width:100%!important;min-width:0}
+#pdf-editor .editor-open-row{margin-bottom:0!important}
+#pdf-editor>.page-stepper{display:flex!important;justify-content:flex-start!important;align-items:center!important;gap:8px!important;margin:4px 0 9px!important;font-size:12px!important}
+#pdf-editor #editor-page-label{flex:0 0 auto!important;min-width:105px!important;text-align:center}
+#pdf-editor #editor-tool-buttons button[hidden]{display:none!important}
+@media(max-width:750px){#pdf-editor .sign-text-template-row{grid-template-columns:max-content minmax(0,1fr)!important}#pdf-editor .sign-text-template-row .template-line label{grid-column:1}#pdf-editor .sign-text-template-row .template-line select{grid-column:2}}
+@media(max-width:430px){#pdf-editor #editor-tool-buttons button{font-size:11px!important;padding:8px!important}#pdf-editor .editor-adjust-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}#pdf-editor .editor-adjust-grid>div:last-child{grid-column:1/-1!important}}
+</style><style id="v472-compact-watermark-and-inputs">
+/* Deliberately bounded fields; no expanding full-width text boxes. */
+#pdf-editor .sign-text-template-row{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:8px 12px!important;align-items:end!important}
+#pdf-editor .sign-text-template-row>label{grid-column:1!important;grid-row:1!important;align-self:end!important}
+#pdf-editor .sign-text-template-row>#editor-text{grid-column:1!important;grid-row:2!important;width:100%!important;min-width:0!important;max-width:320px!important;height:38px!important;min-height:38px!important;padding:6px 9px!important}
+#pdf-editor .sign-text-template-row>.template-line{grid-column:2!important;grid-row:1/3!important;min-width:0!important;max-width:320px!important;display:flex!important;flex-direction:column!important;gap:5px!important}
+#pdf-editor .sign-text-template-row .template-line select{width:100%!important;max-width:320px!important;min-width:0!important;height:38px!important;min-height:38px!important;padding:5px 8px!important}
+#pdf-editor .watermark-card{padding:9px 11px!important;margin-bottom:9px!important}
+#pdf-editor .watermark-compact{display:grid!important;grid-template-columns:auto minmax(85px,180px) minmax(95px,135px) minmax(90px,115px) auto!important;gap:7px!important;align-items:end!important;justify-content:start!important}
+#pdf-editor .watermark-compact>label{grid-column:1!important;grid-row:1!important;align-self:center!important;margin:0!important}
+#pdf-editor #editor-watermark-text{grid-column:2!important;grid-row:1!important;width:100%!important;max-width:180px!important;min-width:0!important;height:38px!important;min-height:38px!important;padding:5px 8px!important}
+#pdf-editor #editor-watermark-angle{grid-column:3!important;grid-row:1!important;width:100%!important;max-width:135px!important;min-width:0!important;height:38px!important;min-height:38px!important;padding:4px 6px!important}
+#pdf-editor .watermark-opacity{grid-column:4!important;grid-row:1!important;display:flex!important;flex-direction:column!important;gap:2px!important;min-width:0!important}
+#pdf-editor .watermark-opacity label{font-size:10px!important;margin:0!important}
+#pdf-editor #editor-watermark-opacity{width:100%!important;max-width:115px!important;min-width:0!important;height:38px!important;min-height:38px!important;padding:4px 6px!important}
+#pdf-editor #editor-watermark-shortcut{grid-column:5!important;grid-row:1!important;min-width:64px!important;width:64px!important;max-width:64px!important;height:38px!important;min-height:38px!important;padding:5px!important;font-size:12px!important;border-radius:10px!important}
+#pdf-editor #editor-watermark-shortcut:not(.is-active){background:linear-gradient(#fff,#eaf4ff)!important;color:#184d81!important;border:1px solid #a4c4df!important;box-shadow:0 2px 5px #193e7018!important}
+@media(max-width:680px){#pdf-editor .watermark-compact{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)!important;justify-content:stretch!important}#pdf-editor .watermark-compact>label{grid-column:1!important;grid-row:1!important}#pdf-editor #editor-watermark-text{grid-column:2/4!important;grid-row:1!important;max-width:none!important}#pdf-editor #editor-watermark-angle{grid-column:1!important;grid-row:2!important;max-width:none!important}#pdf-editor .watermark-opacity{grid-column:2!important;grid-row:2!important}#pdf-editor #editor-watermark-shortcut{grid-column:3!important;grid-row:2!important;justify-self:end!important}#pdf-editor .sign-text-template-row{grid-template-columns:1fr!important}#pdf-editor .sign-text-template-row>label{grid-column:1!important;grid-row:1!important}#pdf-editor .sign-text-template-row>#editor-text{grid-column:1!important;grid-row:2!important;max-width:100%!important}#pdf-editor .sign-text-template-row>.template-line{grid-column:1!important;grid-row:3!important;max-width:100%!important}}
+</style>
 </head>
 <body class="splash-active">
 <section aria-labelledby="splash-title" class="splash-screen" id="splash-screen">
@@ -993,7 +1036,7 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 <div class="help-dev" id="developer-information"><div class="help-kicker" style="color:#ffdb8d">Developer information · temporary section</div><p><strong>Product:</strong> DocuScan Pro<br/><strong>Version:</strong> 4.7.0<br/><strong>Build:</strong> 2026-10-27 · combined-tools-validation-01<br/><strong>Platform:</strong> Browser-based HTML / iPad Safari-compatible design<br/><strong>Libraries:</strong> Tesseract.js OCR, pdf-lib PDF tools, docx export and OpenCV.js edge detection (loaded externally)<br/><strong>Data:</strong> Scans/history are intended to be stored locally in this browser; external scripts require network access.<br/><strong>Maintainer:</strong> Developer name/contact — <em>add before publishing</em><br/><strong>Support:</strong> Support email/website — <em>not yet configured</em><br/><strong>Testing:</strong> Experimental feature lab; not yet validated on a physical iPad. Verify each generated document before use.</p><p style="margin-top:10px;color:#d4dfed">To remove this temporary section later, delete the HTML element with <code>id="developer-information"</code>. The version label can remain.</p></div>
 </div><!-- general-help-content -->
 <p style="margin-top:22px;text-align:center"><button class="help-close" id="help-done-btn" type="button">Got it — back to DocuScan</button></p>
-</div></section>
+<section class="help-tile" id="help-sign-layout"><h3>Add Text &amp; Sign — placing and adjusting items</h3><p>Open a PDF, then select Signature, Text, or Date. To draw a signature, use the signature pad; alternatively type your name and tap Signature again.</p><p>Drag an item to move it. Drag any blue corner handle to resize the box in both directions. Use the width and height sliders for precise adjustment; long text wraps inside. Use font size to change the text itself.</p><p>When finished, use Save to Library, Download PDF, Share PDF, or Print PDF. Each action creates the latest edited version.</p></section></div></section>
 <header>
 <h1><span style="color:#477bb4;margin-right:8px;">▤</span>DocuScan <span style="font-weight:450;color:#72839a;">Pro</span></h1>
 <div aria-hidden="true" class="header-hidden-actions"><button class="icon-btn" id="history-btn" tabindex="-1" type="button">Library</button><button class="help-trigger" id="help-btn" tabindex="-1" type="button">Help</button></div>
@@ -1003,19 +1046,18 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 <div class="dashboard-section-head"><h2>Your document workflow</h2><span>FOUR SIMPLE STEPS</span></div>
 <p class="workflow-intro">Scan in Studio, sign in Sign, edit in PDF Tools, and save in Library. Your document moves with you—no need to import it again.</p>
 <div class="task-grid workflow-grid"><button class="task-card" data-task="studio"><span class="task-icon"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 7h3l2-3h6l2 3h3v13H4z"></path><circle cx="12" cy="13" r="4"></circle></svg></span><span><strong>Document Studio</strong><small>Scan or import photos, then create a PDF.</small></span><span aria-hidden="true">›</span></button><button class="task-card" data-task="sign"><span class="task-icon"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 20h16M7 16l-2 3 3-1 10-10-2-2L7 16ZM14 8l2 2"></path></svg></span><span><strong>Add Text &amp; Sign</strong><small>Add a signature, text or date.</small></span><span aria-hidden="true">›</span></button><button class="task-card" data-task="workshop"><span class="task-icon"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><rect height="15" rx="2" width="18" x="3" y="6"></rect><path d="M8 6V4h8v2M8 11h8M12 9v9"></path></svg></span><span><strong>PDF Tools</strong><small>Arrange pages, annotate and edit PDFs.</small></span><span aria-hidden="true">›</span></button><button class="task-card" id="home-library-shortcut" type="button"><span class="task-icon">▥</span><span><strong>Library</strong><small>Find, open and organize your saved documents.</small></span><span aria-hidden="true">›</span></button></div>
-<div class="dashboard-section-head dashboard-more"><h2>Guidance &amp; settings</h2></div><div class="home-feature-actions"><button class="task-card" id="home-help" type="button"><span class="task-icon">ⓘ</span><span><strong>Visual Help Guide</strong><small>Step-by-step instructions for each workspace.</small></span><span aria-hidden="true">›</span></button></div><div class="home-quick-actions"><button id="home-cache-shortcut" type="button">↻ &nbsp;Version &amp; cache check <span>→</span></button></div>
+<div class="dashboard-section-head dashboard-more"><h2>Guidance &amp; settings</h2></div><div class="home-feature-actions"><button class="task-card" id="home-help" type="button"><span class="task-icon">ⓘ</span><span><strong>Visual Help Guide</strong><small>Step-by-step instructions for each workspace.</small></span><span aria-hidden="true">›</span></button></div><div class="home-quick-actions"><button id="home-cache-shortcut" type="button">↻  Version &amp; cache check <span>→</span></button></div>
 </section>
 <div id="task-nav"><button id="back-home" type="button">← All tools</button><strong id="task-heading">Document Studio</strong><button id="task-help" type="button">? Help for this tool</button><button id="task-tour" type="button">👆 Show me on this screen</button></div>
 <nav aria-label="Main navigation" id="mobile-tabs"><button data-task="home" type="button"><span class="tab-icon">⌂</span>Home</button><button data-task="studio" type="button"><span class="tab-icon">▣</span>Studio</button><button data-task="sign" type="button"><span class="tab-icon">✎</span>Sign</button><button data-task="workshop" type="button"><span class="tab-icon">▤</span>PDF Tools</button><button id="tabs-library" type="button"><span class="tab-icon">▥</span>Library</button><button id="tabs-help" type="button"><span class="tab-icon">ⓘ</span>Help</button></nav>
 <div aria-hidden="true" id="tour-backdrop"></div><aside aria-label="Guided tour" aria-live="polite" id="tour-card" role="dialog"><div id="tour-progress" style="font-size:12px;font-weight:700;color:#66788f"></div><h3 id="tour-title"></h3><p id="tour-copy"></p><button id="tour-previous" type="button">← Previous</button><button id="tour-next" type="button">Next →</button><button id="tour-exit" type="button">Close tour</button></aside>
 <section aria-label="Add text and sign PDF" id="pdf-editor" style="display:none">
-<div class="editor-open-row"><div class="editor-toolbar"><button class="primary" id="editor-open" type="button">📂 Open PDF from Files</button><button aria-hidden="true" hidden="" id="editor-photo" tabindex="-1" type="button">📷 Use a photo</button></div><div aria-label="PDF page navigation" class="page-stepper"><button aria-label="Previous page" id="editor-prev" type="button">‹</button><span id="editor-page-label">No document</span><button aria-label="Next page" id="editor-next" type="button">›</button></div></div>
+<div class="editor-open-row"><div class="editor-toolbar"><button class="primary" id="editor-open" type="button">📂 Open PDF from Files</button><button aria-hidden="true" hidden="" id="editor-photo" tabindex="-1" type="button">📷 Use a photo</button></div></div><div aria-label="PDF page navigation" class="page-stepper"><button aria-label="Previous page" id="editor-prev" type="button">‹</button><span id="editor-page-label">‹No document›</span><button aria-label="Next page" id="editor-next" type="button">›</button></div>
 <div id="editor-paper"><canvas class="preview-collapsed" height="780" id="editor-page-canvas" width="600"></canvas><div id="editor-overlays"></div></div>
-<div class="editor-toolbar" id="editor-tool-buttons"><button id="editor-add-sign" type="button">✍ Add signature</button><button id="editor-add-text" type="button">T Add text</button><button id="editor-add-date" type="button">▦ Add date</button><button id="editor-delete" type="button">🗑 Remove selected</button></div>
-<div id="editor-controls"><div class="watermark-card"><div class="watermark-compact"><label for="editor-watermark-text">Watermark</label><input aria-label="Watermark text" id="editor-watermark-text" maxlength="60" value="DRAFT"/><select aria-label="Watermark direction" id="editor-watermark-angle"><option selected="" value="-45">Diagonal ↗</option><option value="0">Horizontal →</option><option value="45">Diagonal ↘</option><option value="-90">Vertical ↑</option></select><div class="watermark-opacity"><label for="editor-watermark-opacity">Transparency</label><select aria-label="Watermark transparency" id="editor-watermark-opacity" title="Transparency"><option value="0">0%</option><option value="25">25%</option><option selected="" value="50">50%</option><option value="75">75%</option><option value="90">90%</option></select></div><button aria-label="Apply watermark" aria-pressed="false" class="watermark-apply" id="editor-watermark-shortcut" title="Apply watermark" type="button">✓</button></div></div>
-<div aria-label="Document editing helpers" class="editor-toolbar"><button id="editor-undo" type="button">↶ Undo</button><button id="editor-redo" type="button">↷ Redo</button><button id="editor-clear-all" type="button">✕ Clear All</button></div>
-<div class="template-line"><label for="editor-template">Quick Text Templates</label><select id="editor-template"><option value="">Choose a reusable phrase</option><option value="Approved">Approved</option><option value="Reviewed">Reviewed</option><option value="Received">Received</option><option value="Please sign and return">Please sign and return</option><option value="Confidential">Confidential</option><option value="Date: ">Date label</option></select></div>
-<label for="editor-text">Text / typed signature</label><input id="editor-text" placeholder="Enter text to place on the document">
+<fieldset id="editor-add-position"><legend>Add &amp; Position</legend><div class="editor-toolbar" id="editor-tool-buttons"><button id="editor-add-sign" type="button">✍ Signature</button><button id="editor-add-text" type="button">▣ Text</button><button id="editor-add-date" type="button">▦ Date</button><button id="editor-delete" type="button">🗑 Remove Selected</button><button id="editor-undo" type="button">↶ Undo</button><button id="editor-redo" type="button">↷ Redo</button></div><div id="editor-controls"><div class="watermark-card"><div class="watermark-compact"><label for="editor-watermark-text">Watermark</label><input aria-label="Watermark text" id="editor-watermark-text" maxlength="60" value="DRAFT"/><select aria-label="Direction" title="Direction" id="editor-watermark-angle"><option selected="" value="-45">Diagonal ↗</option><option value="0">Horizontal →</option><option value="45">Diagonal ↘</option><option value="-90">Vertical ↑</option></select><div class="watermark-opacity"><label for="editor-watermark-opacity">Transparency</label><select aria-label="Watermark transparency" id="editor-watermark-opacity" title="Transparency"><option value="0">0%</option><option value="25">25%</option><option selected="" value="50">50%</option><option value="75">75%</option><option value="90">90%</option></select></div><button aria-label="Insert watermark" aria-pressed="false" class="watermark-apply" id="editor-watermark-shortcut" title="Insert watermark" type="button">Insert</button></div></div>
+<div aria-hidden="true" aria-label="Document editing helpers" class="editor-toolbar" hidden=""><button aria-hidden="true" hidden="" id="editor-clear-all" type="button">✕ Clear All</button></div>
+<div class="sign-text-template-row"><label for="editor-text">Text / typed signature</label><input id="editor-text" placeholder="Enter text to place on the document"/><div class="template-line"><label for="editor-template">Quick Text Templates</label><select id="editor-template"><option value="">Choose a reusable phrase</option><option value="Approved">Approved</option><option value="Reviewed">Reviewed</option><option value="Received">Received</option><option value="Please sign and return">Please sign and return</option><option value="Confidential">Confidential</option><option value="Date: ">Date label</option></select></div></div>
+
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
 <div><label for="editor-font">Font style</label><select id="editor-font" style="width:100%;padding:10px;border:1px solid #c8d7e6;border-radius:9px"><option value="Helvetica">Helvetica</option><option value="TimesRoman">Times Roman</option><option value="Courier">Courier</option><option value="HelveticaBold">Helvetica Bold</option><option value="TimesRomanItalic">Times Italic</option><option value="HelveticaOblique">Helvetica Italic</option></select></div>
 <div><label for="editor-font-size">Font size (points)</label><input id="editor-font-size" max="72" min="6" type="number" value="16"/></div>
@@ -1025,7 +1067,7 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 <div><label for="editor-height">Height: <span id="editor-height-label">9%</span></label><input id="editor-height" max="75" min="2" type="range" value="9"/></div>
 <div><label for="editor-ink">Ink color</label><select id="editor-ink"><option value="#174ea6">Blue</option><option value="#123b70">Navy</option><option value="#111827">Black</option></select></div>
 </div>
-<p class="editor-hint">Drag an item to move it. Drag any blue corner handle to resize the box in both directions. Use the width and height sliders for precise adjustment; long text wraps inside. Use font size to change the text itself.</p>
+
 <div hidden="" id="editor-signature-panel"><p class="editor-hint">Draw with a finger or Apple Pencil, then tap Add signature above. This panel is hidden when using Text or Date.</p>
 <canvas height="180" id="editor-sign-pad" width="700"></canvas><button id="editor-clear-sign" type="button">Clear drawing</button></div>
 <div class="toolbox" hidden="" id="signature-library" style="margin:10px 0">
@@ -1044,9 +1086,10 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 <p class="editor-hint" id="sig-library-status" role="status"></p>
 </div>
 <div class="editor-toolbar editor-export-row final-three"><button id="editor-save-library" type="button">Save to Library</button><button id="editor-download" type="button">Download PDF</button><button id="editor-share" type="button">Share PDF</button><button id="editor-print" type="button">Print PDF</button></div><button aria-hidden="true" hidden="" id="editor-save" tabindex="-1" type="button">Generate PDF</button>
-<p class="editor-hint">Choose what to do with your edited PDF. Each action automatically creates the latest version.</p>
-<p class="editor-hint" id="editor-status" role="status">No document loaded. PDF pages are previewed using PDF.js. Requires internet for libraries.</p>
-</input></div>
+
+<p aria-live="polite" class="editor-hint" id="editor-status" role="status"></p>
+</div></fieldset>
+
 </section>
 <main id="scanner-view">
 <div class="scan-area" id="scan-area">
@@ -1080,7 +1123,7 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 </div>
 </section>
 <section aria-label="PDF editing tools" class="toolbox" id="pdf-toolbox">
-<h3 class="workspace-duplicate-title" hidden>PDF Tools</h3>
+<h3 class="workspace-duplicate-title" hidden="">PDF Tools</h3>
 <div class="editor-toolbar"><button class="primary" id="workshop-open-pdf" type="button">📂 Open existing PDF</button><button id="workshop-open-photo" type="button">📷 Use photo as PDF</button></div><div class="pdf-compare" id="workshop-preview-group"><div><strong>Source PDF preview</strong><div class="pdf-page-controls page-stepper"><button aria-label="Previous source page" id="source-prev" type="button">‹</button><span id="source-page-label">No document</span><button aria-label="Next source page" id="source-next" type="button">›</button></div><canvas aria-label="Source PDF page preview" class="preview-collapsed" id="source-preview"></canvas></div><div><strong>Result preview — review before saving</strong><div class="pdf-page-controls page-stepper"><button aria-label="Previous result page" id="result-prev" type="button">‹</button><span id="result-page-label">No document</span><button aria-label="Next result page" id="result-next" type="button">›</button></div><canvas aria-label="Result PDF page preview" class="preview-collapsed" id="result-preview"></canvas><pre id="result-text-preview" style="display:none;white-space:pre-wrap;max-height:340px;overflow:auto"></pre></div></div>
 <p class="workshop-sr-note tool-note" id="workshop-source-status">Open a PDF, select a tool, then apply it.</p>
 <p class="workshop-sr-note tool-note">Import a PDF using “Open PDF from Files” above. Tools work on the imported PDF, create a separate copy, and do not overwrite your original. Select an operation, then tap Run tool.</p>
@@ -1101,12 +1144,12 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 <option value="image">Export a PDF page to JPG</option>
 <option value="compress">Compress by rebuilding as images (loses selectable text)</option>
 </select><button id="run-pdf-tool" type="button">▶ Apply tool</button></div>
-<div id="pdf-annotation-controls" hidden>
-  <strong>Annotate the PDF</strong>
-  <p class="tool-note">Select a mark, then tap its position on the Source PDF preview. Use the page arrows to annotate different pages. Tap Apply tool to create a new PDF containing your marks.</p>
-  <div class="annotation-controls-row"><label for="pdf-annotation-type">Mark</label><select id="pdf-annotation-type"><option value="text">Text note</option><option value="highlight">Yellow highlight</option><option value="check">Checkmark ✓</option></select><label for="pdf-annotation-color">Color</label><select id="pdf-annotation-color"><option value="blue">Blue</option><option value="red">Red</option><option value="black">Black</option></select></div>
-  <label for="pdf-annotation-text">Note text (for Text note)</label><input id="pdf-annotation-text" placeholder="Type annotation here" maxlength="180"/>
-  <div class="annotation-controls-row"><button type="button" id="pdf-annotation-undo">Undo last mark</button><button type="button" id="pdf-annotation-clear">Clear marks</button><span id="pdf-annotation-count" role="status" aria-live="polite">0 marks</span></div>
+<div hidden="" id="pdf-annotation-controls">
+<strong>Annotate the PDF</strong>
+<p class="tool-note">Select a mark, then tap its position on the Source PDF preview. Use the page arrows to annotate different pages. Tap Apply tool to create a new PDF containing your marks.</p>
+<div class="annotation-controls-row"><label for="pdf-annotation-type">Mark</label><select id="pdf-annotation-type"><option value="text">Text note</option><option value="highlight">Yellow highlight</option><option value="check">Checkmark ✓</option></select><label for="pdf-annotation-color">Color</label><select id="pdf-annotation-color"><option value="blue">Blue</option><option value="red">Red</option><option value="black">Black</option></select></div>
+<label for="pdf-annotation-text">Note text (for Text note)</label><input id="pdf-annotation-text" maxlength="180" placeholder="Type annotation here"/>
+<div class="annotation-controls-row"><button id="pdf-annotation-undo" type="button">Undo last mark</button><button id="pdf-annotation-clear" type="button">Clear marks</button><span aria-live="polite" id="pdf-annotation-count" role="status">0 marks</span></div>
 </div>
 <label for="pdf-pages">Pages or order (examples: 1,3-5 or 3,1,2)</label>
 <input id="pdf-pages" placeholder="Leave blank for all pages"/>
@@ -1116,15 +1159,13 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 <select id="pdf-image-quality"><option value="0.82">Balanced</option><option value="0.6">Smaller file</option><option value="0.94">Higher quality</option></select></div>
 <div class="workshop-next-row"><button disabled="" id="use-tool-result" type="button">↻ Continue editing this result</button></div>
 <p aria-live="polite" class="tool-note" id="pdf-tool-status" role="status">Ready when a PDF is imported.</p>
-
-
-<p class="tool-note pdf-tool-limits" hidden>Some operations, such as image-based compression, can remove selectable text.</p>
+<p class="tool-note pdf-tool-limits" hidden="">Some operations, such as image-based compression, can remove selectable text.</p>
 <div class="toolgrid workshop-export-bottom" id="workshop-export-group"><button disabled="" id="save-tool-library" type="button">Save to Library</button><button disabled="" id="download-tool-result" type="button">Download PDF</button><button disabled="" id="share-tool-result" type="button">Share PDF</button><button disabled="True" id="print-tool-result" type="button">Print PDF</button></div><section aria-label="Advanced document tools" class="advanced-suite" id="advanced-suite">
 <h3>Advanced document tools</h3>
 <p class="tool-note">Work on a separate copy. Your original and saved documents remain unchanged.</p>
 <label for="advanced-file">Choose a PDF to organize, inspect or process</label>
 <input accept="application/pdf,.pdf" id="advanced-file" type="file"/>
-<p id="advanced-status" role="status" aria-live="polite"></p>
+<p aria-live="polite" id="advanced-status" role="status"></p>
 <div aria-label="PDF page organizer" id="advanced-page-grid"></div>
 <div class="advanced-actions">
 <button id="advanced-up" type="button">Move selected page earlier</button>
@@ -1157,10 +1198,9 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 </section>
 </section>
 <section aria-label="Scan and editing tools" class="toolbox" id="document-studio-tools">
-<h3 class="workspace-duplicate-title" hidden>Document Studio</h3>
+<h3 class="workspace-duplicate-title" hidden="">Document Studio</h3>
 <p class="tool-note">Add photos, improve pages if needed, then create one PDF.</p>
 <button class="btn btn-primary" id="studio-add-photo" type="button">📷 Capture Photo</button>
-
 <button class="btn btn-primary" disabled="" id="studio-process" style="margin-top:8px" type="button">🔎 Create PDF</button>
 <p class="tool-note" id="studio-status" role="status">No pages yet. Add a photo to begin.</p>
 <div class="tool-note" id="studio-ready" style="padding:12px;background:#eaf4ff;border-radius:12px">Start with <strong>Add photo or scan page</strong>. After the image appears, the editing tools and OCR button will be available.</div>
@@ -1196,7 +1236,7 @@ main{height:auto!important;min-height:0!important;flex:none!important;overflow:v
 <label for="doc-title" id="studio-finish-start" style="font-size:12px;font-weight:650">Document name</label>
 <input id="doc-title" maxlength="100" placeholder="My scanned document"/>
 <p class="tool-note">Add and review all pages before recognition. Use Sign for signatures or watermarks after creating the PDF.</p>
-<input type="hidden" id="stamp-text" value=""/><input type="hidden" id="signature-text" value=""/>
+<input id="stamp-text" type="hidden" value=""/><input id="signature-text" type="hidden" value=""/>
 <div class="studio-final-actions" id="studio-final-actions">
 <h3>Your PDF is ready</h3>
 <p class="tool-note" id="studio-export-status">After recognizing your document, choose Save to Library, Download PDF, or Share PDF.</p>
@@ -3206,7 +3246,6 @@ $('advanced-save-library').onclick=async()=>{if(!lastBlob)return say('Export a P
 $('advanced-share').onclick=async()=>{if(!lastBlob)return say('Export a PDF first.');try{const file=new File([lastBlob],lastName,{type:'application/pdf'});if(navigator.canShare?.({files:[file]}))await navigator.share({files:[file],title:lastName});else download(lastBlob,lastName);}catch(e){say('Share cancelled or unavailable: '+e.message);}};
 })();
 </script>
-
 <style id="v461-studio-ocr-flow-style">
 #document-studio-tools #studio-process,#studio-finish-recognize{width:auto!important;min-height:40px!important;padding:9px 15px!important;margin:10px 0!important;font-size:14px!important}
 #studio-ocr-action-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:10px 0}

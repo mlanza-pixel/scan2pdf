@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>DocuScan Pro v4.5.1 | Scanner & PDF Studio</title>
+  <title>DocuScan Pro v4.5.2 | Scanner & PDF Studio</title>
   
   <!-- PWA & iOS Meta Tags -->
   <link rel="manifest" href="manifest.json">
@@ -596,7 +596,101 @@ button:disabled{opacity:.45!important;box-shadow:none!important}
 }
 @media(max-width:360px){#pdf-editor .watermark-compact{gap:7px!important}#pdf-editor .watermark-compact input,#pdf-editor .watermark-compact select{font-size:12px!important}}
 </style>
-</head>
+<style id="v452-ipad-navigation-fix">
+html{max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%}body{width:100%;max-width:100%;overflow-x:hidden}main,#scanner-view,#pdf-editor,#task-nav,#task-home{min-width:0;max-width:100%!important}#pdf-editor *{box-sizing:border-box}#pdf-editor .editor-toolbar#editor-tool-buttons{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:12px 0!important;padding:10px!important;background:#eef5ff;border-radius:16px}#pdf-editor #editor-tool-buttons button{min-width:0!important;min-height:52px!important;padding:9px 6px!important;white-space:normal;font-size:13px!important;overflow-wrap:anywhere}#pdf-editor #editor-tool-buttons button.is-active{background:linear-gradient(180deg,#408ff5,#1353b5)!important;color:#fff!important;border:2px solid #093f95!important;box-shadow:0 0 0 2px #a4d0ff!important}#pdf-editor .watermark-compact{width:100%;max-width:100%;min-width:0}#pdf-editor .watermark-compact>*{max-width:100%}#pdf-editor .editor-export-row button{min-width:0;padding:10px 4px!important;font-size:12px!important;overflow-wrap:anywhere}#mobile-tabs{width:100%!important;max-width:min(100%,820px)!important;overflow:visible;box-sizing:border-box}#mobile-tabs button{min-width:0!important;flex:1 1 0!important;font-size:clamp(9px,1.3vw,12px)!important;overflow-wrap:anywhere;padding:6px 1px!important}#mobile-tabs .tab-icon{font-size:clamp(17px,2.5vw,23px)!important}#task-nav{flex-wrap:wrap;align-items:center}#task-nav #task-heading{min-width:0;overflow-wrap:anywhere}#pdf-editor input,#pdf-editor select{min-width:0;max-width:100%}#editor-paper{width:100%;max-width:100%;min-width:0}.help-destination-nav{position:sticky;top:0;z-index:5;display:flex;gap:7px;align-items:center;flex-wrap:wrap;background:#f6f3eb;padding:10px 2px;border-bottom:1px solid #d5dce5}.help-destination-nav span{font-weight:750;color:#284762}.help-destination-nav button{min-height:42px;padding:8px 11px;border-radius:12px;border:1px solid #7caee8;background:linear-gradient(#fff,#d9eaff);color:#164878;font-weight:750;cursor:pointer}
+@media(max-width:760px){#pdf-editor .editor-toolbar#editor-tool-buttons{grid-template-columns:repeat(2,minmax(0,1fr))}#pdf-editor .editor-export-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}#task-nav{gap:7px}#task-nav button{min-width:0;padding:8px!important}#pdf-editor .watermark-compact{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) minmax(0,1.1fr) 45px;gap:7px!important;align-items:end}#pdf-editor .watermark-compact>label{grid-column:1/-1;font-size:13px!important}#pdf-editor .watermark-compact input{width:100%!important;min-width:0!important}#pdf-editor .watermark-compact select{width:100%!important;min-width:0!important;font-size:12px!important}#pdf-editor .watermark-opacity{min-width:0}#pdf-editor .watermark-opacity label{font-size:11px}#pdf-editor .watermark-compact .watermark-apply{width:45px!important;min-width:45px!important}#mobile-tabs{padding-left:3px!important;padding-right:3px!important}}
+@media(max-width:390px){#pdf-editor .watermark-compact{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px}#pdf-editor .watermark-compact>label{grid-column:1/-1}#pdf-editor .watermark-opacity{grid-column:1/3;grid-row:3}#pdf-editor .watermark-compact .watermark-apply{grid-column:3;grid-row:2}#mobile-tabs button{font-size:9px!important}}
+</style>
+<style id="v453-jelly-polish">
+/* Compact watermark geometry: overrides legacy grid and oversized apply controls. */
+#pdf-editor .watermark-compact{display:grid!important;grid-template-columns:auto minmax(95px,1fr) 112px 92px 38px!important;gap:8px!important;align-items:center!important;width:100%!important}
+#pdf-editor .watermark-compact>label{grid-column:auto!important;grid-row:auto!important;font-size:13px!important;color:#33425b!important}
+#pdf-editor .watermark-compact>input{grid-column:auto!important;grid-row:auto!important;min-width:0!important;width:100%!important;height:40px!important;min-height:40px!important;padding:6px 10px!important}
+#pdf-editor .watermark-compact>select{grid-column:auto!important;grid-row:auto!important;width:112px!important;max-width:112px!important;min-width:0!important;height:40px!important;min-height:40px!important;padding:5px 6px!important;font-size:12px!important}
+#pdf-editor .watermark-opacity{grid-column:auto!important;grid-row:auto!important;display:block!important;min-width:0!important}
+#pdf-editor .watermark-opacity label{display:none!important}
+#pdf-editor .watermark-opacity select{width:92px!important;max-width:92px!important;min-width:0!important;height:40px!important;min-height:40px!important;padding:5px!important;font-size:12px!important}
+#pdf-editor .watermark-compact .watermark-apply{grid-column:auto!important;grid-row:auto!important;flex:none!important;width:38px!important;min-width:38px!important;max-width:38px!important;height:38px!important;min-height:38px!important;padding:0!important;font-size:18px!important;border-radius:12px!important}
+#pdf-editor #editor-controls .watermark-card{padding:12px!important;background:rgba(255,255,255,.72)!important;border:1px solid #e5e8f1!important}
+/* Jelly-glass controls: bright neutral base, translucent color, soft specular highlight. */
+body:not(.splash-active) button:not(:disabled):not(.task-card):not(.launch-btn):not(.context-jump):not(.tab-icon),
+body:not(.splash-active) .help-trigger{
+ background:linear-gradient(180deg,rgba(255,255,255,.98) 0%,rgba(255,255,255,.80) 43%,rgba(231,237,255,.84) 100%)!important;
+ color:#24476e!important;border:1px solid rgba(121,155,206,.55)!important;
+ border-radius:17px!important;
+ box-shadow:inset 0 2px 1px rgba(255,255,255,1),inset 0 -2px 5px rgba(98,135,198,.09),0 5px 12px rgba(42,73,119,.13)!important;
+ text-shadow:0 1px 0 rgba(255,255,255,.7);
+ transition:transform .13s ease,box-shadow .13s ease,filter .13s ease!important;
+}
+body:not(.splash-active) button.is-active:not(:disabled),body:not(.splash-active) button[aria-selected="true"]:not(:disabled),body:not(.splash-active) button[aria-pressed="true"]:not(:disabled){
+ background:linear-gradient(180deg,#a4e4ff 0%,#4eaff7 45%,#277de2 100%)!important;
+ color:#082e5b!important;border:2px solid #227bd5!important;
+ box-shadow:inset 0 2px 2px #ffffffcf,inset 0 -4px 8px #155bb055,0 0 0 3px #82caff77,0 6px 14px #185caa44!important;
+ text-shadow:0 1px 0 #ffffff60;
+}
+body:not(.splash-active) button:active:not(:disabled){transform:translateY(2px) scale(.985)!important;filter:saturate(1.2) brightness(.96)!important}
+/* Navigation remains a quiet transparent tab strip, with a clear active marker. */
+body:not(.splash-active) #mobile-tabs button{background:transparent!important;border:0!important;border-radius:12px!important;box-shadow:none!important;color:#63738b!important}
+body:not(.splash-active) #mobile-tabs button.active{background:linear-gradient(180deg,#e8f8ff,#c4e9ff)!important;color:#125ca6!important;box-shadow:inset 0 1px 0 #fff,0 2px 7px #175ca622!important}
+/* Keep selectors and editable text visually distinct from buttons. */
+#pdf-editor .watermark-compact input,#pdf-editor .watermark-compact select{background:#fff!important;border:1px solid #cbd8e8!important;border-radius:11px!important;box-shadow:inset 0 1px 3px #173c6312!important}
+@media(max-width:640px){
+ #pdf-editor .watermark-compact{grid-template-columns:auto minmax(0,1fr) 38px!important;gap:8px!important}
+ #pdf-editor .watermark-compact>label{grid-column:1!important;grid-row:1!important}
+ #pdf-editor .watermark-compact>input{grid-column:2/4!important;grid-row:1!important}
+ #pdf-editor .watermark-compact>select{grid-column:1!important;grid-row:2!important;width:112px!important}
+ #pdf-editor .watermark-opacity{grid-column:2!important;grid-row:2!important;justify-self:end!important}
+ #pdf-editor .watermark-compact .watermark-apply{grid-column:3!important;grid-row:2!important}
+}
+@media(max-width:360px){#pdf-editor .watermark-compact{gap:5px!important}#pdf-editor .watermark-compact>select{width:100px!important;max-width:100px!important}#pdf-editor .watermark-opacity select{width:78px!important;max-width:78px!important}}
+@media(prefers-reduced-motion:reduce){body button{transition:none!important}}
+</style>
+<style id="v454-jelly-consistency">
+/* Touch-friendly, glassy, visibly clickable controls across workspaces. */
+:root{--jelly-border:#86b7f1;--jelly-ink:#164878}
+body:not(.splash-active) button:not(.tab-icon):not(.editor-section-heading):not(.launch-btn):not(.help-close):not(.context-jump):not(.tour-target){
+  -webkit-tap-highlight-color:transparent;
+}
+#pdf-editor button:not([hidden]),#pdf-toolbox button:not([hidden]),#document-studio-tools button:not([hidden]),
+#task-nav button,#history-view button,.help-destination-nav button,.home-quick-actions button{
+  background:linear-gradient(180deg,#ffffff 0%,#f0faff 30%,#d8efff 65%,#c4e2ff 100%)!important;
+  color:var(--jelly-ink)!important;
+  border:1.5px solid var(--jelly-border)!important;
+  box-shadow:inset 0 2px 1px #fff,inset 0 -2px 3px #74b6ee45,0 4px 9px #235d9726!important;
+  text-shadow:0 1px #ffffffbb;
+  border-radius:16px!important;
+  transition:transform .12s ease,box-shadow .12s ease,filter .12s ease!important;
+}
+#pdf-editor button:active,#pdf-toolbox button:active,#document-studio-tools button:active,#task-nav button:active,
+#history-view button:active,.help-destination-nav button:active{transform:translateY(2px) scale(.985)!important;filter:saturate(1.2) brightness(.95)}
+#pdf-editor button.is-active,#pdf-toolbox button.is-active,#document-studio-tools button.is-active,
+#pdf-editor button[aria-pressed="true"],#pdf-toolbox button[aria-pressed="true"]{
+  background:linear-gradient(180deg,#6bc5ff 0%,#238ff5 43%,#1460cf 100%)!important;
+  color:white!important;border:2px solid #074ba7!important;
+  box-shadow:inset 0 2px 2px #c4f2ffb8,inset 0 -3px 3px #064eac99,0 0 0 3px #84c7ff77,0 6px 14px #1162b555!important;
+  text-shadow:0 1px #124f9c!important;
+}
+#pdf-editor button:disabled,#pdf-toolbox button:disabled,#document-studio-tools button:disabled{opacity:.48;box-shadow:none!important;cursor:not-allowed}
+#pdf-editor .watermark-compact{display:grid!important;grid-template-columns:auto minmax(72px,1fr) minmax(96px,125px) minmax(80px,108px) 38px!important;gap:7px!important;align-items:center!important;min-width:0!important}
+#pdf-editor .watermark-compact input,#pdf-editor .watermark-compact select{min-width:0!important;width:100%!important;max-width:none!important;box-sizing:border-box!important}
+#pdf-editor .watermark-compact .watermark-opacity{min-width:0!important;width:auto!important}
+#pdf-editor .watermark-compact .watermark-apply{width:38px!important;min-width:38px!important;min-height:38px!important;height:38px!important;flex:auto!important;padding:0!important;font-size:18px!important;border-radius:12px!important}
+#pdf-editor .watermark-compact label{white-space:nowrap;font-size:12px!important}
+#pdf-editor .watermark-compact .watermark-opacity label{font-size:10px!important}
+#pdf-editor .editor-toolbar,#pdf-editor .editor-export-row{gap:10px!important}
+#pdf-editor,#pdf-toolbox,#document-studio-tools{min-width:0!important;max-width:100%!important}
+@media(max-width:600px){
+ #pdf-editor .watermark-compact{grid-template-columns:auto minmax(75px,1fr) 38px!important;gap:8px!important}
+ #pdf-editor .watermark-compact>select{grid-column:1 / 3!important;grid-row:2!important}
+ #pdf-editor .watermark-compact .watermark-opacity{grid-column:3!important;grid-row:2!important}
+ #pdf-editor .watermark-compact .watermark-apply{grid-column:3!important;grid-row:1!important}
+ #pdf-editor .watermark-compact .watermark-opacity label{font-size:9px!important}
+ #pdf-editor .editor-toolbar button,#pdf-editor .editor-export-row button{min-width:0!important;overflow-wrap:anywhere;padding:10px 6px!important;font-size:12px!important}
+ #pdf-editor .editor-export-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #mobile-tabs button{font-size:9px!important}
+}
+@media(max-width:380px){#pdf-editor .watermark-compact{grid-template-columns:auto minmax(58px,1fr) 38px!important}}
+</style></head>
 <body class="splash-active">
   <section class="splash-screen" id="splash-screen" aria-labelledby="splash-title">
     <div class="splash-card">
@@ -621,15 +715,15 @@ button:disabled{opacity:.45!important;box-shadow:none!important}
       <button id="splash-help-btn" type="button" class="splash-secondary">How it works</button>
       <button id="splash-cache-clear" type="button" class="splash-secondary">↻ Refresh cached app files (keep documents & signatures)</button>
       <p id="splash-cache-status" role="status" aria-live="polite" style="color:#d7eaff;font-size:12px;margin:8px 0 0"></p>
-      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 4.4.1 · Build 2026-10-27-v441-validation-01</p>
+      <p style="text-align:center;color:#b9c9da;font-size:12px;margin-top:9px">Version 4.5.4 · Jelly UI refinement</p>
       <button id="review-agreements" type="button" class="review-agreements" hidden>Review agreements</button>
     </div>
   </section>
 
 
 <section id="help-screen" class="help-screen" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
-<div class="help-shell">
-  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v4.4.3</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
+<div class="help-shell"><nav class="help-destination-nav" aria-label="Go to application page"><span>Go to:</span><button type="button" data-help-destination="home">Home</button><button type="button" data-help-destination="sign">Sign</button><button type="button" data-help-destination="workshop">PDF Tools</button><button type="button" data-help-destination="studio">Studio</button><button type="button" data-help-destination="library">Library</button></nav>
+  <div class="help-top"><div><div class="help-kicker">DocuScan Pro · Visual field guide</div><strong>Getting started · v4.5.4</strong></div><button type="button" class="help-close" id="help-close-btn">✕ Close guide</button></div>
 
 <div class="help-mode-nav" aria-label="Choose a help topic">
 <button type="button" data-help-mode="sign">✍️ Add Text &amp; Sign</button>
@@ -640,7 +734,7 @@ button:disabled{opacity:.45!important;box-shadow:none!important}
 <section id="context-help-sign" class="context-help" hidden><figure class="guided-figure" id="guide-snapshot-sign"><div class="guide-snapshot-content">Open the Add Text &amp; Sign screen and tap <strong>Help for this tool</strong> to capture the actual controls and see numbered pointers.</div><p><strong>Real-screen guide:</strong> ① Open your PDF · ② Add signature, text, or date · ③ Position, format, and save.</p></figure>
   <div class="context-hero"><div><div class="help-kicker">FIELD GUIDE 01 · EDIT A DOCUMENT</div><h2>Add Text &amp; Sign</h2><p>Use a PDF you already have. No scanning or OCR required.</p></div><div class="context-symbol" aria-hidden="true">✍️</div></div>
   <div class="context-cards">
-    <article class="context-card"><span class="context-graphic">📂 → 📄</span><h3>1 · Open the document</h3><p>Tap <strong>Open PDF from Files</strong> or <strong>Use a photo</strong>. Wait for the page preview. Use Previous/Next page to find the page to edit.</p></article>
+    <article class="context-card"><span class="context-graphic">📂 → 📄</span><h3>1 · Open the document</h3><p>Tap <strong>Open PDF from Files</strong>. To scan a paper document first, use Document Studio. Wait for the page preview. Use Previous/Next page to find the page to edit.</p></article>
     <article class="context-card"><span class="context-graphic">✍️ ↔️</span><h3>2 · Add and position</h3><p>Tap <strong>Add signature</strong>, <strong>Add text</strong> or <strong>Add date</strong>. Touch and drag the new item across the page. Drag the blue resize handle to make the text box wider.</p></article>
     <article class="context-card"><span class="context-graphic">🔤 → 💾</span><h3>3 · Format, save, share</h3><p>Select the item to edit its words, font, size and width. Tap <strong>Save PDF</strong> for a download, or <strong>Share PDF</strong> and choose <strong>Save to Files</strong> to pick a folder.</p></article>
   </div>
@@ -713,10 +807,10 @@ button:disabled{opacity:.45!important;box-shadow:none!important}
 <section id="pdf-editor" aria-label="Add text and sign PDF" style="display:none">
   
   
-  <div class="editor-toolbar"><button id="editor-open" class="primary" type="button">📂 Open PDF from Files</button><button id="editor-photo" type="button">📷 Use a photo</button></div><div class="page-stepper" aria-label="PDF page navigation"><button id="editor-prev" type="button" aria-label="Previous page">‹</button><span id="editor-page-label">No document</span><button id="editor-next" type="button" aria-label="Next page">›</button></div>
+  <div class="editor-toolbar"><button id="editor-open" class="primary" type="button">📂 Open PDF from Files</button><button id="editor-photo" type="button" hidden aria-hidden="true" tabindex="-1">📷 Use a photo</button></div><div class="page-stepper" aria-label="PDF page navigation"><button id="editor-prev" type="button" aria-label="Previous page">‹</button><span id="editor-page-label">No document</span><button id="editor-next" type="button" aria-label="Next page">›</button></div>
   <div id="editor-paper"><canvas class="preview-collapsed" id="editor-page-canvas" width="600" height="780"></canvas><div id="editor-overlays"></div></div>
-  <div class="editor-toolbar" id="editor-tool-buttons" hidden><button id="editor-add-sign" type="button">✍ Add signature</button><button id="editor-add-text" type="button">T Add text</button><button id="editor-add-date" type="button">▦ Add date</button><button id="editor-delete" type="button">🗑 Remove selected</button></div>
-  <div id="editor-controls"><div class="watermark-card"><div class="watermark-compact"><label for="editor-watermark-text">Watermark</label><input id="editor-watermark-text" aria-label="Watermark text" value="DRAFT" maxlength="60"><select id="editor-watermark-angle" aria-label="Watermark direction"><option value="-45" selected>Diagonal ↗</option><option value="0">Horizontal →</option><option value="45">Diagonal ↘</option><option value="-90">Vertical ↑</option></select><div class="watermark-opacity"><label for="editor-watermark-opacity">Transparency</label><select id="editor-watermark-opacity" aria-label="Watermark transparency"><option value="0">0%</option><option value="25">25%</option><option value="50" selected>50%</option><option value="75">75%</option><option value="90">90%</option></select></div><button type="button" id="editor-watermark-shortcut" class="watermark-apply" aria-label="Apply watermark" title="Apply watermark">✓</button></div></div></div>
+  <div class="editor-toolbar" id="editor-tool-buttons"><button id="editor-add-sign" type="button">✍ Add signature</button><button id="editor-add-text" type="button">T Add text</button><button id="editor-add-date" type="button">▦ Add date</button><button id="editor-delete" type="button">🗑 Remove selected</button></div>
+  <div id="editor-controls"><div class="watermark-card"><div class="watermark-compact"><label for="editor-watermark-text">Watermark</label><input id="editor-watermark-text" aria-label="Watermark text" value="DRAFT" maxlength="60"><select id="editor-watermark-angle" aria-label="Watermark direction"><option value="-45" selected>Diagonal ↗</option><option value="0">Horizontal →</option><option value="45">Diagonal ↘</option><option value="-90">Vertical ↑</option></select><div class="watermark-opacity"><label for="editor-watermark-opacity">Transparency</label><select id="editor-watermark-opacity" aria-label="Watermark transparency" title="Transparency"><option value="0">0%</option><option value="25">25%</option><option value="50" selected>50%</option><option value="75">75%</option><option value="90">90%</option></select></div><button type="button" id="editor-watermark-shortcut" class="watermark-apply" aria-label="Apply watermark" title="Apply watermark">✓</button></div></div></div>
     <div class="editor-toolbar" aria-label="Document editing helpers" hidden><button type="button" id="editor-undo">↶ Undo</button><button type="button" id="editor-redo">↷ Redo</button></div>
     <label for="editor-template">Quick text templates</label><select id="editor-template"><option value="">Choose a reusable phrase</option><option value="Approved">Approved</option><option value="Reviewed">Reviewed</option><option value="Received">Received</option><option value="Please sign and return">Please sign and return</option><option value="Confidential">Confidential</option><option value="Date: ">Date label</option></select>
     <label for="editor-text">Text / typed signature</label><input id="editor-text" placeholder="Enter text to place on the document" />
@@ -820,7 +914,7 @@ button:disabled{opacity:.45!important;box-shadow:none!important}
       <p id="pdf-tool-status" class="tool-note" role="status" aria-live="polite">Ready when a PDF is imported.</p>
       <div class="pdf-compare" id="workshop-preview-group"><div><strong>Source PDF preview</strong><div class="pdf-page-controls page-stepper"><button id="source-prev" type="button" aria-label="Previous source page">‹</button><span id="source-page-label">No document</span><button id="source-next" type="button" aria-label="Next source page">›</button></div><canvas class="preview-collapsed" id="source-preview" aria-label="Source PDF page preview"></canvas></div><div><strong>Result preview — review before saving</strong><div class="pdf-page-controls page-stepper"><button id="result-prev" type="button" aria-label="Previous result page">‹</button><span id="result-page-label">No document</span><button id="result-next" type="button" aria-label="Next result page">›</button></div><canvas class="preview-collapsed" id="result-preview" aria-label="Result PDF page preview"></canvas><pre id="result-text-preview" style="display:none;white-space:pre-wrap;max-height:340px;overflow:auto"></pre></div></div>
       <div class="toolgrid workshop-export-bottom" id="workshop-export-group"><button type="button" id="save-tool-library" disabled>Save to Library</button><button type="button" id="download-tool-result" disabled>Download PDF</button><button type="button" id="share-tool-result" disabled>Share PDF</button></div>
-      <p class="tool-note"><strong>Limitations:</strong> Automatic form-field recognition and Apple Pencil freehand annotation are not implemented. Batch watermarking and page organization are available below.  Password-protected PDFs, certificate-based signatures, translation, AI chat, and precise automatic form recognition are not included. Image-based compression can increase size and removes searchable text. Text extraction only works on PDFs that already contain text.</p>
+      <p class="tool-note"><strong>Limitations:</strong> Automatic form-field recognition and Apple Pencil freehand annotation are not implemented. Page organization is available below. Password-protected PDFs, certificate-based signatures, translation, AI chat, and precise automatic form recognition are not included. Image-based compression can increase size and removes searchable text. Text extraction only works on PDFs that already contain text.</p>
       <section class="advanced-suite" id="advanced-suite" aria-label="Advanced document tools">
         <h3>Advanced document tools</h3>
         <p class="tool-note">Work on a separate copy. Your original and saved documents remain unchanged.</p>
@@ -836,7 +930,7 @@ button:disabled{opacity:.45!important;box-shadow:none!important}
           <button type="button" id="advanced-remove">Remove selected page</button>
           <button type="button" id="advanced-export">Export organized PDF</button>
         </div>
-        <details><summary>Batch watermark</summary>
+        <details hidden><summary>Batch watermark</summary>
           <label for="advanced-stamp">Text for every page</label><input id="advanced-stamp" value="CONFIDENTIAL">
           <button type="button" id="advanced-batch">Apply watermark to all pages and export</button>
         </details>
@@ -851,7 +945,7 @@ button:disabled{opacity:.45!important;box-shadow:none!important}
           <button type="button" id="advanced-compare">Compare text by page</button>
           <p class="tool-note">Compares extractable text, not visual layout or scanned images without OCR.</p>
         </details>
-        <details><summary>Receipt / expense extraction</summary>
+        <details hidden><summary>Receipt / expense extraction</summary>
           <button type="button" id="advanced-receipt">Extract candidate dates and totals to CSV</button>
           <p class="tool-note">Rule-based candidates from existing PDF text; verify against the original receipt.</p>
         </details>
@@ -2109,6 +2203,7 @@ button:disabled{opacity:.45!important;box-shadow:none!important}
     // Library is a dedicated navigation state, not an overlay on the scanner.
     let previousLibraryTask='home';
     function openLibrary(){
+      if(helpScreen.classList.contains('open'))closeHelp();
       closeTour();
       const match=document.body.className.match(/task-(home|studio|workshop|sign)-mode/);
       previousLibraryTask=match?match[1]:'home';
@@ -2259,7 +2354,7 @@ button:disabled{opacity:.45!important;box-shadow:none!important}
     const taskNames={sign:'Add Text & Sign',workshop:'PDF Tools',studio:'Document Studio'};
     function switchTask(task){
       if(typeof closeTour==='function')closeTour();
-      if(typeof closeHelp==='function'&&document.getElementById('help-screen')?.classList.contains('active'))closeHelp();
+      if(document.getElementById('help-screen')?.classList.contains('open'))closeHelp();
       document.body.classList.remove('task-home-mode','task-sign-mode','task-workshop-mode','task-studio-mode','library-mode');
       els.historyView.classList.remove('active');
       document.getElementById('tabs-library').classList.remove('active');
@@ -2274,7 +2369,8 @@ button:disabled{opacity:.45!important;box-shadow:none!important}
     document.getElementById('home-help').onclick=openHelp;
     document.getElementById('home-library-shortcut').onclick=openLibrary;
     document.getElementById('tabs-library').onclick=openLibrary;
-    document.getElementById('tabs-help').onclick=openHelp;
+    document.getElementById('tabs-help').onclick=()=>{if(helpScreen.classList.contains('open'))closeHelp();else openHelp('general');};
+    document.querySelectorAll('[data-help-destination]').forEach(button=>button.addEventListener('click',()=>{const destination=button.dataset.helpDestination;closeHelp();if(destination==='library')openLibrary();else switchTask(destination);}));
     document.getElementById('home-cache-shortcut').onclick=()=>{const b=document.querySelector('[data-build-check]');if(b)b.click();};
 
     // v3.2: keep empty preview panels compact until a real page is rendered.

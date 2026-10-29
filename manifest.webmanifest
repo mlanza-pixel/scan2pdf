@@ -1,40 +1,34 @@
 {
-  "$schema": "https://json.schemastore.org/web-manifest.json",
-  "id": "/scan2pdf/",
   "name": "DocuScan Pro",
-  "short_name": "DocuScan Pro",
-  "description": "Mobile-first document scanning, PDF editing, signing, conversion, and document management PWA.",
-  "start_url": "/scan2pdf/index.html",
-  "scope": "/scan2pdf/",
+  "short_name": "DocuScan",
+  "description": "Scan, edit, sign, merge, split, watermark, and export PDF documents — local-first PWA.",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "theme_color": "#007AFF",
   "background_color": "#F2F2F7",
-  "categories": ["utilities", "productivity"],
+  "theme_color": "#007AFF",
   "icons": [
     {
-      "src": "/scan2pdf/assets/icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
+      "src": "assets/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "/scan2pdf/assets/icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/scan2pdf/assets/icons/icon-maskable-192.png",
+      "src": "assets/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     },
     {
-      "src": "/scan2pdf/assets/icons/icon-maskable-512.png",
+      "src": "assets/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "categories": ["productivity", "utilities"],
+  "lang": "en",
+  "dir": "ltr"
 }

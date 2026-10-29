@@ -1,94 +1,92 @@
-/**
- * DocuScan Pro - Service Worker
- * Version: v4.8.6
- * Strategy: Cache-First for static app shell, background refresh for cache updates.
- */
+/* =====================================================================
+   DocuScan Pro — Service Worker
+   Cache-version strategy: bump CACHE_VERSION on every release to
+   invalidate stale caches. Stale-while-revalidate for CDN assets
+   (pdf.js, pdf-lib, Tesseract.js) so first use is online, subsequent
+   uses are offline.
+   ===================================================================== */
 
-const CACHE_NAME = 'docuscan-pro-v4.8.6';
-const BASE_PATH = '/scan2pdf';
+const CACHE_VERSION = 'v5-0-0';
+const APP_CACHE = `docuscan-app-${CACHE_VERSION}`;
+const ASSET_CACHE = `docuscan-assets-${CACHE_VERSION}`;
 
-// Core static assets required for offline app shell execution
-const PRECACHE_ASSETS = [
-  BASE_PATH + '/',
-  BASE_PATH + '/index.html',
-  BASE_PATH + '/manifest.webmanifest',
-  BASE_PATH + '/css/tokens.css',
-  BASE_PATH + '/css/components.css',
-  BASE_PATH + '/css/layout.css',
-  BASE_PATH + '/css/responsive.css',
-  BASE_PATH + '/js/app.js',
-  BASE_PATH + '/js/navigation.js',
-  BASE_PATH + '/js/storage.js',
-  BASE_PATH + '/js/scanner.js',
-  BASE_PATH + '/js/image-processing.js',
-  BASE_PATH + '/js/ocr.js',
-  BASE_PATH + '/js/pdf-renderer.js',
-  BASE_PATH + '/js/pdf-editor.js',
-  BASE_PATH + '/js/pdf-tools.js',
-  BASE_PATH + '/js/signatures.js',
-  BASE_PATH + '/js/watermark.js',
-  BASE_PATH + '/js/export.js',
-  BASE_PATH + '/js/pwa.js'
+// Local application shell — versioned
+const APP_SHELL = [
+  './',
+  './index.html',
+  './css/tokens.css',
+  './css/components.css',
+  './css/layout.css',
+  './css/responsive.css',
+  './js/app.js',
+  './js/navigation.js',
+  './js/storage.js',
+  './js/scanner.js',
+  './js/image-processing.js',
+  './js/ocr.js',
+  './js/pdf-renderer.js',
+  './js/pdf-editor.js',
+  './js/pdf-tools.js',
+  './js/signatures.js',
+  './js/watermark.js',
+  './js/export.js',
+  './manifest.webmanifest',
+  './assets/icons/icon.svg',
 ];
 
-// Install Event: Precache app shell
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(PRECACHE_ASSETS);
-    }).then(() => self.skipWaiting())
+    caches.open(APP_CACHE).then(cache => cache.addAll(APP_SHELL))
+      .then(() => self.skipWaiting())
   );
 });
 
-// Activate Event: Clear stale cache versions safely upon deployment
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cache) => {
-          if (cache !== CACHE_NAME) {
-            return caches.delete(cache);
-          }
-        })
-      );
-    }).then(() => self.clients.claim())
+    caches.keys().then(keys =>
+      Promise.all(
+        keys
+          .filter(k => k !== APP_CACHE && k !== ASSET_CACHE)
+          .map(k => caches.delete(k))
+      )
+    ).then(() => self.clients.claim())
   );
 });
 
-// Fetch Event: Cache-First strategy with dynamic network update
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
-
+  const req = event.request;
+  // Only handle GET
+  if (req.method !== 'GET') return;
+  const url = new URL(req.url);
+  // CDN assets: stale-while-revalidate
+  if (url.origin !== self.location.origin) {
+    event.respondWith(
+      caches.open(ASSET_CACHE).then(async (cache) => {
+        const cached = await cache.match(req);
+        const fetchPromise = fetch(req).then((res) => {
+          if (res && res.status === 200) cache.put(req, res.clone());
+          return res;
+        }).catch(() => cached);
+        return cached || fetchPromise;
+      })
+    );
+    return;
+  }
+  // App shell: cache-first, fallback to network, then offline fallback
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        // Fetch background update for cache
-        fetch(event.request).then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, networkResponse);
-            });
-          }
-        }).catch(() => {/* Offline: gracefully ignore network failure */});
-
-        return cachedResponse;
-      }
-
-      return fetch(event.request).then((networkResponse) => {
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-          return networkResponse;
+    caches.match(req).then(cached => {
+      if (cached) return cached;
+      return fetch(req).then((res) => {
+        // Cache same-origin GETs
+        if (res && res.status === 200 && res.type === 'basic') {
+          const clone = res.clone();
+          caches.open(APP_CACHE).then(c => c.put(req, clone));
         }
-
-        const responseToCache = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
-        });
-
-        return networkResponse;
+        return res;
       }).catch(() => {
-        if (event.request.headers.get('accept')?.includes('text/html')) {
-          return caches.match(BASE_PATH + '/index.html');
-        }
+        // Fallback to index.html for navigations
+        if (req.mode === 'navigate') return caches.match('./index.html');
+        return new Response('', { status: 504, statusText: 'Offline' });
       });
     })
   );

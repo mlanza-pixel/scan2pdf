@@ -8,7 +8,7 @@
 .splash {
   position: fixed; inset: 0;
   z-index: var(--z-modal);
-  background: linear-gradient(160deg, #007AFF 0%, #00C6FF 60%, #F2F2F7 100%);
+  background: linear-gradient(160deg, var(--color-primary) 0%, #00C6FF 60%, var(--color-background) 100%);
   display: flex; align-items: center; justify-content: center;
   padding: var(--space-4);
   animation: fade-in var(--motion-default);
@@ -90,15 +90,16 @@
 /* ---- Per-page "Tour this page" button ---- */
 .page-tour-btn {
   display: inline-flex; align-items: center; gap: 6px;
-  height: 32px; padding: 0 12px;
+  height: 44px; padding: 0 16px;
   border-radius: var(--radius-pill);
   background: var(--color-primary-soft);
   color: var(--color-primary);
   border: 1px solid var(--color-primary);
-  font-size: var(--fs-label); font-weight: var(--fw-medium);
+  font-size: 15px; font-weight: var(--fw-semibold);
   cursor: pointer;
   transition: all var(--motion-fast);
   -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
 }
 .page-tour-btn:hover {
   background: var(--color-primary); color: #fff;

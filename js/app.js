@@ -21,7 +21,7 @@ import { listDocuments, getDocument, renameDocument, deleteDocument, estimateSto
 import { parseRanges, runMerge, runSplit, runRotate, runReorder, runWatermark, runAnnotateText, runAnnotateDrawing } from './pdf-tools.js';
 import { maybeShowWelcome, initHelpCenter, attachContextHelp } from './help-system.js';
 
-const APP_VERSION = '5.1.5';
+const APP_VERSION = '5.1.8';
 const APP_BUILD = '2026-10-29';
 
 /* ---------------- Shared app state ---------------- */
@@ -366,7 +366,17 @@ function initStudioWorkspace() {
   });
   document.getElementById('btnCopyOcr').addEventListener('click', () => {
     if (!ocrResult.value) { toast('Nothing to copy.', 'warning'); return; }
-    navigator.clipboard.writeText(ocrResult.value).then(() => toast('Copied.', 'success'));
+    const text = ocrResult.value;
+    // Try clipboard API first, fall back to temporary textarea + execCommand
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        toast('Copied to clipboard.', 'success');
+      }).catch(() => {
+        copyTextFallback(text);
+      });
+    } else {
+      copyTextFallback(text);
+    }
   });
   document.getElementById('btnDownloadOcr').addEventListener('click', () => {
     if (!ocrResult.value) { toast('Nothing to download.', 'warning'); return; }
@@ -1240,6 +1250,13 @@ async function loadToolsDocument(bytes, name) {
   document.getElementById('btnAddSecondPdf').disabled = false;
   document.getElementById('btnRunToolOp').disabled = false;
   document.getElementById('btnPreviewTool').disabled = false;
+  // KEY FIX: enable export buttons as soon as a PDF is loaded — they fall
+  // back to source bytes if no operation output yet. This way the user
+  // can save/download/share/print the source PDF without first clicking Run.
+  document.getElementById('btnToolsSave').disabled = false;
+  document.getElementById('btnToolsDownload').disabled = false;
+  document.getElementById('btnToolsShare').disabled = false;
+  document.getElementById('btnToolsPrint').disabled = false;
   await renderToolsPreview(bytes, 'source');
   renderToolsPanel();
   return true;
@@ -1617,11 +1634,12 @@ function initToolsWorkspace() {
         });
         out = await runWatermark(tools.bytes, cfg);
       } else if (tab === 'compare') {
-        // No mutation — just render both PDFs side-by-side
+        // Compare is view-only — no output bytes produced, but we still
+        // render the comparison and DON'T return early (so the finally
+        // block restores the Run button properly).
         await renderCompareView();
-        // Skip the "save output" path below — Compare is view-only
         toast('Compare view rendered below.', 'success');
-        return;
+        // Don't enable export buttons — compare doesn't produce a new PDF
       }
       if (out) {
         tools.outputBytes = out;
@@ -1646,24 +1664,29 @@ function initToolsWorkspace() {
   });
 
   document.getElementById('btnToolsSave').addEventListener('click', async () => {
-    if (!tools.outputBytes) return;
+    // Fallback to source bytes if no operation output yet
+    const bytes = tools.outputBytes || tools.bytes;
+    if (!bytes) { toast('Open a PDF and run an operation first.', 'warning'); return; }
     const name = `Tools_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')}`;
-    await saveToLibrary(tools.outputBytes, { name });
+    await saveToLibrary(bytes, { name });
     toast(`Saved "${name}.pdf" to Library.`, 'success');
   });
   document.getElementById('btnToolsDownload').addEventListener('click', () => {
-    if (!tools.outputBytes) return;
-    downloadPdf(tools.outputBytes, `Tools_${Date.now()}`);
+    const bytes = tools.outputBytes || tools.bytes;
+    if (!bytes) { toast('Open a PDF and run an operation first.', 'warning'); return; }
+    downloadPdf(bytes, `Tools_${Date.now()}`);
     toast('Download started.', 'success');
   });
   document.getElementById('btnToolsShare').addEventListener('click', async () => {
-    if (!tools.outputBytes) return;
-    const r = await sharePdf(tools.outputBytes, `Tools_${Date.now()}`);
+    const bytes = tools.outputBytes || tools.bytes;
+    if (!bytes) { toast('Open a PDF and run an operation first.', 'warning'); return; }
+    const r = await sharePdf(bytes, `Tools_${Date.now()}`);
     if (r.method === 'download-fallback') toast('Sharing unavailable — download started instead.', 'warning');
   });
   document.getElementById('btnToolsPrint').addEventListener('click', () => {
-    if (!tools.outputBytes) return;
-    printPdf(tools.outputBytes, `Tools_${Date.now()}`);
+    const bytes = tools.outputBytes || tools.bytes;
+    if (!bytes) { toast('Open a PDF and run an operation first.', 'warning'); return; }
+    printPdf(bytes, `Tools_${Date.now()}`);
   });
 
   renderToolsPanel();
@@ -1790,6 +1813,23 @@ function initHelpWorkspace() {
 document.getElementById('btnAbout').addEventListener('click', () => {
   toast(`DocuScan Pro v${APP_VERSION} • build ${APP_BUILD}`, '');
 });
+
+/* ---------------- Clipboard fallback ---------------- */
+function copyTextFallback(text) {
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast('Copied to clipboard.', 'success');
+  } catch (err) {
+    toast('Copy unavailable — select the text and use Ctrl+C.', 'warning');
+  }
+}
 
 /* ---------------- Boot ---------------- */
 function boot() {

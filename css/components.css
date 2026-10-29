@@ -51,7 +51,7 @@ img, canvas, svg { display: block; max-width: 100%; }
   gap: var(--space-3);
   height: var(--nav-height);
   padding: 0 var(--space-4);
-  background: rgba(242, 242, 247, 0.85);
+  background: color-mix(in srgb, var(--color-background) 85%, transparent);
   backdrop-filter: saturate(180%) blur(16px);
   -webkit-backdrop-filter: saturate(180%) blur(16px);
   border-bottom: 0.5px solid var(--color-border-soft);
@@ -91,7 +91,7 @@ img, canvas, svg { display: block; max-width: 100%; }
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   height: var(--nav-height);
-  background: rgba(255, 255, 255, 0.92);
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
   backdrop-filter: saturate(180%) blur(16px);
   -webkit-backdrop-filter: saturate(180%) blur(16px);
   border-top: 0.5px solid var(--color-border-soft);
@@ -167,7 +167,7 @@ img, canvas, svg { display: block; max-width: 100%; }
   color: #fff;
 }
 .btn:disabled {
-  opacity: 0.4; cursor: not-allowed; transform: none; filter: grayscale(0.3);
+  opacity: 0.45; cursor: not-allowed; transform: none; filter: none;
   background: var(--color-primary);
   color: #fff;
 }

@@ -31,10 +31,12 @@ export function downloadPdf(bytes, name) {
   a.rel = 'noopener';
   document.body.appendChild(a);
   a.click();
+  // Delay cleanup so the browser has time to start the download.
+  // Too short = "net::ERR_ABORTED" on the blob URL.
   setTimeout(() => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-  }, 1500);
+  }, 3000);
 }
 
 export async function sharePdf(bytes, name, { title, text } = {}) {

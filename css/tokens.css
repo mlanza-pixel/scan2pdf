@@ -15,8 +15,8 @@
   --fs-page-title: 30px;
   --fs-section: 19px;
   --fs-body: 16px;
-  --fs-button: 16px;
-  --fs-label: 13px;
+  --fs-button: 17px;
+  --fs-label: 14px;
   --fs-secondary: 12px;
 
   --fw-regular: 400;
@@ -28,9 +28,9 @@
   --color-background: #F2F2F7;
   --color-surface: #FFFFFF;
   --color-surface-secondary: #F9F9FB;
-  --color-primary: #007AFF;
-  --color-primary-pressed: #0062CC;
-  --color-primary-soft: rgba(0, 122, 255, 0.10);
+  --color-primary: #0066CC;
+  --color-primary-pressed: #004B99;
+  --color-primary-soft: rgba(0, 102, 204, 0.10);
   --color-text: #1C1C1E;
   --color-secondary: #6E6E73;
   --color-tertiary: #8E8E93;
@@ -82,6 +82,23 @@
   --z-overlay: 500;
   --z-modal: 1000;
   --z-toast: 2000;
+}
+
+/* ---- Dark mode ---- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #000000;
+    --color-surface: #1C1C1E;
+    --color-surface-secondary: #2C2C2E;
+    --color-text: #FFFFFF;
+    --color-secondary: #EBEBF5;
+    --color-tertiary: #EBEBF5;
+    --color-border: #38383A;
+    --color-border-soft: #38383A;
+    --color-primary-soft: rgba(10, 132, 255, 0.20);
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
+    --shadow-elevated: 0 4px 16px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.3);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

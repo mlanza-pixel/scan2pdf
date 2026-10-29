@@ -20,6 +20,15 @@ async def main():
         page = await ctx.new_page()
         await page.goto(BASE, wait_until='networkidle', timeout=15000)
         await page.wait_for_timeout(500)
+        # Dismiss the first-launch welcome modal if it appears
+        try:
+            skip_btn = await page.wait_for_selector('.welcome-modal [data-welcome="skip"]', timeout=2000)
+            if skip_btn:
+                await skip_btn.click()
+                await page.wait_for_timeout(300)
+        except Exception:
+            pass
+
         await page.click('.bottom-nav__item[data-goto="sign"]')
         await page.wait_for_timeout(400)
         await page.set_input_files('#signPdfInput', str(SAMPLE_PDF))

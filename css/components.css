@@ -374,6 +374,81 @@ img, canvas, svg { display: block; max-width: 100%; }
   background: #fff;
 }
 
+/* Stage = exact-size container that holds canvas + overlay boxes.
+   Overlay boxes use position:absolute relative to this, so click→overlay
+   mapping is pixel-perfect (no offset from wrap padding). */
+.pdf-canvas-stage {
+  position: relative;
+  display: inline-block;
+}
+.pdf-canvas-stage > canvas {
+  display: block;
+  max-width: none;
+}
+
+/* Object overlay (text/signature/watermark placeholder shown over canvas).
+   Transparent background, ink-colored text — visually matches the PDF. */
+.object-overlay {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  user-select: none;
+  padding: 2px 4px;
+  border-radius: 3px;
+  border: 1px dashed transparent;
+  transition: border-color 120ms ease;
+  white-space: nowrap;
+  background: transparent;
+}
+.object-overlay:hover { border-color: rgba(0,122,255,0.4); }
+.object-overlay.is-selected {
+  border: 1px solid var(--color-primary);
+  border-style: solid;
+}
+.object-overlay.is-dragging { cursor: grabbing; }
+/* Resize handle (bottom-right corner) */
+.object-overlay__resize {
+  position: absolute;
+  right: -6px; bottom: -6px;
+  width: 12px; height: 12px;
+  background: var(--color-primary);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  cursor: nwse-resize;
+  display: none;
+  touch-action: none;
+}
+.object-overlay.is-selected .object-overlay__resize { display: block; }
+
+/* ---- Freehand drawing overlay (PDF Tools → Annotate → Draw) ---- */
+.draw-overlay {
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  touch-action: none;
+  cursor: crosshair;
+  background: transparent;
+}
+
+/* ---- Document Compare (side-by-side) ---- */
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+@media (max-width: 768px) {
+  .compare-grid { grid-template-columns: 1fr; }
+}
+.compare-pane { display: flex; flex-direction: column; gap: var(--space-2); }
+.compare-pane__label {
+  font-size: var(--fs-label);
+  font-weight: var(--fw-semibold);
+  color: var(--color-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.compare-pane .pdf-canvas-wrap { min-height: 360px; }
+
 /* ---- Thumbnail strip ---- */
 .thumb-strip {
   display: flex; gap: var(--space-2);

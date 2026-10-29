@@ -6,7 +6,7 @@
    uses are offline.
    ===================================================================== */
 
-const CACHE_VERSION = 'v5-0-0';
+const CACHE_VERSION = 'v5-1-0';
 const APP_CACHE = `docuscan-app-${CACHE_VERSION}`;
 const ASSET_CACHE = `docuscan-assets-${CACHE_VERSION}`;
 
@@ -18,6 +18,7 @@ const APP_SHELL = [
   './css/components.css',
   './css/layout.css',
   './css/responsive.css',
+  './css/help-system.css',
   './js/app.js',
   './js/navigation.js',
   './js/storage.js',
@@ -30,6 +31,7 @@ const APP_SHELL = [
   './js/signatures.js',
   './js/watermark.js',
   './js/export.js',
+  './js/help-system.js',
   './manifest.webmanifest',
   './assets/icons/icon.svg',
 ];

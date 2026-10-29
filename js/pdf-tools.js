@@ -6,7 +6,7 @@
    ===================================================================== */
 
 import {
-  mergePdfs, splitPdf, rotatePdf, reorderPdf, insertWatermark, insertTextElement,
+  mergePdfs, splitPdf, rotatePdf, reorderPdf, insertWatermark, insertTextElement, insertDrawing,
 } from './pdf-editor.js';
 
 export async function runMerge(primaryBytes, additionalBytesList, opts = {}) {
@@ -69,5 +69,14 @@ export async function runAnnotateText(bytes, pageIdx, opts) {
   const { PDFDocument } = lib;
   const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
   await insertTextElement(doc, pageIdx, opts);
+  return await doc.save();
+}
+
+export async function runAnnotateDrawing(bytes, pageIdx, pngBytes) {
+  const lib = window.PDFLib;
+  if (!lib) throw new Error('pdf-lib not loaded.');
+  const { PDFDocument } = lib;
+  const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+  await insertDrawing(doc, pageIdx, pngBytes);
   return await doc.save();
 }

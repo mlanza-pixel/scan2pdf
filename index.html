@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/layout.css" />
   <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="stylesheet" href="css/help-system.css" />
 </head>
 <body>
 <div class="app-shell">
@@ -427,7 +428,12 @@
                 <div class="empty-state__title">No document</div>
                 <div class="empty-state__sub">Open a PDF from the left panel to begin.</div>
               </div>
-              <canvas id="signCanvas" hidden></canvas>
+              <!-- Stage is exactly the size of the canvas; overlay boxes
+                   are positioned inside it so click→overlay mapping is
+                   pixel-perfect regardless of wrap padding. -->
+              <div class="pdf-canvas-stage" id="signCanvasStage" hidden>
+                <canvas id="signCanvas"></canvas>
+              </div>
             </div>
             <div class="row" style="margin-top:var(--space-3)">
               <span class="badge badge--secondary" id="signDocInfo">No document loaded</span>
@@ -471,6 +477,7 @@
             <button class="tools-tab" data-tab="reorder" role="tab">Reorder</button>
             <button class="tools-tab" data-tab="annotate" role="tab">Annotate</button>
             <button class="tools-tab" data-tab="watermark" role="tab">Watermark</button>
+            <button class="tools-tab" data-tab="compare" role="tab">Compare</button>
           </div>
 
           <div class="stack" id="toolsPanel" style="margin-top:var(--space-4)">
@@ -498,7 +505,29 @@
               <div class="empty-state__title">No preview yet</div>
               <div class="empty-state__sub">Open a PDF and run an operation.</div>
             </div>
-            <canvas id="toolsCanvas" hidden></canvas>
+            <div class="pdf-canvas-stage" id="toolsCanvasStage" hidden>
+              <canvas id="toolsCanvas"></canvas>
+              <!-- For draw-annotate mode: an overlay canvas sits on top
+                   of the rendered PDF page so user strokes map onto it. -->
+              <canvas id="toolsDrawCanvas" class="draw-overlay" hidden></canvas>
+            </div>
+          </div>
+          <!-- Side-by-side comparison view (Compare tab) -->
+          <div id="compareView" hidden style="margin-top:var(--space-3)">
+            <div class="compare-grid">
+              <div class="compare-pane">
+                <div class="compare-pane__label">File A</div>
+                <div class="pdf-canvas-wrap" id="compareLeftWrap">
+                  <div class="empty-state"><div class="empty-state__sub">Open primary PDF</div></div>
+                </div>
+              </div>
+              <div class="compare-pane">
+                <div class="compare-pane__label">File B</div>
+                <div class="pdf-canvas-wrap" id="compareRightWrap">
+                  <div class="empty-state"><div class="empty-state__sub">Open 2nd PDF</div></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -524,11 +553,37 @@
     <section class="workspace" id="ws-help" data-workspace="help" aria-label="Help">
       <div class="page-header">
         <h1 class="page-header__title">Help</h1>
-        <p class="page-header__sub">How DocuScan Pro works, and what it can and cannot do.</p>
+        <p class="page-header__sub">Browse illustrated guides or search for any feature. Tap a topic to open step-by-step instructions.</p>
       </div>
+
       <div class="section">
-        <div class="grouped-list" id="helpAccordion"></div>
+        <div class="help-search">
+          <input type="search" class="help-search__input" id="helpSearchInput" placeholder="Search help — try “sign”, “scan”, “watermark”, “merge”…" aria-label="Search help topics" />
+          <span class="help-search__icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </span>
+        </div>
+
+        <h2 class="section__title">All topics</h2>
+        <div class="help-topics" id="helpTopics" aria-live="polite"></div>
       </div>
+
+      <div class="section">
+        <h2 class="section__title">Interactive tutorial</h2>
+        <div class="card card--padded">
+          <h3 class="card__title">First-time walkthrough</h3>
+          <p class="card__subtitle">Replay the guided tour of all six workspaces. Takes about two minutes.</p>
+          <div class="row">
+            <button class="btn btn--primary" id="btnRestartTutorial" type="button">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              Restart interactive tutorial
+            </button>
+            <div class="spacer"></div>
+            <span class="badge badge--secondary" id="tutorialStatus">Not yet completed</span>
+          </div>
+        </div>
+      </div>
+
       <div class="section">
         <div class="card card--padded">
           <h3 class="card__title">Privacy &amp; local storage</h3>
@@ -618,6 +673,7 @@
 
   <!-- ============== Application scripts (one pinned version each) ============== -->
   <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/help-system.js"></script>
 </div>
 </body>
 </html>

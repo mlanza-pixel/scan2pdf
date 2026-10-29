@@ -142,6 +142,28 @@ export async function insertImageElement(doc, pageIdx, pngBytes, opts) {
   });
 }
 
+/**
+ * Insert a freehand drawing (PNG with transparency) onto a PDF page.
+ * The drawing canvas's pixel size is assumed to match the rendered page
+ * (so 1:1 overlay). We scale it to the actual page dimensions.
+ */
+export async function insertDrawing(doc, pageIdx, pngBytes, opts = {}) {
+  const lib = await loadPdfLib();
+  const pages = doc.getPages();
+  if (pageIdx < 0 || pageIdx >= pages.length) throw new Error('Page index out of range');
+  const page = pages[pageIdx];
+  const { width, height } = page.getSize();
+  const img = await doc.embedPng(pngBytes);
+  // Stretch drawing to full page size — the drawing canvas was rendered at
+  // the same aspect ratio as the PDF page, so this preserves proportions.
+  page.drawImage(img, {
+    x: 0, y: 0,
+    width,
+    height,
+    opacity: 1,
+  });
+}
+
 export async function insertWatermark(doc, opts) {
   const lib = await loadPdfLib();
   const { StandardFonts, rgb, degrees } = lib;

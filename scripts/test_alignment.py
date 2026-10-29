@@ -29,6 +29,15 @@ async def main():
         page.on('pageerror', lambda e: console_msgs.append(f"[pageerror] {e}"))
         await page.goto('http://localhost:8765/index.html#sign', wait_until='networkidle', timeout=15000)
         await page.wait_for_timeout(800)
+        # Dismiss the first-launch welcome modal if it appears
+        try:
+            skip_btn = await page.wait_for_selector('.welcome-modal [data-welcome="skip"]', timeout=2000)
+            if skip_btn:
+                await skip_btn.click()
+                await page.wait_for_timeout(300)
+        except Exception:
+            pass
+
         # Navigate to Sign workspace
         await page.evaluate("window.goto && goto('sign')")
         await page.wait_for_timeout(500)

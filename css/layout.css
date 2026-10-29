@@ -119,7 +119,9 @@
 /* CRITICAL: the Open PDF control and the page-navigation bar must share
    identical rendered width, height (48px), left edge, right edge, border,
    and radius. The wrapper `.sign-aligned-stack` enforces the same parent
-   width on both — they are full-width children of the same column. */
+   width on both — they are full-width children of the same column.
+   We share width/height/radius/border here, but we DO NOT override
+   background or color, so a .btn--primary child keeps its blue styling. */
 .sign-aligned-stack {
   display: flex;
   flex-direction: column;
@@ -131,6 +133,10 @@
   width: 100%;
   height: var(--control-height);
   border-radius: var(--radius-control);
+}
+/* Default surface styling for non-button children (e.g. the page-nav div).
+   Buttons (.btn) keep their own background/color from .btn--primary etc. */
+.sign-aligned-stack > *:not(.btn) {
   border: 1px solid var(--color-border);
   background: var(--color-surface);
 }

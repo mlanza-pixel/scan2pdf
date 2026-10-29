@@ -23,14 +23,22 @@ cp -r "$SRC_DIR/assets" "$STAGE_DIR/"
 cp -r "$SRC_DIR/scripts" "$STAGE_DIR/"
 cp -r "$SRC_DIR/.github" "$STAGE_DIR/"
 
+# Documentation deliverables (PDF, DOCX, XLSX Help Manual)
+cp "$SRC_DIR/download/DocuScan-Pro-Help-Manual.pdf" "$STAGE_DIR/docs/" 2>/dev/null || {
+  mkdir -p "$STAGE_DIR/docs"
+  cp "$SRC_DIR/download/DocuScan-Pro-Help-Manual.pdf" "$STAGE_DIR/docs/"
+  cp "$SRC_DIR/download/DocuScan-Pro-Help-Manual.docx" "$STAGE_DIR/docs/"
+  cp "$SRC_DIR/download/DocuScan-Pro-Help-Content-Inventory.xlsx" "$STAGE_DIR/docs/"
+}
+
 # Visual regression baselines (helpful for future PRs)
 mkdir -p "$STAGE_DIR/download/screenshots"
-cp "$SRC_DIR/download/screenshots/"*.png "$STAGE_DIR/download/screenshots/"
+cp "$SRC_DIR/download/screenshots/"*.png "$STAGE_DIR/download/screenshots/" 2>/dev/null || true
 
 # Verify
 echo
-echo "Staged contents:"
-( cd "$STAGE_DIR" && find . -type f | sort | sed 's|^\./|  |' )
+echo "Staged top-level contents:"
+( cd "$STAGE_DIR" && find . -maxdepth 2 -type d | sort )
 
 # Zip
 echo
@@ -42,10 +50,12 @@ rm -rf "$(dirname "$STAGE_DIR")"
 
 # Verify zip
 echo
-echo "Zip contents:"
-unzip -l "$OUT_ZIP" | head -50
-echo "..."
-unzip -l "$OUT_ZIP" | tail -5
+echo "Total files in zip:"
+unzip -l "$OUT_ZIP" | tail -1
+
+echo
+echo "Top-level entries in zip:"
+unzip -l "$OUT_ZIP" | awk 'NR>3 {print $4}' | grep -E '^docuscan-pro/[^/]*/?$' | sort -u | head -20
 
 echo
 echo "Wrote: $OUT_ZIP"

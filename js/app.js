@@ -18,9 +18,10 @@ import { SignaturePad, typedSignatureToPng } from './signatures.js';
 import { normalizeConfig, describe as describeWm } from './watermark.js';
 import { saveToLibrary, downloadPdf, sharePdf, printPdf, validatePdfBytes } from './export.js';
 import { listDocuments, getDocument, renameDocument, deleteDocument, estimateStorage } from './storage.js';
-import { parseRanges, runMerge, runSplit, runRotate, runReorder, runWatermark, runAnnotateText } from './pdf-tools.js';
+import { parseRanges, runMerge, runSplit, runRotate, runReorder, runWatermark, runAnnotateText, runAnnotateDrawing } from './pdf-tools.js';
+import { maybeShowWelcome, initHelpCenter, attachContextHelp } from './help-system.js';
 
-const APP_VERSION = '5.0.0';
+const APP_VERSION = '5.1.0';
 const APP_BUILD = '2026-10-29';
 
 /* ---------------- Shared app state ---------------- */
@@ -428,6 +429,7 @@ function initStudioWorkspace() {
 const sign = state.sign;
 let signCanvas = document.getElementById('signCanvas');
 let signCanvasWrap = document.getElementById('signCanvasWrap');
+let signCanvasStage = document.getElementById('signCanvasStage');
 let signEmptyState = document.getElementById('signEmptyState');
 let signDocInfo = document.getElementById('signDocInfo');
 let signHint = document.getElementById('signHint');
@@ -451,7 +453,7 @@ async function loadSignDocument(bytes, name) {
   await renderSignCurrentPage();
   // Update UI
   signEmptyState.hidden = true;
-  signCanvas.hidden = false;
+  signCanvasStage.hidden = false;
   signDocInfo.textContent = `${name || 'Document'} • ${sign.pageCount} page(s)`;
   document.getElementById('signPdfInput').value = '';
   updateSignPageNav();
@@ -498,43 +500,128 @@ async function renderSignCurrentPage() {
   drawObjectOverlay();
 }
 
+/**
+ * Render overlay boxes for the current page.
+ * Key fix: overlays are children of `signCanvasStage` (which exactly matches
+ * the canvas's rendered size), so normalized.x * stageRect.width gives the
+ * pixel-perfect left offset relative to the canvas (not the padded wrap).
+ */
 function drawObjectOverlay() {
-  // Object overlay rendered onto canvas via redraw each time the underlying
-  // pdf.js render completes. For positioning simplicity, we render boxes as
-  // DOM elements over the canvas — this avoids corrupting the pdf.js render.
-  // Remove existing overlays
-  signCanvasWrap.querySelectorAll('.object-overlay').forEach(n => n.remove());
-  const wrapRect = signCanvas.getBoundingClientRect();
+  if (!signCanvasStage) return;
+  signCanvasStage.querySelectorAll('.object-overlay').forEach(n => n.remove());
+  const stageRect = signCanvas.getBoundingClientRect();
   sign.objects.filter(o => o.page === sign.currentPage).forEach(o => {
     const box = document.createElement('div');
     box.className = 'object-overlay';
-    box.style.position = 'absolute';
-    box.style.left = (o.normalized.x * wrapRect.width) + 'px';
-    box.style.top = ((1 - o.normalized.y) * wrapRect.height) + 'px';
-    box.style.transform = 'translate(-50%, -50%)';
-    box.style.padding = '4px 8px';
-    box.style.background = o.color || '#1C1C1E';
-    box.style.color = '#fff';
-    box.style.fontFamily = 'sans-serif';
-    box.style.fontSize = Math.max(10, o.size) + 'px';
-    box.style.borderRadius = '4px';
-    box.style.border = o.id === sign.selectedObjectId ? '2px solid #007AFF' : '1px dashed rgba(255,255,255,0.4)';
-    box.style.cursor = 'pointer';
-    box.style.userSelect = 'none';
-    box.textContent = o.text || (o.type === 'signature' ? '[Signature]' : '[Object]');
-    box.addEventListener('click', (e) => {
-      e.stopPropagation();
-      sign.selectedObjectId = o.id;
-      drawObjectOverlay();
-      enableSignEditing(true);
-    });
-    signCanvasWrap.appendChild(box);
+    box.dataset.id = o.id;
+    if (o.id === sign.selectedObjectId) box.classList.add('is-selected');
+
+    box.style.left = (o.normalized.x * stageRect.width) + 'px';
+    box.style.top = ((1 - o.normalized.y) * stageRect.height) + 'px';
+
+    // Ink color is the TEXT color (not background). This matches the PDF output.
+    box.style.color = o.color || '#1C1C1E';
+    box.style.fontFamily = (o.fontFamily || 'Helvetica').replace(/-/g, ' ');
+    box.style.fontSize = Math.max(10, o.size || 14) + 'px';
+
+    // Content: signature shows thumbnail, text shows the text itself
+    if (o.type === 'signature' && o.pngBytes) {
+      // Render signature image inline so it looks like what will appear in the PDF
+      const blob = new Blob([o.pngBytes], { type: 'image/png' });
+      const url = URL.createObjectURL(blob);
+      const img = document.createElement('img');
+      img.src = url;
+      img.alt = 'Signature';
+      img.style.maxWidth = (o.widthPct || 30) * stageRect.width / 100 * 3.33 + 'px';
+      img.style.maxHeight = (o.heightPct || 9) * stageRect.height / 100 * 3.33 + 'px';
+      img.style.display = 'block';
+      box.appendChild(img);
+      // Revoke later — long enough for the box to render
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+    } else {
+      box.textContent = o.text || (o.type === 'date' ? 'Date' : '[Object]');
+    }
+
+    // Resize handle
+    const resize = document.createElement('div');
+    resize.className = 'object-overlay__resize';
+    box.appendChild(resize);
+
+    // Pointer interactions
+    attachOverlayInteractions(box, o, stageRect);
+    signCanvasStage.appendChild(box);
   });
 }
 
-signCanvasWrap.style.position = 'relative';
+/**
+ * Drag-to-move + resize handle for overlay boxes.
+ * Updates the object's normalized coordinates live, so when the user
+ * saves, the PDF reflects the visible position.
+ */
+function attachOverlayInteractions(box, obj, stageRect) {
+  let mode = null; // 'drag' | 'resize'
+  let startPointer = null;
+  let startObj = null;
 
-signCanvasWrap.addEventListener('click', (e) => {
+  // Click-to-select (and prevent it from triggering the wrap's drop-text)
+  box.addEventListener('pointerdown', (e) => {
+    if (e.target.classList.contains('object-overlay__resize')) {
+      mode = 'resize';
+    } else {
+      mode = 'drag';
+    }
+    e.stopPropagation();
+    e.preventDefault();
+    sign.selectedObjectId = obj.id;
+    drawObjectOverlay();
+    enableSignEditing(true);
+    box.classList.add('is-dragging');
+    box.setPointerCapture(e.pointerId);
+    startPointer = { x: e.clientX, y: e.clientY };
+    startObj = { x: obj.normalized.x, y: obj.normalized.y, widthPct: obj.widthPct, heightPct: obj.heightPct };
+  });
+
+  box.addEventListener('pointermove', (e) => {
+    if (!mode || !startPointer) return;
+    e.stopPropagation();
+    const dx = e.clientX - startPointer.x;
+    const dy = e.clientY - startPointer.y;
+    if (mode === 'drag') {
+      const nx = startObj.x + dx / stageRect.width;
+      const ny = startObj.y - dy / stageRect.height; // y inverted: stage top is y=1
+      obj.normalized.x = Math.max(0, Math.min(1, nx));
+      obj.normalized.y = Math.max(0, Math.min(1, ny));
+    } else if (mode === 'resize') {
+      const dw = dx / stageRect.width * 100;
+      const dh = dy / stageRect.height * 100;
+      obj.widthPct = Math.max(2, Math.min(100, startObj.widthPct + dw * 2));
+      obj.heightPct = Math.max(1, Math.min(100, startObj.heightPct + dh * 2));
+      // Also bump font size for text/date so the visible text scales with the box
+      if (obj.type === 'text' || obj.type === 'date') {
+        obj.size = Math.max(8, Math.min(144, (obj.heightPct / 9) * 14));
+      }
+    }
+    // Update live (without rebuilding the whole overlay — that would lose pointer capture)
+    box.style.left = (obj.normalized.x * stageRect.width) + 'px';
+    box.style.top = ((1 - obj.normalized.y) * stageRect.height) + 'px';
+    box.style.fontSize = Math.max(10, obj.size || 14) + 'px';
+  });
+
+  const endDrag = (e) => {
+    if (!mode) return;
+    mode = null;
+    startPointer = null;
+    box.classList.remove('is-dragging');
+    try { box.releasePointerCapture(e.pointerId); } catch {}
+    // Re-render fully so the resize handle stays anchored correctly
+    drawObjectOverlay();
+    enableSignEditing(true);
+  };
+  box.addEventListener('pointerup', endDrag);
+  box.addEventListener('pointercancel', endDrag);
+}
+
+signCanvasStage.addEventListener('click', (e) => {
   // Drop a text element at the clicked location if a text string is staged
   if (!sign.bytes) return;
   if (e.target.closest('.object-overlay')) return;
@@ -543,9 +630,10 @@ signCanvasWrap.addEventListener('click', (e) => {
     toast('Type text first, or use the buttons above to add an element.', 'warning');
     return;
   }
-  const rect = signCanvasWrap.getBoundingClientRect();
+  // Use the STAGE rect (= canvas rect) so click coords map directly to the canvas
+  const rect = signCanvas.getBoundingClientRect();
   const x = (e.clientX - rect.left) / rect.width;
-  const y = (e.clientY - rect.top) / rect.height;
+  const y = 1 - (e.clientY - rect.top) / rect.height;
   addObject({
     id: crypto.randomUUID(),
     type: 'text',
@@ -906,26 +994,66 @@ const TOOLS_PANELS = {
       </label>
     </div>`,
   annotate: `
-    <p class="muted tiny" style="margin:0 0 var(--space-2)">Add a text annotation to the chosen page.</p>
-    <div class="paired-fields">
-      <label class="field">
-        <span class="field__label">Page</span>
-        <input class="field__control" id="annotatePage" type="number" min="1" value="1" />
-      </label>
-      <label class="field">
-        <span class="field__label">Text</span>
-        <input class="field__control" id="annotateText" type="text" placeholder="e.g. Reviewed by J.S." />
-      </label>
+    <p class="muted tiny" style="margin:0 0 var(--space-2)">Add annotations to a chosen page. Switch between Text and Draw (Apple Pencil / finger) modes.</p>
+    <div class="tools-tabs" id="annotateSubTabs" role="tablist" style="margin-bottom:var(--space-3)">
+      <button class="tools-tab is-active" data-subtab="text" role="tab" aria-selected="true">Text</button>
+      <button class="tools-tab" data-subtab="draw" role="tab">Draw</button>
     </div>
-    <div class="paired-fields" style="margin-top:var(--space-3)">
-      <label class="field">
-        <span class="field__label">Position X (0-100%)</span>
-        <input class="field__control" id="annotateX" type="number" min="0" max="100" value="50" />
-      </label>
-      <label class="field">
-        <span class="field__label">Position Y (0-100%)</span>
-        <input class="field__control" id="annotateY" type="number" min="0" max="100" value="85" />
-      </label>
+    <div id="annotateTextPanel">
+      <div class="paired-fields">
+        <label class="field">
+          <span class="field__label">Page</span>
+          <input class="field__control" id="annotatePage" type="number" min="1" value="1" />
+        </label>
+        <label class="field">
+          <span class="field__label">Text</span>
+          <input class="field__control" id="annotateText" type="text" placeholder="e.g. Reviewed by J.S." />
+        </label>
+      </div>
+      <div class="paired-fields" style="margin-top:var(--space-3)">
+        <label class="field">
+          <span class="field__label">Position X (0-100%)</span>
+          <input class="field__control" id="annotateX" type="number" min="0" max="100" value="50" />
+        </label>
+        <label class="field">
+          <span class="field__label">Position Y (0-100%)</span>
+          <input class="field__control" id="annotateY" type="number" min="0" max="100" value="85" />
+        </label>
+      </div>
+      <div class="paired-fields" style="margin-top:var(--space-3)">
+        <label class="field">
+          <span class="field__label">Ink color</span>
+          <input class="field__control" id="annotateInk" type="color" value="#FF3B30" style="height:var(--control-height); padding:4px;" />
+        </label>
+        <label class="field">
+          <span class="field__label">Font size (pt)</span>
+          <input class="field__control" id="annotateSize" type="number" min="8" max="144" value="14" />
+        </label>
+      </div>
+    </div>
+    <div id="annotateDrawPanel" hidden>
+      <p class="muted tiny" style="margin:0 0 var(--space-2)">Draw directly on the preview with your finger, Apple Pencil, or mouse. Strokes are baked into the PDF when you press Run.</p>
+      <div class="paired-fields">
+        <label class="field">
+          <span class="field__label">Page</span>
+          <input class="field__control" id="drawPage" type="number" min="1" value="1" />
+        </label>
+        <label class="field">
+          <span class="field__label">Pen color</span>
+          <input class="field__control" id="drawColor" type="color" value="#FF3B30" style="height:var(--control-height); padding:4px;" />
+        </label>
+      </div>
+      <div class="paired-fields" style="margin-top:var(--space-3)">
+        <label class="field">
+          <span class="field__label">Pen width</span>
+          <input class="field__control" id="drawWidth" type="range" min="1" max="20" value="3" style="height:var(--control-height); padding:4px;" />
+        </label>
+        <div class="field">
+          <span class="field__label">&nbsp;</span>
+          <button class="btn btn--sm" id="btnClearDraw" type="button">Clear strokes</button>
+        </div>
+      </div>
+      <p class="muted tiny" style="margin:var(--space-2) 0 0">Tip: press <strong>Preview</strong> first to see the underlying page, then draw on it.</p>
     </div>`,
   watermark: `
     <p class="muted tiny" style="margin:0 0 var(--space-2)">Apply a text watermark across all pages.</p>
@@ -946,6 +1074,9 @@ const TOOLS_PANELS = {
         <input class="field__control" id="twmOpacity" type="number" min="0" max="100" value="50" />
       </div>
     </div>`,
+  compare: `
+    <p class="muted tiny" style="margin:0 0 var(--space-2)">View the primary PDF and the 2nd PDF side-by-side. Both pages render at the same scale for easy visual comparison.</p>
+    <p class="muted tiny" style="margin:0">Open PDFs above (Open PDF = File A, Open 2nd PDF = File B), then press <strong>Run</strong> to render the comparison.</p>`,
 };
 
 async function loadToolsDocument(bytes, name) {
@@ -967,16 +1098,28 @@ async function loadToolsDocument(bytes, name) {
 
 async function renderToolsPreview(bytes, label) {
   const wrap = document.getElementById('toolsCanvasWrap');
+  const stage = document.getElementById('toolsCanvasStage');
   const canvas = document.getElementById('toolsCanvas');
+  const drawCanvas = document.getElementById('toolsDrawCanvas');
   if (!bytes) return;
   const pdf = await loadPdfFromBytes(bytes);
   const count = await getPageCount(pdf);
   // Render first page
   wrap.querySelectorAll('.empty-state').forEach(n => n.remove());
+  stage.hidden = false;
   canvas.hidden = false;
   const targetWidth = Math.min(720, wrap.clientWidth - 24);
-  await renderPageToCanvas(pdf, 1, canvas, targetWidth);
+  const dims = await renderPageToCanvas(pdf, 1, canvas, targetWidth);
   document.getElementById('toolsDocInfo').textContent = `${label} • ${count} page(s)`;
+  // Size draw overlay to match the rendered canvas
+  if (drawCanvas) {
+    drawCanvas.width = canvas.width;
+    drawCanvas.height = canvas.height;
+    drawCanvas.style.width = canvas.style.width || (canvas.width + 'px');
+    drawCanvas.style.height = canvas.style.height || (canvas.height + 'px');
+    const ctx = drawCanvas.getContext('2d');
+    ctx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+  }
 }
 
 function renderToolsPanel() {
@@ -997,6 +1140,172 @@ function renderToolsPanel() {
       });
     });
     panel.querySelector('#rotateAngles .chip[data-angle="90"]').click();
+  }
+  // Bind sub-tab handlers for annotate
+  if (tab === 'annotate') {
+    const subTabs = panel.querySelectorAll('#annotateSubTabs .tools-tab');
+    subTabs.forEach(t => {
+      t.addEventListener('click', () => {
+        subTabs.forEach(x => { x.classList.remove('is-active'); x.setAttribute('aria-selected','false'); });
+        t.classList.add('is-active');
+        t.setAttribute('aria-selected','true');
+        const which = t.dataset.subtab;
+        panel.querySelector('#annotateTextPanel').hidden = which !== 'text';
+        panel.querySelector('#annotateDrawPanel').hidden = which !== 'draw';
+        tools._annotateSub = which;
+        // Toggle the draw overlay canvas visibility
+        const drawCanvas = document.getElementById('toolsDrawCanvas');
+        if (drawCanvas) drawCanvas.hidden = which !== 'draw';
+      });
+    });
+    subTabs[0].click(); // initialize Text mode
+    // Bind Clear strokes button
+    const clearBtn = panel.querySelector('#btnClearDraw');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        const dc = document.getElementById('toolsDrawCanvas');
+        if (!dc) return;
+        const ctx = dc.getContext('2d');
+        ctx.clearRect(0, 0, dc.width, dc.height);
+        tools._drawStrokes = [];
+        toast('Strokes cleared.', 'success');
+      });
+    }
+    // Initialize drawing strokes array + bind pointer events on the draw canvas
+    tools._drawStrokes = tools._drawStrokes || [];
+    attachDrawCanvasHandlers();
+  }
+  // Compare tab: show the comparison view, hide the single-canvas stage
+  const compareView = document.getElementById('compareView');
+  if (compareView) compareView.hidden = tab !== 'compare';
+  const stage = document.getElementById('toolsCanvasStage');
+  if (stage) stage.style.display = tab === 'compare' ? 'none' : '';
+}
+
+/**
+ * Wire up the freehand draw overlay canvas. Captures pointer strokes with
+ * Apple Pencil / finger / mouse, redraws them on a transparent canvas
+ * overlay, and stores them as point arrays for later PDF baking.
+ */
+function attachDrawCanvasHandlers() {
+  const dc = document.getElementById('toolsDrawCanvas');
+  if (!dc || dc._docuscanBound) return;
+  dc._docuscanBound = true;
+  let drawing = false;
+  let current = null;
+  dc.addEventListener('pointerdown', (e) => {
+    if (dc.hidden) return;
+    e.preventDefault();
+    dc.setPointerCapture(e.pointerId);
+    drawing = true;
+    const p = pointerPos(e, dc);
+    current = { points: [p] };
+    const ctx = dc.getContext('2d');
+    ctx.strokeStyle = document.getElementById('drawColor')?.value || '#FF3B30';
+    ctx.lineWidth = Number(document.getElementById('drawWidth')?.value || 3);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y);
+  });
+  dc.addEventListener('pointermove', (e) => {
+    if (!drawing) return;
+    e.preventDefault();
+    const p = pointerPos(e, dc);
+    current.points.push(p);
+    const ctx = dc.getContext('2d');
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+  });
+  const end = (e) => {
+    if (!drawing) return;
+    e.preventDefault();
+    drawing = false;
+    if (current && current.points.length > 1) tools._drawStrokes.push(current);
+    try { dc.releasePointerCapture(e.pointerId); } catch {}
+    current = null;
+  };
+  dc.addEventListener('pointerup', end);
+  dc.addEventListener('pointercancel', end);
+  dc.addEventListener('pointerleave', end);
+  // Re-render strokes if pen color or width changes
+  ['drawColor', 'drawWidth'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', redrawDrawStrokes);
+  });
+}
+
+function pointerPos(e, canvas) {
+  const r = canvas.getBoundingClientRect();
+  const sx = canvas.width / r.width;
+  const sy = canvas.height / r.height;
+  return { x: (e.clientX - r.left) * sx, y: (e.clientY - r.top) * sy };
+}
+
+function redrawDrawStrokes() {
+  const dc = document.getElementById('toolsDrawCanvas');
+  if (!dc) return;
+  const ctx = dc.getContext('2d');
+  ctx.clearRect(0, 0, dc.width, dc.height);
+  const color = document.getElementById('drawColor')?.value || '#FF3B30';
+  const width = Number(document.getElementById('drawWidth')?.value || 3);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = width;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  for (const stroke of (tools._drawStrokes || [])) {
+    ctx.beginPath();
+    stroke.points.forEach((p, i) => {
+      if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+    });
+    ctx.stroke();
+  }
+}
+
+/**
+ * Render both loaded PDFs side-by-side in the Compare tab.
+ * File A = primary PDF (tools.bytes)
+ * File B = first secondary PDF (tools.secondaryBytesList[0]) if any
+ * Each pane shows the first page of its PDF at the same scale.
+ */
+async function renderCompareView() {
+  const leftWrap = document.getElementById('compareLeftWrap');
+  const rightWrap = document.getElementById('compareRightWrap');
+  leftWrap.innerHTML = '<div class="empty-state"><div class="empty-state__sub">Loading…</div></div>';
+  rightWrap.innerHTML = '<div class="empty-state"><div class="empty-state__sub">Loading…</div></div>';
+
+  if (!tools.bytes) {
+    leftWrap.innerHTML = '<div class="empty-state"><div class="empty-state__sub">Open File A (Open PDF)</div></div>';
+    rightWrap.innerHTML = '<div class="empty-state"><div class="empty-state__sub">Open File B (Open 2nd PDF)</div></div>';
+    throw new Error('Open at least File A first.');
+  }
+
+  // Render File A
+  try {
+    const pdfA = await loadPdfFromBytes(tools.bytes);
+    const canvasA = document.createElement('canvas');
+    const targetW = Math.min(380, leftWrap.clientWidth - 24);
+    await renderPageToCanvas(pdfA, 1, canvasA, targetW);
+    leftWrap.innerHTML = '';
+    leftWrap.appendChild(canvasA);
+  } catch (err) {
+    leftWrap.innerHTML = `<div class="empty-state"><div class="empty-state__sub">Failed: ${err.message}</div></div>`;
+  }
+
+  // Render File B
+  if (tools.secondaryBytesList.length === 0) {
+    rightWrap.innerHTML = '<div class="empty-state"><div class="empty-state__sub">Open File B (Open 2nd PDF)</div></div>';
+  } else {
+    try {
+      const pdfB = await loadPdfFromBytes(tools.secondaryBytesList[0]);
+      const canvasB = document.createElement('canvas');
+      const targetW = Math.min(380, rightWrap.clientWidth - 24);
+      await renderPageToCanvas(pdfB, 1, canvasB, targetW);
+      rightWrap.innerHTML = '';
+      rightWrap.appendChild(canvasB);
+    } catch (err) {
+      rightWrap.innerHTML = `<div class="empty-state"><div class="empty-state__sub">Failed: ${err.message}</div></div>`;
+    }
   }
 }
 
@@ -1085,14 +1394,31 @@ function initToolsWorkspace() {
         const order = inputVal.split(',').map(s => parseInt(s.trim(), 10) - 1);
         out = await runReorder(tools.bytes, order);
       } else if (tab === 'annotate') {
-        const pageIdx = Number(document.getElementById('annotatePage').value) - 1;
-        const text = document.getElementById('annotateText').value;
-        const x = Number(document.getElementById('annotateX').value) / 100;
-        const y = Number(document.getElementById('annotateY').value) / 100;
-        if (!text) throw new Error('Enter annotation text.');
-        out = await runAnnotateText(tools.bytes, pageIdx, {
-          text, normalized: { x, y }, size: 14, fontFamily: 'Helvetica', color: { r: 0.7, g: 0.1, b: 0.1 }, rotation: 0,
-        });
+        const sub = tools._annotateSub || 'text';
+        if (sub === 'text') {
+          const pageIdx = Number(document.getElementById('annotatePage').value) - 1;
+          const text = document.getElementById('annotateText').value;
+          const x = Number(document.getElementById('annotateX').value) / 100;
+          const y = Number(document.getElementById('annotateY').value) / 100;
+          if (!text) throw new Error('Enter annotation text.');
+          const ink = document.getElementById('annotateInk').value;
+          const size = Number(document.getElementById('annotateSize').value) || 14;
+          const rgb = rgbFromHex(ink);
+          out = await runAnnotateText(tools.bytes, pageIdx, {
+            text, normalized: { x, y }, size, fontFamily: 'Helvetica', color: rgb, rotation: 0,
+          });
+        } else {
+          // Draw mode — bake strokes into the PDF
+          const pageIdx = Number(document.getElementById('drawPage').value) - 1;
+          const dc = document.getElementById('toolsDrawCanvas');
+          if (!dc) throw new Error('Draw canvas not initialized.');
+          if ((tools._drawStrokes || []).length === 0) throw new Error('Draw some strokes first.');
+          // Export the draw canvas (transparent bg) as PNG bytes
+          const blob = await new Promise(res => dc.toBlob(res, 'image/png'));
+          const arr = await blob.arrayBuffer();
+          const pngBytes = new Uint8Array(arr);
+          out = await runAnnotateDrawing(tools.bytes, pageIdx, pngBytes);
+        }
       } else if (tab === 'watermark') {
         const cfg = normalizeConfig({
           text: document.getElementById('twmText').value,
@@ -1100,6 +1426,12 @@ function initToolsWorkspace() {
           opacity: Number(document.getElementById('twmOpacity').value),
         });
         out = await runWatermark(tools.bytes, cfg);
+      } else if (tab === 'compare') {
+        // No mutation — just render both PDFs side-by-side
+        await renderCompareView();
+        // Skip the "save output" path below — Compare is view-only
+        toast('Compare view rendered below.', 'success');
+        return;
       }
       if (out) {
         tools.outputBytes = out;
@@ -1252,108 +1584,16 @@ function initLibraryWorkspace() {
   document.getElementById('btnRefreshLibrary').addEventListener('click', renderLibrary);
 }
 
-/* ---------------- Help workspace ---------------- */
-const HELP_ITEMS = [
-  {
-    title: 'Getting started',
-    body: `<p>DocuScan Pro is a Progressive Web App for scanning, editing, signing, and exporting PDFs. Use the bottom navigation to switch between Home, Studio, Sign, PDF Tools, Library, and Help.</p>
-<p>Documents are stored locally in your browser (IndexedDB). Clearing site data will remove saved documents.</p>`
-  },
-  {
-    title: 'Scanning documents',
-    body: `<p>In <strong>Studio</strong>, tap "Capture with camera" to use your device's camera. You can capture multiple pages in sequence. If the camera is unavailable or permission is denied, the file picker is offered as a fallback.</p>
-<p>Use "Import images" to add existing photos from your device.</p>`
-  },
-  {
-    title: 'Enhancing images',
-    body: `<p>Select a thumbnail in Studio, then choose a preset (Auto, Grayscale, B&amp;W, Brighten, Contrast+) and optionally adjust Brightness and Contrast sliders. Tap "Apply to selected page" to commit the changes.</p>
-<p>The original image is preserved — tap "Reset" to restore it.</p>`
-  },
-  {
-    title: 'OCR (text recognition)',
-    body: `<p>Tap "Run OCR" on a selected page. The first run may take a few seconds longer while the OCR engine initializes. Recognized text appears in the textarea below and can be copied or downloaded as a .txt file.</p>
-<p>OCR works best on sharp, high-contrast scans of printed text. Handwriting and low-resolution images will produce lower-quality results.</p>`
-  },
-  {
-    title: 'Creating PDFs',
-    body: `<p>Choose a page size (Letter, A4, or Fit-to-image) and orientation. Tap "Create PDF" to save the result to your Library, or use "Send to Sign" / "Send to PDF Tools" to continue working.</p>`
-  },
-  {
-    title: 'Adding signatures',
-    body: `<p>In <strong>Sign</strong>, open a PDF, then tap "Signature". You can draw a signature with your finger or stylus, or type your name in a chosen font. The signature is placed at the center of the current page; tap a different location to drop text directly there.</p>
-<p>Use the Width and Height fields to control signature size as a percentage of the page.</p>`
-  },
-  {
-    title: 'Adding text and dates',
-    body: `<p>Type into the "Text / typed signature" field, or pick a Quick Text Template. Tap "Text" to insert at the page center, or "Date" to insert today's date near the bottom of the page.</p>
-<p>Adjust Font style, Font size, and Ink color before inserting.</p>`
-  },
-  {
-    title: 'Using watermarks',
-    body: `<p>Configure the watermark text, direction (Diagonal or Horizontal), and opacity. Tap "Insert" to apply across all pages. The displayed opacity value matches the actual opacity baked into the PDF.</p>
-<p>Use "Remove watermark" to revert to the unmarked source.</p>`
-  },
-  {
-    title: 'PDF Tools',
-    body: `<p>Open a PDF, then choose an operation: Merge (with a second PDF), Split (by ranges), Rotate (90/180/270°), Reorder (custom sequence), Annotate (text on a chosen page), or Watermark.</p>
-<p>Tap "Run", then "Preview" to see the result. Use Save / Download / Share / Print to export.</p>`
-  },
-  {
-    title: 'Saving to the Library',
-    body: `<p>"Save to Library" stores the current document in IndexedDB. Open the Library workspace to see all saved documents, with thumbnails rendered from the PDF's first page.</p>
-<p>You can rename, delete, or reopen any document in Sign or PDF Tools.</p>`
-  },
-  {
-    title: 'Downloading, sharing, and printing',
-    body: `<p>Download saves the PDF to your device. Share uses the native Web Share API where available; otherwise it falls back to a download. Print opens the browser's print dialog in a hidden iframe so you don't lose your place in the app.</p>`
-  },
-  {
-    title: 'Troubleshooting',
-    body: `<ul>
-<li><strong>Camera doesn't open?</strong> Check browser permissions, try HTTPS, or use Import images instead.</li>
-<li><strong>OCR is slow?</strong> The first run downloads the language model. Subsequent runs are faster and work offline once cached.</li>
-<li><strong>PDF won't open?</strong> Make sure it's not password-protected. DocuScan Pro cannot edit encrypted PDFs.</li>
-<li><strong>Lost documents?</strong> Browser-local storage is not cloud backup. Clearing site data removes saved documents.</li>
-</ul>`
-  },
-  {
-    title: 'Privacy and local storage',
-    body: `<p>DocuScan Pro is local-first. Your documents are processed in your browser and stored in IndexedDB on your device. Documents are not uploaded to any server.</p>
-<p>OCR runs entirely on-device when the language assets are cached; otherwise the OCR engine downloads them on first use.</p>`
-  },
-  {
-    title: 'Offline limitations',
-    body: `<p>The PWA shell is cached by the service worker and works offline. PDF.js, pdf-lib, and Tesseract.js are loaded from CDN on first use; once cached by the service worker, they work offline too.</p>
-<p>Features that depend on a not-yet-cached asset will display a clear error if the network is unavailable.</p>`
-  },
-];
-
+/* ---------------- Help workspace (delegates to help-system.js) ---------------- */
 function initHelpWorkspace() {
-  const wrap = document.getElementById('helpAccordion');
-  wrap.innerHTML = '';
-  HELP_ITEMS.forEach((item, i) => {
-    const root = document.createElement('div');
-    root.className = 'help-accordion-item';
-    const trigger = document.createElement('button');
-    trigger.className = 'help-accordion-trigger';
-    trigger.setAttribute('aria-expanded', 'false');
-    trigger.setAttribute('aria-controls', `help-content-${i}`);
-    trigger.innerHTML = `<span>${item.title}</span><span aria-hidden="true">+</span>`;
-    const content = document.createElement('div');
-    content.className = 'help-accordion-content';
-    content.id = `help-content-${i}`;
-    content.hidden = true;
-    content.innerHTML = item.body;
-    trigger.addEventListener('click', () => {
-      const open = !content.hidden;
-      content.hidden = open;
-      trigger.setAttribute('aria-expanded', String(!open));
-      trigger.querySelector('span:last-child').textContent = open ? '+' : '–';
-    });
-    root.appendChild(trigger);
-    root.appendChild(content);
-    wrap.appendChild(root);
-  });
+  // The new searchable, illustrated Help Center is owned by js/help-system.js.
+  // This thin wrapper initializes it and updates the tutorial status badge.
+  initHelpCenter();
+  const saved = JSON.parse(localStorage.getItem('docuscan-pro.tutorial-state') || '{}');
+  const badge = document.getElementById('tutorialStatus');
+  if (badge) {
+    badge.textContent = saved.tutorialSeen ? 'Completed' : 'Not yet completed';
+  }
 }
 
 /* ---------------- About dialog ---------------- */
@@ -1370,12 +1610,20 @@ function boot() {
   initLibraryWorkspace();
   initHelpWorkspace();
   updateOnlineStatus();
+  // Contextual "?" icons beside OCR, watermark opacity/direction, save/share, ink color, insert watermark
+  attachContextHelp();
   // Re-render library when entering
   onWorkspaceChange(({ to }) => {
     if (to === 'library') renderLibrary();
     if (to === 'sign') {
       // Resize canvas to match container if necessary
       if (sign.pdfDoc) renderSignCurrentPage();
+    }
+    if (to === 'help') {
+      // Refresh tutorial status badge when entering Help
+      const saved = JSON.parse(localStorage.getItem('docuscan-pro.tutorial-state') || '{}');
+      const badge = document.getElementById('tutorialStatus');
+      if (badge) badge.textContent = saved.tutorialSeen ? 'Completed' : 'Not yet completed';
     }
   });
   // Register service worker for PWA / offline
@@ -1386,6 +1634,9 @@ function boot() {
   }
   // Initial empty library render
   renderLibrary();
+  // First-launch welcome + interactive tutorial prompt
+  // (small delay so the rest of the UI settles first)
+  setTimeout(maybeShowWelcome, 600);
   console.info(`DocuScan Pro v${APP_VERSION} booted.`);
 }
 

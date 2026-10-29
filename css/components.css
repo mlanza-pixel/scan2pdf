@@ -547,9 +547,8 @@ img, canvas, svg { display: block; max-width: 100%; }
   touch-action: none;
   cursor: crosshair;
   background: transparent;
-  /* Visible dashed border so user can see the drawable area */
-  border: 2px dashed rgba(0, 122, 255, 0.4);
-  border-radius: 4px;
+  /* No border — the draw canvas is truly invisible until the user draws.
+     A border would make it look like a separate page. */
   box-sizing: border-box;
 }
 

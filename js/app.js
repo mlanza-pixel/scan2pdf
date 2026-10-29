@@ -21,7 +21,7 @@ import { listDocuments, getDocument, renameDocument, deleteDocument, estimateSto
 import { parseRanges, runMerge, runSplit, runRotate, runReorder, runWatermark, runAnnotateText, runAnnotateDrawing } from './pdf-tools.js';
 import { maybeShowWelcome, initHelpCenter, attachContextHelp } from './help-system.js';
 
-const APP_VERSION = '6.0.0';
+const APP_VERSION = '6.0.1';
 const APP_BUILD = '2026-10-29';
 
 /* ---------------- Shared app state ---------------- */
@@ -2041,8 +2041,16 @@ function initToolsWorkspace() {
   });
 
   document.getElementById('btnPreviewTool').addEventListener('click', async () => {
-    if (tools.outputBytes) await renderToolsPreview(tools.outputBytes, 'output');
-    else if (tools.bytes) await renderToolsPreview(tools.bytes, 'source');
+    // Preview shows the OUTPUT (after Run) if available, otherwise the SOURCE.
+    if (tools.outputBytes) {
+      await renderToolsPreview(tools.outputBytes, 'output (after Run)');
+      toast('Showing output (after Run).', 'info');
+    } else if (tools.bytes) {
+      await renderToolsPreview(tools.bytes, 'source (original)');
+      toast('Showing source (original). Run an operation to see output.', 'info');
+    } else {
+      toast('Open a PDF first.', 'warning');
+    }
   });
 
   document.getElementById('btnToolsSave').addEventListener('click', async () => {
@@ -2159,9 +2167,26 @@ async function renderLibrary(searchQuery = '') {
       const name = prompt('New name:', doc.name);
       if (name && name.trim()) {
         await renameDocument(doc.id, name.trim());
-        await renderLibrary();
+        const sq = document.getElementById('librarySearchInput')?.value || '';
+        await renderLibrary(sq);
         toast('Renamed.', 'success');
       }
+    });
+    const moveBtn = document.createElement('button');
+    moveBtn.className = 'btn btn--sm btn--ghost';
+    moveBtn.textContent = 'Move';
+    moveBtn.addEventListener('click', () => {
+      const folders = JSON.parse(localStorage.getItem('docuscan-pro.folders') || '[]');
+      if (folders.length === 0) { toast('No folders. Create one first.', 'warning'); return; }
+      const choices = folders.map((f, i) => `${i+1}. ${f.name}`).join('\n');
+      const choice = prompt(`Move to folder:\n${choices}`, '1');
+      const idx = parseInt(choice, 10) - 1;
+      if (idx < 0 || idx >= folders.length) { toast('Invalid choice.', 'warning'); return; }
+      folders.forEach(f => { f.docs = f.docs.filter(d => d !== doc.id); });
+      folders[idx].docs.push(doc.id);
+      localStorage.setItem('docuscan-pro.folders', JSON.stringify(folders));
+      renderLibraryFolders();
+      toast(`Moved to "${folders[idx].name}".`, 'success');
     });
     const deleteBtn = document.createElement('button');
     deleteBtn.className = 'btn btn--sm btn--danger';
@@ -2169,12 +2194,14 @@ async function renderLibrary(searchQuery = '') {
     deleteBtn.addEventListener('click', async () => {
       if (!confirm(`Delete "${doc.name}"? This cannot be undone.`)) return;
       await deleteDocument(doc.id);
-      await renderLibrary();
+      const sq = document.getElementById('librarySearchInput')?.value || '';
+      await renderLibrary(sq);
       toast('Deleted.', 'success');
     });
     actions.appendChild(openBtn);
     actions.appendChild(toolsBtn);
     actions.appendChild(renameBtn);
+    actions.appendChild(moveBtn);
     actions.appendChild(deleteBtn);
     card.appendChild(thumb);
     card.appendChild(body);
@@ -2219,8 +2246,24 @@ function renderLibraryFolders() {
           <div class="library-card__name">${f.name}</div>
           <div class="library-card__meta">${f.docs.length} document(s)</div>
         </div>
+        <div class="library-card__actions">
+          <button class="btn btn--sm btn--danger" data-delete-folder="${f.id}" type="button">Delete</button>
+        </div>
       </div>
     `).join('') + '</div>';
+  // Wire delete folder buttons
+  wrap.querySelectorAll('[data-delete-folder]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const fid = btn.dataset.deleteFolder;
+      if (!confirm('Delete this folder? Documents inside will remain in the Library.')) return;
+      const folders = JSON.parse(localStorage.getItem('docuscan-pro.folders') || '[]');
+      const updated = folders.filter(f => f.id !== fid);
+      localStorage.setItem('docuscan-pro.folders', JSON.stringify(updated));
+      renderLibraryFolders();
+      toast('Folder deleted.', 'success');
+    });
+  });
 }
 
 /* ---------------- Help workspace (delegates to help-system.js) ---------------- */

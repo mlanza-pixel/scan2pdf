@@ -1,0 +1,345 @@
+/* =====================================================================
+   DocuScan Pro — Layout
+   Page-level and workspace layouts. Implements the strict alignment
+   contract from §8.2 of the spec: Open PDF control + page navigation
+   bar MUST share identical rendered width, height, left edge, right
+   edge, border, and radius.
+   ===================================================================== */
+
+/* ---- Page header ---- */
+.page-header {
+  margin-bottom: var(--space-5);
+}
+.page-header__title {
+  font-size: var(--fs-page-title);
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.5px;
+  margin: 0 0 var(--space-2) 0;
+}
+.page-header__sub {
+  font-size: var(--fs-body);
+  color: var(--color-secondary);
+  margin: 0;
+}
+
+/* ---- Section spacing ---- */
+.section { margin-bottom: var(--space-6); }
+.section__title {
+  font-size: var(--fs-label);
+  font-weight: var(--fw-semibold);
+  color: var(--color-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 var(--space-3) var(--space-4);
+}
+
+/* ---- Home: workflow cards grid ---- */
+.workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+.workflow-card {
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: var(--space-2);
+  background: var(--color-surface);
+  border: 0.5px solid var(--color-border-soft);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-4);
+  cursor: pointer; text-decoration: none; color: var(--color-text);
+  min-height: 140px;
+  transition: transform var(--motion-fast), box-shadow var(--motion-fast);
+  text-align: left;
+}
+.workflow-card:hover { transform: translateY(-1px); box-shadow: var(--shadow-elevated); }
+.workflow-card:active { transform: scale(0.99); }
+.workflow-card__icon {
+  width: 44px; height: 44px;
+  border-radius: 11px;
+  display: grid; place-items: center;
+  color: #fff; margin-bottom: var(--space-2);
+  background: var(--color-primary);
+}
+.workflow-card--studio .workflow-card__icon { background: linear-gradient(135deg, #007AFF, #00C6FF); }
+.workflow-card--sign .workflow-card__icon { background: linear-gradient(135deg, #FF9500, #FF6B00); }
+.workflow-card--tools .workflow-card__icon { background: linear-gradient(135deg, #34C759, #00C6FF); }
+.workflow-card--library .workflow-card__icon { background: linear-gradient(135deg, #5856D6, #007AFF); }
+.workflow-card__title {
+  font-size: var(--fs-section); font-weight: var(--fw-semibold);
+  letter-spacing: -0.3px;
+}
+.workflow-card__sub {
+  font-size: var(--fs-label); color: var(--color-secondary);
+  line-height: 1.4;
+}
+
+/* ---- Studio workspace ---- */
+.studio-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+.studio-grid__preview { min-height: 280px; }
+.capture-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+/* Capture buttons use default .btn sizing (44px height, 17px font) —
+   no override needed. Keeps HIG compliance for touch targets + text size. */
+
+.enhance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: var(--space-2);
+}
+.enhance-grid .chip { height: 36px; justify-content: center; }
+
+.slider-row { display: flex; align-items: center; gap: var(--space-3); }
+.slider-row input[type="range"] { flex: 1 1 auto; min-width: 0; }
+.slider-row .value { width: 48px; text-align: right; font-variant-numeric: tabular-nums; color: var(--color-secondary); font-size: var(--fs-label); }
+
+/* ---- Sign workspace (§8 strict alignment contract) ---- */
+.sign-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 380px) 1fr;
+  gap: var(--space-5);
+  align-items: start;
+}
+.sign-layout__left {
+  display: flex; flex-direction: column;
+  gap: var(--space-3);
+}
+.sign-layout__right {
+  display: flex; flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+/* On mobile, stack vertically */
+@media (max-width: 767px) {
+  .sign-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* CRITICAL: the Open PDF control and the page-navigation bar must share
+   identical rendered width, height (48px), left edge, right edge, border,
+   and radius. The wrapper `.sign-aligned-stack` enforces the same parent
+   width on both — they are full-width children of the same column.
+   We share width/height/radius/border here, but we DO NOT override
+   background or color, so a .btn--primary child keeps its blue styling. */
+.sign-aligned-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  min-width: 0;
+}
+.sign-aligned-stack > * {
+  width: 100%;
+  height: var(--control-height);
+  border-radius: var(--radius-control);
+}
+/* Default surface styling for non-button children (e.g. the page-nav div).
+   Buttons (.btn) keep their own background/color from .btn--primary etc. */
+.sign-aligned-stack > *:not(.btn) {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+/* The page navigation bar */
+.page-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-2);
+}
+.page-nav__btn {
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--color-primary);
+  font-size: 18px;
+  transition: background var(--motion-fast);
+}
+.page-nav__btn:hover:not(:disabled) { background: var(--color-primary-soft); }
+.page-nav__btn:disabled { color: var(--color-tertiary); cursor: not-allowed; opacity: 0.4; }
+.page-nav__label {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-medium);
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Editing buttons grid: 2 rows × 3 cols, equal heights */
+.edit-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+}
+.edit-buttons .btn {
+  height: var(--control-height);
+  font-size: var(--fs-label);
+  padding: 0 var(--space-2);
+  flex-direction: column;
+  gap: 2px;
+}
+.edit-buttons .btn .btn__icon { width: 22px; height: 22px; }
+
+/* Paired fields (text + templates) */
+.paired-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+.paired-fields .field { width: 100%; min-width: 0; }
+
+/* Object dimensions row */
+.dims-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-3);
+}
+
+/* Watermark controls — one row at tablet widths */
+.watermark-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr auto;
+  gap: var(--space-3);
+  align-items: end;
+}
+.watermark-row .field { min-width: 0; }
+.watermark-row .btn { height: var(--control-height); }
+
+/* Export actions */
+.export-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+}
+.export-actions .btn {
+  height: var(--control-height);
+  font-size: var(--fs-label);
+  padding: 0 var(--space-2);
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Three-button row: 3 equal-width buttons on one line */
+.three-button-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+}
+.three-button-row .btn {
+  height: var(--control-height);
+  font-size: var(--fs-label);
+  padding: 0 var(--space-2);
+  justify-content: center;
+}
+@media (max-width: 480px) {
+  .three-button-row { grid-template-columns: repeat(3, 1fr); gap: 4px; }
+  .three-button-row .btn { font-size: 11px; padding: 0 4px; }
+}
+
+/* ---- PDF Tools workspace ---- */
+.tools-flow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+.tools-tabs {
+  display: flex; flex-wrap: wrap; gap: var(--space-2);
+}
+.tools-tab {
+  height: var(--control-height-sm); padding: 0 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  font-size: var(--fs-label); font-weight: var(--fw-medium);
+  color: var(--color-text);
+  cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: all var(--motion-fast);
+}
+.tools-tab.is-active {
+  background: var(--color-primary); border-color: var(--color-primary); color: #fff;
+}
+
+.tools-split-input {
+  display: grid; grid-template-columns: 1fr auto; gap: var(--space-3);
+}
+
+/* ---- Library workspace ---- */
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-3);
+}
+.library-card {
+  background: var(--color-surface);
+  border: 0.5px solid var(--color-border-soft);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform var(--motion-fast), box-shadow var(--motion-fast);
+  display: flex; flex-direction: column;
+}
+.library-card:hover { transform: translateY(-1px); box-shadow: var(--shadow-elevated); }
+.library-card__thumb {
+  height: 160px; background: var(--color-surface-secondary);
+  display: grid; place-items: center;
+  color: var(--color-tertiary);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.library-card__thumb canvas { max-width: 100%; max-height: 100%; }
+.library-card__body {
+  padding: var(--space-3);
+  display: flex; flex-direction: column; gap: 2px;
+  flex-shrink: 0;
+}
+.library-card__name {
+  font-size: var(--fs-body); font-weight: var(--fw-medium);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.library-card__meta {
+  font-size: var(--fs-secondary); color: var(--color-secondary);
+}
+.library-card__actions {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+  padding: 0 var(--space-3) var(--space-3);
+}
+.library-card__actions .btn {
+  height: 40px; font-size: 13px; padding: 0 8px;
+}
+
+/* ---- Help workspace ---- */
+.help-accordion-item {
+  border-bottom: 0.5px solid var(--color-border-soft);
+}
+.help-accordion-item:last-child { border-bottom: 0; }
+.help-accordion-trigger {
+  width: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--space-4);
+  background: transparent; border: 0;
+  text-align: left; cursor: pointer;
+  font-size: var(--fs-body); font-weight: var(--fw-medium);
+  color: var(--color-text);
+}
+.help-accordion-trigger:hover { background: var(--color-surface-secondary); }
+.help-accordion-content {
+  padding: 0 var(--space-4) var(--space-4);
+  font-size: var(--fs-label);
+  color: var(--color-secondary);
+  line-height: 1.55;
+}
+.help-accordion-content p { margin: 0 0 var(--space-2); }
+.help-accordion-content ul { margin: 0; padding-left: var(--space-4); }
+.help-accordion-content li { margin-bottom: 4px; }

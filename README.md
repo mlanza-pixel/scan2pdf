@@ -53,3 +53,7 @@ python tests/verify-output.py
 Python fixture creation needs Pillow and reportlab; independent verification needs pypdf. `tests/layout.html` previews the actual app at phone/tablet widths. Older inherited Python/browser scripts and manuals remain as historical material; their old PASS statements do not certify this release.
 
 **Important test limit:** the browser approval system rejected uploading a synthetic PDF into the isolated preview. Direct file-processing tests passed, and browser controls/layout tests passed, but browser file-picker-to-download, OCR, camera, native sharing/printing and real iOS/Android behavior remain unverified.
+
+
+## v7.73 realistic OCR testing
+Run `python -m pip install pillow reportlab pypdf`, then `python scripts/generate_ocr_fixtures_v773.py --pages 5 10 25 50` and `python scripts/verify_ocr_fixtures_v773.py`. See `docs/TESTING_MASTER_REGISTER.md`, `docs/RELEASE_TEST_HISTORY.md` and `RELEASE_NOTES_7.73.md`.

@@ -21,8 +21,8 @@ import { listDocuments, getDocument, renameDocument, deleteDocument, estimateSto
 import { parseRanges, runMerge, runSplit, runRotate, runReorder, runWatermark, runAnnotateText, runAnnotateDrawing } from './pdf-tools.js';
 import { maybeShowWelcome, initHelpCenter, attachContextHelp } from './help-system.js';
 
-const APP_VERSION = '7.71.0';
-const APP_BUILD = '2026-11-05T01:14:02Z';
+const APP_VERSION = '7.74.0';
+const APP_BUILD = '2026-11-05T15:50:46.798188+00:00';
 
 /* ---------------- Shared app state ---------------- */
 const state = {

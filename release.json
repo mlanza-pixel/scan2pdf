@@ -1,9 +1,11 @@
 {
-  "version": "7.71.0",
-  "buildUTC": "2026-11-05T15:21:22.424965+00:00",
-  "cacheVersion": "v7-71-0-selftest2",
+  "version": "7.73.0",
+  "buildUTC": "2026-11-05T15:50:46.798188+00:00",
+  "cacheVersion": "v7-73-0-ocr-fixtures",
   "baseVersion": "7.7.0",
   "browserFileImportTest": "blocked by browser upload approval; not passed",
-  "testStatus": "Static and source checks passed; live browser and native device tests require GitHub Actions run",
-  "deviceSelfTest": "Quick, Standard, Stress; generated fixtures, JSON export"
+  "testStatus": "Source and fixture checks only; live device/GitHub Actions results pending",
+  "deviceSelfTest": "Quick, Standard, Stress; OCR recognition, image-backed PDFs, DOM screenshot attempts; JSON export",
+  "fixtureGenerator": "scripts/generate_ocr_fixtures_v773.py",
+  "fixtureVerification": "scripts/verify_ocr_fixtures_v773.py"
 }

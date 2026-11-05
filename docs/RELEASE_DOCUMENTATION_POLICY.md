@@ -12,3 +12,6 @@ This release carries forward v7.5.9 manuals under docs/legacy; those manuals hav
 
 ## Mandatory Tour This Page release gate (added v7.7)
 Update `js/help-system.js` walkthroughs, `docs/Tour-Steps-v7.7.json`, the `Tour This Page` worksheet in `DocuScan-Pro-UI-Field-Reference-v7.7.xlsx`, and the Help Manual DOCX/PDF in the same change. Run `node tests/tours/check-tour-contract.mjs`, and then perform interactive Next/Back/Skip and mobile layout testing. Do not report mobile tour certification based only on static checks.
+
+## v7.73 mandatory testing documentation
+Every release must update `docs/TESTING_MASTER_REGISTER.md` and append to `docs/RELEASE_TEST_HISTORY.md`. Keep ground-truth manifests, SHA256 hashes, test evidence, and explicit PASS/FAIL/WARNING/NOT RUN status. The real-device screenshots, OCR transcript comparison, full editor workflow and native iOS results are release gates, not implied by fixture generation.

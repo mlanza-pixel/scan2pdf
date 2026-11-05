@@ -27,6 +27,31 @@ jobs:
         run: |
           python -m pip install playwright pypdf pillow
           python -m playwright install --with-deps chromium
+      - name: Generate realistic OCR PDF fixtures (synthetic ground truth)
+        run: |
+          python -m pip install reportlab
+          python scripts/generate_ocr_fixtures_v773.py --pages 5 10 25 50 --out tests/fixtures/generated
+          python scripts/verify_ocr_fixtures_v773.py tests/fixtures/generated
+      - name: Generate and verify upstream ocrtestdata image-backed PDFs
+        run: |
+          python -m pip install Faker qrcode[pil] PyMuPDF
+          python scripts/generate_upstream_ocr_fixtures_v774.py --pages 5 10 25 --dpi 100 --out tests/fixtures/upstream-generated
+      - name: Upload upstream OCR test fixtures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v774-upstream-ocrtestdata-fixtures
+          path: tests/fixtures/upstream-generated/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Upload OCR fixtures and manifests for reproducibility
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v774-realistic-ocr-fixtures
+          path: tests/fixtures/generated/
+          if-no-files-found: warn
+          retention-days: 14
       - name: Core regression tests
         run: npm test
       - name: Start local web server
@@ -60,7 +85,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: docuscan-v7-71-test-evidence
+          name: docuscan-v7-74-test-evidence
           path: |
             screenshots/
             tests/results/

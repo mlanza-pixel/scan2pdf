@@ -15,14 +15,13 @@
 .watermark-row .btn { grid-column: 1 / -1; }
 .paired-fields { grid-template-columns: 1fr; }
 .dims-row { grid-template-columns: 1fr; }
-.capture-controls { grid-template-columns: 1fr; }
+.capture-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .tools-split-input { grid-template-columns: 1fr; }
 .workflow-grid { grid-template-columns: 1fr; }
 
 /* ---- ≥ 560px (large phone / small tablet portrait intermediate) ---- */
 @media (min-width: 560px) {
   .workflow-grid { grid-template-columns: repeat(2, 1fr); }
-  .capture-controls { grid-template-columns: 1fr 1fr; }
   .export-actions { grid-template-columns: repeat(2, 1fr); }
   .dims-row { grid-template-columns: 1fr 1fr 1fr; }
 }
@@ -134,4 +133,24 @@ html {
   .workspace .card, .workspace .field, .workspace .field__control { min-width: 0; max-width: 100%; }
   .edit-buttons, .export-actions, .enhance-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .export-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+#btnImportImages, #btnCaptureCamera, #btnToolsToSign,
+#toolsGroups > [data-group="combine"], .studio-edit-actions .btn { white-space: nowrap; }
+#toolsGroups > [data-group="combine"] { font-size: clamp(11px, 3vw, 15px); padding-inline: 4px; }
+.capture-controls .btn, .studio-edit-actions .btn { min-width: 0; padding-inline: 4px; font-size: clamp(11px, 3vw, 15px); }
+.studio-pdf-settings, .studio-edit-actions {
+  display: grid;
+  gap: var(--space-2);
+  align-items: end;
+}
+.studio-pdf-settings { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; }
+.studio-pdf-settings .field, .studio-pdf-settings select { min-width: 0; width: 100%; }
+.studio-pdf-settings .btn { padding-inline: 6px; }
+.studio-edit-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: var(--space-3); }
+.edit-buttons.history-actions {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-card);
+  padding: var(--space-3);
 }

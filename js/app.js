@@ -22,7 +22,7 @@ import { parseRanges, runMerge, runSplit, runRotate, runReorder, runWatermark, r
 import { maybeShowWelcome, initHelpCenter, attachContextHelp } from './help-system.js';
 
 const APP_VERSION = '7.5';
-const APP_BUILD = '7.5-expanded-regression';
+const APP_BUILD = '7.5-device-fixtures';
 
 /* ---------------- Shared app state ---------------- */
 const state = {
@@ -209,7 +209,7 @@ function updateStudioActions() {
   const importBtn = document.getElementById('btnImportImages');
   if (importBtn) {
     const svg = importBtn.querySelector('svg');
-    importBtn.textContent = has ? 'Add more images' : 'Import images';
+    importBtn.textContent = has ? 'Add images' : 'Import images';
     // Preserve the icon while changing the label.
     if (svg) importBtn.insertBefore(svg, importBtn.firstChild);
   }
@@ -605,7 +605,7 @@ function initStudioWorkspace() {
 
   // Create PDF
   const createPdfBtn = document.getElementById('btnCreatePdf');
-  const CREATE_PDF_HTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Create PDF';
+  const CREATE_PDF_HTML = createPdfBtn.innerHTML;
   // Helper: build PDF bytes from current studio pages (used by all export actions)
   async function buildStudioPdf() {
     if (studio.pages.length === 0) throw new Error('No pages. Capture or import images first.');

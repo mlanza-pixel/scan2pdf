@@ -30,7 +30,7 @@ with sync_playwright() as p:
             item['cacheKeys']=page.evaluate('async()=>"caches" in window ? await caches.keys() : []')
             item['controller']=page.evaluate('()=>!!navigator.serviceWorker?.controller')
             item['horizontalOverflow']=page.evaluate('()=>Math.max(0,document.documentElement.scrollWidth-document.documentElement.clientWidth)')
-            assert 'docuscan-app-v7-5-expanded-regression' in item['cacheKeys'], 'Expected application cache missing'
+            assert 'docuscan-app-v7-5-device-fixtures' in item['cacheKeys'], 'Expected application cache missing'
             assert item['horizontalOverflow']<=2, 'Horizontal overflow on reload'
             item['status']='pass'
         except Exception as e:

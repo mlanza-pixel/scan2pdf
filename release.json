@@ -1,9 +1,9 @@
 {
   "version": "7.5",
-  "buildUTC": "2026-11-05T18:15:27.568560+00:00",
-  "cacheVersion": "v7-5-expanded-regression",
+  "buildUTC": "2026-11-05T18:44:55.438049+00:00",
+  "cacheVersion": "v7-5-device-fixtures",
   "baseVersion": "7.74.4",
-  "testStatus": "57 browser shards passed locally; see WORKFLOW_COVERAGE.md",
+  "testStatus": "24 repeated browser workflow passes and two offline fixture checks; see DEVICE_FIXTURES_AND_STRESS.md",
   "deviceSelfTest": "Quick, Standard, Stress; OCR recognition, image-backed PDFs, DOM screenshot attempts; JSON export",
   "fixtureGenerator": "scripts/generate_ocr_fixtures_v773.py",
   "fixtureVerification": "scripts/verify_ocr_fixtures_v773.py"

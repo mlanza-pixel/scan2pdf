@@ -6,7 +6,7 @@
    uses are offline.
    ===================================================================== */
 
-const CACHE_VERSION = 'v7-5-expanded-regression';
+const CACHE_VERSION = 'v7-5-device-fixtures';
 const APP_CACHE = `docuscan-app-${CACHE_VERSION}`;
 const ASSET_CACHE = `docuscan-assets-${CACHE_VERSION}`;
 
@@ -14,6 +14,11 @@ const ASSET_CACHE = `docuscan-assets-${CACHE_VERSION}`;
 const APP_SHELL = [
   './',
   './index.html',
+  './tests/fixtures/photo-1.jpg',
+  './tests/fixtures/photo-2.jpg',
+  './tests/fixtures/photo-3.jpg',
+  './tests/fixtures/sample/ocr_005pages_q78.pdf',
+  './tests/fixtures/sample/ocr_010pages_q78.pdf',
   './css/tokens.css',
   './css/components.css',
   './css/layout.css',

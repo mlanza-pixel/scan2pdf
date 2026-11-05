@@ -112,6 +112,27 @@ async function testPdf(count, imagePages=true, width=960, height=1280) {
   if(imagePages && bytes.byteLength<count*18000) throw new Error(`Suspiciously small image PDF: ${mb} MB for ${count} pages`);
   return {detail:`${count} image-backed pages reopened; ${mb} MB; ${width}×${height} pixels per scan`};
 }
+async function testBundledDocuments() {
+  const {PDFDocument}=await pdfLib();
+  const read=async path=>{
+    if(stopRequested) throw new Error('Cancelled');
+    const response=await fetch(new URL(path,document.baseURI));
+    if(!response.ok) throw new Error(`Fixture request failed: ${path} (${response.status})`);
+    return response.arrayBuffer();
+  };
+  const output=await PDFDocument.create();
+  for(let i=1;i<=3;i++){
+    const jpg=await output.embedJpg(await read(`tests/fixtures/photo-${i}.jpg`));
+    output.addPage([jpg.width,jpg.height]).drawImage(jpg,{width:jpg.width,height:jpg.height});
+  }
+  if((await PDFDocument.load(await output.save())).getPageCount()!==3) throw new Error('Expected three JPG pages');
+  for(const [pages,name] of [[5,'005'],[10,'010']]){
+    const pdf=await PDFDocument.load(await read(`tests/fixtures/sample/ocr_${name}pages_q78.pdf`));
+    if(pdf.getPageCount()!==pages) throw new Error(`Expected ${pages} fixture pages`);
+  }
+  return {detail:'3 bundled JPGs embedded and reopened; bundled 5- and 10-page PDFs loaded in memory'};
+}
+
 async function testOcr() {
   const {recognizeText}=await import('./ocr.js');
   const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=440;
@@ -283,6 +304,7 @@ async function start() {
       finally{localStorage.removeItem(k);}return {detail:'Temporary key deleted'};
     });
     if(mode!=='quick') {
+      await check('Bundled JPG and PDF fixtures (in memory)',testBundledDocuments);
       await check('5-page realistic scan PDF round trip',()=>testPdf(5));
       await check('10-image PDF create and reopen',()=>testPdf(10));
       await check('Actual OCR recognition accuracy',testOcr);
@@ -301,7 +323,11 @@ async function start() {
   } finally {
     window.removeEventListener('error',onError);window.removeEventListener('unhandledrejection',onReject);
     running=false;
-    lastReport={app:'DocuScan Pro',version:'7.5',testSuite:'on-device-self-test-3',mode,detailedAudit,cacheRepeat:window.__lastCacheRepeat||null,screenshots:captures.map(x=>({kind:x.kind,workspace:x.workspace,width:x.width,height:x.height,bytes:x.bytes,filename:`docuscan-${x.workspace}.png`})),started,finished:new Date().toISOString(),durationMs:Math.round(now()-startTime),device:collectDevice(),results:[...results],limitations:['Uses generated files, not user documents','PDF tests exercise pdf-lib directly, not every app editing workflow','OCR accuracy tested on generated English fixtures only; no certification for real scans or other languages','No test files are saved to the document Library','Detailed audit taps navigation only; other buttons are inventoried but not functionally clicked','No destructive, camera, file picker, share, print or download buttons are auto-tapped','Generated images are diagnostic layout maps, NOT screenshots; actual screenshots must be captured manually or by Playwright']};
+    const device=collectDevice();
+    const hardware=/iPad/i.test(device.userAgent) || (/Mac/i.test(device.platform) && navigator.maxTouchPoints>1) ? 'ipad' : /iPhone/i.test(device.userAgent) ? 'iphone' : /Android/i.test(device.userAgent) ? 'android' : 'desktop';
+    const browser=/CriOS|Chrome/i.test(device.userAgent) ? 'chrome' : /FxiOS|Firefox/i.test(device.userAgent) ? 'firefox' : /Safari/i.test(device.userAgent) ? 'safari' : 'browser';
+    const source=`${hardware}-${device.standalone?'home-screen':browser}`;
+    lastReport={source,app:'DocuScan Pro',version:'7.5',testSuite:'on-device-self-test-3',mode,detailedAudit,cacheRepeat:window.__lastCacheRepeat||null,screenshots:captures.map(x=>({kind:x.kind,workspace:x.workspace,width:x.width,height:x.height,bytes:x.bytes,filename:`docuscan-${x.workspace}.png`})),started,finished:new Date().toISOString(),durationMs:Math.round(now()-startTime),device,results:[...results],limitations:['Uses generated and bundled test files; no user documents','PDF tests exercise pdf-lib directly, not every app editing workflow','OCR accuracy tested on generated English fixtures only; no certification for real scans or other languages','No test files are saved to the document Library','Detailed audit taps navigation only; other buttons are inventoried but not functionally clicked','No destructive, camera, file picker, share, print or download buttons are auto-tapped','Generated images are diagnostic layout maps, NOT screenshots; actual screenshots must be captured manually or by Playwright']};
     $('selfTestRun').disabled=false;$('selfTestStop').disabled=true;
     $('selfTestExport').disabled=false;$('selfTestCopy').disabled=false;$('selfTestScreenshots').disabled=captures.length===0;
     render();
@@ -313,7 +339,7 @@ document.addEventListener('click',e=>{if(e.target.closest('#selfTestOpen')){e.ta
 $('selfTestClose').addEventListener('click',hide);
 $('selfTestRun').addEventListener('click',start);
 $('selfTestStop').addEventListener('click',()=>{stopRequested=true;$('selfTestSummary').textContent='Stopping after current check…';});
-$('selfTestExport').addEventListener('click',()=>{if(!lastReport)return;const url=URL.createObjectURL(new Blob([JSON.stringify(lastReport,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download=`docuscan-device-test-${new Date().toISOString().replace(/[:.]/g,'-')}.json`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+$('selfTestExport').addEventListener('click',()=>{if(!lastReport)return;const url=URL.createObjectURL(new Blob([JSON.stringify(lastReport,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download=`docuscan-device-test-${new Date().toISOString().replace(/[:.]/g,'-')}-${lastReport.source}.json`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);});
 $('selfTestCopy').addEventListener('click',async()=>{if(!lastReport)return;const r=lastReport;const summary=`DocuScan Pro ${r.version} | ${r.mode} | ${r.device.viewport.width}x${r.device.viewport.height}\n${r.results.map(x=>`${x.status.toUpperCase()}: ${x.name} (${x.ms}ms) ${x.detail}`).join('\n')}`;try{await navigator.clipboard.writeText(summary);$('selfTestCopy').textContent='Copied!';setTimeout(()=>$('selfTestCopy').textContent='Copy Results',1800);}catch(e){$('selfTestSummary').textContent='Copy blocked; use Download JSON instead';}});
 
 $('selfTestScreenshots').addEventListener('click',()=>{

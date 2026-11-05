@@ -3,7 +3,7 @@
 Runs against a local/remote deployment in Chromium device emulation, not native iOS.
 Each scenario starts in a clean browser context; synthetic documents only.
 """
-import re, json, os, pathlib, sys, time, traceback, datetime, argparse
+import itertools, re, json, os, pathlib, sys, time, traceback, datetime, argparse
 from playwright.sync_api import expect, sync_playwright
 from pypdf import PdfReader
 from PIL import Image, ImageDraw, ImageFont
@@ -13,6 +13,7 @@ parser=argparse.ArgumentParser(description='Run independent DocuScan browser wor
 parser.add_argument('url',nargs='?',default='http://127.0.0.1:8765/')
 parser.add_argument('--profile',choices=['desktop','iphone-emulated','ipad-emulated','all'],default='all')
 parser.add_argument('--case',choices=['consent','import','ocr','edit','annotations','tools','library','errors','studio-capture','sign-history','tools-pages','tools-text','folders','help','tools-raster','tools-batch','tools-forms','tools-size','tools-ocr','all'],default='all')
+parser.add_argument("--repeat",type=int,choices=range(1,1001),default=1,metavar="1-1000")
 args=parser.parse_args()
 URL=args.url
 FIX=OUT/'synthetic'/f'{args.profile}-{args.case}';FIX.mkdir(parents=True,exist_ok=True)
@@ -37,15 +38,15 @@ def download_pdf(page,selector,dest):
  ev.value.save_as(dest)
  assert len(PdfReader(dest).pages)>0,'Exported PDF cannot reopen in independent parser'
  return {'bytes':pathlib.Path(dest).stat().st_size,'pages':len(PdfReader(dest).pages)}
-def case(page,name,fn,profile):
+def case(page,name,fn,profile,iteration):
  start=time.monotonic()
  try:
-  details=fn();results.append(dict(profile=profile,case=name,status='passed',seconds=round(time.monotonic()-start,2),details=details))
+  details=fn();results.append(dict(profile=profile,case=name,iteration=iteration,status='passed',seconds=round(time.monotonic()-start,2),details=details))
  except Exception as ex:
-  shot=OUT/f'{profile}-{name.replace(" ","-")}-FAIL.png'
+  shot=OUT/f'{profile}-{name.replace(" ","-")}-run-{iteration}-FAIL.png'
   try:page.screenshot(path=str(shot),full_page=True,timeout=12000)
   except Exception:pass
-  results.append(dict(profile=profile,case=name,status='failed',seconds=round(time.monotonic()-start,2),error=str(ex),traceback=traceback.format_exc()[-2000:],screenshot=str(shot.relative_to(ROOT))))
+  results.append(dict(profile=profile,case=name,iteration=iteration,status='failed',seconds=round(time.monotonic()-start,2),error=str(ex),traceback=traceback.format_exc()[-2000:],screenshot=str(shot.relative_to(ROOT))))
 def studio_workflow(page,profile):
  nav(page,'studio');page.locator('#imagesInput').set_input_files(str(img))
  page.wait_for_function('document.querySelectorAll("#studioThumbs img").length>=1',timeout=45000)
@@ -683,7 +684,7 @@ def route_ocr_assets(context, modules):
 with sync_playwright() as p:
  browser=p.chromium.launch(headless=True,executable_path=os.environ.get('CHROMIUM_PATH') or None,args=['--no-sandbox'])
  for profile,(w,h) in selected.items():
-  for kind in cases:
+  for iteration,kind in itertools.product(range(1,args.repeat+1),cases):
    local_ocr=bool(ocr_assets and kind in ('ocr','tools-ocr'))
    ctx=browser.new_context(viewport={'width':w,'height':h},is_mobile=profile!='desktop',has_touch=profile!='desktop',accept_downloads=True,
                            service_workers='block' if local_ocr else 'allow')
@@ -696,11 +697,11 @@ with sync_playwright() as p:
     if errors:raise AssertionError('Uncaught browser errors: '+str(errors[:5]))
     if kind in ('ocr','tools-ocr'): detail['assetSource']='local npm assets' if local_ocr else 'production CDN'
     return detail
-   case(page,kind,task,profile)
+   case(page,kind,task,profile,iteration)
    ctx.close()
  browser.close()
 report={'suite':'complete-app-workflows-v7741-split','generatedUTC':datetime.datetime.now(datetime.timezone.utc).isoformat(),
- 'selectedCase':args.case,'selectedProfile':args.profile,
+ 'source':'chromium-workflow','repeatsPerCase':args.repeat,'selectedCase':args.case,'selectedProfile':args.profile,
  'limitations':['Chromium emulation is not native iOS Safari','Native camera, sharing, printing excluded'], 'results':results}
 filename=f'report-{args.profile}-{args.case}.json'
 (OUT/filename).write_text(json.dumps(report,indent=2))

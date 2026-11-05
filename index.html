@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#007AFF" />
   <meta name="description" content="DocuScan Pro — scan, edit, sign, merge, split, watermark, and export PDF documents. Local-first PWA." />
-  <title>DocuScan Pro 7.5</title>
+  <title>DocuScan Pro 7.6</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
   <link rel="icon" type="image/svg+xml" href="assets/icons/icon.svg" />
@@ -107,11 +107,13 @@
           </button>
           <button class="btn" id="btnImportImages" type="button">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            Import images
+            Import files
           </button>
         </div>
+        <label class="field"><span><input type="checkbox" id="studioCleanCapture"> Auto-crop and clean camera captures</span></label>
+        <p class="card__subtitle">Add photos and PDFs to one packet. PDF pages keep their original content and dimensions.</p>
         <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden />
-        <input type="file" id="imagesInput" accept="image/jpeg,image/png,image/gif,image/webp,image/bmp,image/tiff" multiple hidden />
+        <input type="file" id="imagesInput" accept="application/pdf,.pdf,image/jpeg,image/png,image/gif,image/webp,image/bmp,image/tiff" multiple hidden />
       </div>
 
       <div class="card card--padded">
@@ -127,6 +129,19 @@
           </button>
           <button class="btn btn--sm btn--danger" id="btnClearAllPages" type="button" disabled>Clear all</button>
         </div>
+      </div>
+
+      <div class="card card--padded">
+        <h3 class="card__title">Packet checklist</h3>
+        <select class="select" id="studioTemplate" aria-label="Packet template">
+          <option value="">Choose a template</option>
+          <option value="expense">Expense claim</option>
+          <option value="signed">Signed document</option>
+          <option value="custom">My checklist</option>
+        </select>
+        <label id="studioChecklistEditor" class="field" hidden><span class="field__label">One step per line</span><textarea id="studioChecklistSteps" class="textarea" rows="3"></textarea></label>
+        <div id="studioChecklist"></div>
+        <button class="btn" id="studioResetChecklist" type="button">Reset checklist</button>
       </div>
 
       <div class="card card--padded">
@@ -156,6 +171,12 @@
           <button class="btn" id="btnResetEnhance" type="button">Reset</button>
           <button class="btn" id="btnAutoCrop" type="button">Auto-crop</button>
         </div>
+        <button class="btn" id="btnStudioOriginal" type="button" aria-pressed="false" disabled>Show original</button>
+      <div class="edit-buttons history-actions" role="group" aria-label="Edit history">
+        <button class="btn" id="btnStudioUndo" type="button" disabled>Undo</button>
+        <button class="btn" id="btnStudioRedo" type="button" disabled>Redo</button>
+        <button class="btn" id="btnDeletePage" type="button" disabled>Remove</button>
+      </div>
       </div>
 
       <div class="card card--padded">
@@ -209,17 +230,20 @@
             PDF
           </button>
         </div>
+        <label class="field"><span class="field__label">Photo quality</span>
+          <select class="select" id="studioPdfQuality">
+            <option value="small">Small</option>
+            <option value="standard" selected>Standard</option>
+            <option value="original">Original quality</option>
+          </select>
+        </label>
         <div class="studio-edit-actions">
           <button class="btn" id="btnSendToSign" type="button">Edit in Sign ›</button>
           <button class="btn" id="btnSendToTools" type="button">Edit in Tools ›</button>
         </div>
       </div>
 
-      <div class="edit-buttons history-actions">
-        <button class="btn" id="btnStudioUndo" type="button" disabled>Undo</button>
-        <button class="btn" id="btnStudioRedo" type="button" disabled>Redo</button>
-        <button class="btn" id="btnDeletePage" type="button" disabled>Remove</button>
-      </div>
+
 
       <div class="card card--padded">
         <h3 class="card__title">Export</h3>
@@ -257,25 +281,32 @@
               </div>
               <canvas id="studioPreviewCanvas" hidden></canvas>
             </div>
+            <button class="btn" id="btnStudioPerspective" type="button" disabled>Straighten page</button>
+            <p id="studioPerspectiveHint" class="card__subtitle" aria-live="polite"></p>
             <div class="page-nav" id="studioPageNav" role="navigation" aria-label="Page navigation">
               <button class="page-nav__btn" id="btnStudioPrevPage" type="button" aria-label="Previous page" disabled>‹</button>
               <span class="page-nav__label" id="studioPageNavLabel">No pages</span>
               <button class="page-nav__btn" id="btnStudioNextPage" type="button" aria-label="Next page" disabled>›</button>
             </div>
+            <div class="row row--wrap">
+              <button class="btn" id="btnStudioMoveEarlier" type="button" disabled>Move earlier</button>
+              <button class="btn" id="btnStudioMoveLater" type="button" disabled>Move later</button>
+            </div>
+              <button class="btn btn--sm btn--ghost" id="btnSpeakOcr" type="button">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                Read scanned text aloud
+              </button>
             <input type="range" id="studioPageSlider" min="1" max="1" value="1" style="width:100%;margin-top:8px;display:none" aria-label="Page slider" />
           </div>
 
           <div class="card card--padded" id="studioOcrResultCard">
             <h3 class="card__title">OCR result</h3>
-            <p class="card__subtitle">Text recognized from the selected page appears here.</p>
-            <textarea class="textarea" id="ocrResult" placeholder="Run Scan to recognize text on the selected page…" style="margin-top:var(--space-2)" aria-label="Recognized text"></textarea>
+            <p class="card__subtitle">Recognized text from the image pages appears here and is included in PDF exports.</p>
+            <textarea class="textarea" id="ocrResult" placeholder="Run Scan to recognize text on the image pages…" style="margin-top:var(--space-2)" aria-label="Recognized text"></textarea>
             <div class="row" style="margin-top:var(--space-2)">
               <button class="btn btn--sm btn--ghost" id="btnCopyOcr" type="button">Copy text</button>
               <button class="btn btn--sm btn--ghost" id="btnDownloadOcr" type="button">Download .txt</button>
-              <button class="btn btn--sm btn--ghost" id="btnSpeakOcr" type="button">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-                Read aloud
-              </button>
+
             </div>
           </div>
         </div>
@@ -394,6 +425,20 @@
                 <input class="field__control" id="inkColor" type="color" value="#000000" style="height:var(--control-height); padding:4px;" />
               </div>
             </div>
+          <div class="edit-buttons history-actions" role="group" aria-label="Edit history">
+            <button class="btn" id="btnUndo" type="button" disabled>
+              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 1 3 7.7"/></svg>
+              Undo
+            </button>
+            <button class="btn" id="btnRedo" type="button" disabled>
+              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M21 13a9 9 0 1 0-3 7.7"/></svg>
+              Redo
+            </button>
+            <button class="btn" id="btnRemoveSelected" type="button" disabled>
+              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+              Remove
+            </button>
+          </div>
           </div>
 
           <div class="card card--padded" id="watermarkCard" hidden>
@@ -423,20 +468,7 @@
             </div>
           </div>
 
-          <div class="edit-buttons history-actions">
-            <button class="btn" id="btnUndo" type="button" disabled>
-              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 1 3 7.7"/></svg>
-              Undo
-            </button>
-            <button class="btn" id="btnRedo" type="button" disabled>
-              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M21 13a9 9 0 1 0-3 7.7"/></svg>
-              Redo
-            </button>
-            <button class="btn" id="btnRemoveSelected" type="button" disabled>
-              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
-              Remove
-            </button>
-          </div>
+
             <div class="card card--padded">
             <h3 class="card__title">Export</h3>
             <div class="export-actions">
@@ -521,8 +553,8 @@
         </div>
 
         <div class="card card--padded">
-          <h3 class="card__title">2. Make a change</h3>
-          <p class="card__subtitle">Choose a category and tool. Apply the change, then check the preview and export.</p>
+          <h3 class="card__title">2. Choose a tool</h3>
+          <p class="card__subtitle">Choose a category, then select a tool.</p>
           <div class="tools-tabs" id="toolsTabs" role="tablist">
             <!-- Tier 1: 5 high-level group buttons. Click to expand that group's
                  tools underneath; click the same group again to collapse back
@@ -652,19 +684,21 @@
             </div>
           </div>
 
-          <div class="stack" id="toolsPanel" style="margin-top:var(--space-4)">
-            <!-- panels injected by JS -->
-          </div>
-
-          <div class="row row--wrap" style="margin-top:var(--space-4)">
-            <button class="btn btn--primary" id="btnRunToolOp" type="button" disabled>Apply</button>
-            <button class="btn" id="btnPreviewTool" type="button" disabled>Show original</button>
-            <div class="spacer"></div>
-            <span class="tiny muted" id="toolsRunHint">Open a PDF to begin.</span>
-          </div>
         </div>
 
-        <div class="edit-buttons history-actions">
+        <div class="card card--padded">
+          <h3 class="card__title" id="toolsDetailsTitle">3. Tool details</h3>
+          <div class="stack" id="toolsPanel"></div>
+        </div>
+
+        <div class="card card--padded">
+          <h3 class="card__title">4. Apply and review</h3>
+          <p class="card__subtitle" id="toolsRunHint">Open a PDF to begin.</p>
+          <div class="row row--wrap">
+            <button class="btn btn--primary" id="btnRunToolOp" type="button" disabled>Apply Changes</button>
+            <button class="btn" id="btnPreviewTool" type="button" disabled>Show original</button>
+          </div>
+        <div class="edit-buttons history-actions" role="group" aria-label="Edit history">
           <button class="btn" id="btnToolsUndo" type="button" disabled>
             <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 1 3 7.7"/></svg>
             Undo
@@ -677,6 +711,7 @@
             <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
             Remove
           </button>
+        </div>
         </div>
 
           <div class="card card--padded">
@@ -910,9 +945,18 @@
   </div>
 
   <!-- On-device diagnostics: generated files only; no user document access -->
+  <dialog id="studioShareDialog" class="card card--padded" aria-labelledby="studioShareTitle">
+    <h2 id="studioShareTitle" class="card__title">Share PDF</h2>
+    <p id="studioShareSize"></p>
+    <div class="row row--wrap">
+      <button class="btn" id="studioShareCurrent" type="button">Share selected quality</button>
+      <button class="btn" id="studioShareSmall" type="button">Share smaller PDF</button>
+      <form method="dialog"><button class="btn" type="submit">Cancel</button></form>
+    </div>
+  </dialog>
   <div id="selfTestDialog" class="selftest-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="selfTestTitle">
     <div class="selftest-panel">
-      <div class="selftest-head"><h2 id="selfTestTitle">Device Self-Test · v7.5</h2><button id="selfTestClose" class="btn" type="button" aria-label="Close diagnostics">Close</button></div>
+      <div class="selftest-head"><h2 id="selfTestTitle">Device Self-Test · v7.6</h2><button id="selfTestClose" class="btn" type="button" aria-label="Close diagnostics">Close</button></div>
       <p class="tiny muted">Runs locally on this device using generated and bundled sample files. Your saved documents are not opened or changed.</p>
       <label for="selfTestMode" class="field__label">Test level</label>
       <select id="selfTestMode" class="field__control"><option value="quick">Quick — layout and device capabilities</option><option value="standard" selected>Standard — images and PDF round trips</option><option value="stress">Stress — 50 images, 100 scanned pages, repeated OCR</option></select>

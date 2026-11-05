@@ -65,7 +65,7 @@ export async function recognizeText(imageSource, { onProgress, lang = 'eng' } = 
   try {
     const worker = await getWorker(onProgress, lang);
     const result = await worker.recognize(imageSource);
-    return { ok: true, text: result?.data?.text || '' };
+    return { ok: true, text: result?.data?.text || '', lines: result?.data?.lines || [] };
   } catch (err) {
     _workerPromise = null; // allow retry
     return { ok: false, error: err.message || String(err), text: '' };

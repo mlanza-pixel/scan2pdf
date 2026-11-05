@@ -1,5 +1,7 @@
 # DocuScan Pro 7.6.0
 
+**Current release:** [v7.6 Searchable Packets](RELEASE_NOTES_7.6_SEARCHABLE_PACKETS.md)
+
 Complete static PWA release based on 7.5.9. No build or paid service is needed to run the app. Open `release.json` for the exact UTC build and cache versions.
 
 ## Choose your workspace

@@ -41,16 +41,34 @@ export async function buildPdfFromCanvases(canvases, opts = {}) {
   doc.setCreator('DocuScan Pro');
   doc.setProducer('DocuScan Pro (pdf-lib)');
   const pageSize = PAGE_SIZES[opts.pageSize] || null;
-  for (const canvas of canvases) {
-    const pngBytes = await new Promise((resolve, reject) => {
-      canvas.toBlob(b => {
-        const fr = new FileReader();
-        fr.onload = () => resolve(new Uint8Array(fr.result));
-        fr.onerror = () => reject(fr.error);
-        fr.readAsArrayBuffer(b);
-      }, 'image/png');
+  const sourceDocs = new Map();
+  const quality = { small: [1250, .67], standard: [1900, .85] }[opts.quality];
+  let font;
+  for (const [index, canvas] of canvases.entries()) {
+    const source = opts.sourcePages?.[index];
+    if (source) {
+      if (!sourceDocs.has(source.bytes)) sourceDocs.set(source.bytes, await PDFDocument.load(source.bytes));
+      const [page] = await doc.copyPages(sourceDocs.get(source.bytes), [source.index]);
+      doc.addPage(page);
+      continue;
+    }
+    let imageCanvas = canvas;
+    if (quality) {
+      const ratio = Math.min(1, quality[0] / Math.max(canvas.width, canvas.height));
+      imageCanvas = document.createElement('canvas');
+      imageCanvas.width = Math.max(1, Math.round(canvas.width * ratio));
+      imageCanvas.height = Math.max(1, Math.round(canvas.height * ratio));
+      const ctx = imageCanvas.getContext('2d');
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, imageCanvas.width, imageCanvas.height);
+      ctx.drawImage(canvas, 0, 0, imageCanvas.width, imageCanvas.height);
+    }
+    const blob = await new Promise((resolve, reject) => {
+      imageCanvas.toBlob(value => value ? resolve(value) : reject(new Error('Could not encode page image.')),
+        quality ? 'image/jpeg' : 'image/png', quality?.[1]);
     });
-    const img = await doc.embedPng(pngBytes);
+    const data = await blob.arrayBuffer();
+    const img = quality ? await doc.embedJpg(data) : await doc.embedPng(data);
     let pageW, pageH;
     if (pageSize) {
       [pageW, pageH] = pageSize;
@@ -68,12 +86,31 @@ export async function buildPdfFromCanvases(canvases, opts = {}) {
     const padding = 18;
     const maxW = pageW - padding * 2;
     const maxH = pageH - padding * 2;
-    const scale = Math.min(maxW / img.width, maxH / img.height);
-    const w = img.width * scale;
-    const h = img.height * scale;
+    const scale = Math.min(maxW / canvas.width, maxH / canvas.height);
+    const w = canvas.width * scale;
+    const h = canvas.height * scale;
     const x = (pageW - w) / 2;
     const y = (pageH - h) / 2;
     page.drawImage(img, { x, y, width: w, height: h });
+    const ocr = opts.ocrPages?.[index];
+    if (!ocr?.text) continue;
+    font ??= await doc.embedFont(lib.StandardFonts.Helvetica);
+    const supported = new Set(font.getCharacterSet());
+    const lines = ocr.lines.length ? ocr.lines : ocr.text.split(/\r?\n/).map(text => ({ text }));
+    const fontRef = page.node.newFontDictionary(font.name, font.ref);
+    lines.forEach(({ text, bbox }, row) => {
+      const value = Array.from(text.trim(), c => supported.has(c.codePointAt(0)) ? c : ' ').join('');
+      if (!value.trim()) return;
+      const left = bbox ? x + bbox.x0 * scale : x;
+      const bottom = bbox ? y + h - bbox.y1 * scale : y + h - (row + 1) * 10;
+      const size = bbox ? Math.max(1, (bbox.y1 - bbox.y0) * scale) : 10;
+      const width = bbox ? Math.max(1, (bbox.x1 - bbox.x0) * scale) : w;
+      page.pushOperators(lib.beginText(), lib.setFontAndSize(fontRef, size),
+        lib.setTextRenderingMode(lib.TextRenderingMode.Invisible),
+        lib.setTextMatrix(width / font.widthOfTextAtSize(value, size), 0, 0, 1, left, bottom),
+        lib.showText(font.encodeText(value)), lib.endText());
+    });
+
   }
   const bytes = await doc.save();
   return bytes;
@@ -84,6 +121,14 @@ export async function loadExistingPdf(bytes) {
   const { PDFDocument } = lib;
   const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
   return { doc, lib };
+}
+
+export async function optimizePdfStructure(bytes) {
+  const { doc, lib } = await loadExistingPdf(bytes);
+  if (doc.isEncrypted || doc.catalog.has(lib.PDFName.of('Perms')) ||
+      doc.getForm().getFields().some(field => field instanceof lib.PDFSignature)) return bytes;
+  const candidate = await doc.save({ useObjectStreams: true, updateFieldAppearances: false });
+  return candidate.length < bytes.length ? candidate : bytes;
 }
 
 export function rgbFromHex(hex) {

@@ -7,12 +7,12 @@
 
 import { initNavigation, goto, getActive, onWorkspaceChange } from './navigation.js';
 import { initScanner, validateImageFile, fileToDataURL, loadImage } from './scanner.js';
-import { PRESETS, applyAdjustments, rotateCanvas, imageToCanvas, canvasToDataURL } from './image-processing.js';
+import { PRESETS, applyAdjustments, rotateCanvas, imageToCanvas, canvasToDataURL, straightenPage, reducePageShadows } from './image-processing.js';
 import { recognizeText, isOcrAvailable } from './ocr.js';
 import { loadPdfFromBytes, renderPageToCanvas, getPageCount, makeThumbnail } from './pdf-renderer.js';
 import {
   buildPdfFromCanvases, loadExistingPdf, insertTextElement, insertImageElement,
-  insertWatermark, drawFittedWatermark, rgbFromHex,
+  insertWatermark, drawFittedWatermark, rgbFromHex, optimizePdfStructure,
 } from './pdf-editor.js';
 import { SignaturePad, typedSignatureToPng } from './signatures.js';
 import { normalizeConfig, describe as describeWm } from './watermark.js';
@@ -21,8 +21,8 @@ import { listDocuments, getDocument, renameDocument, deleteDocument, estimateSto
 import { parseRanges, runMerge, runSplit, runRotate, runReorder, runWatermark, runAnnotateText, runAnnotateDrawing } from './pdf-tools.js';
 import { maybeShowWelcome, initHelpCenter, attachContextHelp } from './help-system.js';
 
-const APP_VERSION = '7.5';
-const APP_BUILD = '7.5-device-fixtures';
+const APP_VERSION = '7.6';
+const APP_BUILD = '7.6-searchable-packets';
 
 /* ---------------- Shared app state ---------------- */
 const state = {
@@ -205,11 +205,11 @@ function updateStudioActions() {
   document.getElementById('btnStudioRedo').disabled = !studioRedo.length;
   const has = studio.pages.length > 0;
   const sel = studio.pages.find(p => p.id === studio.selectedId);
-  // Contextual button text: "Import images" → "Add more images" when pages exist
+  // Contextual button text: "Import files" → "Add files" when pages exist
   const importBtn = document.getElementById('btnImportImages');
   if (importBtn) {
     const svg = importBtn.querySelector('svg');
-    importBtn.textContent = has ? 'Add images' : 'Import images';
+    importBtn.textContent = has ? 'Add files' : 'Import files';
     // Preserve the icon while changing the label.
     if (svg) importBtn.insertBefore(svg, importBtn.firstChild);
   }
@@ -230,6 +230,7 @@ function updateStudioActions() {
   });
   // Page navigation lives under the preview pane. Hide the whole bar when
   // there are no pages — "No pages" text is unnecessary noise.
+  document.getElementById('btnSpeakOcr').hidden = !has;
   const navBar = document.getElementById('studioPageNav');
   const idx = sel ? studio.pages.indexOf(sel) : -1;
   const prev = document.getElementById('btnStudioPrevPage');
@@ -237,6 +238,13 @@ function updateStudioActions() {
   if (navBar) navBar.style.display = has ? '' : 'none';
   if (prev) prev.disabled = !sel || idx <= 0;
   if (next) next.disabled = !sel || idx >= studio.pages.length - 1;
+  document.getElementById('btnStudioMoveEarlier').disabled = idx <= 0;
+  document.getElementById('btnStudioMoveLater').disabled = idx < 0 || idx >= studio.pages.length - 1;
+  for (const id of ['btnRotatePage','btnAutoCrop','btnResetEnhance','btnStudioPerspective']) {
+    document.getElementById(id).disabled = !sel || !!sel.sourcePdf;
+  }
+  document.getElementById('btnApplyEnhance').disabled = !studio.pages.some(page => !page.sourcePdf);
+  document.getElementById('btnRunOcr').disabled = studioOcrRunning || !studio.pages.some(page => !page.sourcePdf);
   const label = document.getElementById('studioPageNavLabel');
   if (label) label.textContent = has && sel ? `Page ${idx + 1} of ${studio.pages.length}` : '';
   const slider = document.getElementById('studioPageSlider');
@@ -252,18 +260,57 @@ function updateStudioActions() {
   }
 }
 
+const studioOcrByCanvas = new WeakMap();
+let studioOcrRunning = false;
+
+async function addStudioPdf(file) {
+  try {
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    const { doc } = await loadExistingPdf(bytes);
+    if (doc.isEncrypted || doc.getForm().getFields().length) {
+      throw new Error('Open password-protected or fillable PDFs separately in PDF Tools.');
+    }
+    const pdf = await loadPdfFromBytes(bytes);
+    const count = await getPageCount(pdf);
+    const pages = [];
+    for (let index = 0; index < count; index++) {
+      const canvas = document.createElement('canvas');
+      await renderPageToCanvas(pdf, index + 1, canvas, 550);
+      pages.push({
+        id: crypto.randomUUID(), name: file.name, originalCanvas: canvas, workingCanvas: canvas,
+        thumbnailDataURL: canvas.toDataURL('image/jpeg', .65), sourcePdf: { bytes, index }, transform: {},
+      });
+    }
+    recordStudioChange();
+    studio.pages.push(...pages);
+    studio.selectedId ||= pages[0]?.id;
+    renderStudioThumbs();
+    updateStudioPreview();
+    toast(`Added ${file.name} (${count} pages)`, 'success');
+  } catch (err) {
+    toast(`Could not add PDF: ${err.message}`, 'error');
+  }
+}
+
 async function addImageFile(file, opts = {}) {
+  if (file.type === 'application/pdf' || /\.pdf$/i.test(file.name)) return addStudioPdf(file);
   const v = validateImageFile(file);
   if (!v.ok) { toast(v.reason, 'error'); return; }
   try {
     const dataURL = await fileToDataURL(file);
     const img = await loadImage(dataURL);
-    const canvas = imageToCanvas(img);
+    const originalCanvas = imageToCanvas(img);
+    let canvas = originalCanvas;
     // Stamp a small timestamp on camera captures (the only one of the three
     // capture paths that benefits from a fresh capture marker). Imported
     // images already carry their own EXIF/file metadata.
     if (opts && opts.source === 'camera') {
-      stampTimestamp(canvas);
+      if (document.getElementById('studioCleanCapture').checked) {
+        const cropped = autoCropCanvas(canvas);
+        canvas = reducePageShadows(cropped);
+      }
+      stampTimestamp(originalCanvas);
+      if (canvas !== originalCanvas) stampTimestamp(canvas);
     }
     const thumb = document.createElement('canvas');
     const tctx = thumb.getContext('2d');
@@ -275,7 +322,7 @@ async function addImageFile(file, opts = {}) {
     const page = {
       id: crypto.randomUUID(),
       name: file.name || `Page ${studio.pages.length + 1}`,
-      originalCanvas: canvas,
+      originalCanvas,
       workingCanvas: canvas,
       thumbnailDataURL: thumb.toDataURL('image/jpeg', 0.7),
       transform: { brightness: 0, contrast: 0, preset: 'none' },
@@ -320,9 +367,151 @@ function stampTimestamp(canvas) {
   ctx.restore();
 }
 
+const shareDialog = document.getElementById('studioShareDialog');
+let pendingShare;
+async function reviewPdfShare(current, name, buildSmaller = () => optimizePdfStructure(current)) {
+  if (pendingShare || shareDialog.open) return;
+  const packet = { current, name };
+  pendingShare = packet;
+  try {
+    const candidate = await buildSmaller();
+    packet.small = candidate && candidate.length < current.length ? candidate : null;
+  } catch {
+    packet.small = null;
+  }
+  const size = bytes => bytes.length < 1e6 ? `${Math.ceil(bytes.length / 1000)} KB` : `${(bytes.length / 1e6).toFixed(2)} MB`;
+  document.getElementById('studioShareSize').textContent = `Selected PDF: ${size(current)}.` +
+    (packet.small ? ` Smaller PDF: ${size(packet.small)}.` : ' No smaller copy is available.');
+  document.getElementById('studioShareSmall').hidden = !packet.small;
+  shareDialog.showModal();
+}
+for (const [id, option] of [['studioShareCurrent', 'current'], ['studioShareSmall', 'small']]) {
+  document.getElementById(id).addEventListener('click', async () => {
+    const packet = pendingShare;
+    if (!packet?.[option]) return;
+    shareDialog.close();
+    const result = await sharePdf(packet[option], packet.name, { title: packet.name });
+    if (result.method === 'download-fallback') toast('Sharing unavailable — download started instead.', 'warning');
+    else if (result.ok) toast('Shared.', 'success');
+  });
+}
+shareDialog.addEventListener('close', () => { pendingShare = undefined; });
+
 function initStudioWorkspace() {
   document.getElementById('btnStudioUndo').addEventListener('click', () => restoreStudioHistory(studioUndo, studioRedo));
   document.getElementById('btnStudioRedo').addEventListener('click', () => restoreStudioHistory(studioRedo, studioUndo));
+  for (const [id, offset] of [['btnStudioMoveEarlier', -1], ['btnStudioMoveLater', 1]]) {
+    document.getElementById(id).addEventListener('click', () => {
+      const index = studio.pages.findIndex(page => page.id === studio.selectedId);
+      const destination = index + offset;
+      if (index < 0 || destination < 0 || destination >= studio.pages.length) return;
+      recordStudioChange();
+      const [page] = studio.pages.splice(index, 1);
+      studio.pages.splice(destination, 0, page);
+      renderStudioThumbs();
+      updateStudioPreview();
+    });
+  }
+  const templates = {
+    custom: [],
+    expense: ['Expense form', 'Receipts', 'Approval or signature'],
+    signed: ['Original document', 'Supporting pages', 'Signature and date'],
+  };
+  const template = document.getElementById('studioTemplate');
+  const checklist = document.getElementById('studioChecklist');
+  const resetChecklist = document.getElementById('studioResetChecklist');
+  const editor = document.getElementById('studioChecklistEditor');
+  const steps = document.getElementById('studioChecklistSteps');
+  const key = 'docuscan-pro.studio-checklist';
+  let savedChecklist = {};
+  try { savedChecklist = JSON.parse(localStorage.getItem(key) || '{}') || {}; } catch {}
+  template.value = Object.hasOwn(templates, savedChecklist.template) ? savedChecklist.template : '';
+  const saveChecklist = () => {
+    try { localStorage.setItem(key, JSON.stringify(savedChecklist)); } catch {}
+  };
+  steps.value = savedChecklist.custom || '';
+  steps.addEventListener('input', () => {
+    savedChecklist.custom = steps.value;
+    savedChecklist.done = [];
+    saveChecklist();
+    renderChecklist();
+  });
+  const renderChecklist = () => {
+    checklist.replaceChildren();
+    resetChecklist.disabled = !template.value;
+    editor.hidden = template.value !== 'custom';
+    const items = template.value === 'custom' ? steps.value.split(/\r?\n/).map(line => line.trim()).filter(Boolean) : templates[template.value] || [];
+    items.forEach((text, index) => {
+      const label = document.createElement('label');
+      label.className = 'field';
+      const line = document.createElement('span');
+      const item = document.createElement('input');
+      item.type = 'checkbox';
+      item.checked = savedChecklist.done?.includes(index) || false;
+      item.addEventListener('change', () => {
+        savedChecklist.done = [...checklist.querySelectorAll('input')].flatMap((box, position) => box.checked ? [position] : []);
+        saveChecklist();
+      });
+      line.append(item, ' ' + text);
+      label.append(line);
+      checklist.append(label);
+    });
+  };
+  const reset = () => {
+    savedChecklist = { ...savedChecklist, template: template.value, done: [] };
+    saveChecklist();
+    renderChecklist();
+  };
+  template.addEventListener('change', reset);
+  resetChecklist.addEventListener('click', reset);
+  renderChecklist();
+  const straighten = document.getElementById('btnStudioPerspective');
+  const hint = document.getElementById('studioPerspectiveHint');
+  const previewCanvas = document.getElementById('studioPreviewCanvas');
+  let cornerPage;
+  let corners = [];
+  const stopCorners = () => {
+    cornerPage = undefined;
+    corners = [];
+    straighten.textContent = 'Straighten page';
+    previewCanvas.style.cursor = '';
+    hint.textContent = '';
+  };
+  straighten.addEventListener('click', () => {
+    if (cornerPage) { stopCorners(); return; }
+    const selected = studio.pages.find(page => page.id === studio.selectedId);
+    if (!selected || selected.sourcePdf) return;
+    studioOriginalPage = null;
+    updateStudioPreview();
+    cornerPage = selected;
+    straighten.textContent = 'Cancel straighten';
+    previewCanvas.style.cursor = 'crosshair';
+    hint.textContent = 'Tap top-left, top-right, bottom-right, then bottom-left.';
+  });
+  previewCanvas.addEventListener('click', event => {
+    if (!cornerPage) return;
+    const page = studio.pages.find(item => item.id === studio.selectedId);
+    if (page !== cornerPage) { stopCorners(); return; }
+    const canvas = page.workingCanvas;
+    const rect = previewCanvas.getBoundingClientRect();
+    corners.push({ x: (event.clientX - rect.left) * canvas.width / rect.width,
+      y: (event.clientY - rect.top) * canvas.height / rect.height });
+    if (corners.length < 4) { hint.textContent = `Corner ${corners.length} of 4 selected.`; return; }
+    try {
+      const corrected = straightenPage(canvas, corners);
+      recordStudioChange();
+      page.workingCanvas = corrected;
+      const thumb = document.createElement('canvas');
+      thumb.width = 120;
+      thumb.height = Math.max(1, Math.round(120 * corrected.height / corrected.width));
+      thumb.getContext('2d').drawImage(corrected, 0, 0, thumb.width, thumb.height);
+      page.thumbnailDataURL = thumb.toDataURL('image/jpeg', .7);
+      renderStudioThumbs();
+      updateStudioPreview();
+      toast('Page straightened.', 'success');
+    } catch (err) { toast(err.message, 'warning'); }
+    stopCorners();
+  });
   initScanner({
     onFile: addImageFile,
     onToast: toast,
@@ -330,7 +519,7 @@ function initStudioWorkspace() {
 
   document.getElementById('btnRotatePage').addEventListener('click', () => {
     const sel = studio.pages.find(p => p.id === studio.selectedId);
-    if (!sel) return;
+    if (!sel || sel.sourcePdf) return;
     recordStudioChange();
     sel.workingCanvas = rotateCanvas(sel.workingCanvas, 90);
     sel.transform.rotation = (sel.transform.rotation || 0) + 90;
@@ -429,7 +618,7 @@ function initStudioWorkspace() {
     recordStudioChange();
     let appliedCount = 0;
     for (const page of studio.pages) {
-      if (!page.originalCanvas) continue;
+      if (!page.originalCanvas || page.sourcePdf) continue;
       const adjusted = applyAdjustments(page.originalCanvas, {
         brightness: b, contrast: c,
         grayscale: preset.grayscale === 1,
@@ -487,12 +676,15 @@ function initStudioWorkspace() {
     // multiple pages expect Scan to process all of them; users who only want
     // one page scanned will only import one. Concatenate results with page
     // separators so the textarea reads naturally top-to-bottom.
-    if (studio.pages.length === 0) {
+    const images = studio.pages.filter(page => !page.sourcePdf).map(page => page.workingCanvas);
+    if (studioOcrRunning || !images.length) {
       toast('Import or capture at least one page first.', 'warning');
       return;
     }
+    studioOcrRunning = true;
+    updateStudioActions();
     const lang = document.getElementById('ocrLanguage')?.value || 'eng';
-    ocrStatus.textContent = `Working… (page 1 of ${studio.pages.length})`;
+    ocrStatus.textContent = `Working… (page 1 of ${images.length})`;
     ocrResult.value = '';
     progress.style.display = 'block';
     const bar = progress.querySelector('.progress__bar');
@@ -500,13 +692,14 @@ function initStudioWorkspace() {
     try {
       const chunks = [];
       let failedCount = 0;
-      for (let i = 0; i < studio.pages.length; i++) {
-        const page = studio.pages[i];
-        ocrStatus.textContent = `Working… (page ${i + 1} of ${studio.pages.length})`;
+      for (let i = 0; i < images.length; i++) {
+        const canvas = images[i];
+        studioOcrByCanvas.delete(canvas);
+        ocrStatus.textContent = `Working… (page ${i + 1} of ${images.length})`;
         // Each page contributes its own slice of the overall progress bar
-        const pageBase = i / studio.pages.length;
-        const pageSpan = 1 / studio.pages.length;
-        const result = await recognizeText(page.workingCanvas, {
+        const pageBase = i / images.length;
+        const pageSpan = 1 / images.length;
+        const result = await recognizeText(canvas, {
           onProgress: (m) => {
             if (typeof m.progress === 'number') {
               bar.style.width = ((pageBase + m.progress * pageSpan) * 100) + '%';
@@ -515,16 +708,17 @@ function initStudioWorkspace() {
           lang,
         });
         if (result.ok) {
+          studioOcrByCanvas.set(canvas, result);
           const text = (result.text || '').trim();
-          if (studio.pages.length > 1) {
-            chunks.push(`--- Page ${i + 1} of ${studio.pages.length} ---\n${text || '(No text recognized.)'}`);
+          if (images.length > 1) {
+            chunks.push(`--- Page ${i + 1} of ${images.length} ---\n${text || '(No text recognized.)'}`);
           } else {
             chunks.push(text || '(No text recognized.)');
           }
         } else {
           failedCount++;
-          if (studio.pages.length > 1) {
-            chunks.push(`--- Page ${i + 1} of ${studio.pages.length} ---\n(OCR failed: ${result.error || 'unknown error'})`);
+          if (images.length > 1) {
+            chunks.push(`--- Page ${i + 1} of ${images.length} ---\n(OCR failed: ${result.error || 'unknown error'})`);
           } else {
             chunks.push('(OCR failed: ' + (result.error || 'unknown error') + ')');
           }
@@ -532,19 +726,21 @@ function initStudioWorkspace() {
       }
       ocrResult.value = chunks.join('\n\n');
       if (failedCount === 0) {
-        ocrStatus.textContent = `Done (${studio.pages.length} page${studio.pages.length > 1 ? 's' : ''})`;
-        toast(`OCR complete — ${studio.pages.length} page${studio.pages.length > 1 ? 's' : ''} scanned.`, 'success');
-      } else if (failedCount === studio.pages.length) {
+        ocrStatus.textContent = 'Done';
+        toast(`OCR complete — ${images.length} page${images.length > 1 ? 's' : ''} scanned.`, 'success');
+      } else if (failedCount === images.length) {
         ocrStatus.textContent = 'Failed';
         toast('OCR failed on all pages.', 'error');
       } else {
         ocrStatus.textContent = `Done with ${failedCount} failure(s)`;
-        toast(`OCR complete with ${failedCount} of ${studio.pages.length} pages failed.`, 'warning');
+        toast(`OCR complete with ${failedCount} of ${images.length} pages failed.`, 'warning');
       }
     } catch (err) {
       ocrStatus.textContent = 'Error';
       toast('OCR error: ' + err.message, 'error');
     } finally {
+      studioOcrRunning = false;
+      updateStudioActions();
       progress.style.display = 'none';
     }
   });
@@ -607,12 +803,19 @@ function initStudioWorkspace() {
   const createPdfBtn = document.getElementById('btnCreatePdf');
   const CREATE_PDF_HTML = createPdfBtn.innerHTML;
   // Helper: build PDF bytes from current studio pages (used by all export actions)
-  async function buildStudioPdf() {
-    if (studio.pages.length === 0) throw new Error('No pages. Capture or import images first.');
-    const pageSize = document.getElementById('pdfPageSize').value;
-    const orientation = document.getElementById('pdfOrientation').value;
-    return buildPdfFromCanvases(studio.pages.map(p => p.workingCanvas), { pageSize, orientation });
+  function buildStudioPdf(quality = document.getElementById('studioPdfQuality').value, pages = studio.pages.slice()) {
+    if (!pages.length) throw new Error('No pages. Capture or import images first.');
+    if (studioOcrRunning) throw new Error('Wait for OCR to finish before exporting.');
+    const canvases = pages.map(page => page.workingCanvas);
+    return buildPdfFromCanvases(canvases, {
+      pageSize: document.getElementById('pdfPageSize').value,
+      orientation: document.getElementById('pdfOrientation').value,
+      quality,
+      sourcePages: pages.map(page => page.sourcePdf),
+      ocrPages: canvases.map(canvas => studioOcrByCanvas.get(canvas)),
+    });
   }
+
   // Helper: run an export action with button-state protection (never goes blank)
   async function runStudioExport(btnId, action) {
     const btn = document.getElementById(btnId);
@@ -621,9 +824,10 @@ function initStudioWorkspace() {
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span>';
     try {
-      const bytes = await buildStudioPdf();
+      const pages = studio.pages.slice();
+      const bytes = await buildStudioPdf(undefined, pages);
       const name = `Scan_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')}`;
-      await action(bytes, name);
+      await action(bytes, name, pages.length);
     } catch (err) {
       toast(err.message || 'Export failed.', 'error');
     } finally {
@@ -639,7 +843,8 @@ function initStudioWorkspace() {
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span> Building…';
     try {
-      const bytes = await buildStudioPdf();
+      const pages = studio.pages.slice();
+      const bytes = await buildStudioPdf(undefined, pages);
       // Ask the user for a filename. Default to a timestamped name; user can type any name.
       const defaultName = `Scan_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')}`;
       const typed = prompt('Name this PDF:', defaultName);
@@ -649,9 +854,9 @@ function initStudioWorkspace() {
         return;
       }
       const name = (typed || '').trim() || defaultName;
-      const saved = await saveToLibrary(bytes, { name, pageCount: studio.pages.length });
+      const saved = await saveToLibrary(bytes, { name, pageCount: pages.length });
       if (!saved) { toast('Save cancelled.', 'info'); return; }
-      toast(`Saved "${name}.pdf" to Library (${studio.pages.length} pages).`, 'success');
+      toast(`Saved "${name}.pdf" to Library (${pages.length} pages).`, 'success');
     } catch (err) {
       toast('PDF build failed: ' + err.message, 'error');
     } finally {
@@ -666,8 +871,8 @@ function initStudioWorkspace() {
     if (!el) return;
     el.addEventListener('click', async () => {
       if (id === 'btnStudioSave') {
-        await runStudioExport(id, async (bytes, name) => {
-          const saved = await saveToLibrary(bytes, { name, pageCount: studio.pages.length });
+        await runStudioExport(id, async (bytes, name, pageCount) => {
+          const saved = await saveToLibrary(bytes, { name, pageCount });
       if (!saved) { toast('Save cancelled.', 'info'); return; }
           toast(`Saved "${name}.pdf" to Library.`, 'success');
         });
@@ -677,10 +882,11 @@ function initStudioWorkspace() {
           toast('Download started.', 'success');
         });
       } else if (id === 'btnStudioShare') {
-        await runStudioExport(id, async (bytes, name) => {
-          const r = await sharePdf(bytes, name, { title: name, text: 'Scanned document' });
-          if (r.method === 'download-fallback') toast('Sharing unavailable — download started instead.', 'warning');
-          else toast('Shared.', 'success');
+        const pages = studio.pages.slice();
+        const quality = document.getElementById('studioPdfQuality').value;
+        await runStudioExport(id, async (current, name) => {
+          await reviewPdfShare(current, name, () =>
+            quality === 'small' || pages.every(page => page.sourcePdf) ? optimizePdfStructure(current) : buildStudioPdf('small', pages));
         });
       } else if (id === 'btnStudioPrint') {
         await runStudioExport(id, async (bytes, name) => {
@@ -1659,9 +1865,7 @@ async function commitAndExport(action) {
       downloadPdf(bytes, name);
       toast('Download started.', 'success');
     } else if (action === 'share') {
-      const r = await sharePdf(bytes, name, { title: name, text: 'Signed document' });
-      if (r.method === 'download-fallback') toast('Sharing unavailable — download started instead.', 'warning');
-      else if (r.ok) toast('Shared.', 'success');
+      await reviewPdfShare(bytes, name);
     } else if (action === 'print') {
       printPdf(bytes, name);
     }
@@ -1705,10 +1909,12 @@ const TOOLS_PANELS = {
       <button class="chip" data-angle="270" type="button">270°</button>
     </div>`,
   reorder: (total) => `
-    <p class="muted tiny" style="margin:0 0 var(--space-2)">Drag the page thumbnails to rearrange. The new order updates automatically.</p>
-    <div id="reorderThumbStrip" class="thumb-strip" style="min-height:120px"></div>
-    <input type="hidden" id="reorderInput" value="${Array.from({length: total}, (_, i) => i + 1).join(',')}" />
-    <p class="muted tiny" style="margin:var(--space-2) 0 0">Or type a custom order above (hidden field updated by drag).</p>`,
+    <p class="muted tiny">Drag the thumbnails below, or enter a custom page order with commas. Then select Apply Changes.</p>
+    <label class="field">
+      <span class="field__label">Page order</span>
+      <input class="field__control" id="reorderInput" type="text" value="${Array.from({length: total}, (_, i) => i + 1).join(',')}" />
+    </label>
+    <div id="reorderThumbStrip" class="thumb-strip" style="min-height:120px"></div>`,
   annotate: `
     <p class="muted tiny" style="margin:0 0 var(--space-2)">Add annotations to a chosen page. Switch between Text and Draw (Apple Pencil / finger) modes.</p>
     <div class="tools-tabs" id="annotateSubTabs" role="tablist" style="margin-bottom:var(--space-3)">
@@ -1784,14 +1990,15 @@ const TOOLS_PANELS = {
     <p class="muted tiny" style="margin:0 0 var(--space-2)">View the primary PDF and the 2nd PDF side-by-side. Both pages render at the same scale for easy visual comparison.</p>
     <p class="muted tiny" style="margin:0">Open PDFs above (Open PDF = File A, Open 2nd PDF = File B), then press <strong>Run</strong> to render the comparison.</p>`,
   compress: `
-    <p class="muted tiny" style="margin:0 0 var(--space-2)">Reduces PDF file size by re-encoding embedded images at lower quality. Choose a compression level:</p>
+    <p class="muted tiny" style="margin:0 0 var(--space-2)">Optimize the PDF while keeping text and form fields. The image-only levels rasterize every page and remove interactive fields.</p>
     <div class="enhance-grid" id="compressLevels">
-      <button class="chip" data-level="light" type="button">Light (90%)</button>
-      <button class="chip is-active" data-level="medium" type="button">Medium (70%)</button>
+      <button class="chip is-active" data-level="preserve" type="button">Preserve text and forms</button>
+      <button class="chip" data-level="light" type="button">Image only: light</button>
+      <button class="chip" data-level="medium" type="button">Image only: medium</button>
       <button class="chip" data-level="strong" type="button">Strong (50%)</button>
       <button class="chip" data-level="maximum" type="button">Maximum (30%)</button>
     </div>
-    <p class="muted tiny" style="margin:var(--space-2) 0 0">Higher compression = smaller file but lower image quality. Text remains crisp.</p>`,
+    <p class="muted tiny" style="margin:var(--space-2) 0 0">Compare the exported size. The preserve option may leave an already optimized file the same size.</p>`,
   protect: `
     <p class="muted tiny" style="margin:0 0 var(--space-2)">Encrypt the PDF with a password. The encrypted file can only be opened by entering the password.</p>
     <div class="stack">
@@ -1867,7 +2074,7 @@ const TOOLS_PANELS = {
           <option value="rotate90">Rotate all 90°</option>
           <option value="rotate180">Rotate all 180°</option>
           <option value="rotate270">Rotate all 270°</option>
-          <option value="compress">Compress all (medium)</option>
+          <option value="compress">Optimize all (preserve text and forms)</option>
           <option value="watermark">Add DRAFT watermark</option>
         </select>
       </label>
@@ -2371,6 +2578,8 @@ function syncToolPreview() {
 function renderToolsPanel() {
   const panel = document.getElementById('toolsPanel');
   const tab = tools.activeTab;
+  const title = document.querySelector('.tools-tab[aria-selected="true"]')?.textContent.trim();
+  document.getElementById('toolsDetailsTitle').textContent = title ? '3. ' + title : '3. Tool details';
   syncToolPreview();
   // No tool selected (initial state, or after collapsing the active group) —
   // show a prompt instead of "undefined".
@@ -2417,10 +2626,8 @@ function renderToolsPanel() {
       c.addEventListener('click', () => {
         panel.querySelectorAll('#compressLevels .chip').forEach(x => x.classList.remove('is-active'));
         c.classList.add('is-active');
-        tools._compressLevel = c.dataset.level;
       });
     });
-    tools._compressLevel = 'medium';
   }
   // Bind batch file handler
   if (tab === 'batch') {
@@ -2994,7 +3201,7 @@ function initToolsWorkspace() {
       // Rename Run → Scan on the OCR tab so the action label matches the
       // workflow; restore to Run for every other tab.
       const runBtn = document.getElementById('btnRunToolOp');
-      if (runBtn) runBtn.textContent = tab.dataset.tab === 'ocrpdf' ? 'Scan text' : 'Apply';
+      if (runBtn) runBtn.textContent = tab.dataset.tab === 'ocrpdf' ? 'Scan text' : 'Apply Changes';
       const runHint = document.getElementById('toolsRunHint');
       if (runHint) runHint.textContent = tab.dataset.tab === 'ocrpdf'
         ? 'Scan will recognize text and show the result below the preview.'
@@ -3190,18 +3397,15 @@ function initToolsWorkspace() {
         await renderCompareView();
         toast('Compare view rendered below.', 'success');
       } else if (tab === 'compress') {
-        const level = tools._compressLevel || 'medium';
-        const qualityMap = { light: 0.9, medium: 0.7, strong: 0.5, maximum: 0.3 };
-        const quality = qualityMap[level] || 0.7;
-        // DS-09: warn that compression converts pages to images (loses text layer)
-        if (!tools._compressWarned) {
-          toast('Warning: Compression re-encodes pages as images. Text search, copy, and accessibility will be lost. Use Metadata or Header for non-destructive edits.', 'warning');
-          tools._compressWarned = true;
+        const level = document.querySelector('#compressLevels .is-active')?.dataset.level || 'preserve';
+        if (level === 'preserve') {
+          out = await optimizePdfStructure(tools.bytes);
+          if (out === tools.bytes) { toast('The original is already the smallest available without rasterizing.', 'info'); return; }
+        } else {
+          const quality = { light: .9, medium: .7, strong: .5, maximum: .3 }[level];
+          out = await compressPdf(tools.bytes, quality);
+          toast('Image-only compression applied. Exported pages have no interactive fields or searchable text.', 'warning');
         }
-        out = await compressPdf(tools.bytes, quality);
-        const before = (tools.bytes.length / 1024).toFixed(0);
-        const after = (out.length / 1024).toFixed(0);
-        toast(`Compressed: ${before}KB → ${after}KB (${Math.round((1 - after/before) * 100)}% smaller). Text layer converted to images.`, 'success');
       } else if (tab === 'protect') {
         const userPwd = document.getElementById('protectUserPwd')?.value;
         const confirmPwd = document.getElementById('protectConfirmPwd')?.value;
@@ -3329,7 +3533,7 @@ function initToolsWorkspace() {
             if (batchOp === 'rotate90') result = await runRotate(f.bytes, 90);
             else if (batchOp === 'rotate180') result = await runRotate(f.bytes, 180);
             else if (batchOp === 'rotate270') result = await runRotate(f.bytes, 270);
-            else if (batchOp === 'compress') result = await compressPdf(f.bytes, 0.7);
+            else if (batchOp === 'compress') result = await optimizePdfStructure(f.bytes);
             else if (batchOp === 'watermark') {
               result = await runWatermark(f.bytes, { text: 'DRAFT', direction: 'diagonal', opacity: 50 });
             }
@@ -3625,7 +3829,7 @@ function initToolsWorkspace() {
       updateToolsHistoryButtons();
       document.getElementById('btnPreviewTool').disabled = !tools.outputBytes;
       btn.disabled = !tools.bytes;
-      btn.textContent = tools.activeTab === 'ocrpdf' ? 'Scan text' : 'Apply';
+      btn.textContent = tools.activeTab === 'ocrpdf' ? 'Scan text' : 'Apply Changes';
     }
   });
 
@@ -3681,8 +3885,7 @@ function initToolsWorkspace() {
   document.getElementById('btnToolsShare').addEventListener('click', async () => {
     const bytes = tools.outputBytes || tools.bytes;
     if (!bytes) { toast('Open a PDF and run an operation first.', 'warning'); return; }
-    const r = await sharePdf(bytes, `Tools_${Date.now()}`);
-    if (r.method === 'download-fallback') toast('Sharing unavailable — download started instead.', 'warning');
+    await reviewPdfShare(bytes, `Tools_${Date.now()}`);
   });
   document.getElementById('btnToolsPrint').addEventListener('click', () => {
     const bytes = tools.outputBytes || tools.bytes;
@@ -3695,7 +3898,7 @@ function initToolsWorkspace() {
     try { if (await loadSignDocument((tools.outputBytes || tools.bytes).slice(), 'From PDF Tools')) goto('sign'); }
     catch (err) { toast('Could not open Sign: ' + err.message, 'error'); }
   });
-  document.querySelector('#toolsGroups [data-group="pages"]').click();
+  document.querySelector('#toolsGroups [data-group="content"]').click();
   // Set initial empty state — hide page nav and doc-info until a PDF is loaded.
   updateToolsPageNav();
 }
@@ -4059,12 +4262,24 @@ function copyTextFallback(text) {
 }
 
 /* ---------------- Studio preview panel ---------------- */
+let studioOriginalPage = null;
+document.getElementById('btnStudioOriginal').addEventListener('click', () => {
+  studioOriginalPage = studioOriginalPage === studio.selectedId ? null : studio.selectedId;
+  updateStudioPreview();
+});
+
 function updateStudioPreview() {
   const sel = studio.pages.find(p => p.id === studio.selectedId);
   const wrap = document.getElementById('studioPreviewWrap');
   const canvas = document.getElementById('studioPreviewCanvas');
   const empty = document.getElementById('studioPreviewEmpty');
   if (!wrap || !canvas || !empty) return;
+  if (studioOriginalPage !== studio.selectedId) studioOriginalPage = null;
+  const showOriginal = !!studioOriginalPage;
+  const originalButton = document.getElementById('btnStudioOriginal');
+  originalButton.disabled = !sel;
+  originalButton.textContent = showOriginal ? 'Show edited' : 'Show original';
+  originalButton.setAttribute('aria-pressed', String(showOriginal));
   if (!sel) {
     empty.hidden = false;
     canvas.hidden = true;
@@ -4075,10 +4290,11 @@ function updateStudioPreview() {
   canvas.hidden = false;
   const ctx = canvas.getContext('2d');
   const maxW = Math.min(600, wrap.clientWidth - 24);
-  const ratio = Math.min(maxW / sel.workingCanvas.width, 1);
-  canvas.width = sel.workingCanvas.width * ratio;
-  canvas.height = sel.workingCanvas.height * ratio;
-  ctx.drawImage(sel.workingCanvas, 0, 0, canvas.width, canvas.height);
+  const image = showOriginal ? sel.originalCanvas : sel.workingCanvas;
+  const ratio = Math.min(maxW / image.width, 1);
+  canvas.width = image.width * ratio;
+  canvas.height = image.height * ratio;
+  ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
   updateStudioActions();
 }
 

@@ -34,9 +34,9 @@ export function initScanner(handlers) {
     imagesInput.click();
   });
 
-  imagesInput.addEventListener('change', () => {
+  imagesInput.addEventListener('change', async () => {
     const files = Array.from(imagesInput.files || []);
-    files.forEach(f => handlers.onFile(f, { source: 'import' }));
+    for (const file of files) await handlers.onFile(file, { source: 'import' });
   });
 }
 

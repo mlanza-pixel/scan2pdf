@@ -67,7 +67,7 @@ def studio_workflow(page,profile):
  info=page.locator('#toolsDocInfo').inner_text()
  assert 'no document loaded' not in info.lower(),info
  return {'importedImages':1,'export':exported,'reopenedInTools':True,'documentInfo':info[:200]}
-def ocr_workflow(page):
+def ocr_workflow(page,profile):
  nav(page,'studio');page.locator('#imagesInput').set_input_files(str(img))
  page.wait_for_function('document.querySelectorAll("#studioThumbs img").length>=1',timeout=45000)
  page.locator('#btnRunOcr').click()
@@ -77,7 +77,42 @@ def ocr_workflow(page):
  expected=['DOCUSCAN','INVOICE','12345','TOTAL','789.50']
  matched=[s for s in expected if s in recognized]
  assert len(matched)>=4,f'OCR accuracy below 4/5 tokens: {recognized[:300]!r}'
- return {'tokensMatched':len(matched),'tokensExpected':len(expected),'recognizedSample':recognized[:250]}
+ fixture=ROOT/'tests/fixtures/document-5-pages.pdf'
+ page.locator('#imagesInput').set_input_files([str(fixture), str(ROOT/'tests/fixtures/photo-1.jpg')])
+ expect(page.locator('#studioThumbs img')).to_have_count(7)
+ page.locator('#btnStudioMoveLater').click()
+ page.locator('#studioTemplate').select_option('expense')
+ page.get_by_label('Receipts',exact=True).check()
+ page.locator('#studioPdfQuality').select_option('original')
+ path=OUT/f'{profile}-searchable-original.pdf'
+ download_pdf(page,'#btnStudioDownload',str(path))
+ packet=PdfReader(path)
+ assert len(packet.pages)==7 and 'DOC5-PAGE01' in packet.pages[0].extract_text()
+ assert all(token in packet.pages[1].extract_text().upper() for token in matched)
+ page.locator('#btnStudioShare').click()
+ expect(page.locator('#studioShareSize')).to_contain_text('Smaller PDF:')
+ with page.expect_download() as shared:
+  page.locator('#studioShareSmall').click()
+ smaller=OUT/f'{profile}-searchable-smaller.pdf'
+ shared.value.save_as(smaller)
+ assert smaller.stat().st_size < path.stat().st_size
+ compact=PdfReader(smaller)
+ assert len(compact.pages)==7
+ assert all(token in compact.pages[1].extract_text().upper() for token in matched)
+ page.once('dialog',lambda dialog: dialog.accept('QA Searchable Packet'))
+ page.locator('#btnCreatePdf').click()
+ page.get_by_text('Saved "QA Searchable Packet.pdf" to Library',exact=False).wait_for()
+ nav(page,'library')
+ card=page.locator('#libraryGrid .library-card').filter(has_text='QA Searchable Packet')
+ card.get_by_role('button',name='Tools',exact=True).click()
+ page.locator('#ws-tools').wait_for()
+ saved=OUT/f'{profile}-searchable-library.pdf'
+ download_pdf(page,'#btnToolsDownload',str(saved))
+ assert all(token in PdfReader(saved).pages[1].extract_text().upper() for token in matched)
+ page.reload(wait_until='domcontentloaded')
+ nav(page,'studio')
+ expect(page.get_by_label('Receipts',exact=True)).to_be_checked()
+ return {'tokensMatched':len(matched),'tokensExpected':len(expected),'recognizedSample':recognized[:250],'mixedSearchablePages':7,'originalBytes':path.stat().st_size,'smallerBytes':smaller.stat().st_size,'checklistRestored':True}
 def sign_workflow(page,profile):
  # Use previously generated synthetic PDF; this exercises actual import and export UI.
  src=OUT/f'{profile}-{args.case}-studio-export.pdf'
@@ -94,13 +129,16 @@ def sign_workflow(page,profile):
  assert 'DocuScan workflow check' in PdfReader(dst).pages[0].extract_text()
  page.locator('#btnAddSignature').click()
  pad=page.locator('#signaturePad')
- pad.scroll_into_view_if_needed()
+ # Wait for the animated sheet to settle and for the canvas to receive pointer events.
+ pad.click(trial=True)
+ blank=pad.evaluate('(canvas)=>canvas.toDataURL()')
  rect=pad.bounding_box()
  page.mouse.move(rect['x']+20,rect['y']+25)
  page.mouse.down()
  page.mouse.move(rect['x']+100,rect['y']+45,steps=5)
  page.mouse.move(rect['x']+145,rect['y']+20,steps=5)
  page.mouse.up()
+ assert pad.evaluate('(canvas)=>canvas.toDataURL()')!=blank,'Pointer stroke did not reach the signature canvas'
  page.locator('#btnInsertSig').click()
  page.locator('#signatureSheet').wait_for(state='hidden')
  signature=page.locator('.object-overlay.is-selected').filter(has=page.get_by_alt_text('Signature'))
@@ -210,6 +248,8 @@ def tools_workflow(page,profile):
  chooser.value.set_files(str(fixtures/'document-5-pages.pdf'))
  page.get_by_text("Loaded PDF.",exact=True).wait_for(state="visible")
  pages=page.locator('#toolsGroups [data-group="pages"]')
+ assert page.locator('[data-group="content"]').get_attribute('aria-selected')=='true'
+ pages.click()
  pages.click()
  assert not page.locator('.tools-tab[data-tab="rotate"]').is_visible()
  pages.click()
@@ -256,6 +296,10 @@ def studio_capture_workflow(page, profile):
  page.locator('#btnApplyEnhance').click()
  enhanced=preview.evaluate('(canvas)=>canvas.toDataURL()')
  assert enhanced!=original,'Enhancement left preview unchanged'
+ page.locator('#btnStudioOriginal').click()
+ assert preview.evaluate('(canvas)=>canvas.toDataURL()')==original
+ page.locator('#btnStudioOriginal').click()
+ assert preview.evaluate('(canvas)=>canvas.toDataURL()')==enhanced
  page.locator('#btnStudioUndo').click()
  assert preview.evaluate('(canvas)=>canvas.toDataURL()')==original
  page.locator('#btnStudioRedo').click()
@@ -279,7 +323,13 @@ def studio_capture_workflow(page, profile):
  assert page.locator('#studioThumbs img').count()==0
  page.locator('#btnStudioUndo').click()
  page.locator('#studioThumbs img').wait_for()
- return {'captureInput':True,'grayscaleExport':True,'undoRedo':True,'resetRotateAndClear':True}
+ page.locator('#btnStudioPerspective').click()
+ preview.scroll_into_view_if_needed()
+ box=preview.bounding_box()
+ for x,y in [(0.15,0.15),(0.83,0.21),(0.88,0.8),(0.12,0.82)]:
+  page.mouse.click(box['x']+x*box['width'],box['y']+y*box['height'])
+ page.get_by_text('Page straightened.',exact=True).wait_for()
+ return {'captureInput':True,'grayscaleExport':True,'undoRedo':True,'resetRotateAndClear':True,'fourCornerStraighten':True}
 
 def open_fixture(page, workspace):
  nav(page,workspace)
@@ -327,6 +377,7 @@ def tools_pages_workflow(page, profile):
   page.locator('#btnRunToolOp').click()
   download_pdf(page,'#btnToolsDownload',str(dest))
   return PdfReader(dest)
+ page.locator('[data-group="pages"]').click()
  page.locator('.tools-tab[data-tab="split"]').click()
  page.locator('#splitRanges').fill('2-3')
  result=apply()
@@ -484,7 +535,6 @@ def tools_forms_workflow(page, profile):
  form.save()
  nav(page,'tools')
  page.locator('#toolsPdfInput').set_input_files(str(fixture))
- page.locator('#toolsGroups [data-group="content"]').click()
  page.locator('.tools-tab[data-tab="forms"]').click()
  page.locator('#btnRunToolOp').click()
  page.locator('[data-form-field="customer"]').fill('After')
@@ -492,19 +542,29 @@ def tools_forms_workflow(page, profile):
  dest=OUT/f'{profile}-filled.pdf'
  download_pdf(page,'#btnToolsDownload',str(dest))
  assert PdfReader(dest).get_fields()['customer']['/V']=='After'
+ page.locator('#btnToolsShare').click()
+ expect(page.locator('#studioShareSize')).to_contain_text('Selected PDF:')
+ with page.expect_download() as shared:
+  smaller=page.locator('#studioShareSmall')
+  (smaller if smaller.is_visible() else page.locator('#studioShareCurrent')).click()
+ shared_copy=OUT/f'{profile}-shared-form.pdf'
+ shared.value.save_as(shared_copy)
+ assert PdfReader(shared_copy).get_fields()['customer']['/V']=='After'
+
  page.locator('#toolsGroups [data-group="properties"]').click()
  page.locator('.tools-tab[data-tab="protect"]').click()
  page.locator('#protectUserPwd').fill('first')
  page.locator('#protectConfirmPwd').fill('second')
  page.locator('#btnRunToolOp').click()
  page.get_by_text('Operation failed: Passwords do not match.',exact=True).wait_for()
- return {'filledFormValueVerified':True,'mismatchedPasswordsRejected':True}
+ return {'filledFormValueVerified':True,'sharedFormValueVerified':True,'mismatchedPasswordsRejected':True}
 
 def tools_size_workflow(page, profile):
  nav(page,'tools')
  fixture=ROOT/'tests/fixtures/sample/ocr_010pages_q78.pdf'
  page.locator('#toolsPdfInput').set_input_files(str(fixture))
  page.get_by_text('Loaded PDF.',exact=True).wait_for()
+ page.locator('[data-group="pages"]').click()
  page.locator('.tools-tab[data-tab="splitbysize"]').click()
  page.locator('#splitSizeLimit').fill('1')
  page.locator('#btnRunToolOp').click()
@@ -637,7 +697,7 @@ def run_selected(page,profile,kind):
  consent(page)
  if kind=='consent': return {'dismissed':True}
  if kind=='import': return studio_workflow(page,profile)
- if kind=='ocr': return ocr_workflow(page)
+ if kind=='ocr': return ocr_workflow(page,profile)
  if kind=='edit':
   studio_workflow(page,profile)
   return sign_workflow(page,profile)

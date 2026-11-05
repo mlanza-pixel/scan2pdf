@@ -100,7 +100,7 @@ async def main():
 
         # Test each enhancement preset
         for preset in ['auto', 'grayscale', 'bw', 'brighten', 'contrast', 'none']:
-            await page.click(f'#enhancePresets .chip[data-preset="{preset}"]')
+            await page.click(f'#enhancePresets .btn[data-preset="{preset}"]')
             await page.wait_for_timeout(100)
             log_step(f'Enhancement preset: {preset}')
 

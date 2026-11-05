@@ -152,10 +152,10 @@ async def main():
 
         # Cycle through enhancement preset chips (forward) — chips, not buttons
         for preset in ['none', 'auto', 'grayscale', 'bw', 'brighten', 'contrast']:
-            await click_chip_and_verify_active(f'#enhancePresets .chip[data-preset="{preset}"]', f'preset:{preset}')
+            await click_chip_and_verify_active(f'#enhancePresets .btn[data-preset="{preset}"]', f'preset:{preset}')
         # Backward
         for preset in reversed(['none', 'auto', 'grayscale', 'bw', 'brighten', 'contrast']):
-            await click_chip_and_verify_active(f'#enhancePresets .chip[data-preset="{preset}"]', f'preset-rev:{preset}')
+            await click_chip_and_verify_active(f'#enhancePresets .btn[data-preset="{preset}"]', f'preset-rev:{preset}')
 
         # Adjust sliders
         for v in ['50', '-30', '0']:

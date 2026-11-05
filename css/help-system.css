@@ -182,7 +182,7 @@
   box-shadow: var(--shadow-elevated);
   padding: var(--space-4);
   max-width: 340px;
-  z-index: calc(var(--z-overlay) + 1);
+  z-index: calc(var(--z-overlay) + 3);
   pointer-events: auto;
   animation: card-in var(--motion-default);
 }

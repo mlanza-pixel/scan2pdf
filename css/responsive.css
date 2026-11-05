@@ -94,3 +94,44 @@
  img,canvas,video { max-width:100%; }
  .btn { overflow-wrap:anywhere; }
 }
+
+/* Keep fixed navigation clear of controls brought into view by touch or keyboard. */
+html {
+  scroll-padding-top: calc(108px + env(safe-area-inset-top, 0px));
+  scroll-padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 12px);
+}
+.app-main {
+  padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 32px);
+}
+.top-bar__brand { white-space: nowrap; }
+.connection-status { color: #16733d; font-size: 12px; }
+.connection-status.is-offline { color: #b42318; }
+.top-bar .page-tour-btn { height: 36px; padding-inline: 14px; font-size: var(--fs-label); }
+.toast { pointer-events: none; }
+.toast--interactive a, .toast--interactive button { pointer-events: auto; }
+.edit-buttons.history-actions { margin-block: var(--space-3); }
+.edit-buttons.annotation-row { margin-top: var(--space-2); }
+#ws-sign .btn.was-pressed,
+#ws-studio .btn.was-pressed,
+#enhancePresets .btn.is-active {
+  outline: 2px solid var(--color-text);
+  outline-offset: -2px;
+}
+.enhance-grid .btn { width: 100%; justify-content: center; }
+
+@media (max-width: 560px) {
+  .top-bar {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px 8px;
+    padding: calc(4px + env(safe-area-inset-top, 0px)) var(--space-3) 4px;
+  }
+  .top-bar__brand { grid-column: 1 / -1; }
+  .top-bar__spacer { display: none; }
+  .top-bar .top-bar__action { justify-content: center; padding-inline: 4px; }
+  .bottom-nav { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .bottom-nav__item { min-width: 0; }
+  .workspace .card, .workspace .field, .workspace .field__control { min-width: 0; max-width: 100%; }
+  .edit-buttons, .export-actions, .enhance-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .export-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

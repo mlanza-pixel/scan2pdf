@@ -6,7 +6,7 @@
    uses are offline.
    ===================================================================== */
 
-const CACHE_VERSION = 'v7-74-4-repeat-cache-tests';
+const CACHE_VERSION = 'v7-5-expanded-regression';
 const APP_CACHE = `docuscan-app-${CACHE_VERSION}`;
 const ASSET_CACHE = `docuscan-assets-${CACHE_VERSION}`;
 
@@ -100,7 +100,7 @@ self.addEventListener('fetch', (event) => {
   // for the service worker to update on its own.
   if (req.mode === 'navigate' && url.searchParams.has('v')) {
     event.respondWith(
-      fetch(req).then((res) => {
+      fetch(req, { cache: 'no-store' }).then((res) => {
         if (res && res.status === 200) {
           const clone = res.clone();
           caches.open(APP_CACHE).then(c => c.put(req, clone));
@@ -110,6 +110,8 @@ self.addEventListener('fetch', (event) => {
     );
     return;
   }
+  // A no-store probe should reach the server so diagnostics can compare it with cached resources.
+  if (req.cache === 'no-store') return;
   // App shell: cache-first, fallback to network, then offline fallback
   event.respondWith(
     caches.match(req).then(cached => {

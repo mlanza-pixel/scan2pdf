@@ -212,7 +212,7 @@ async def main():
             const ctx = c.getContext('2d');
             return ctx.getImageData(50, 50, 1, 1).data.slice(0,3).join(',');
         }""")
-        await page.click('#enhancePresets .chip[data-preset="auto"]')
+        await page.click('#enhancePresets .btn[data-preset="auto"]')
         await page.wait_for_timeout(200)
         await page.click('#btnApplyEnhance')
         await page.wait_for_timeout(1000)

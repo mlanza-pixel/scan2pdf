@@ -1,10 +1,9 @@
 {
-  "version": "7.74.1",
-  "buildUTC": "2026-11-05T16:22:49.457350+00:00",
-  "cacheVersion": "v7-73-0-ocr-fixtures",
-  "baseVersion": "7.7.0",
-  "browserFileImportTest": "blocked by browser upload approval; not passed",
-  "testStatus": "New complete-app browser suite packaged; not verified passing locally; CI and physical devices pending",
+  "version": "7.5",
+  "buildUTC": "2026-11-05T18:15:27.568560+00:00",
+  "cacheVersion": "v7-5-expanded-regression",
+  "baseVersion": "7.74.4",
+  "testStatus": "57 browser shards passed locally; see WORKFLOW_COVERAGE.md",
   "deviceSelfTest": "Quick, Standard, Stress; OCR recognition, image-backed PDFs, DOM screenshot attempts; JSON export",
   "fixtureGenerator": "scripts/generate_ocr_fixtures_v773.py",
   "fixtureVerification": "scripts/verify_ocr_fixtures_v773.py"

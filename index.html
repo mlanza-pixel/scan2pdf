@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#007AFF" />
   <meta name="description" content="DocuScan Pro — scan, edit, sign, merge, split, watermark, and export PDF documents. Local-first PWA." />
-  <title>DocuScan Pro 7.74.4</title>
+  <title>DocuScan Pro 7.5</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
   <link rel="icon" type="image/svg+xml" href="assets/icons/icon.svg" />
@@ -30,12 +30,10 @@
         </svg>
       </span>
       <span>DocuScan Pro</span>
+      <span class="connection-status" id="offlineBadge" role="status">Online</span>
     </div>
     <div class="top-bar__spacer"></div>
     <button class="top-bar__action page-tour-btn" id="globalTour" type="button" aria-label="Tour this page">Tour this page</button>
-    <button class="top-bar__action" id="btnOfflineStatus" type="button" title="Offline status" aria-label="Offline status indicator">
-      <span class="badge badge--secondary" id="offlineBadge">Online</span>
-    </button>
     <button class="top-bar__action" id="btnSoundMode" type="button" aria-label="Sound: off" title="Toggle interface sounds">Sound: Off</button>
     <button class="top-bar__action" id="btnAbout" type="button" aria-label="About DocuScan Pro">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
@@ -127,10 +125,6 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
             Rotate
           </button>
-          <button class="btn btn--sm" id="btnDeletePage" type="button" disabled>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-            Delete
-          </button>
           <button class="btn btn--sm btn--danger" id="btnClearAllPages" type="button" disabled>Clear all</button>
         </div>
       </div>
@@ -138,12 +132,12 @@
       <div class="card card--padded">
         <h3 class="card__title">Enhancement</h3>
         <div class="enhance-grid" id="enhancePresets" role="group" aria-label="Enhancement presets">
-          <button class="chip chip--enhance" data-preset="none" type="button">Original</button>
-          <button class="chip chip--enhance" data-preset="auto" type="button">Auto</button>
-          <button class="chip chip--enhance" data-preset="grayscale" type="button">Grayscale</button>
-          <button class="chip chip--enhance" data-preset="bw" type="button">B&amp;W</button>
-          <button class="chip chip--enhance" data-preset="brighten" type="button">Brighten</button>
-          <button class="chip chip--enhance" data-preset="contrast" type="button">Contrast+</button>
+          <button class="btn" data-preset="none" type="button">Original</button>
+          <button class="btn" data-preset="auto" type="button">Auto</button>
+          <button class="btn" data-preset="grayscale" type="button">Grayscale</button>
+          <button class="btn" data-preset="bw" type="button">B&amp;W</button>
+          <button class="btn" data-preset="brighten" type="button">Brighten</button>
+          <button class="btn" data-preset="contrast" type="button">Contrast+</button>
         </div>
         <div class="stack" style="margin-top:var(--space-4)">
           <div class="slider-row">
@@ -158,18 +152,18 @@
           </div>
         </div>
         <div class="three-button-row" style="margin-top:var(--space-3)">
-          <button class="btn btn--sm" id="btnApplyEnhance" type="button">Apply</button>
-          <button class="btn btn--sm btn--ghost" id="btnResetEnhance" type="button">Reset</button>
-          <button class="btn btn--sm btn--ghost" id="btnAutoCrop" type="button">Auto-crop</button>
+          <button class="btn" id="btnApplyEnhance" type="button">Apply</button>
+          <button class="btn" id="btnResetEnhance" type="button">Reset</button>
+          <button class="btn" id="btnAutoCrop" type="button">Auto-crop</button>
         </div>
       </div>
 
       <div class="card card--padded">
-        <h3 class="card__title">Recognize Text</h3>
+        <h3 class="card__title">OCR</h3>
         <div class="row">
-          <button class="btn btn--sm" id="btnRunOcr" type="button">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
-            Recognize Text
+          <button class="btn" id="btnRunOcr" type="button">
+            <svg class="tools-tab__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
+            OCR
           </button>
           <select class="select" id="ocrLanguage" style="width:auto;height:36px;font-size:13px">
             <option value="eng">English</option>
@@ -219,6 +213,12 @@
           <button class="btn" id="btnSendToSign" type="button">Edit in Sign ›</button>
           <button class="btn" id="btnSendToTools" type="button">Edit in Tools ›</button>
         </div>
+      </div>
+
+      <div class="edit-buttons history-actions">
+        <button class="btn" id="btnStudioUndo" type="button" disabled>Undo</button>
+        <button class="btn" id="btnStudioRedo" type="button" disabled>Redo</button>
+        <button class="btn" id="btnDeletePage" type="button" disabled>Remove</button>
       </div>
 
       <div class="card card--padded">
@@ -317,10 +317,8 @@
                 <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 Date
               </button>
-              <button class="btn" id="btnAddStamp" type="button" disabled>
-                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h2v-2a2 2 0 0 0-2-2z"/></svg>
-                Stamp
-              </button>
+            </div>
+            <div class="edit-buttons annotation-row">
               <button class="btn" id="btnAddHighlight" type="button" disabled>
                 <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l-6 6v3h3l6-6"/><path d="M22 12l-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4"/></svg>
                 Highlight
@@ -333,24 +331,15 @@
                 <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4v6"/><path d="M18 4v6"/><path d="M6 10c0 4 2 6 6 6s6-2 6-6"/><line x1="3" y1="14" x2="21" y2="14"/></svg>
                 Strike
               </button>
+            </div>
+            <div class="edit-buttons annotation-row">
+              <button class="btn" id="btnAddStamp" type="button" disabled>
+                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h2v-2a2 2 0 0 0-2-2z"/></svg>
+                Stamp
+              </button>
               <button class="btn" id="btnAddWatermark" type="button" disabled>
                 <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>
                 Watermark
-              </button>
-            </div>
-            <!-- History actions on their own line, separated by space above -->
-            <div class="edit-buttons" style="margin-top:var(--space-4); padding-top:var(--space-3); border-top:1px solid var(--color-border);">
-              <button class="btn" id="btnUndo" type="button" disabled>
-                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 1 3 7.7"/></svg>
-                Undo
-              </button>
-              <button class="btn" id="btnRedo" type="button" disabled>
-                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M21 13a9 9 0 1 0-3 7.7"/></svg>
-                Redo
-              </button>
-              <button class="btn" id="btnRemoveSelected" type="button" disabled>
-                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
-                Remove
               </button>
             </div>
           </div>
@@ -434,7 +423,21 @@
             </div>
           </div>
 
-          <div class="card card--padded">
+          <div class="edit-buttons history-actions">
+            <button class="btn" id="btnUndo" type="button" disabled>
+              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 1 3 7.7"/></svg>
+              Undo
+            </button>
+            <button class="btn" id="btnRedo" type="button" disabled>
+              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M21 13a9 9 0 1 0-3 7.7"/></svg>
+              Redo
+            </button>
+            <button class="btn" id="btnRemoveSelected" type="button" disabled>
+              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+              Remove
+            </button>
+          </div>
+            <div class="card card--padded">
             <h3 class="card__title">Export</h3>
             <div class="export-actions">
               <button class="btn" id="btnSaveToLibrary" type="button" disabled>
@@ -649,24 +652,6 @@
             </div>
           </div>
 
-          <!-- Always-available history actions: Undo / Redo / Remove.
-               These work regardless of which operation tab is active.
-               Styled the same as Sign's history row (blue .btn, on one line). -->
-          <div class="edit-buttons" style="margin-top:var(--space-3); padding-top:var(--space-3); border-top:1px solid var(--color-border);">
-            <button class="btn" id="btnToolsUndo" type="button" disabled>
-              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 1 3 7.7"/></svg>
-              Undo
-            </button>
-            <button class="btn" id="btnToolsRedo" type="button" disabled>
-              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M21 13a9 9 0 1 0-3 7.7"/></svg>
-              Redo
-            </button>
-            <button class="btn btn--danger" id="btnToolsRemove" type="button" disabled>
-              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
-              Remove
-            </button>
-          </div>
-
           <div class="stack" id="toolsPanel" style="margin-top:var(--space-4)">
             <!-- panels injected by JS -->
           </div>
@@ -679,7 +664,22 @@
           </div>
         </div>
 
-        <div class="card card--padded">
+        <div class="edit-buttons history-actions">
+          <button class="btn" id="btnToolsUndo" type="button" disabled>
+            <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 1 3 7.7"/></svg>
+            Undo
+          </button>
+          <button class="btn" id="btnToolsRedo" type="button" disabled>
+            <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M21 13a9 9 0 1 0-3 7.7"/></svg>
+            Redo
+          </button>
+          <button class="btn btn--danger" id="btnToolsRemove" type="button" disabled>
+            <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+            Remove
+          </button>
+        </div>
+
+          <div class="card card--padded">
           <h3 class="card__title">Export</h3>
           <div class="export-actions">
             <button class="btn" id="btnToolsSave" type="button" disabled>
@@ -912,7 +912,7 @@
   <!-- On-device diagnostics: generated files only; no user document access -->
   <div id="selfTestDialog" class="selftest-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="selfTestTitle">
     <div class="selftest-panel">
-      <div class="selftest-head"><h2 id="selfTestTitle">Device Self-Test · v7.74.4</h2><button id="selfTestClose" class="btn" type="button" aria-label="Close diagnostics">Close</button></div>
+      <div class="selftest-head"><h2 id="selfTestTitle">Device Self-Test · v7.5</h2><button id="selfTestClose" class="btn" type="button" aria-label="Close diagnostics">Close</button></div>
       <p class="tiny muted">Runs locally on this device using generated sample files. Your saved documents are not opened or changed.</p>
       <label for="selfTestMode" class="field__label">Test level</label>
       <select id="selfTestMode" class="field__control"><option value="quick">Quick — layout and device capabilities</option><option value="standard" selected>Standard — images and PDF round trips</option><option value="stress">Stress — 50 images, 100 scanned pages, repeated OCR</option></select>

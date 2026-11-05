@@ -1,0 +1,45 @@
+{
+  "suite": "complete-app-workflows-v7741-split",
+  "generatedUTC": "2026-11-05T18:14:26.504561+00:00",
+  "selectedCase": "help",
+  "selectedProfile": "all",
+  "limitations": [
+    "Chromium emulation is not native iOS Safari",
+    "Native camera, sharing, printing excluded"
+  ],
+  "results": [
+    {
+      "profile": "desktop",
+      "case": "help",
+      "status": "passed",
+      "seconds": 18.88,
+      "details": {
+        "searchArticleBack": true,
+        "toursTested": 6,
+        "restartTutorial": true
+      }
+    },
+    {
+      "profile": "iphone-emulated",
+      "case": "help",
+      "status": "passed",
+      "seconds": 18.03,
+      "details": {
+        "searchArticleBack": true,
+        "toursTested": 6,
+        "restartTutorial": true
+      }
+    },
+    {
+      "profile": "ipad-emulated",
+      "case": "help",
+      "status": "passed",
+      "seconds": 17.09,
+      "details": {
+        "searchArticleBack": true,
+        "toursTested": 6,
+        "restartTutorial": true
+      }
+    }
+  ]
+}

@@ -147,6 +147,8 @@ export function startWalkthrough(id) {
   showStep(0);
 }
 
+let cleanupWalkthroughStep;
+
 function showStep(index) {
   const w = state.activeWalkthrough;
   if (!w) return;
@@ -164,7 +166,7 @@ function showStep(index) {
     if (typeof step.onShow === 'function') {
       try { await step.onShow(); } catch {}
     }
-    renderStep(step, index, w.steps.length);
+    if (state.activeWalkthrough === w && w.current === index) renderStep(step, index, w.steps.length);
   };
   switchAndShow();
 }
@@ -175,7 +177,9 @@ function renderStep(step, index, total) {
   layer.className = 'walkthrough-layer';
   layer.id = '__walkthroughLayer';
 
-  let targetEl = step.selector ? document.querySelector(step.selector) : null;
+  const targetEl = step.selector ? document.querySelector(step.selector) : null;
+  const originalPosition = targetEl?.style.position;
+  const originalZIndex = targetEl?.style.zIndex;
   // Skip step gracefully if the target is missing or disabled
   if (step.selector && (!targetEl || targetEl.disabled)) {
     console.info(`Walkthrough: skipping step — selector "${step.selector}" not visible`);
@@ -308,9 +312,20 @@ function renderStep(step, index, total) {
   };
   document.addEventListener('scroll', recompute, true);
   window.addEventListener('resize', recompute);
+  cleanupWalkthroughStep = () => {
+    document.removeEventListener('keydown', keyHandler);
+    document.removeEventListener('scroll', recompute, true);
+    window.removeEventListener('resize', recompute);
+    if (targetEl) {
+      targetEl.style.position = originalPosition;
+      targetEl.style.zIndex = originalZIndex;
+    }
+  };
 }
 
 function removeStep() {
+  cleanupWalkthroughStep?.();
+  cleanupWalkthroughStep = undefined;
   document.getElementById('__walkthroughLayer')?.remove();
   document.querySelectorAll('.walkthrough-card').forEach(n => n.remove());
 }
@@ -783,7 +798,7 @@ const WALKTHROUGHS = {
       { workspace: "studio", selector: "#btnCaptureCamera", title: "Take a photo", body: "Use Camera for new photos. Import Images is for pictures already saved on your device.", placement: "bottom" },
       { workspace: "studio", selector: "#btnImportImages", title: "Import Images", body: "Choose existing photos. The camera is a separate action; it is not in the import menu.", placement: "bottom" },
       { workspace: "studio", selector: "#studioThumbs", title: "Review your pages", body: "Select thumbnails to review page order, rotation and deletions before creating a PDF.", placement: "bottom" },
-      { workspace: "studio", selector: "#enhancePresets", title: "Enhance images", body: "Use the blue enhancement actions to improve readability. Preview each change and reset if needed.", placement: "bottom" },
+      { workspace: "studio", selector: "#enhancePresets", title: "Enhance images", body: "Use the enhancement presets to improve readability. Preview each change and reset if needed.", placement: "bottom" },
       { workspace: "studio", selector: "#btnRunOcr", title: "Recognize text", body: "OCR recognizes text within scanned pictures; Find Text searches text that is already recognized or embedded.", placement: "bottom" },
       { workspace: "studio", selector: "#studioPageNav", title: "Previous and next", body: "Use page navigation to check every image, including the first and last page.", placement: "bottom" },
       { workspace: "studio", selector: "#btnCreatePdf", title: "Create PDF", body: "Select page size and orientation, then Create PDF. Continue with Edit in Sign or Edit in Tools.", placement: "bottom" },

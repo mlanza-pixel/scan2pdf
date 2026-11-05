@@ -1,0 +1,40 @@
+{
+  "suite": "complete-app-workflows-v7741-split",
+  "generatedUTC": "2026-11-05T17:30:46.824249+00:00",
+  "selectedCase": "ocr",
+  "selectedProfile": "all",
+  "limitations": [
+    "Chromium emulation is not native iOS Safari",
+    "Edit requires stronger rendered annotation assertions",
+    "Native camera, sharing, printing excluded"
+  ],
+  "results": [
+    {
+      "profile": "desktop",
+      "case": "ocr",
+      "status": "failed",
+      "seconds": 2.34,
+      "error": "OCR accuracy below 4/5 tokens: '(OCR FAILED: FAILED TO LOAD TESSERACT.JS FROM CDN. OCR UNAVAILABLE.)'",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/3c83185a1d61/work/scripts/test_complete_app_workflows_v7741.py\", line 44, in case\n    details=fn();results.append(dict(profile=profile,case=name,status='passed',seconds=round(time.monotonic()-start,2),details=details))\n            ^^^^\n  File \"/workspace/scratch/3c83185a1d61/work/scripts/test_complete_app_workflows_v7741.py\", line 138, in task\n    detail=run_selected(page,profile,kind)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/3c83185a1d61/work/scripts/test_complete_app_workflows_v7741.py\", line 115, in run_selected\n    if kind=='ocr': return ocr_workflow(page)\n                           ^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/3c83185a1d61/work/scripts/test_complete_app_workflows_v7741.py\", line 78, in ocr_workflow\n    assert len(matched)>=4,f'OCR accuracy below 4/5 tokens: {recognized[:300]!r}'\n           ^^^^^^^^^^^^^^^\nAssertionError: OCR accuracy below 4/5 tokens: '(OCR FAILED: FAILED TO LOAD TESSERACT.JS FROM CDN. OCR UNAVAILABLE.)'\n",
+      "screenshot": "tests/results/complete-app-v7741/desktop-ocr-FAIL.png"
+    },
+    {
+      "profile": "iphone-emulated",
+      "case": "ocr",
+      "status": "failed",
+      "seconds": 1.16,
+      "error": "OCR accuracy below 4/5 tokens: '(OCR FAILED: FAILED TO LOAD TESSERACT.JS FROM CDN. OCR UNAVAILABLE.)'",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/3c83185a1d61/work/scripts/test_complete_app_workflows_v7741.py\", line 44, in case\n    details=fn();results.append(dict(profile=profile,case=name,status='passed',seconds=round(time.monotonic()-start,2),details=details))\n            ^^^^\n  File \"/workspace/scratch/3c83185a1d61/work/scripts/test_complete_app_workflows_v7741.py\", line 138, in task\n    detail=run_selected(page,profile,kind)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/3c83185a1d61/work/scripts/test_complete_app_workflows_v7741.py\", line 115, in run_selected\n    if kind=='ocr': return ocr_workflow(page)\n                           ^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/3c83185a1d61/work/scripts/test_complete_app_workflows_v7741.py\", line 78, in ocr_workflow\n    assert len(matched)>=4,f'OCR accuracy below 4/5 tokens: {recognized[:300]!r}'\n           ^^^^^^^^^^^^^^^\nAssertionError: OCR accuracy below 4/5 tokens: '(OCR FAILED: FAILED TO LOAD TESSERACT.JS FROM CDN. OCR UNAVAILABLE.)'\n",
+      "screenshot": "tests/results/complete-app-v7741/iphone-emulated-ocr-FAIL.png"
+    },
+    {
+      "profile": "ipad-emulated",
+      "case": "ocr",
+      "status": "failed",
+      "seconds": 0.89,
+      "error": "OCR accuracy below 4/5 tokens: '(OCR FAILED: FAILED TO LOAD TESSERACT.JS FROM CDN. OCR UNAVAILABLE.)'",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/3c83185a1d61/work/scripts/test_complete_app_workflows_v7741.py\", line 44, in case\n    details=fn();results.append(dict(profile=profile,case=name,status='passed',seconds=round(time.monotonic()-start,2),details=details))\n            ^^^^\n  File \"/workspace/scratch/3c83185a1d61/work/scripts/test_complete_app_workflows_v7741.py\", line 138, in task\n    detail=run_selected(page,profile,kind)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/3c83185a1d61/work/scripts/test_complete_app_workflows_v7741.py\", line 115, in run_selected\n    if kind=='ocr': return ocr_workflow(page)\n                           ^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/3c83185a1d61/work/scripts/test_complete_app_workflows_v7741.py\", line 78, in ocr_workflow\n    assert len(matched)>=4,f'OCR accuracy below 4/5 tokens: {recognized[:300]!r}'\n           ^^^^^^^^^^^^^^^\nAssertionError: OCR accuracy below 4/5 tokens: '(OCR FAILED: FAILED TO LOAD TESSERACT.JS FROM CDN. OCR UNAVAILABLE.)'\n",
+      "screenshot": "tests/results/complete-app-v7741/ipad-emulated-ocr-FAIL.png"
+    }
+  ]
+}

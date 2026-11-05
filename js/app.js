@@ -21,8 +21,8 @@ import { listDocuments, getDocument, renameDocument, deleteDocument, estimateSto
 import { parseRanges, runMerge, runSplit, runRotate, runReorder, runWatermark, runAnnotateText, runAnnotateDrawing } from './pdf-tools.js';
 import { maybeShowWelcome, initHelpCenter, attachContextHelp } from './help-system.js';
 
-const APP_VERSION = '7.74.0';
-const APP_BUILD = '2026-11-05T15:50:46.798188+00:00';
+const APP_VERSION = '7.5';
+const APP_BUILD = '7.5-expanded-regression';
 
 /* ---------------- Shared app state ---------------- */
 const state = {
@@ -98,14 +98,57 @@ function updateOnlineStatus() {
   if (!badge) return;
   const online = navigator.onLine;
   badge.textContent = online ? 'Online' : 'Offline';
-  badge.classList.toggle('badge--secondary', online);
-  badge.classList.toggle('badge--danger', !online);
+  badge.classList.toggle('is-offline', !online);
 }
 window.addEventListener('online', () => { updateOnlineStatus(); toast('Back online.', 'success'); });
 window.addEventListener('offline', () => { updateOnlineStatus(); toast('You are offline. Cached features still work.', 'warning'); });
 
 /* ---------------- Studio ---------------- */
 const studio = state.studio;
+const studioUndo = [];
+const studioRedo = [];
+
+function studioSnapshot() {
+  return {
+    pages: studio.pages.map(page => ({ ...page, transform: { ...page.transform } })),
+    selectedId: studio.selectedId,
+  };
+}
+
+function recordStudioChange() {
+  studioUndo.push(studioSnapshot());
+  if (studioUndo.length > 10) studioUndo.shift();
+  studioRedo.length = 0;
+}
+
+function restoreStudioHistory(source, destination) {
+  const snapshot = source.pop();
+  if (!snapshot) return;
+  destination.push(studioSnapshot());
+  Object.assign(studio, snapshot);
+  syncStudioEnhancementControls(studio.pages.find(page => page.id === studio.selectedId));
+  renderStudioThumbs();
+  updateStudioPreview();
+}
+
+
+function selectStudioPreset(preset) {
+  studio.enhancePreset = preset;
+  for (const button of document.querySelectorAll('#enhancePresets [data-preset]')) {
+    const selected = button.dataset.preset === preset;
+    button.classList.toggle('is-active', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  }
+}
+
+function syncStudioEnhancementControls(page) {
+  selectStudioPreset(page?.transform?.preset || 'none');
+  for (const setting of ['brightness', 'contrast']) {
+    const value = page?.transform?.[setting] ?? 0;
+    document.getElementById(setting).value = value;
+    document.getElementById(`${setting}Value`).textContent = String(value);
+  }
+}
 
 function renderStudioThumbs() {
   const wrap = document.getElementById('studioThumbs');
@@ -136,21 +179,18 @@ function renderStudioThumbs() {
     rm.innerHTML = '&times;';
     rm.addEventListener('click', (e) => {
       e.stopPropagation();
+      recordStudioChange();
       studio.pages.splice(i, 1);
       if (studio.selectedId === page.id) studio.selectedId = studio.pages[0]?.id || null;
       renderStudioThumbs();
-      updateStudioActions();
+      updateStudioPreview();
     });
     el.appendChild(rm);
     el.addEventListener('click', () => {
       studio.selectedId = page.id;
       renderStudioThumbs();
       updateStudioPreview();
-      // Load current brightness/contrast into sliders
-      document.getElementById('brightness').value = page.transform?.brightness ?? 0;
-      document.getElementById('contrast').value = page.transform?.contrast ?? 0;
-      document.getElementById('brightnessValue').textContent = String(page.transform?.brightness ?? 0);
-      document.getElementById('contrastValue').textContent = String(page.transform?.contrast ?? 0);
+      syncStudioEnhancementControls(page);
     });
     el.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
@@ -161,6 +201,8 @@ function renderStudioThumbs() {
 }
 
 function updateStudioActions() {
+  document.getElementById('btnStudioUndo').disabled = !studioUndo.length;
+  document.getElementById('btnStudioRedo').disabled = !studioRedo.length;
   const has = studio.pages.length > 0;
   const sel = studio.pages.find(p => p.id === studio.selectedId);
   // Contextual button text: "Import images" → "Add more images" when pages exist
@@ -175,6 +217,7 @@ function updateStudioActions() {
     const el = document.getElementById(id);
     if (el) el.disabled = !has;
   });
+  document.getElementById('btnDeletePage').disabled = !sel;
   const createBtn = document.getElementById('btnCreatePdf');
   if (createBtn) createBtn.disabled = !has;
   const sendSign = document.getElementById('btnSendToSign');
@@ -237,6 +280,7 @@ async function addImageFile(file, opts = {}) {
       thumbnailDataURL: thumb.toDataURL('image/jpeg', 0.7),
       transform: { brightness: 0, contrast: 0, preset: 'none' },
     };
+    recordStudioChange();
     studio.pages.push(page);
     if (!studio.selectedId) studio.selectedId = page.id;
     renderStudioThumbs();
@@ -277,6 +321,8 @@ function stampTimestamp(canvas) {
 }
 
 function initStudioWorkspace() {
+  document.getElementById('btnStudioUndo').addEventListener('click', () => restoreStudioHistory(studioUndo, studioRedo));
+  document.getElementById('btnStudioRedo').addEventListener('click', () => restoreStudioHistory(studioRedo, studioUndo));
   initScanner({
     onFile: addImageFile,
     onToast: toast,
@@ -285,6 +331,7 @@ function initStudioWorkspace() {
   document.getElementById('btnRotatePage').addEventListener('click', () => {
     const sel = studio.pages.find(p => p.id === studio.selectedId);
     if (!sel) return;
+    recordStudioChange();
     sel.workingCanvas = rotateCanvas(sel.workingCanvas, 90);
     sel.transform.rotation = (sel.transform.rotation || 0) + 90;
     // Refresh thumb
@@ -303,6 +350,7 @@ function initStudioWorkspace() {
   document.getElementById('btnDeletePage').addEventListener('click', () => {
     const i = studio.pages.findIndex(p => p.id === studio.selectedId);
     if (i < 0) return;
+    recordStudioChange();
     studio.pages.splice(i, 1);
     // Stay on the same visual position: if we deleted page at index i,
     // select the page now at index i (which was i+1 before deletion).
@@ -313,10 +361,12 @@ function initStudioWorkspace() {
     updateStudioPreview();  // Force canvas to re-render with the new selection
   });
   document.getElementById('btnClearAllPages').addEventListener('click', () => {
-    if (!confirm('Remove all pages? This cannot be undone.')) return;
+    if (!studio.pages.length || !confirm('Remove all pages?')) return;
+    recordStudioChange();
     studio.pages = [];
     studio.selectedId = null;
     renderStudioThumbs();
+    updateStudioPreview();
   });
   // Page navigation lives under the preview pane. Prev/Next move the
   // selection pointer; they do not reorder. (Reordering stays drag-based
@@ -348,11 +398,9 @@ function initStudioWorkspace() {
   }
 
   // Enhancement presets
-  document.querySelectorAll('#enhancePresets .chip').forEach(chip => {
+  document.querySelectorAll('#enhancePresets [data-preset]').forEach(chip => {
     chip.addEventListener('click', () => {
-      document.querySelectorAll('#enhancePresets .chip').forEach(c => c.classList.remove('is-active'));
-      chip.classList.add('is-active');
-      studio.enhancePreset = chip.dataset.preset;
+      selectStudioPreset(chip.dataset.preset);
       const p = PRESETS[chip.dataset.preset];
       if (p) {
         document.getElementById('brightness').value = p.brightness;
@@ -378,6 +426,7 @@ function initStudioWorkspace() {
     const b = Number(document.getElementById('brightness').value);
     const c = Number(document.getElementById('contrast').value);
     const preset = PRESETS[studio.enhancePreset] || PRESETS.none;
+    recordStudioChange();
     let appliedCount = 0;
     for (const page of studio.pages) {
       if (!page.originalCanvas) continue;
@@ -407,6 +456,7 @@ function initStudioWorkspace() {
   document.getElementById('btnResetEnhance').addEventListener('click', () => {
     const sel = studio.pages.find(p => p.id === studio.selectedId);
     if (!sel) return;
+    recordStudioChange();
     sel.workingCanvas = sel.originalCanvas;
     sel.transform = { brightness: 0, contrast: 0, preset: 'none' };
     const cc = sel.workingCanvas;
@@ -418,10 +468,7 @@ function initStudioWorkspace() {
     thumb.height = cc.height * ratio;
     tctx.drawImage(cc, 0, 0, thumb.width, thumb.height);
     sel.thumbnailDataURL = thumb.toDataURL('image/jpeg', 0.7);
-    document.getElementById('brightness').value = 0;
-    document.getElementById('contrast').value = 0;
-    document.getElementById('brightnessValue').textContent = '0';
-    document.getElementById('contrastValue').textContent = '0';
+    syncStudioEnhancementControls(sel);
     renderStudioThumbs();
     updateStudioPreview();
     toast('Reset to original.', 'success');
@@ -539,6 +586,7 @@ function initStudioWorkspace() {
       if (!sel) { toast('Select a page first.', 'warning'); return; }
       const cropped = autoCropCanvas(sel.workingCanvas);
       if (cropped === sel.workingCanvas) { toast('No document edges detected.', 'warning'); return; }
+      recordStudioChange();
       sel.workingCanvas = cropped;
       // Update thumbnail
       const cc = sel.workingCanvas;
@@ -668,7 +716,7 @@ function initStudioWorkspace() {
   renderStudioThumbs();
   updateStudioPreview();
   // Mark default preset active
-  document.querySelector('#enhancePresets .chip[data-preset="none"]').classList.add('is-active');
+  selectStudioPreset('none');
 }
 
 /* ---------------- Sign workspace ---------------- */
@@ -825,8 +873,7 @@ function drawObjectOverlay() {
       const img = document.createElement('img');
       img.src = url;
       img.alt = 'Signature';
-      img.style.maxWidth = (o.widthPct || 30) * stageRect.width / 100 * 3.33 + 'px';
-      img.style.maxHeight = (o.heightPct || 9) * stageRect.height / 100 * 3.33 + 'px';
+      sizeSignaturePreview(img, o, stageRect);
       img.style.display = 'block';
       box.appendChild(img);
       setTimeout(() => URL.revokeObjectURL(url), 60000);
@@ -879,6 +926,13 @@ function drawObjectOverlay() {
     attachOverlayInteractions(box, o, stageRect);
     signCanvasStage.appendChild(box);
   });
+}
+
+function sizeSignaturePreview(img, signature, stage) {
+  if (!img) return;
+  img.style.width = `${(signature.widthPct || 30) * stage.width / 100}px`;
+  img.style.height = `${(signature.heightPct || 9) * stage.height / 100}px`;
+  img.style.maxWidth = 'none';
 }
 
 /**
@@ -938,13 +992,7 @@ function attachOverlayInteractions(box, obj, stageRect) {
     } else if (obj.type === 'stamp') {
       box.style.fontSize = Math.max(12, obj.size || 24) + 'px';
     } else if (obj.type === 'signature') {
-      // Live-resize the signature image alongside the box, so the user sees
-      // the size change in real time (matching how text elements resize).
-      const img = box.querySelector('img');
-      if (img) {
-        img.style.maxWidth = (obj.widthPct || 30) * stageRect.width / 100 * 3.33 + 'px';
-        img.style.maxHeight = (obj.heightPct || 9) * stageRect.height / 100 * 3.33 + 'px';
-      }
+      sizeSignaturePreview(box.querySelector('img'), obj, stageRect);
     }
     pendingUpdate = null;
   }
@@ -969,8 +1017,7 @@ function attachOverlayInteractions(box, obj, stageRect) {
       if (obj.type === 'text' || obj.type === 'date') {
         obj.size = Math.max(8, Math.min(144, Math.round((obj.heightPct / 9) * 14)));
       } else if (obj.type === 'signature') {
-        // Signature: width and height both drive the image size.
-        // Keep them proportional so the signature doesn't distort.
+        // Match the independent width and height settings used for PDF export.
         const newW = Math.max(5, Math.min(80, obj.widthPct));
         const newH = Math.max(2, Math.min(60, obj.heightPct));
         obj.widthPct = newW;
@@ -1343,7 +1390,6 @@ function initSignWorkspace() {
     openSheet();
     if (!pad) {
       const canvas = document.getElementById('signaturePad');
-      pad = new SignaturePad(canvas);
       // Resize canvas to match CSS dimensions for crisp drawing
       const rect = canvas.getBoundingClientRect();
       canvas.width = Math.floor(rect.width || 600);
@@ -1511,7 +1557,7 @@ async function commitObjectsToPdf() {
       // Insert signature on its page only
       if (obj.page - 1 >= 0 && obj.page - 1 < pages.length) {
         await insertImageElement(doc, obj.page - 1, obj.pngBytes, {
-          normalized: obj.normalized,
+          normalized: { x: obj.normalized.x, y: 1 - obj.normalized.y },
           widthPct: obj.widthPct,
           heightPct: obj.heightPct,
           rotation: 0,
@@ -1519,7 +1565,8 @@ async function commitObjectsToPdf() {
       }
     } else if (obj.type === 'watermark') {
       const font = await doc.embedFont(StandardFonts.HelveticaBold);
-      for (const page of pages) await drawFittedWatermark(page, font, obj);
+      const normalized = { x: obj.normalized.x, y: 1 - obj.normalized.y };
+      for (const page of pages) await drawFittedWatermark(page, font, { ...obj, normalized });
     } else if (obj.type === 'stamp') {
       // Stamp: bold text with border, on its page only
       if (obj.page - 1 >= 0 && obj.page - 1 < pages.length) {
@@ -1547,7 +1594,7 @@ async function commitObjectsToPdf() {
         const w = (obj.widthPct || 40) * width / 100;
         const h = (obj.heightPct || 5) * height / 100;
         const x = obj.normalized.x * width - w / 2;
-        const y = (1 - obj.normalized.y) * height - h / 2;
+        const y = obj.normalized.y * height - h / 2;
         page.drawRectangle({
           x, y, width: w, height: h,
           color: rgb(1, 0.92, 0.23), opacity: 0.4,
@@ -2164,7 +2211,7 @@ async function renderReorderThumbnails() {
       thumb.addEventListener('dragstart', (e) => {
         thumb.classList.add('is-dragging');
         e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/plain', String(i));
+        e.dataTransfer.setData('text/plain', thumb.dataset.pageIdx);
       });
       thumb.addEventListener('dragend', () => thumb.classList.remove('is-dragging'));
       thumb.addEventListener('dragover', (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; thumb.classList.add('is-selected'); });
@@ -2173,7 +2220,9 @@ async function renderReorderThumbnails() {
         e.preventDefault();
         const fromIdx = parseInt(e.dataTransfer.getData('text/plain'), 10);
         const toIdx = parseInt(thumb.dataset.pageIdx, 10);
-        if (fromIdx === toIdx) return;
+        thumb.classList.remove('is-selected');
+        if (!Number.isInteger(fromIdx) || fromIdx < 0 || fromIdx >= order.length || fromIdx === toIdx) return;
+        const dragged = strip.children[fromIdx];
         // Reorder the array
         const moved = order[fromIdx];
         order.splice(fromIdx, 1);
@@ -2182,7 +2231,7 @@ async function renderReorderThumbnails() {
         const input = document.getElementById('reorderInput');
         if (input) input.value = order.join(',');
         // Visually reorder the thumbnails
-        strip.insertBefore(thumb, strip.children[toIdx]);
+        strip.insertBefore(dragged, fromIdx < toIdx ? thumb.nextSibling : thumb);
         // Update the index labels
         strip.querySelectorAll('.thumb').forEach((t, idx) => {
           const label = t.querySelector('.thumb__index');
@@ -2555,6 +2604,10 @@ function renderToolsPanel() {
   }
   // Extract text buttons
   if (tab === 'extracttext') {
+    panel.querySelector('#btnExtractText')?.addEventListener('click', () => {
+      if (!tools.bytes) { toast('Open a PDF first.', 'warning'); return; }
+      document.getElementById('btnRunToolOp').click();
+    });
     const copyBtn = panel.querySelector('#btnCopyExtracted');
     const dlBtn = panel.querySelector('#btnDownloadExtracted');
     if (copyBtn) copyBtn.addEventListener('click', () => {
@@ -3422,11 +3475,43 @@ function initToolsWorkspace() {
         toast('Colors inverted for night reading.', 'success');
       } else if (tab === 'bookmarks') {
         if (!window.PDFLib) { await new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'vendor/pdf-lib.min.js'; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); }
-        const { PDFDocument } = window.PDFLib;
+        const { PDFDocument, PDFDict, PDFHexString, PDFName, PDFNumber } = window.PDFLib;
         const doc = await PDFDocument.load(tools.bytes, { ignoreEncryption: true });
         const bookmarks = tools._bookmarks || [];
         if (bookmarks.length === 0) throw new Error('Add bookmarks first.');
+        const pages = doc.getPages();
+        if (bookmarks.some(({ page }) => !Number.isInteger(page) || page < 1 || page > pages.length)) {
+          throw new Error('Bookmark pages must be in the current document.');
+        }
+        const context = doc.context;
+        const key = name => PDFName.of(name);
+        let rootRef = doc.catalog.get(key('Outlines'));
+        let root = doc.catalog.lookupMaybe(key('Outlines'), PDFDict);
+        if (!root) {
+          root = context.obj({ Type: key('Outlines'), Count: 0 });
+          rootRef = context.register(root);
+          doc.catalog.set(key('Outlines'), rootRef);
+        }
+        for (const { title, page } of bookmarks) {
+          const item = context.obj({
+            Title: PDFHexString.fromText(title), Parent: rootRef,
+            Dest: [pages[page - 1].ref, key('Fit')],
+          });
+          const ref = context.register(item);
+          const last = root.get(key('Last'));
+          if (last) {
+            context.lookup(last, PDFDict).set(key('Next'), ref);
+            item.set(key('Prev'), last);
+          } else {
+            root.set(key('First'), ref);
+          }
+          root.set(key('Last'), ref);
+        }
+        const count = root.lookupMaybe(key('Count'), PDFNumber)?.asNumber() ?? 0;
+        root.set(key('Count'), PDFNumber.of(count + bookmarks.length));
         out = await doc.save();
+        tools._bookmarks = [];
+        document.getElementById('bookmarksList').textContent = 'No bookmarks queued.';
         toast(`${bookmarks.length} bookmark(s) added.`, 'success');
       } else if (tab === 'splitbysize') {
         const maxSizeMB = Number(document.getElementById('splitSizeLimit')?.value || 25);
@@ -3531,14 +3616,14 @@ function initToolsWorkspace() {
         document.getElementById('btnToolsDownload').disabled = false;
         document.getElementById('btnToolsShare').disabled = false;
         document.getElementById('btnToolsPrint').disabled = false;
-        // Update the always-available Undo/Redo/Remove buttons
-        if (typeof window.updateToolsHistoryButtons === 'function') window.updateToolsHistoryButtons();
         toast('Operation complete. Use Save/Download to name and export the file.', 'success');
       }
     } catch (err) {
       toast('Operation failed: ' + err.message, 'error');
     } finally {
       unlock();
+      updateToolsHistoryButtons();
+      document.getElementById('btnPreviewTool').disabled = !tools.outputBytes;
       btn.disabled = !tools.bytes;
       btn.textContent = tools.activeTab === 'ocrpdf' ? 'Scan text' : 'Apply';
     }
@@ -3831,7 +3916,7 @@ document.getElementById('btnAbout').addEventListener('click', () => {
   // Show version + a "Return to Splash" link so users can re-display the
   // welcome/terms screen from anywhere in the app.
   const aboutToast = document.createElement('div');
-  aboutToast.className = 'toast toast--info';
+  aboutToast.className = 'toast toast--info toast--interactive';
   aboutToast.innerHTML = `
     <div style="display:flex; flex-direction:column; gap:8px;">
       <div>DocuScan Pro v${APP_VERSION} • build ${APP_BUILD}</div>
@@ -4013,6 +4098,15 @@ function boot() {
   initToolsWorkspace();
   initLibraryWorkspace();
   initHelpWorkspace();
+  for (const id of ['ws-sign', 'ws-studio']) {
+    const workspace = document.getElementById(id);
+    workspace.addEventListener('click', event => {
+      const button = event.target.closest('button.btn');
+      if (!button) return;
+      workspace.querySelector('.btn.was-pressed')?.classList.remove('was-pressed');
+      button.classList.add('was-pressed');
+    });
+  }
   updateOnlineStatus();
   // Contextual "?" icons beside OCR, watermark opacity/direction, save/share, ink color, insert watermark
   attachContextHelp();
@@ -4038,9 +4132,7 @@ function boot() {
   }
   // Initial empty library render
   renderLibrary();
-  // First-launch welcome + interactive tutorial prompt
-  // (small delay so the rest of the UI settles first)
-  setTimeout(maybeShowWelcome, 600);
+  maybeShowWelcome();
   console.info(`DocuScan Pro v${APP_VERSION} booted.`);
 }
 

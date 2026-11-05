@@ -1,6 +1,0 @@
-PASS repeated category selection returns without changing visibility
-PASS document load rejected while operation is busy
-PASS failed PDF parse preserves previous document
-PASS older load result cannot replace newer document
-PASS original preview uses its own 10-page count after 15-page merge
-PASS empty Home hash and Back/Forward synchronize without new history

@@ -1,0 +1,1 @@
+PASS six watermark direction/edge cases remain inside page margins.

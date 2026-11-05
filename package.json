@@ -1,0 +1,13 @@
+{
+  "name": "docuscan-pro",
+  "version": "7.6.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node tests/core-regression.mjs"
+  },
+  "devDependencies": {
+    "pdf-lib": "1.17.1",
+    "@napi-rs/canvas": "^0.1.80"
+  }
+}

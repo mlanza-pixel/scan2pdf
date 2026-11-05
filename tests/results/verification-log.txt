@@ -1,0 +1,12 @@
+PASS Merge order retains 10 original page markers followed by 5
+PASS Reverse order verified by first and last markers
+PASS Split 1: correct pages and final marker
+PASS Split 2: correct pages and final marker
+PASS Watermark appears on every page
+PASS Annotations on intended first and final pages
+PASS Actual app Sign exporter text and stamp
+PASS Actual app Sign watermark on all 10 pages
+PASS Photo PDF letter: 3 embedded page images
+PASS Photo PDF a4: 3 embedded page images
+PASS Photo PDF fit: 3 embedded page images
+PASS Signature image on final page of five-page PDF

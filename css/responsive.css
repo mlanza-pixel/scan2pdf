@@ -84,3 +84,13 @@
 #ws-library .library-card__actions { min-width: 0; max-width: 100%; }
 #ws-library .library-card__actions { grid-template-columns: repeat(2,minmax(0,1fr)); }
 #ws-library .library-card__actions .btn { min-width: 0; overflow-wrap: anywhere; }
+
+/* v7.74.3: keep main workspace content inside narrow iPhone viewports. */
+@media(max-width:767px){
+ html,body,#app,.app-shell,.app-main,.workspace,.section { max-width:100%; min-width:0; }
+ .app-main,.workspace { box-sizing:border-box; }
+ .sign-layout,.studio-grid,.workflow-grid,.export-actions,.tools-split-input,.capture-controls { min-width:0; max-width:100%; }
+ .sign-layout > *,.studio-grid > *,.workflow-grid > *,.export-actions > * { min-width:0; max-width:100%; }
+ img,canvas,video { max-width:100%; }
+ .btn { overflow-wrap:anywhere; }
+}

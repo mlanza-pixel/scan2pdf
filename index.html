@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#007AFF" />
   <meta name="description" content="DocuScan Pro — scan, edit, sign, merge, split, watermark, and export PDF documents. Local-first PWA." />
-  <title>DocuScan Pro 7.73</title>
+  <title>DocuScan Pro 7.74.4</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
   <link rel="icon" type="image/svg+xml" href="assets/icons/icon.svg" />
@@ -912,16 +912,19 @@
   <!-- On-device diagnostics: generated files only; no user document access -->
   <div id="selfTestDialog" class="selftest-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="selfTestTitle">
     <div class="selftest-panel">
-      <div class="selftest-head"><h2 id="selfTestTitle">Device Self-Test · v7.73</h2><button id="selfTestClose" class="btn" type="button" aria-label="Close diagnostics">Close</button></div>
+      <div class="selftest-head"><h2 id="selfTestTitle">Device Self-Test · v7.74.4</h2><button id="selfTestClose" class="btn" type="button" aria-label="Close diagnostics">Close</button></div>
       <p class="tiny muted">Runs locally on this device using generated sample files. Your saved documents are not opened or changed.</p>
       <label for="selfTestMode" class="field__label">Test level</label>
       <select id="selfTestMode" class="field__control"><option value="quick">Quick — layout and device capabilities</option><option value="standard" selected>Standard — images and PDF round trips</option><option value="stress">Stress — 50 images, 100 scanned pages, repeated OCR</option></select>
-      <label class="selftest-audit-option"><input type="checkbox" id="selfTestCapture" checked> Capture six workspace screenshots (browser support varies)</label>
+      <label class="selftest-audit-option"><input type="checkbox" id="selfTestCapture" checked> Generate six workspace layout maps (not screenshots)</label>
+      <label for="selfTestRepeat" class="field__label">Repeat cache and resource checks</label>
+      <select id="selfTestRepeat" class="field__control"><option value="0">Off</option><option value="10" selected>10 cycles</option><option value="20">20 cycles</option><option value="100">100 cycles (longer)</option></select>
+      <p class="tiny muted">Checks the app shell, JavaScript, CSS, service worker and cache consistency. Does not reload the page; full reload tests run separately in GitHub Actions.</p>
       <label class="selftest-audit-option"><input type="checkbox" id="selfTestDetailed" checked> Detailed live navigation + every-button inventory (safe mode)</label>
       <div class="selftest-actions"><button id="selfTestRun" class="btn btn--primary" type="button">Run Self-Test</button><button id="selfTestStop" class="btn" type="button" disabled>Stop</button></div>
       <div id="selfTestSummary" class="selftest-summary" aria-live="polite">Not run</div>
       <div id="selfTestResults" class="selftest-results" aria-live="polite"></div>
-      <div class="selftest-actions"><button id="selfTestCopy" class="btn" type="button" disabled>Copy Results</button><button id="selfTestExport" class="btn" type="button" disabled>Download JSON</button><button id="selfTestScreenshots" class="btn" type="button" disabled>Download Screenshots</button></div>
+      <div class="selftest-actions"><button id="selfTestCopy" class="btn" type="button" disabled>Copy Results</button><button id="selfTestExport" class="btn" type="button" disabled>Download JSON</button><button id="selfTestScreenshots" class="btn" type="button" disabled>Download Layout Maps</button></div>
       <p class="tiny muted">OCR uses generated English test images. Browser-generated DOM screenshots are not native captures; unsupported captures are reported as warnings. Passing does not certify real-world OCR, full editing workflows, or device memory limits. For help, share a screenshot or the downloaded JSON report.</p>
     </div>
   </div>

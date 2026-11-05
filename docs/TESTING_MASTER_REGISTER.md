@@ -43,3 +43,17 @@
 - GitHub Actions MUST generate 5/10/25 page fixtures and upload evidence. This verifies fixture generation, NOT OCR correctness or UI integration.
 - Device self-test and screenshots remain separately maintained. No assertion of iPad/iPhone OCR accuracy without real execution and ground-truth comparison.
 - Future releases: update fixture version, hashes, CI run URL, actual device evidence, failures, open issues, and test coverage changes. Do not turn SKIP into PASS.
+
+## v7.74.1 complete-application integration suite
+
+See `docs/COMPLETE_APPLICATION_WORKFLOW_TESTS.md` for E2E-01 through E2E-06, their exact UI actions, assertions, evidence, limitations and release acceptance rules. Run in CI; a configured test is **not** a verified pass until execution evidence exists.
+
+
+### v7.74.2 — Sharded browser workflow tests
+18 independently scheduled case/profile jobs, individual reports and failure screenshots. Syntax checked; local browser blocked by environment network policy; GitHub run pending.
+
+## Repeated cache/reload regression (introduced v7.74.4)
+- **On-device:** About → Device Self-Test → Repeat cache and resource checks → 10, 20, or 100 cycles. Alternates default/no-store fetches for app shell, app script, diagnostic script, diagnostic CSS, and service worker; checks version, HTTP success, stable lengths, and exports per-cycle timings/failures in JSON. No app reload; user documents untouched.
+- **GitHub:** `.github/workflows/cache-repeat-regression.yml` performs real reloads in isolated Chromium runs: desktop 10/20/100; emulated iPhone/iPad 10 each. Verify version on each reload, report service-worker/cache keys and JS errors, and upload JSON and failure screenshots.
+- **Acceptance:** all cycles complete, no stale version, no failed resources, no uncaught errors; log any overflow. Explicitly report physical Safari as unverified until on-device evidence is received.
+- **Every release:** bump service-worker cache version; run and record repeated cache/reload tests in `RELEASE_TEST_HISTORY.md`; retain artifacts and investigate stale version, missing resource, or reload failure before declaring success.

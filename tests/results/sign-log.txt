@@ -1,1 +1,0 @@
-PASS actual Sign exporter: text, watermark, stamp, highlight, underline, strike; 10 pages retained.

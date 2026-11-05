@@ -24,6 +24,38 @@ function render() {
   const warned = results.filter(x => x.status === 'warning').length;
   $('selfTestSummary').textContent = `${passed} passed · ${failed} failed · ${warned} warnings${running ? ' · running…' : ''}`;
 }
+async function cacheRepeatTest(count) {
+  const started = performance.now();
+  const root = new URL('./', location.href);
+  const files = ['index.html', 'js/app.js', 'js/device-self-test.js', 'css/device-self-test.css', 'sw.js'];
+  const failures = [], sizes = {}, timings = [];
+  const cacheNames = ('caches' in window) ? await caches.keys().catch(()=>[]) : [];
+  let swVersion = 'not controlled';
+  try { const r=await fetch(new URL('sw.js',root),{cache:'no-store'});if(r.ok){const t=await r.text();swVersion=t.match(/CACHE_VERSION\s*=\s*['"]([^'"]+)/)?.[1]||'unknown';} }catch(e){failures.push('SW version: '+safeError(e));}
+  for(let i=0;i<count;i++) {
+    if(stopRequested)throw new Error('STOP_REQUESTED');
+    const t=performance.now();
+    for(const f of files) {
+      try {
+        const url=new URL(f,root);
+        const response=await fetch(url,{cache:i%2===0?'no-store':'default'});
+        if(!response.ok)throw new Error('HTTP '+response.status);
+        const body=await response.text();
+        if(body.length<50)throw new Error('unexpectedly small resource');
+        if(f==='index.html'&&!body.includes('7.74.4'))throw new Error('stale index version');
+        if(f==='js/device-self-test.js'&&!body.includes('cacheRepeatTest'))throw new Error('stale diagnostics script');
+        if(sizes[f]===undefined)sizes[f]=body.length;
+        else if(sizes[f]!==body.length)throw new Error('resource size changed mid-test');
+      } catch(e) {failures.push(`cycle ${i+1} ${f}: ${safeError(e)}`); }
+    }
+    timings.push(Math.round(performance.now()-t));
+    if(i%5===4)await new Promise(r=>setTimeout(r,0));
+    if(failures.length>30)break;
+  }
+  const summary=`${timings.length}/${count} cycles, ${failures.length} resource failures; SW ${swVersion}; ${cacheNames.length} cache(s); avg ${Math.round(timings.reduce((a,b)=>a+b,0)/Math.max(1,timings.length))} ms/cycle`;
+  window.__lastCacheRepeat={cyclesRequested:count,cyclesCompleted:timings.length,failures,files,sizes,swVersion,cacheNames,timings,elapsedMs:Math.round(performance.now()-started)};
+  return {status:failures.length?'fail':'pass',detail:summary+(failures.length?'; '+failures.slice(0,2).join('; '):'')};
+}
 async function check(name, fn) {
   if (stopRequested) throw new Error('STOP_REQUESTED');
   const t = now();
@@ -112,29 +144,38 @@ async function testOcrRepeated(count) {
   return {status:success===count?'pass':'fail',detail:`${success}/${count} sequential OCR recognitions verified against invoice numbers`};
 }
 async function captureWorkspace(workspace) {
-  // SVG foreignObject captures same-origin DOM only. Safari may refuse this for
-  // security reasons; record a warning, never claim a screenshot was captured.
+  // iOS browsers reject SVG foreignObject -> canvas export (SecurityError).
+  // A deterministic diagnostic layout image is safe and exportable, but is
+  // explicitly NOT a pixel-perfect screenshot. Manual screen captures remain
+  // necessary to validate actual appearance.
   const panel=$(`ws-${workspace}`);if(!panel)throw new Error('Workspace missing');
-  const w=Math.min(document.documentElement.clientWidth,1600);
-  const h=Math.min(Math.max(panel.scrollHeight,innerHeight),2600);
-  const clone=panel.cloneNode(true);
-  clone.style.cssText=`display:block!important;position:relative!important;width:${w}px!important;height:${h}px!important;background:white!important;`;
-  for(const node of clone.querySelectorAll('script,canvas,video,iframe,img')) {
-    if(node.tagName==='IMG' && node.src.startsWith(location.origin))continue;
-    node.replaceWith(document.createElement('span'));
+  const width=800, height=1100;
+  const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
+  const ctx=canvas.getContext('2d');if(!ctx)throw new Error('Canvas unavailable');
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,width,height);
+  ctx.fillStyle='#172b4d';ctx.font='bold 30px sans-serif';ctx.fillText(`DocuScan ${workspace} — layout map`,24,44);
+  ctx.font='18px sans-serif';ctx.fillText('DIAGNOSTIC MAP — NOT A SCREENSHOT',24,77);
+  const rect=panel.getBoundingClientRect();
+  const controls=[...panel.querySelectorAll('button,[role="button"],input,select')].filter(el=>{const r=el.getBoundingClientRect();return r.width>0&&r.height>0});
+  const left=Math.min(0,rect.left),top=Math.min(0,rect.top);
+  const scale=Math.min(740/Math.max(rect.width,document.documentElement.clientWidth,1),900/Math.max(rect.height,1));
+  ctx.strokeStyle='#68758b';ctx.strokeRect(24,110,Math.min(740,rect.width*scale),Math.min(900,rect.height*scale));
+  let clipped=0;
+  for(const el of controls){
+    const r=el.getBoundingClientRect();
+    const x=24+(r.left-left)*scale,y=110+(r.top-top)*scale;
+    const outside=r.left<0||r.right>document.documentElement.clientWidth;
+    if(outside)clipped++;
+    ctx.strokeStyle=outside?'#d93636':'#2878bd';ctx.lineWidth=outside?3:1;
+    ctx.strokeRect(x,y,Math.max(1,r.width*scale),Math.max(1,r.height*scale));
+    const label=(el.getAttribute('aria-label')||el.textContent||el.id||el.tagName).trim().slice(0,30);
+    ctx.fillStyle='#142c48';ctx.font='11px sans-serif';
+    if(y>115&&y<1050)ctx.fillText(label,x+2,y+12,Math.max(20,r.width*scale-4));
   }
-  const markup=new XMLSerializer().serializeToString(clone);
-  const styles=[...document.styleSheets].flatMap(sheet=>{try{return [...sheet.cssRules].map(rule=>rule.cssText)}catch{return []}}).join('\n');
-  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml" style="width:${w}px;height:${h}px;background:white"><style>${styles.replace(/<\/style/gi,'&lt;/style')}</style>${markup}</div></foreignObject></svg>`;
-  const url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));
-  try {
-    const img=new Image();await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=()=>reject(new Error('DOM screenshot blocked by browser'));img.src=url;});
-    const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
-    canvas.getContext('2d').drawImage(img,0,0);
-    const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('PNG encoding failed')),'image/png'));
-    if(blob.size<1500)throw new Error('Screenshot suspiciously empty');
-    captures.push({workspace,blob,width:w,height:h,bytes:blob.size});
-  } finally {URL.revokeObjectURL(url);}
+  ctx.fillStyle='#142c48';ctx.font='16px sans-serif';
+  ctx.fillText(`${controls.length} controls; ${clipped} outside viewport; ${document.documentElement.clientWidth}px viewport`,24,1070);
+  const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('Diagnostic map encoding failed')),'image/png'));
+  captures.push({workspace,blob,width,height,bytes:blob.size,kind:'diagnostic-layout-map',clipped});
 }
 async function captureAllWorkspaces() {
   const original=document.querySelector('.workspace.is-active')?.dataset.workspace||'home';
@@ -151,7 +192,7 @@ async function captureAllWorkspaces() {
     document.querySelector(`.bottom-nav__item[data-goto="${original}"]`)?.click();
     overlay.hidden=prior;
   }
-  return {status:failures.length?'warning':'pass',detail:`${captures.length}/6 DOM screenshots captured${failures.length?'; '+failures.join('; ').slice(0,220):''}. Not native screen captures.`};
+  return {status:failures.length?'warning':'pass',detail:`${captures.length}/6 diagnostic layout maps created${failures.length?'; '+failures.join('; ').slice(0,220):''}. Not actual screenshots; manual screenshots required.`};
 }
 function downloadBlob(blob,filename) {
   const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;
@@ -230,6 +271,9 @@ async function start() {
       const over=document.documentElement.scrollWidth-width;
       return over>2?{status:'warning',detail:`${over}px page overflow`}:{detail:`${width}px viewport; no page overflow`};
     });
+    const repeatCount=Number($('selfTestRepeat')?.value||0);
+    window.__lastCacheRepeat=null;
+    if(repeatCount)await check(`Cache/resource consistency (${repeatCount} cycles)`,()=>cacheRepeatTest(repeatCount));
     await check('Canvas and image encoding',async()=>{
       const b=await imageBlob(1);if(b.size<1000)throw new Error('Encoded image too small');return {detail:`JPEG ${Math.round(b.size/1024)} KB`};
     });
@@ -250,14 +294,14 @@ async function start() {
       await check('50-page image-backed PDF round trip',()=>testPdf(50));
       await check('100-page image-backed PDF round trip',()=>testPdf(100));
     }
-    if($('selfTestCapture')?.checked) await check('Automatic DOM screenshot capture',captureAllWorkspaces);
+    if($('selfTestCapture')?.checked) await check('Automatic diagnostic layout maps',captureAllWorkspaces);
     await check('Uncaught browser errors during test',()=>exceptions.length?{status:'warning',detail:exceptions.slice(0,3).join('; ')}:{detail:'No uncaught errors observed'});
   } catch(e) {
     if(String(e.message)!=='STOP_REQUESTED') results.push({name:'Test runner',status:'fail',detail:safeError(e),ms:0});
   } finally {
     window.removeEventListener('error',onError);window.removeEventListener('unhandledrejection',onReject);
     running=false;
-    lastReport={app:'DocuScan Pro',version:'7.74.0',testSuite:'on-device-self-test-3',mode,detailedAudit,screenshots:captures.map(x=>({workspace:x.workspace,width:x.width,height:x.height,bytes:x.bytes,filename:`docuscan-${x.workspace}.png`})),started,finished:new Date().toISOString(),durationMs:Math.round(now()-startTime),device:collectDevice(),results:[...results],limitations:['Uses generated files, not user documents','PDF tests exercise pdf-lib directly, not every app editing workflow','OCR accuracy tested on generated English fixtures only; no certification for real scans or other languages','No test files are saved to the document Library','Detailed audit taps navigation only; other buttons are inventoried but not functionally clicked','No destructive, camera, file picker, share, print or download buttons are auto-tapped','Screenshots are DOM render attempts; browser security can block them and they are not pixel-perfect native screenshots']};
+    lastReport={app:'DocuScan Pro',version:'7.74.4',testSuite:'on-device-self-test-3',mode,detailedAudit,cacheRepeat:window.__lastCacheRepeat||null,screenshots:captures.map(x=>({kind:x.kind,workspace:x.workspace,width:x.width,height:x.height,bytes:x.bytes,filename:`docuscan-${x.workspace}.png`})),started,finished:new Date().toISOString(),durationMs:Math.round(now()-startTime),device:collectDevice(),results:[...results],limitations:['Uses generated files, not user documents','PDF tests exercise pdf-lib directly, not every app editing workflow','OCR accuracy tested on generated English fixtures only; no certification for real scans or other languages','No test files are saved to the document Library','Detailed audit taps navigation only; other buttons are inventoried but not functionally clicked','No destructive, camera, file picker, share, print or download buttons are auto-tapped','Generated images are diagnostic layout maps, NOT screenshots; actual screenshots must be captured manually or by Playwright']};
     $('selfTestRun').disabled=false;$('selfTestStop').disabled=true;
     $('selfTestExport').disabled=false;$('selfTestCopy').disabled=false;$('selfTestScreenshots').disabled=captures.length===0;
     render();
@@ -274,6 +318,6 @@ $('selfTestCopy').addEventListener('click',async()=>{if(!lastReport)return;const
 
 $('selfTestScreenshots').addEventListener('click',()=>{
   if(!captures.length)return;
-  for(const shot of captures) downloadBlob(shot.blob,`docuscan-v7.73-${shot.workspace}.png`);
+  for(const shot of captures) downloadBlob(shot.blob,`docuscan-v7.74.4-${shot.workspace}.png`);
   $('selfTestSummary').textContent+=` · ${captures.length} screenshot downloads requested (browser may ask permission)`;
 });

@@ -1,0 +1,52 @@
+name: DocuScan Complete Workflow Shards
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  workflow-shard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        profile: [desktop, iphone-emulated, ipad-emulated]
+        case: [consent, import, ocr, edit, library, errors]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install test dependencies
+        run: |
+          python -m pip install playwright pypdf pillow
+          python -m playwright install --with-deps chromium
+      - name: Start app server
+        run: |
+          python -m http.server 8765 --bind 127.0.0.1 >/tmp/docuscan-shard-server.log 2>&1 &
+          python - <<'PYCODE'
+          import time,urllib.request
+          for i in range(40):
+              try:
+                  urllib.request.urlopen('http://127.0.0.1:8765/',timeout=2)
+                  break
+              except Exception: time.sleep(.5)
+          else: raise RuntimeError('Server failed to start')
+          PYCODE
+      - name: Test ${{ matrix.case }} on ${{ matrix.profile }}
+        timeout-minutes: 8
+        run: python scripts/test_complete_app_workflows_v7741.py http://127.0.0.1:8765/ --profile '${{ matrix.profile }}' --case '${{ matrix.case }}'
+      - name: Save shard report and failure screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: workflow-${{ matrix.profile }}-${{ matrix.case }}
+          path: |
+            tests/results/complete-app-v7741/report-${{ matrix.profile }}-${{ matrix.case }}.json
+            tests/results/complete-app-v7741/*-FAIL.png
+            /tmp/docuscan-shard-server.log
+          if-no-files-found: warn
+          retention-days: 30

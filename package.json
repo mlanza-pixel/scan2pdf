@@ -1,6 +1,6 @@
 {
   "name": "docuscan-pro",
-  "version": "7.73.0",
+  "version": "7.74.1",
   "type": "module",
   "private": true,
   "scripts": {

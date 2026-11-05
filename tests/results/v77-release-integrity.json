@@ -1,0 +1,9 @@
+{
+  "version": true,
+  "documentation": true,
+  "screenshot toolkit": true,
+  "stress tests": true,
+  "audio module": true,
+  "test scripts": true,
+  "screen directories": true
+}

@@ -1,0 +1,51 @@
+{
+  "runUTC": "2026-11-05T14:56:12.578914+00:00",
+  "scope": "Independent PyMuPDF and Pillow fixture processing; does NOT certify application PDF Tools, Studio, OCR, browser import/export, or native devices",
+  "checks": [
+    {
+      "test": "3 input photos decode",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "3 photos to letter PDF",
+      "pass": true,
+      "detail": "3 pages"
+    },
+    {
+      "test": "3 photos to a4 PDF",
+      "pass": true,
+      "detail": "3 pages"
+    },
+    {
+      "test": "3 photos to fit PDF",
+      "pass": true,
+      "detail": "3 pages"
+    },
+    {
+      "test": "5-page source readable",
+      "pass": true,
+      "detail": "5"
+    },
+    {
+      "test": "10-page source readable",
+      "pass": true,
+      "detail": "10"
+    },
+    {
+      "test": "merge 5 + 10",
+      "pass": true,
+      "detail": "15"
+    },
+    {
+      "test": "rotation + text survives save",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "split 10-page source to 5 pages",
+      "pass": true,
+      "detail": "5"
+    }
+  ]
+}

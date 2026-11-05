@@ -1,0 +1,140 @@
+[
+  {
+    "group": "More markup",
+    "tool": "Annotate",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "More markup",
+    "tool": "Watermark",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "More markup",
+    "tool": "Image WM",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "More markup",
+    "tool": "Header/Footer",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "More markup",
+    "tool": "Forms",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "Pages",
+    "tool": "Split",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "Pages",
+    "tool": "Split by Size",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "Pages",
+    "tool": "Delete Pages",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "Pages",
+    "tool": "Insert Page",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "Pages",
+    "tool": "Reorder",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "Pages",
+    "tool": "Rotate",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "Pages",
+    "tool": "Crop",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "Combine & Compare",
+    "tool": "Merge",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "Combine & Compare",
+    "tool": "Compare",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "Text & Images",
+    "tool": "Extract Text",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "Text & Images",
+    "tool": "To Image",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "Text & Images",
+    "tool": "OCR",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "Text & Images",
+    "tool": "Invert",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "Advanced",
+    "tool": "Metadata",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "Advanced",
+    "tool": "Bookmarks",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "Advanced",
+    "tool": "Compress",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "Advanced",
+    "tool": "Protect",
+    "panelPresent": true,
+    "applyDisabled": true
+  },
+  {
+    "group": "Batch",
+    "tool": "Batch",
+    "panelPresent": true,
+    "applyDisabled": true
+  }
+]

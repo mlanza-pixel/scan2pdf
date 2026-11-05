@@ -1,0 +1,16 @@
+{
+  "6 workspaces": true,
+  "six ordered tool groups": true,
+  "all six tool groups have panels": true,
+  "OCR Invert first": true,
+  "all tools initially collapsed": true,
+  "unique IDs": true,
+  "tour in header": true,
+  "sound in header": true,
+  "navigation relabelled": true,
+  "legacy documentation": true,
+  "field workbook": true,
+  "reusable screenshot toolkit": true,
+  "release version": true,
+  "collapse implementation": true
+}

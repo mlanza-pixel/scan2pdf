@@ -1,0 +1,23 @@
+PASS Fixtures 10-page and 5-page source PDFs
+PASS JPG 1 Decode, grayscale/enhance and rotate dimensions
+PASS JPG 2 Decode, grayscale/enhance and rotate dimensions
+PASS JPG 3 Decode, grayscale/enhance and rotate dimensions
+PASS Studio PDF letter All 3 JPGs included as 3 pages
+PASS Studio PDF a4 All 3 JPGs included as 3 pages
+PASS Studio PDF fit All 3 JPGs included as 3 pages
+PASS Merge 10 + 5 15 pages
+PASS Rotate merged PDF All 15 pages rotated 90 degrees
+PASS Reorder Reverse order, all 15 pages retained
+PASS Split merged PDF Restored 10-page and 5-page groups
+PASS Invalid ranges Six invalid inputs rejected
+PASS Watermark 10-page output retains count
+PASS Text editing First and last page annotated
+PASS Out-of-bounds annotation Rejected page beyond final page
+PASS Image/signature placement PNG embedded on final page of 5-page PDF
+PASS Original file integrity Both original byte hashes unchanged
+Warning: fetchStandardFontData: failed to fetch file "LiberationSans-Regular.ttf" with "UnknownErrorException: Unable to load font data at: file:///workspace/scratch/8c614b0cc475/work/v760/dist/vendor/pdfjs/standard_fonts/LiberationSans-Regular.ttf".
+Warning: fetchStandardFontData: failed to fetch file "LiberationSans-Bold.ttf" with "UnknownErrorException: Unable to load font data at: file:///workspace/scratch/8c614b0cc475/work/v760/dist/vendor/pdfjs/standard_fonts/LiberationSans-Bold.ttf".
+Warning: fetchStandardFontData: failed to fetch file "LiberationSans-Regular.ttf" with "UnknownErrorException: Unable to load font data at: file:///workspace/scratch/8c614b0cc475/work/v760/dist/vendor/pdfjs/standard_fonts/LiberationSans-Regular.ttf".
+Warning: fetchStandardFontData: failed to fetch file "LiberationSans-Bold.ttf" with "UnknownErrorException: Unable to load font data at: file:///workspace/scratch/8c614b0cc475/work/v760/dist/vendor/pdfjs/standard_fonts/LiberationSans-Bold.ttf".
+PASS PDF renderer loading 10/5 page counts, final-page text, same-byte cache reuse
+{"passed":18,"limitations":0}

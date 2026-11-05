@@ -1,8 +1,9 @@
 {
-  "version": "7.7.0",
-  "buildUTC": "2026-11-05T14:48:04.297228+00:00",
-  "cacheVersion": "v7-7-0-build1",
-  "baseVersion": "7.6.0",
+  "version": "7.71.0",
+  "buildUTC": "2026-11-05T15:21:22.424965+00:00",
+  "cacheVersion": "v7-71-0-selftest2",
+  "baseVersion": "7.7.0",
   "browserFileImportTest": "blocked by browser upload approval; not passed",
-  "testStatus": "partial: automated smoke only; native device and max stress unverified"
+  "testStatus": "Static and source checks passed; live browser and native device tests require GitHub Actions run",
+  "deviceSelfTest": "Quick, Standard, Stress; generated fixtures, JSON export"
 }

@@ -21,7 +21,7 @@ import { listDocuments, getDocument, renameDocument, deleteDocument, estimateSto
 import { parseRanges, runMerge, runSplit, runRotate, runReorder, runWatermark, runAnnotateText, runAnnotateDrawing } from './pdf-tools.js';
 import { maybeShowWelcome, initHelpCenter, attachContextHelp } from './help-system.js';
 
-const APP_VERSION = '7.6.0';
+const APP_VERSION = '7.71.0';
 const APP_BUILD = '2026-11-05T01:14:02Z';
 
 /* ---------------- Shared app state ---------------- */
@@ -3835,6 +3835,7 @@ document.getElementById('btnAbout').addEventListener('click', () => {
   aboutToast.innerHTML = `
     <div style="display:flex; flex-direction:column; gap:8px;">
       <div>DocuScan Pro v${APP_VERSION} • build ${APP_BUILD}</div>
+      <button type="button" id="selfTestOpen" class="btn btn--primary">Device Self-Test</button>
       <div>
         <a href="#" id="aboutShowSplash" style="color:#007AFF; text-decoration:underline; cursor:pointer;">Return to Splash / Welcome screen</a>
       </div>
@@ -3843,7 +3844,7 @@ document.getElementById('btnAbout').addEventListener('click', () => {
   if (stack) {
     stack.appendChild(aboutToast);
     // Auto-remove after 6 seconds (longer than default toast since it has a link)
-    setTimeout(() => { if (aboutToast.parentNode) aboutToast.remove(); }, 6000);
+    setTimeout(() => { if (aboutToast.parentNode) aboutToast.remove(); }, 30000);
     const splashLink = aboutToast.querySelector('#aboutShowSplash');
     if (splashLink) {
       splashLink.addEventListener('click', (e) => {

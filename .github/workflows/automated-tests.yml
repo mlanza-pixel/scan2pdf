@@ -12,7 +12,7 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -45,15 +45,22 @@ jobs:
           PYCODE
       - name: Capture all workspaces and Tools categories
         if: always()
-        run: python scripts/universal_capture_v77.py http://127.0.0.1:8765/
+        run: python scripts/universal_capture_v771.py http://127.0.0.1:8765/
       - name: Browser navigation stress test
         if: always()
-        run: python scripts/test_stress_v77.py http://127.0.0.1:8765/
+        run: python scripts/test_stress_v771.py http://127.0.0.1:8765/
+      - name: Real browser imports (3 images, 5 and 10 page PDFs)
+        if: always()
+        run: python scripts/test_real_imports_v771.py http://127.0.0.1:8765/
+      - name: Extended document and image stress (10/25/50 images, 20/50/100 PDF pages, export, corrupt PDF)
+        if: always()
+        timeout-minutes: 22
+        run: python scripts/test_extended_workflows_v771.py http://127.0.0.1:8765/
       - name: Save screenshots and test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: docuscan-v7-7-test-evidence
+          name: docuscan-v7-71-test-evidence
           path: |
             screenshots/
             tests/results/

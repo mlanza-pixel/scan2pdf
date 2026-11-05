@@ -77,3 +77,10 @@
   :root { --control-height: 44px; --button-height: 44px; }
   .edit-buttons .btn, .export-actions .btn { font-size: 11px; }
 }
+
+/* v7.71: Prevent narrow-screen Library content from expanding the viewport. */
+#ws-library, #ws-library .section, #ws-library .library-grid,
+#ws-library .library-card, #ws-library .library-card__body,
+#ws-library .library-card__actions { min-width: 0; max-width: 100%; }
+#ws-library .library-card__actions { grid-template-columns: repeat(2,minmax(0,1fr)); }
+#ws-library .library-card__actions .btn { min-width: 0; overflow-wrap: anywhere; }

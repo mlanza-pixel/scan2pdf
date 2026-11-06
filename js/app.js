@@ -21,8 +21,8 @@ import { listDocuments, getDocument, renameDocument, deleteDocument, estimateSto
 import { parseRanges, runMerge, runSplit, runRotate, runReorder, runWatermark, runAnnotateText, runAnnotateDrawing } from './pdf-tools.js';
 import { maybeShowWelcome, initHelpCenter, attachContextHelp } from './help-system.js';
 
-const APP_VERSION = '7.6';
-const APP_BUILD = '7.6-compact-library';
+const APP_VERSION = '7.7';
+const APP_BUILD = '7.7-visual-polish';
 
 /* ---------------- Shared app state ---------------- */
 const state = {
@@ -2110,9 +2110,9 @@ const TOOLS_PANELS = {
     <p class="muted tiny" style="margin:0 0 var(--space-2)">Extract text from the PDF's text layer (not OCR — this reads the actual embedded text).</p>
     <button class="btn btn--primary btn--block" id="btnExtractText" type="button">Extract text from all pages</button>
     <textarea class="textarea" id="extractedTextResult" placeholder="Extracted text will appear here…" style="margin-top:var(--space-3)" aria-label="Extracted text" readonly></textarea>
-    <div class="row" style="margin-top:var(--space-2)">
-      <button class="btn btn--sm" id="btnCopyExtracted" type="button">Copy text</button>
-      <button class="btn btn--sm" id="btnDownloadExtracted" type="button">Download .txt</button>
+    <div class="text-export-actions">
+      <button class="btn btn--sm btn--ghost" id="btnCopyExtracted" type="button">Copy text</button>
+      <button class="btn btn--sm btn--ghost" id="btnDownloadExtracted" type="button">Download text</button>
     </div>`,
   forms: `
     <p class="muted tiny" style="margin:0 0 var(--space-2)">Detect and fill existing PDF form fields (text fields, checkboxes).</p>
@@ -4042,7 +4042,10 @@ async function applyLibrarySelection() {
     toast(changed ? `${changed} file(s) updated before the error: ${error.message}` : error.message, 'error');
   } finally {
     libraryBusy = false;
-    if (changed) await renderLibrary();
+    if (changed) {
+      libraryAction = '';
+      await renderLibrary();
+    }
     else updateLibrarySelection();
   }
 }

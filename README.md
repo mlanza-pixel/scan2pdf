@@ -1,10 +1,10 @@
-# DocuScan Pro 7.6.0
+# DocuScan Pro 7.7
 
-**Current release:** [v7.6 Searchable Packets](RELEASE_NOTES_7.6_SEARCHABLE_PACKETS.md)
+**Current release:** [v7.7 iPad diagnostics](RELEASE_NOTES_7.7_IPAD_DIAGNOSTICS.md)
 
 [Accessibility release check and Library controls](ACCESSIBILITY_RELEASE_CHECK.md)
 
-Complete static PWA release based on 7.5.9. No build or paid service is needed to run the app. Open `release.json` for the exact UTC build and cache versions.
+Complete static PWA release based on v7.6 Compact Library. No build or paid service is needed to run the app. Open `release.json` for the exact UTC build and cache versions.
 
 ## Choose your workspace
 
@@ -31,8 +31,8 @@ For iPad/iPhone, publish the folder contents to GitHub Pages, visit in Safari, t
 
 1. Back up the current repository. Replace its app files with the **contents** of this release's `docuscan-pro` folder, including `vendor`, `js`, `css`, icons, manifest and service worker.
 2. Commit and push to the repository's configured Pages branch, or let the included Pages workflow deploy.
-3. Reopen the published site. The service worker uses a new 7.6 cache and claims clients after install; one additional reload may be needed to load all new assets together.
-4. About must show **7.6.0**. The build timestamp must match `release.json`.
+3. Reopen the published site. The service worker uses a new 7.7 cache and claims clients after install; one additional reload may be needed to load all new assets together.
+4. About must show **7.7**, build **7.7-visual-polish**.
 
 No changes have been pushed to the user's GitHub repository by this release task. Browser-local saved documents are separate from these app files. Do not clear site data unless you have downloaded backups.
 
@@ -42,7 +42,7 @@ PDF.js 4.7.76, its worker and standard fallback fonts, and pdf-lib 1.17.1 are in
 
 ## Tests and evidence
 
-Read `TEST_REPORT_7.6.md` for the actual coverage and limits. Synthetic input fixtures include exactly three JPGs and two PDFs (10 and 5 pages). Output PDFs, test logs and JSON results are included under `tests/results`.
+Read the current release notes for v7.7 verification and remaining checks. Synthetic input fixtures include exactly three JPGs and two PDFs (10 and 5 pages). Output PDFs, test logs and JSON results are included under `tests/results`.
 
 Developer checks:
 

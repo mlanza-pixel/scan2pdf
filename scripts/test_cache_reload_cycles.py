@@ -24,13 +24,13 @@ with sync_playwright() as p:
             page.goto(a.url,wait_until='domcontentloaded',timeout=30000) if i==0 else page.reload(wait_until='domcontentloaded',timeout=30000)
             page.locator('#selfTestDialog').wait_for(state='attached',timeout=15000)
             title=page.title()
-            if title != 'DocuScan Pro 7.6':raise AssertionError('stale title '+title)
+            if title != 'DocuScan Pro 7.7':raise AssertionError('stale title '+title)
             page.wait_for_function('!!navigator.serviceWorker?.controller',timeout=15000)
             item['title']=title
             item['cacheKeys']=page.evaluate('async()=>"caches" in window ? await caches.keys() : []')
             item['controller']=page.evaluate('()=>!!navigator.serviceWorker?.controller')
             item['horizontalOverflow']=page.evaluate('()=>Math.max(0,document.documentElement.scrollWidth-document.documentElement.clientWidth)')
-            assert 'docuscan-app-v7-6-compact-library' in item['cacheKeys'], 'Expected application cache missing'
+            assert 'docuscan-app-v7-7-visual-polish' in item['cacheKeys'], 'Expected application cache missing'
             assert item['horizontalOverflow']<=2, 'Horizontal overflow on reload'
             item['status']='pass'
         except Exception as e:

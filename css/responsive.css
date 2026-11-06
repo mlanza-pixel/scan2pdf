@@ -153,13 +153,13 @@ html {
 #btnSpeakOcr { margin-top: var(--space-2); }
 #btnStudioOriginal { margin-top: var(--space-2); }
 
-.studio-paired-actions {
+.studio-paired-actions, .text-export-actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-2);
   margin-top: var(--space-2);
 }
-.studio-paired-actions .btn {
+.studio-paired-actions .btn, .text-export-actions .btn {
   min-width: 0;
   min-height: 44px;
   height: auto;
@@ -191,7 +191,7 @@ html {
 /* Minimum hit areas for common actions across the app. */
 .btn, .top-bar .top-bar__action, .tools-tab, .tools-group-tab,
 .page-nav__btn, .chip, .help-article__back, .walkthrough-card__skip,
-#selfTestDialog .selftest-actions .btn, .studio-paired-actions .btn {
+#selfTestDialog .selftest-actions .btn, .studio-paired-actions .btn, .text-export-actions .btn {
   min-height: 48px;
   min-width: 48px;
 }
@@ -216,4 +216,28 @@ html {
 .thumb__remove::before { z-index: -1; }
 :where(button, [role="button"], [role="tab"], input, select, textarea):focus-visible {
   outline-offset: 3px;
+}
+
+.text-export-actions > #btnSpeakPdfOcr { grid-column: 1 / -1; }
+
+#ws-studio :is(.enhance-grid, .three-button-row) .btn {
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
+  padding-inline: 6px;
+}
+
+#ocrLanguage {
+  width: auto;
+  max-width: 100%;
+  min-height: 48px;
+}
+
+#ws-studio .export-actions {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 100px), 1fr));
+}
+#ws-studio .export-actions .btn {
+  white-space: normal;
+  text-align: center;
 }

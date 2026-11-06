@@ -177,15 +177,10 @@ function renderStep(step, index, total) {
   layer.className = 'walkthrough-layer';
   layer.id = '__walkthroughLayer';
 
-  const targetEl = step.selector ? document.querySelector(step.selector) : null;
+  const candidate = step.selector ? document.querySelector(step.selector) : null;
+  const targetEl = candidate?.getClientRects().length ? candidate : null;
   const originalPosition = targetEl?.style.position;
   const originalZIndex = targetEl?.style.zIndex;
-  // Skip step gracefully if the target is missing or disabled
-  if (step.selector && (!targetEl || targetEl.disabled)) {
-    console.info(`Walkthrough: skipping step — selector "${step.selector}" not visible`);
-    showStep(index + 1);
-    return;
-  }
 
   if (targetEl) {
     const rect = targetEl.getBoundingClientRect();
@@ -788,7 +783,7 @@ const WALKTHROUGHS = {
       { workspace: 'home', selector: '.workflow-card--studio', title: 'Studio', body: 'Use <strong>Studio</strong> to scan documents with your camera, import existing photos, enhance them, optionally run OCR, and create PDFs.', placement: 'right' },
       { workspace: 'home', selector: '.workflow-card--sign', title: 'Sign', body: 'Use <strong>Sign</strong> to add signatures, typed text, dates, and watermarks to an existing PDF.', placement: 'right' },
       { workspace: 'home', selector: '.workflow-card--tools', title: 'PDF Tools', body: 'Use <strong>PDF Tools</strong> to merge, split, rotate, reorder, annotate, and watermark PDF documents.', placement: 'right' },
-      { workspace: 'home', selector: '.workflow-card--library', title: 'Library', body: 'Use <strong>Library</strong> to access documents you\'ve saved. They\'re stored locally in your browser — never uploaded.', placement: 'right' },
+      { workspace: 'home', selector: '.workflow-card--library', title: 'Library', body: 'Use <strong>Library</strong> to access documents you\'ve saved. Choose an action first, then select the files you want to move, edit or share.', placement: 'right' },
       { workspace: 'home', selector: '.bottom-nav__item[data-goto="help"]', title: 'Help is always one tap away', body: 'Tap <strong>Help</strong> in the bottom navigation at any time to open this illustrated guide and search for any feature.', placement: 'top' },
     ],
   },
@@ -801,8 +796,8 @@ const WALKTHROUGHS = {
       { workspace: "studio", selector: "#studioTemplate", title: "Packet checklist", body: "Choose a template or save your own steps. Check off each item as you assemble the packet.", placement: "bottom" },
       { workspace: "studio", selector: "#studioThumbs", title: "Review your pages", body: "Select thumbnails to review page order, rotation and deletions before creating a PDF.", placement: "bottom" },
       { workspace: "studio", selector: "#enhancePresets", title: "Enhance images", body: "Use the enhancement presets to improve readability. Preview each change and reset if needed. Choose Straighten page here to correct perspective by tapping four corners in the preview.", placement: "bottom" },
-      { workspace: "studio", selector: "#btnRunOcr", title: "Recognize text", body: "Scan recognizes text in image pages. The text is embedded in the next PDF export as long as the image has not changed. Embedded search currently supports Latin-script text.", placement: "bottom" },
-      { workspace: "studio", selector: "#studioPageNav", title: "Previous and next", body: "Use page navigation to check every image, including the first and last page.", placement: "bottom" },
+      { workspace: "studio", selector: "#btnRunOcr", title: "Scan text (OCR)", body: "Scan recognizes text in image pages. The text is embedded in the next PDF export as long as the image has not changed. Embedded search currently supports Latin-script text.", placement: "bottom" },
+      { workspace: "studio", selector: "#studioPageNav", title: "Previous and next", body: "Use the arrows to review each page. Read aloud below the preview reads recognized text when available.", placement: "bottom" },
       { workspace: "studio", selector: "#btnCreatePdf", title: "Create PDF", body: "Choose page size, orientation and photo quality, then tap PDF. Share displays the file size and offers a smaller version when available.", placement: "bottom" },
       { workspace: "studio", selector: "#btnSendToSign", title: "Edit in Sign", body: "Move the created PDF to Sign to add signatures, dates or text.", placement: "bottom" },
       { workspace: "studio", selector: "#btnSendToTools", title: "Edit in Tools", body: "Move the created PDF to PDF Tools for further document changes.", placement: "bottom" },
@@ -817,6 +812,7 @@ const WALKTHROUGHS = {
       { workspace: 'sign', selector: '#btnAddSignature', title: 'Signature', body: 'Tap <strong>Signature</strong> to open the signature sheet. Draw with your finger or Apple Pencil, or type your name in a chosen font.', placement: 'right' },
       { workspace: 'sign', selector: '#btnAddText', title: 'Text', body: 'Type into the <strong>Text / typed signature</strong> field, then tap Text to insert. Or click directly on the preview to drop the text exactly where you clicked.', placement: 'right' },
       { workspace: 'sign', selector: '#btnAddDate', title: 'Date', body: 'Tap <strong>Date</strong> to insert today\'s date near the bottom of the current page.', placement: 'right' },
+      { workspace: 'sign', selector: '#btnAddHighlight', title: 'Markup', body: 'Use Highlight, Underline, or Strike to mark text. Stamp and Watermark add labels to the document.', placement: 'right' },
       { workspace: 'sign', selector: '#btnUndo', title: 'Undo / Redo / Remove', body: 'Use <strong>Undo</strong> and <strong>Redo</strong> to navigate the edit history. <strong>Remove Selected</strong> deletes the currently-selected element on the canvas.', placement: 'right' },
       { workspace: 'sign', selector: '#fontFamily', title: 'Font + size + color', body: 'Set Font style, Font size (in points), and Ink color BEFORE inserting. These control the text inside the PDF, not the interface.', placement: 'right' },
       { workspace: 'sign', selector: '#wmText', title: 'Watermark', body: 'Set watermark text, direction (Diagonal or Horizontal), and opacity (0-100%), then tap Insert. The watermark applies to ALL pages.', placement: 'right' },
@@ -843,7 +839,7 @@ const WALKTHROUGHS = {
     id: 'library',
     steps: [
       { workspace: 'library', selector: null, title: 'Document Library', body: 'Saved documents are stored locally in your browser via IndexedDB. They appear as compact rows.', placement: 'center' },
-      { workspace: 'library', selector: '#libraryActions', title: 'Choose an action', body: 'Move, Rename and Delete accept multiple files. Open in Sign, Open in Tools and Share accept one PDF. Select the files, then confirm.', placement: 'top' },
+      { workspace: 'library', selector: '#libraryActions', title: 'Choose an action', body: 'Move, Rename and Delete accept multiple files. Open in Sign, Open in Tools and Share accept one PDF. Select the files, then confirm. After a successful Move, Rename or Delete, the selection controls close.', placement: 'top' },
       { workspace: 'library', selector: '#btnRefreshLibrary', title: 'Refresh', body: 'Tap <strong>Refresh</strong> to re-query the database if you\'ve saved from another workspace and the list hasn\'t updated.', placement: 'top' },
     ],
   },
@@ -852,6 +848,7 @@ const WALKTHROUGHS = {
     steps: [
       { workspace: 'help', selector: null, title: 'Help Center', body: 'Search for any feature, or browse illustrated topics below.', placement: 'center' },
       { workspace: 'help', selector: '.help-search__input', title: 'Search', body: 'Type to filter topics. Matches against titles, subtitles, and tags.', placement: 'bottom' },
+      { workspace: 'help', selector: '#btnAbout', title: 'Device diagnostics', body: 'Open About and choose Device Self-Test. Stress mode measures OCR on 16 sample images. Use Close to dismiss the panel and request a stop.', placement: 'bottom' },
       { workspace: 'help', selector: '.help-topics', title: 'Topic cards', body: 'Tap any card to open a full illustrated article with Purpose, Prerequisites, numbered Steps, Troubleshooting, and Related topics.', placement: 'top' },
     ],
   },

@@ -6,7 +6,7 @@
    uses are offline.
    ===================================================================== */
 
-const CACHE_VERSION = 'v7-6-compact-library';
+const CACHE_VERSION = 'v7-7-visual-polish';
 const APP_CACHE = `docuscan-app-${CACHE_VERSION}`;
 const ASSET_CACHE = `docuscan-assets-${CACHE_VERSION}`;
 
@@ -63,7 +63,7 @@ const APP_SHELL = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(APP_CACHE).then(cache => cache.addAll(APP_SHELL))
+    caches.open(APP_CACHE).then(cache => cache.addAll(APP_SHELL.map(path => new Request(path, { cache: 'reload' }))))
       .then(() => self.skipWaiting())
   );
 });
@@ -119,9 +119,10 @@ self.addEventListener('fetch', (event) => {
   if (req.cache === 'no-store') return;
   // App shell: cache-first, fallback to network, then offline fallback
   event.respondWith(
-    caches.match(req).then(cached => {
+    caches.open(APP_CACHE).then(async cache => {
+      const cached = await cache.match(req);
       if (cached) return cached;
-      return fetch(req).then((res) => {
+      return fetch(req, { cache: 'no-cache' }).then((res) => {
         // Cache same-origin GETs
         if (res && res.status === 200 && res.type === 'basic') {
           const clone = res.clone();

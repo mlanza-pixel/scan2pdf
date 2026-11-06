@@ -822,6 +822,15 @@
           </button>
           <button class="btn btn--sm" id="btnRefreshLibrary" type="button" style="margin-left:8px">Refresh</button>
         </div>
+        <div class="card card--padded">
+          <h2 class="card__title">Library backup</h2>
+          <p class="card__subtitle">Save a backup to Files, iCloud Drive or Google Drive. On your other device, open Library and restore the backup to add copies of its PDFs and folders.</p>
+          <div class="text-export-actions">
+            <button class="btn" id="btnExportLibraryBackup" type="button">Export Library Backup</button>
+            <button class="btn" id="btnRestoreLibraryBackup" type="button">Restore Library Backup</button>
+          </div>
+          <input id="libraryBackupInput" type="file" accept=".json,application/json" hidden />
+        </div>
         <div class="card card--padded" id="libraryActions">
           <h2 class="card__title">File actions</h2>
           <div class="library-file-actions" role="group" aria-label="Choose a file action">

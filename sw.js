@@ -6,7 +6,7 @@
    uses are offline.
    ===================================================================== */
 
-const CACHE_VERSION = 'v7-71-talk-pdf';
+const CACHE_VERSION = 'v7-71-library-backup';
 const APP_CACHE = `docuscan-app-${CACHE_VERSION}`;
 const ASSET_CACHE = `docuscan-assets-${CACHE_VERSION}`;
 
@@ -31,6 +31,7 @@ const APP_SHELL = [
   './js/interface-sounds.js',
   './js/navigation.js',
   './js/storage.js',
+  './js/library-backup.js',
   './js/scanner.js',
   './js/image-processing.js',
   './js/ocr.js',

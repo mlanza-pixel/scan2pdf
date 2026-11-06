@@ -32,7 +32,7 @@ For iPad/iPhone, publish the folder contents to GitHub Pages, visit in Safari, t
 1. Back up the current repository. Replace its app files with the **contents** of this release's `docuscan-pro` folder, including `vendor`, `js`, `css`, icons, manifest and service worker.
 2. Commit and push to the repository's configured Pages branch, or let the included Pages workflow deploy.
 3. Reopen the published site. The service worker uses a new 7.71 cache and claims clients after install; one additional reload may be needed to load all new assets together.
-4. About must show **7.71**, build **7.71-talk-pdf**.
+4. About must show **7.71**, build **7.71-library-backup**.
 
 No changes have been pushed to the user's GitHub repository by this release task. Browser-local saved documents are separate from these app files. Do not clear site data unless you have downloaded backups.
 

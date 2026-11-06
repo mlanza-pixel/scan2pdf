@@ -101,3 +101,14 @@ export async function estimateStorage() {
   }
   return { usage: 0, quota: 0, unsupported: true };
 }
+
+export async function importDocuments(documents) {
+  const db = await openDb();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, 'readwrite');
+    const store = tx.objectStore(STORE);
+    tx.oncomplete = () => resolve();
+    tx.onabort = () => reject(tx.error || new Error('Backup restore was cancelled.'));
+    for (const doc of documents) store.add(doc);
+  });
+}

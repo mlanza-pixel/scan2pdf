@@ -32,3 +32,9 @@ Verified at 390 and 1024 pixels in Chromium: a known fixture marker returned pag
 ## GitHub test repair
 
 The screenshot and navigation stress scripts now account for Markup opening by default. The screenshot test waits for the tour card before capturing it. Local Chromium verified five rounds of opening and closing every Tools category and opening and dismissing the tour at four viewport sizes. The hosted run logs were unavailable and the GitHub workflows still need to be rerun.
+
+## Library backup build
+
+Export Library Backup downloads a JSON file containing PDFs, names, and folder memberships. Move the file into iCloud Drive or Google Drive using Files or the browser's download controls. Restore Library Backup previews the PDF and folder counts and asks for confirmation before adding copies. Existing documents are preserved. Repeated restores add additional copies. The backup is readable, unencrypted and limited to 64 MiB. Cloud transfer is manual.
+
+Chromium round-trip testing between separate phone- and tablet-sized browser contexts verified cancellation, byte-identical PDF recovery, folder membership and preservation of existing documents. Physical iOS and Android file-provider testing is pending.

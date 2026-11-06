@@ -1,3 +1,4 @@
+import { exportLibraryBackup, restoreLibraryBackup } from './library-backup.js';
 import { indexPdfPassages, findPdfPassages } from './talk-pdf.js';
 /* =====================================================================
    app.js — DocuScan Pro main controller.
@@ -23,7 +24,7 @@ import { parseRanges, runMerge, runSplit, runRotate, runReorder, runWatermark, r
 import { maybeShowWelcome, initHelpCenter, attachContextHelp } from './help-system.js';
 
 const APP_VERSION = '7.71';
-const APP_BUILD = '7.71-talk-pdf';
+const APP_BUILD = '7.71-library-backup';
 
 /* ---------------- Shared app state ---------------- */
 const state = {
@@ -4121,6 +4122,42 @@ async function applyLibrarySelection() {
 }
 
 function initLibraryWorkspace() {
+  const exportBackup = document.getElementById('btnExportLibraryBackup');
+  const restoreBackup = document.getElementById('btnRestoreLibraryBackup');
+  const backupInput = document.getElementById('libraryBackupInput');
+  async function runBackup(action) {
+    exportBackup.disabled = restoreBackup.disabled = true;
+    try { await action(); }
+    catch (error) { toast(`Library backup: ${error.message}`, 'error'); }
+    finally { exportBackup.disabled = restoreBackup.disabled = false; }
+  }
+  exportBackup.addEventListener('click', () => runBackup(async () => {
+    const blob = await exportLibraryBackup();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `DocuScan-Library-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  }));
+  restoreBackup.addEventListener('click', () => backupInput.click());
+  backupInput.addEventListener('change', () => {
+    const file = backupInput.files[0];
+    backupInput.value = '';
+    if (!file) return;
+    runBackup(async () => {
+      const count = await restoreLibraryBackup(file, (documents, folders) =>
+        confirm(`Add copies of ${documents} PDF(s) and ${folders} folder(s) to this Library?`));
+      if (count === null) return;
+      libraryFolderId = null;
+      libraryAction = '';
+      await renderLibrary();
+      toast(`Restored ${count} PDF(s).`, 'success');
+    });
+  });
+
   document.querySelectorAll('[data-library-action]').forEach(button => {
     button.addEventListener('click', () => { libraryAction = button.dataset.libraryAction; renderLibrary(); });
   });
@@ -4159,7 +4196,7 @@ function renderLibraryFolders() {
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
         </div>
         <div class="library-card__body">
-          <div class="library-card__name">${f.name}</div>
+          <div class="library-card__name"></div>
           <div class="library-card__meta">${f.docs.length} document(s)</div>
         </div>
         <div class="library-card__actions">
@@ -4168,6 +4205,7 @@ function renderLibraryFolders() {
         </div>
       </div>
     `).join('') + '</div>';
+  wrap.querySelectorAll('.library-card__name').forEach((label, i) => { label.textContent = folders[i].name; });
   wrap.querySelectorAll('[data-open-folder]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();

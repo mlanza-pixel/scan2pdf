@@ -54,7 +54,7 @@ async function cacheRepeatTest(count) {
         }
         if(body.length<50)throw new Error('unexpectedly small resource');
         if(f==='index.html'&&!body.includes('<title>DocuScan Pro 7.71</title>'))throw new Error('stale index version');
-        if(f==='js/app.js'&&!body.includes("APP_BUILD = '7.71-talk-pdf'"))throw new Error('stale app build');
+        if(f==='js/app.js'&&!body.includes("APP_BUILD = '7.71-library-backup'"))throw new Error('stale app build');
         if(f==='js/device-self-test.js'&&!body.includes('on-device-self-test-4'))throw new Error('stale diagnostics script');
         if (baseline[f] === undefined) { baseline[f] = body; sizes[f] = body.length; }
         else if (baseline[f] !== body) throw new Error(`resource differs from initial network copy (${mode}); reload and retry after the update finishes`);

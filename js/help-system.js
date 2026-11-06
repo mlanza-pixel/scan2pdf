@@ -825,13 +825,15 @@ const studioGuides = [
 ];
 
 const guideTopics = [
+  ['Library', 'library-backup', 'Library backup and restore', 'Export a backup, then move it to iCloud Drive or Google Drive using Files. On the other device choose Restore Library Backup and select the file. Each restore adds copies of the PDFs and folders.'],
+
   ['PDF Tools', 'talk-pdf', 'Talk to PDF', 'Open a searchable PDF, choose Talk to PDF, and ask a question. Review the matching passages and page numbers. For a scan, run Scan in Studio and create a searchable PDF first.'],
   ...toolGuides.map(([group, tab, title, body, mode]) => ['PDF Tools', mode || tab, title, body]),
   ...studioGuides.map(([id, title, body]) => ['Studio', id, title, body]),
 ];
 for (const [workspace, id, title, body] of guideTopics) {
   HELP_TOPICS.push({
-    id: 'control-' + id, workspace: workspace === 'Studio' ? 'studio' : 'tools', icon: 'help', title: workspace + ' · ' + title, sub: body,
+    id: 'control-' + id, workspace: workspace === 'Studio' ? 'studio' : workspace === 'Library' ? 'library' : 'tools', icon: 'help', title: workspace + ' · ' + title, sub: body,
     tags: [workspace, title], purpose: body, prerequisites: 'Open the workspace and load the required files.',
     steps: [{title, body}],
   });
@@ -914,6 +916,7 @@ const WALKTHROUGHS = {
     steps: [
       { workspace: 'library', selector: null, title: 'Document Library', body: 'Saved documents are stored locally in your browser via IndexedDB. They appear as compact rows.', placement: 'center' },
       { workspace: 'library', selector: '#libraryActions', title: 'Choose an action', body: 'Move, Rename and Delete accept multiple files. Open in Sign, Open in Tools and Share accept one PDF. Select the files, then confirm. After a successful Move, Rename or Delete, the selection controls close.', placement: 'top' },
+      { workspace: 'library', selector: '#btnExportLibraryBackup', title: 'Library backup', body: 'Export your PDFs and folders to a backup file. Save it to iCloud Drive or Google Drive, then restore it on your other device.', placement: 'top' },
       { workspace: 'library', selector: '#btnRefreshLibrary', title: 'Refresh', body: 'Tap <strong>Refresh</strong> to re-query the database if you\'ve saved from another workspace and the list hasn\'t updated.', placement: 'top' },
     ],
   },

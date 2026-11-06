@@ -1,0 +1,77 @@
+{
+  "suite": "complete-app-workflows-v7741-split",
+  "generatedUTC": "2026-11-06T00:18:17.390482+00:00",
+  "source": "chromium-workflow",
+  "repeatsPerCase": 1,
+  "selectedCase": "errors",
+  "selectedProfile": "all",
+  "limitations": [
+    "Chromium emulation is not native iOS Safari",
+    "Native camera, sharing, printing excluded"
+  ],
+  "results": [
+    {
+      "profile": "desktop",
+      "case": "errors",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 2.73,
+      "details": {
+        "keyboardNavigation": 6,
+        "targetMinimumCssPixels": 48,
+        "auditedControlsByWorkspace": {
+          "home": 13,
+          "sign": 10,
+          "tools": 23,
+          "studio": 19,
+          "library": 17,
+          "help": 33
+        },
+        "horizontalOverflow": false,
+        "reducedMotionPreferenceRecognized": true
+      }
+    },
+    {
+      "profile": "iphone-emulated",
+      "case": "errors",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 2.74,
+      "details": {
+        "keyboardNavigation": 6,
+        "targetMinimumCssPixels": 48,
+        "auditedControlsByWorkspace": {
+          "home": 13,
+          "sign": 10,
+          "tools": 23,
+          "studio": 19,
+          "library": 17,
+          "help": 33
+        },
+        "horizontalOverflow": false,
+        "reducedMotionPreferenceRecognized": true
+      }
+    },
+    {
+      "profile": "ipad-emulated",
+      "case": "errors",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 2.59,
+      "details": {
+        "keyboardNavigation": 6,
+        "targetMinimumCssPixels": 48,
+        "auditedControlsByWorkspace": {
+          "home": 13,
+          "sign": 10,
+          "tools": 23,
+          "studio": 19,
+          "library": 17,
+          "help": 33
+        },
+        "horizontalOverflow": false,
+        "reducedMotionPreferenceRecognized": true
+      }
+    }
+  ]
+}

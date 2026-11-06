@@ -17,3 +17,7 @@ The optional packet checklist includes Expense claim, Signed document, and an ed
 The automated browser suite covers desktop Chromium, emulated iPhone and emulated iPad. It checks OCR-to-Create-PDF-to-Library export, seven-page mixed-file page order, retained source PDF text, smaller sharing through the browser download fallback, form values, camera import and four-corner correction, persisted checklist state, navigation and Help tours. The mixed fixture was approximately 144 KB at Original quality and 65 KB with the smaller sharing option. Size savings depend on content.
 
 Physical camera capture, the native iOS email share sheet, and broad OCR accuracy on real documents require device validation. Browser OCR uses pinned English test assets. This package has not been deployed.
+
+## Studio controls refresh
+
+Straighten page is in Enhancement and opens the corner-selection preview. Move page earlier and Move page later change the selected page by one slot. Preview arrows only browse. Copy text and Download text use matching buttons. Very narrow layouts give PDF settings more room.

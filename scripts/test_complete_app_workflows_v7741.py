@@ -11,7 +11,7 @@ ROOT=pathlib.Path(__file__).resolve().parents[1]
 OUT=ROOT/'tests/results/complete-app-v7741';OUT.mkdir(parents=True,exist_ok=True)
 parser=argparse.ArgumentParser(description='Run independent DocuScan browser workflow tests')
 parser.add_argument('url',nargs='?',default='http://127.0.0.1:8765/')
-parser.add_argument('--profile',choices=['desktop','iphone-emulated','ipad-emulated','all'],default='all')
+parser.add_argument('--profile',choices=['desktop','iphone-emulated','ipad-emulated','android-emulated','all'],default='all')
 parser.add_argument('--case',choices=['consent','import','ocr','edit','annotations','tools','library','errors','studio-capture','sign-history','tools-pages','tools-text','folders','help','tools-raster','tools-batch','tools-forms','tools-size','tools-ocr','all'],default='all')
 parser.add_argument("--repeat",type=int,choices=range(1,1001),default=1,metavar="1-1000")
 args=parser.parse_args()
@@ -67,6 +67,15 @@ def studio_workflow(page,profile):
  info=page.locator('#toolsDocInfo').inner_text()
  assert 'no document loaded' not in info.lower(),info
  return {'importedImages':1,'export':exported,'reopenedInTools':True,'documentInfo':info[:200]}
+def choose_library_files(page, action, *rows):
+ page.locator(f'[data-library-action="{action}"]').click()
+ for row in rows:
+  row.locator('input').check()
+
+def run_library_action(page, action, *rows):
+ choose_library_files(page, action, *rows)
+ page.locator('#btnLibraryApply').click()
+
 def ocr_workflow(page,profile):
  nav(page,'studio');page.locator('#imagesInput').set_input_files(str(img))
  page.wait_for_function('document.querySelectorAll("#studioThumbs img").length>=1',timeout=45000)
@@ -104,7 +113,7 @@ def ocr_workflow(page,profile):
  page.get_by_text('Saved "QA Searchable Packet.pdf" to Library',exact=False).wait_for()
  nav(page,'library')
  card=page.locator('#libraryGrid .library-card').filter(has_text='QA Searchable Packet')
- card.get_by_role('button',name='Tools',exact=True).click()
+ run_library_action(page,'tools',card)
  page.locator('#ws-tools').wait_for()
  saved=OUT/f'{profile}-searchable-library.pdf'
  download_pdf(page,'#btnToolsDownload',str(saved))
@@ -518,7 +527,7 @@ def tools_batch_workflow(page, profile):
  expect(page.locator('#libraryGrid .library-card')).to_have_count(2)
  for count in (5,10):
   card=page.locator('#libraryGrid .library-card').filter(has_text=f'document-{count}-pages')
-  card.get_by_role('button',name='Tools',exact=True).click()
+  run_library_action(page,'tools',card)
   page.locator('#ws-tools').wait_for()
   dest=OUT/f'{profile}-batch-{count}.pdf'
   download_pdf(page,'#btnToolsDownload',str(dest))
@@ -574,7 +583,7 @@ def tools_size_workflow(page, profile):
  pages=len(PdfReader(first).pages)
  nav(page,'library')
  part=page.locator('#libraryGrid .library-card').filter(has_text='Split part 2')
- part.get_by_role('button',name='Tools',exact=True).click()
+ run_library_action(page,'tools',part)
  page.locator('#ws-tools').wait_for()
  second=OUT/f'{profile}-split-second.pdf'
  download_pdf(page,'#btnToolsDownload',str(second))
@@ -603,30 +612,55 @@ def folders_workflow(page, profile):
  open_fixture(page,'sign')
  page.locator('#btnSaveToLibrary').click()
  nav(page,'library')
- doc=page.locator('#libraryGrid .library-card')
- doc.wait_for(state='visible')
+ first=page.locator('#libraryGrid .library-card').filter(has_text='Signed_')
+ first.wait_for(state='visible')
+ nav(page,'studio')
+ page.locator('#imagesInput').set_input_files(str(ROOT/'tests/fixtures/photo-1.jpg'))
+ page.locator('#studioThumbs img').first.wait_for()
+ page.once('dialog',lambda dialog: dialog.accept('QA second PDF'))
+ page.locator('#btnCreatePdf').click()
+ page.get_by_text('Saved "QA second PDF.pdf" to Library',exact=False).wait_for()
+ nav(page,'library')
+ second=page.locator('#libraryGrid .library-card').filter(has_text='QA second PDF')
+ second.wait_for()
  page.once('dialog',lambda dialog: dialog.accept('QA folder'))
  page.locator('#btnNewFolder').click()
  folder=page.locator('#libraryFolders [data-folder-id]').filter(has_text='QA folder')
  folder.get_by_text('0 document(s)',exact=True).wait_for()
  page.once('dialog',lambda dialog: dialog.accept('1'))
- doc.get_by_role('button',name='Move',exact=True).click()
- folder.get_by_text('1 document(s)',exact=True).wait_for()
+ run_library_action(page,'move',first,second)
+ folder.get_by_text('2 document(s)',exact=True).wait_for()
  page.reload(wait_until='domcontentloaded')
  nav(page,'library')
- folder.get_by_text('1 document(s)',exact=True).wait_for()
+ folder.get_by_text('2 document(s)',exact=True).wait_for()
  folder.get_by_role('button',name='Open',exact=True).click()
- page.get_by_text('Showing 1 doc(s) in "QA folder".',exact=True).wait_for()
- doc.wait_for(state='visible')
+ page.get_by_text('Showing 2 doc(s) in "QA folder".',exact=True).wait_for()
+ first.wait_for(state='visible')
+ second.wait_for(state='visible')
  page.once('dialog',lambda dialog: dialog.dismiss())
  folder.get_by_role('button',name='Delete',exact=True).click()
  assert folder.is_visible()
  page.once('dialog',lambda dialog: dialog.accept())
  folder.get_by_role('button',name='Delete',exact=True).click()
  folder.wait_for(state='detached')
- doc.get_by_role('button',name='Open in Sign').click()
+ run_library_action(page,'sign',first)
  page.locator('#signCanvasStage').wait_for(state='visible')
- return {'createMoveOpenDelete':True,'membershipSurvivedReload':True,'pdfSurvivedFolderDelete':True}
+ nav(page,'library')
+ names=iter(('QA renamed first','QA renamed second'))
+ def rename_each(dialog):
+  dialog.accept(next(names))
+ page.on('dialog',rename_each)
+ run_library_action(page,'rename',first,second)
+ page.get_by_text('Renamed 2 file(s).',exact=True).wait_for()
+ page.remove_listener('dialog',rename_each)
+ renamed=[page.locator('#libraryGrid .library-card').filter(has_text=name)
+          for name in ('QA renamed first','QA renamed second')]
+ choose_library_files(page,'delete',*renamed)
+ expect(page.locator('#btnLibraryApply')).to_have_text('Delete (2)')
+ page.once('dialog',lambda dialog: dialog.accept())
+ page.locator('#btnLibraryApply').click()
+ page.get_by_text('No documents yet',exact=True).wait_for()
+ return {'bulkMoveVerified':2,'bulkRenameVerified':2,'bulkDeleteVerified':2,'createOpenDeleteFolder':True,'membershipSurvivedReload':True,'pdfSurvivedFolderDelete':True}
 
 def help_workflow(page, profile):
  nav(page,'help')
@@ -667,32 +701,81 @@ def save_reopen_workflow(page,profile):
  page.locator('#btnSaveToLibrary').click()
  nav(page,'library')
  saved=page.locator('#libraryGrid .library-card').filter(has_text='Signed_')
- saved.get_by_role('button',name='Open in Sign').click()
+ run_library_action(page,'sign',saved)
  page.locator('#ws-sign').wait_for(state='visible')
  page.locator('#signCanvasStage').wait_for(state='visible')
  assert page.locator('#signCanvas').evaluate('(canvas) => canvas.width > 0 && canvas.height > 0')
  saved_name=page.locator('#signDocInfo').inner_text()[:200]
  nav(page,'library')
  page.once('dialog',lambda dialog: dialog.accept('QA renamed scan'))
- saved.get_by_role('button',name='Rename',exact=True).click()
+ run_library_action(page,'rename',saved)
  renamed=page.locator('#libraryGrid .library-card').filter(has_text='QA renamed scan')
  renamed.wait_for(state='visible')
  page.locator('#librarySearchInput').fill('QA renamed scan')
- renamed.get_by_role('button',name='Delete',exact=True).wait_for(state='visible')
+ run_library_action(page,'share',renamed)
+ expect(page.locator('#studioShareSize')).to_contain_text('Selected PDF:')
+ with page.expect_download() as shared:
+  page.locator('#studioShareCurrent').click()
+ path=OUT/f'{profile}-library-shared.pdf'
+ shared.value.save_as(path)
+ assert len(PdfReader(path).pages)==1
+ choose_library_files(page,'delete',renamed)
  page.once('dialog',lambda dialog: dialog.dismiss())
- renamed.get_by_role('button',name='Delete',exact=True).click()
+ page.locator('#btnLibraryApply').click()
  assert renamed.is_visible(),'Cancel should preserve the saved PDF'
  page.once('dialog',lambda dialog: dialog.accept())
- renamed.get_by_role('button',name='Delete',exact=True).click()
+ page.locator('#btnLibraryApply').click()
  renamed.wait_for(state='detached')
  page.reload(wait_until='domcontentloaded')
  nav(page,'library')
  page.get_by_text('No documents yet',exact=False).wait_for(state='visible')
- return {'savedLibraryText':saved_name,'reopenedInSign':True,'renameSearchDeleteVerified':True}
+ return {'savedLibraryText':saved_name,'reopenedInSign':True,'renameSearchDeleteVerified':True,'directLibraryShareVerified':True}
 profiles={'desktop':(1365,900),'iphone-emulated':(390,844),'ipad-emulated':(820,1180)}
-selected=profiles if args.profile=='all' else {args.profile:profiles[args.profile]}
+selected=profiles if args.profile=='all' else {args.profile:(412,915) if args.profile=='android-emulated' else profiles[args.profile]}
 # Every case starts with its own clean context; dependent workflows generate their own fixture.
 # This prevents one failed import from causing unrelated tests to be incorrectly marked passed.
+def release_accessibility_workflow(page, profile):
+ selectors = '.workspace.is-active :is(button,[role="button"],[role="tab"]), .top-bar button, .bottom-nav__item'
+ counts={}
+ for workspace in ('home','sign','tools','studio','library','help'):
+  link=page.locator(f'.bottom-nav__item[data-goto="{workspace}"]')
+  link.focus()
+  page.keyboard.press('Enter')
+  expect(page.locator(f'#ws-{workspace}')).to_have_class(re.compile('is-active'))
+  overflow=page.evaluate('document.documentElement.scrollWidth - document.documentElement.clientWidth')
+  assert overflow<=2,f'{workspace}: {overflow}px horizontal overflow'
+  targets=page.locator(selectors).evaluate_all("""elements => elements.flatMap(element => {
+    const box = element.getBoundingClientRect();
+    const style = getComputedStyle(element);
+    if (!box.width || !box.height || style.visibility === 'hidden' ||
+        element.disabled || element.getAttribute('aria-disabled') === 'true') return [];
+    return [{
+      label: (element.getAttribute('aria-label') || element.innerText || element.title || '').trim(),
+      width: box.width, height: box.height,
+      left: box.left, right: box.right, viewport: document.documentElement.clientWidth
+    }];
+  })""")
+  issues=[item for item in targets if not item['label'] or min(item['width'],item['height']) < 47.5
+          or item['left'] < -2 or item['right'] > item['viewport']+2]
+  assert not issues,f'{workspace}: unnamed, small or clipped controls: {issues}'
+  counts[workspace]=len(targets)
+ nav(page,'studio')
+ page.locator('#imagesInput').set_input_files(str(ROOT/'tests/fixtures/photo-1.jpg'))
+ expect(page.locator('#studioThumbs img')).to_have_count(1)
+ for selector in ('#btnRunOcr','#btnStudioPerspective','#btnCopyOcr','#btnDownloadOcr','#studioThumbs .thumb__remove'):
+  box=page.locator(selector).bounding_box()
+  assert min(box['width'],box['height'])>=47.5,selector
+ open_fixture(page,'sign')
+ page.locator('#btnAddSignature').click()
+ page.locator('#btnInsertSig').click(trial=True)
+ assert page.locator('#btnInsertSig').bounding_box()['height']>=47.5
+ page.locator('#signatureSheet').get_by_role('button',name='Cancel',exact=True).click()
+ page.locator('#signatureSheet').wait_for(state='hidden')
+ page.emulate_media(reduced_motion='reduce')
+ assert page.locator('#btnAbout').evaluate("button => parseFloat(getComputedStyle(button).transitionDuration) <= 0.001")
+ return {'keyboardNavigation':6,'targetMinimumCssPixels':48,'auditedControlsByWorkspace':counts,
+         'horizontalOverflow':False,'reducedMotionPreferenceRecognized':True}
+
 def run_selected(page,profile,kind):
  consent(page)
  if kind=='consent': return {'dismissed':True}
@@ -718,11 +801,7 @@ def run_selected(page,profile,kind):
  if kind=='tools-size': return tools_size_workflow(page,profile)
  if kind=='tools-ocr': return tools_ocr_workflow(page,profile)
  if kind=='errors':
-  for dest in ['home','sign','tools','studio','library','help']:
-   nav(page,dest)
-   overflow=page.evaluate('document.documentElement.scrollWidth - document.documentElement.clientWidth')
-   assert overflow<=2,f'{dest}: {overflow}px horizontal overflow'
-  return {'navigated':6}
+  return release_accessibility_workflow(page,profile)
  raise ValueError(kind)
 cases=['consent','import','ocr','edit','annotations','tools','library','errors','studio-capture','sign-history','tools-pages','tools-text','folders','help','tools-raster','tools-batch','tools-forms','tools-size','tools-ocr'] if args.case=='all' else [args.case]
 ocr_assets=os.environ.get('DOCUSCAN_OCR_NODE_MODULES')

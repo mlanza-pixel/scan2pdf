@@ -171,6 +171,7 @@
           <button class="btn" id="btnResetEnhance" type="button">Reset</button>
           <button class="btn" id="btnAutoCrop" type="button">Auto-crop</button>
         </div>
+        <button class="btn" id="btnStudioPerspective" type="button" disabled>Straighten page</button>
         <button class="btn" id="btnStudioOriginal" type="button" aria-pressed="false" disabled>Show original</button>
       <div class="edit-buttons history-actions" role="group" aria-label="Edit history">
         <button class="btn" id="btnStudioUndo" type="button" disabled>Undo</button>
@@ -181,7 +182,7 @@
 
       <div class="card card--padded">
         <h3 class="card__title">OCR</h3>
-        <div class="row">
+        <div class="row row--wrap">
           <button class="btn" id="btnRunOcr" type="button">
             <svg class="tools-tab__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
             Scan
@@ -212,8 +213,8 @@
           <label class="field">
             <span class="field__label">Page size</span>
             <select class="select" id="pdfPageSize">
-              <option value="letter">Letter (8.5×11")</option>
-              <option value="a4">A4 (210×297mm)</option>
+              <option value="letter">Letter</option>
+              <option value="a4">A4</option>
               <option value="auto">Fit to image</option>
             </select>
           </label>
@@ -281,16 +282,16 @@
               </div>
               <canvas id="studioPreviewCanvas" hidden></canvas>
             </div>
-            <button class="btn" id="btnStudioPerspective" type="button" disabled>Straighten page</button>
             <p id="studioPerspectiveHint" class="card__subtitle" aria-live="polite"></p>
             <div class="page-nav" id="studioPageNav" role="navigation" aria-label="Page navigation">
               <button class="page-nav__btn" id="btnStudioPrevPage" type="button" aria-label="Previous page" disabled>‹</button>
               <span class="page-nav__label" id="studioPageNavLabel">No pages</span>
               <button class="page-nav__btn" id="btnStudioNextPage" type="button" aria-label="Next page" disabled>›</button>
             </div>
-            <div class="row row--wrap">
-              <button class="btn" id="btnStudioMoveEarlier" type="button" disabled>Move earlier</button>
-              <button class="btn" id="btnStudioMoveLater" type="button" disabled>Move later</button>
+            <p class="card__subtitle">Reorder the selected page in the PDF. The arrows above only change the preview.</p>
+            <div class="studio-paired-actions">
+              <button class="btn" id="btnStudioMoveEarlier" type="button" disabled>Move page earlier</button>
+              <button class="btn" id="btnStudioMoveLater" type="button" disabled>Move page later</button>
             </div>
               <button class="btn btn--sm btn--ghost" id="btnSpeakOcr" type="button">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
@@ -303,9 +304,9 @@
             <h3 class="card__title">OCR result</h3>
             <p class="card__subtitle">Recognized text from the image pages appears here and is included in PDF exports.</p>
             <textarea class="textarea" id="ocrResult" placeholder="Run Scan to recognize text on the image pages…" style="margin-top:var(--space-2)" aria-label="Recognized text"></textarea>
-            <div class="row" style="margin-top:var(--space-2)">
+            <div class="studio-paired-actions">
               <button class="btn btn--sm btn--ghost" id="btnCopyOcr" type="button">Copy text</button>
-              <button class="btn btn--sm btn--ghost" id="btnDownloadOcr" type="button">Download .txt</button>
+              <button class="btn btn--sm btn--ghost" id="btnDownloadOcr" type="button">Download text</button>
 
             </div>
           </div>
@@ -820,6 +821,23 @@
           </button>
           <button class="btn btn--sm" id="btnRefreshLibrary" type="button" style="margin-left:8px">Refresh</button>
         </div>
+        <div class="card card--padded" id="libraryActions">
+          <h2 class="card__title">File actions</h2>
+          <div class="row row--wrap" role="group" aria-label="Choose a file action">
+            <button class="btn btn--sm" type="button" data-library-action="move" aria-pressed="false">Move</button>
+            <button class="btn btn--sm" type="button" data-library-action="rename" aria-pressed="false">Rename</button>
+            <button class="btn btn--sm" type="button" data-library-action="delete" aria-pressed="false">Delete</button>
+            <button class="btn btn--sm" type="button" data-library-action="sign" aria-pressed="false">Open in Sign</button>
+            <button class="btn btn--sm" type="button" data-library-action="tools" aria-pressed="false">Open in Tools</button>
+            <button class="btn btn--sm" type="button" data-library-action="share" aria-pressed="false">Share</button>
+          </div>
+          <p id="librarySelectionHint" class="card__subtitle" aria-live="polite">Choose an action, then select files.</p>
+          <div id="librarySelectionActions" class="row row--wrap" hidden>
+            <button class="btn btn--primary btn--sm" id="btnLibraryApply" type="button" disabled>Continue</button>
+            <button class="btn btn--sm" id="btnLibraryCancel" type="button">Cancel</button>
+          </div>
+        </div>
+        <button class="btn btn--sm" id="btnLibraryAllFiles" type="button" hidden>All files</button>
         <div id="libraryFolders" style="margin-bottom:var(--space-3)"></div>
         <div class="library-grid" id="libraryGrid" aria-live="polite"></div>
       </div>

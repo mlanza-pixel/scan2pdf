@@ -15,7 +15,44 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  accessibility-release-check:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        profile: [desktop, iphone-emulated, ipad-emulated, android-emulated]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install browser test dependencies
+        run: |
+          python -m pip install playwright pypdf pillow
+          python -m playwright install --with-deps chromium
+      - name: Audit all workspaces before deployment
+        run: |
+          python -m http.server 8765 --bind 127.0.0.1 >/tmp/docuscan-release-server.log 2>&1 &
+          server=$!
+          trap 'kill "$server"' EXIT
+          for attempt in {1..30}; do
+            if curl -fsS http://127.0.0.1:8765/ -o /dev/null; then break; fi
+            sleep 1
+          done
+          python scripts/test_complete_app_workflows_v7741.py http://127.0.0.1:8765/ --profile '${{ matrix.profile }}' --case errors
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: accessibility-${{ matrix.profile }}
+          path: |
+            tests/results/complete-app-v7741/report-*-errors.json
+            tests/results/complete-app-v7741/*-errors-*-FAIL.png
+
   deploy:
+    needs: accessibility-release-check
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

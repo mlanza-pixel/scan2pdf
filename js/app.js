@@ -22,7 +22,7 @@ import { parseRanges, runMerge, runSplit, runRotate, runReorder, runWatermark, r
 import { maybeShowWelcome, initHelpCenter, attachContextHelp } from './help-system.js';
 
 const APP_VERSION = '7.6';
-const APP_BUILD = '7.6-searchable-packets';
+const APP_BUILD = '7.6-compact-library';
 
 /* ---------------- Shared app state ---------------- */
 const state = {
@@ -410,6 +410,7 @@ function initStudioWorkspace() {
       studio.pages.splice(destination, 0, page);
       renderStudioThumbs();
       updateStudioPreview();
+      toast(`Moved page ${index + 1} to position ${destination + 1}.`);
     });
   }
   const templates = {
@@ -487,6 +488,7 @@ function initStudioWorkspace() {
     straighten.textContent = 'Cancel straighten';
     previewCanvas.style.cursor = 'crosshair';
     hint.textContent = 'Tap top-left, top-right, bottom-right, then bottom-left.';
+    previewCanvas.scrollIntoView({ block: 'nearest' });
   });
   previewCanvas.addEventListener('click', event => {
     if (!cornerPage) return;
@@ -3904,142 +3906,158 @@ function initToolsWorkspace() {
 }
 
 /* ---------------- Library workspace ---------------- */
-async function renderLibrary(searchQuery = '', folderDocIds = null) {
+const librarySelection = new Set();
+const libraryActionNames = { move: 'Move', rename: 'Rename', delete: 'Delete', sign: 'Open in Sign', tools: 'Open in Tools', share: 'Share' };
+let libraryAction = '';
+let libraryFolderId = null;
+let libraryRenderId = 0;
+let libraryBusy = false;
+
+function updateLibrarySelection() {
+  const count = librarySelection.size;
+  const multi = ['move', 'rename', 'delete'].includes(libraryAction);
+  const actions = document.getElementById('librarySelectionActions');
+  actions.hidden = !libraryAction;
+  const apply = document.getElementById('btnLibraryApply');
+  apply.disabled = !count || libraryBusy;
+  apply.textContent = libraryAction ? `${libraryActionNames[libraryAction]} (${count})` : 'Continue';
+  document.getElementById('btnLibraryCancel').disabled = libraryBusy;
+  document.getElementById('librarySelectionHint').textContent = !libraryAction ? 'Choose an action, then select files.' :
+    `${multi ? 'Select one or more files' : 'Select one PDF'} · ${count} selected`;
+  document.querySelectorAll('[data-library-action]').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.libraryAction === libraryAction));
+    button.disabled = libraryBusy;
+  });
+  document.querySelectorAll('#libraryGrid input').forEach(input => { input.disabled = libraryBusy; });
+}
+
+async function renderLibrary() {
   const grid = document.getElementById('libraryGrid');
-  if (!grid) return;
-  grid.innerHTML = '';
-  let docs = [];
+  const renderId = ++libraryRenderId;
+  librarySelection.clear();
+  updateLibrarySelection();
+  grid.replaceChildren();
   try {
-    docs = await listDocuments();
-  } catch (err) {
-    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="empty-state__title">Library unavailable</div><div class="empty-state__sub">${err.message}</div></div>`;
-    return;
-  }
-  // Filter by folder if specified
-  if (folderDocIds && folderDocIds.length > 0) {
-    docs = docs.filter(d => folderDocIds.includes(d.id));
-  }
-  // Filter by search query
-  const q = String(searchQuery || '').toLowerCase().trim();
-  if (q) {
-    docs = docs.filter(d => d.name.toLowerCase().includes(q));
-  }
-  // Render folders
-  renderLibraryFolders();
-  if (docs.length === 0) {
-    grid.innerHTML = `
-      <div class="empty-state" style="grid-column:1/-1">
-        <div class="empty-state__icon" aria-hidden="true">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        </div>
-        <div class="empty-state__title">${searchQuery ? 'No matches found' : 'No documents yet'}</div>
-        <div class="empty-state__sub">${searchQuery ? 'Try a different search term.' : 'Save documents from Studio, Sign, or PDF Tools to see them here.'}</div>
-        ${!searchQuery ? '<button class="btn btn--primary btn--sm" data-goto="studio" type="button">Go to Studio</button>' : ''}
-      </div>`;
-    return;
-  }
-  for (const doc of docs) {
-    const card = document.createElement('div');
-    card.className = 'library-card';
-    const thumb = document.createElement('div');
-    thumb.className = 'library-card__thumb';
-    // Render thumbnail from stored bytes (pdf.js)
-    if (doc.bytes && doc.type === 'application/pdf') {
-      try {
-        const pdf = await loadPdfFromBytes(doc.bytes);
-        const canvas = document.createElement('canvas');
-        await renderPageToCanvas(pdf, 1, canvas, 180);
-        thumb.innerHTML = '';
-        thumb.appendChild(canvas);
-      } catch {
-        thumb.innerHTML = '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
-      }
+    const docs = await listDocuments();
+    if (renderId !== libraryRenderId) return;
+    const folders = JSON.parse(localStorage.getItem('docuscan-pro.folders') || '[]');
+    const folder = folders.find(item => item.id === libraryFolderId);
+    document.getElementById('btnLibraryAllFiles').hidden = !folder;
+    const q = document.getElementById('librarySearchInput').value.trim().toLowerCase();
+    const single = ['sign', 'tools', 'share'].includes(libraryAction);
+    const visible = docs.filter(doc => (!folder || folder.docs.includes(doc.id)) &&
+      (!q || doc.name.toLowerCase().includes(q)) && (!single || doc.type === 'application/pdf'));
+    renderLibraryFolders();
+    if (!visible.length) {
+      const empty = document.createElement('p');
+      empty.className = 'empty-state';
+      empty.textContent = q ? 'No matches found' : folder ? 'No files in this folder' :
+        single ? 'No PDFs available for this action' : 'No documents yet';
+      grid.append(empty);
+      return;
     }
-    const body = document.createElement('div');
-    body.className = 'library-card__body';
-    const name = document.createElement('div');
-    name.className = 'library-card__name';
-    name.textContent = doc.name;
-    const meta = document.createElement('div');
-    meta.className = 'library-card__meta';
-    const size = doc.size ? (doc.size / 1024 / 1024).toFixed(1) + ' MB' : '—';
-    const date = new Date(doc.modifiedAt || doc.createdAt).toLocaleDateString();
-    meta.textContent = `${doc.pageCount || '?'} pages • ${size} • ${date}`;
-    body.appendChild(name);
-    body.appendChild(meta);
-    const actions = document.createElement('div');
-    actions.className = 'library-card__actions';
-    const openBtn = document.createElement('button');
-    openBtn.className = 'btn btn--sm';
-    openBtn.textContent = 'Open in Sign';
-    openBtn.addEventListener('click', async () => {
-      await loadSignDocument(doc.bytes, doc.name);
-      goto('sign');
-      toast(`Opened "${doc.name}" in Sign.`, 'success');
-    });
-    const toolsBtn = document.createElement('button');
-    toolsBtn.className = 'btn btn--sm';
-    toolsBtn.textContent = 'Tools';
-    toolsBtn.addEventListener('click', async () => {
-      await loadToolsDocument(doc.bytes, doc.name);
-      goto('tools');
-      toast(`Opened "${doc.name}" in PDF Tools.`, 'success');
-    });
-    const renameBtn = document.createElement('button');
-    renameBtn.className = 'btn btn--sm btn--ghost';
-    renameBtn.textContent = 'Rename';
-    renameBtn.addEventListener('click', async () => {
-      const name = prompt('New name:', doc.name);
-      if (name && name.trim()) {
-        await renameDocument(doc.id, name.trim());
-        const sq = document.getElementById('librarySearchInput')?.value || '';
-        await renderLibrary(sq);
-        toast('Renamed.', 'success');
+    for (const doc of visible) {
+      const row = document.createElement(libraryAction ? 'label' : 'div');
+      row.className = 'library-card library-file-row';
+      if (libraryAction) {
+        const input = document.createElement('input');
+        input.type = single ? 'radio' : 'checkbox';
+        input.name = 'library-files';
+        input.disabled = libraryBusy;
+        input.addEventListener('change', () => {
+          if (single) librarySelection.clear();
+          if (input.checked) librarySelection.add(doc.id);
+          else librarySelection.delete(doc.id);
+          updateLibrarySelection();
+        });
+        row.append(input);
       }
-    });
-    const moveBtn = document.createElement('button');
-    moveBtn.className = 'btn btn--sm btn--ghost';
-    moveBtn.textContent = 'Move';
-    moveBtn.addEventListener('click', () => {
+      const body = document.createElement('div');
+      const name = document.createElement('div');
+      name.className = 'library-card__name';
+      name.textContent = doc.name;
+      const meta = document.createElement('div');
+      meta.className = 'library-card__meta';
+      const size = doc.size >= 1e6 ? `${(doc.size / 1e6).toFixed(1)} MB` : `${Math.ceil((doc.size || 0) / 1000)} KB`;
+      meta.textContent = [doc.pageCount ? `${doc.pageCount} pages` : '', size].filter(Boolean).join(' · ');
+      body.append(name, meta);
+      row.append(body);
+      grid.append(row);
+    }
+  } catch (error) {
+    if (renderId === libraryRenderId) grid.textContent = `Library unavailable: ${error.message}`;
+  }
+}
+
+async function applyLibrarySelection() {
+  const ids = [...librarySelection];
+  if (!ids.length || libraryBusy) return;
+  const action = libraryAction;
+  libraryBusy = true;
+  updateLibrarySelection();
+  let changed = 0;
+  try {
+    if (action === 'move') {
       const folders = JSON.parse(localStorage.getItem('docuscan-pro.folders') || '[]');
-      if (folders.length === 0) { toast('No folders. Create one first.', 'warning'); return; }
-      const choices = folders.map((f, i) => `${i+1}. ${f.name}`).join('\n');
-      const choice = prompt(`Move to folder:\n${choices}`, '1');
-      const idx = parseInt(choice, 10) - 1;
-      if (idx < 0 || idx >= folders.length) { toast('Invalid choice.', 'warning'); return; }
-      folders.forEach(f => { f.docs = f.docs.filter(d => d !== doc.id); });
-      folders[idx].docs.push(doc.id);
+      if (!folders.length) { toast('Create a folder first.', 'warning'); return; }
+      const choice = prompt('Move to folder:\n' + folders.map((folder, i) => `${i + 1}. ${folder.name}`).join('\n'), '1');
+      if (choice === null) return;
+      const target = folders[Number(choice) - 1];
+      if (!target) { toast('Choose a valid folder number.', 'warning'); return; }
+      folders.forEach(folder => { folder.docs = folder.docs.filter(id => !ids.includes(id)); });
+      target.docs.push(...ids);
       localStorage.setItem('docuscan-pro.folders', JSON.stringify(folders));
-      renderLibraryFolders();
-      toast(`Moved to "${folders[idx].name}".`, 'success');
-    });
-    const deleteBtn = document.createElement('button');
-    deleteBtn.className = 'btn btn--sm btn--danger';
-    deleteBtn.textContent = 'Delete';
-    deleteBtn.addEventListener('click', async () => {
-      if (!confirm(`Delete "${doc.name}"? This cannot be undone.`)) return;
-      await deleteDocument(doc.id);
-      const sq = document.getElementById('librarySearchInput')?.value || '';
-      await renderLibrary(sq);
-      toast('Deleted.', 'success');
-    });
-    actions.appendChild(openBtn);
-    actions.appendChild(toolsBtn);
-    actions.appendChild(renameBtn);
-    actions.appendChild(moveBtn);
-    actions.appendChild(deleteBtn);
-    card.appendChild(thumb);
-    card.appendChild(body);
-    card.appendChild(actions);
-    grid.appendChild(card);
+      changed = ids.length;
+      toast(`Moved ${changed} file(s) to "${target.name}".`, 'success');
+    } else if (action === 'rename') {
+      for (const id of ids) {
+        const doc = await getDocument(id);
+        if (!doc) continue;
+        const name = prompt('New name:', doc.name);
+        if (name === null) break;
+        if (!name.trim()) continue;
+        await renameDocument(id, name.trim());
+        changed++;
+      }
+      if (changed) toast(`Renamed ${changed} file(s).`, 'success');
+    } else if (action === 'delete') {
+      if (!confirm(`Delete ${ids.length} selected file(s)? This cannot be undone.`)) return;
+      const key = 'docuscan-pro.folders';
+      const folders = JSON.parse(localStorage.getItem(key) || '[]');
+      for (const id of ids) {
+        await deleteDocument(id);
+        changed++;
+        folders.forEach(folder => { folder.docs = folder.docs.filter(item => item !== id); });
+        localStorage.setItem(key, JSON.stringify(folders));
+      }
+      toast(`Deleted ${changed} file(s).`, 'success');
+    } else {
+      const doc = await getDocument(ids[0]);
+      if (!doc) throw new Error('The selected file is no longer available.');
+      if (action === 'share') await reviewPdfShare(doc.bytes, doc.name);
+      else if (action === 'sign') { if (await loadSignDocument(doc.bytes, doc.name)) goto('sign'); }
+      else if (await loadToolsDocument(doc.bytes, doc.name)) goto('tools');
+    }
+  } catch (error) {
+    toast(changed ? `${changed} file(s) updated before the error: ${error.message}` : error.message, 'error');
+  } finally {
+    libraryBusy = false;
+    if (changed) await renderLibrary();
+    else updateLibrarySelection();
   }
 }
 
 function initLibraryWorkspace() {
+  document.querySelectorAll('[data-library-action]').forEach(button => {
+    button.addEventListener('click', () => { libraryAction = button.dataset.libraryAction; renderLibrary(); });
+  });
+  document.getElementById('btnLibraryApply').addEventListener('click', applyLibrarySelection);
+  document.getElementById('btnLibraryCancel').addEventListener('click', () => { libraryAction = ''; renderLibrary(); });
+  document.getElementById('btnLibraryAllFiles').addEventListener('click', () => { libraryFolderId = null; renderLibrary(); });
   document.getElementById('btnRefreshLibrary').addEventListener('click', () => renderLibrary());
   const searchInput = document.getElementById('librarySearchInput');
   if (searchInput) {
-    searchInput.addEventListener('input', () => renderLibrary(searchInput.value));
+    searchInput.addEventListener('input', () => renderLibrary());
   }
   const newFolderBtn = document.getElementById('btnNewFolder');
   if (newFolderBtn) {
@@ -4084,7 +4102,8 @@ function renderLibraryFolders() {
       const folders = JSON.parse(localStorage.getItem('docuscan-pro.folders') || '[]');
       const folder = folders.find(f => f.id === fid);
       if (!folder) return;
-      renderLibrary('', folder.docs);
+      libraryFolderId = fid;
+      renderLibrary();
       toast(`Showing ${folder.docs.length} doc(s) in "${folder.name}".`, 'info');
     });
   });
@@ -4328,7 +4347,7 @@ function boot() {
   attachContextHelp();
   // Re-render library when entering
   onWorkspaceChange(({ to }) => {
-    if (to === 'library') renderLibrary();
+    if (to === 'library') { libraryAction = ''; renderLibrary(); }
     if (to === 'sign') {
       // Resize canvas to match container if necessary
       if (sign.pdfDoc) renderSignCurrentPage();

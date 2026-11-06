@@ -23,8 +23,8 @@ import { listDocuments, getDocument, renameDocument, deleteDocument, estimateSto
 import { parseRanges, runMerge, runSplit, runRotate, runReorder, runWatermark, runAnnotateText, runAnnotateDrawing } from './pdf-tools.js';
 import { maybeShowWelcome, initHelpCenter, attachContextHelp } from './help-system.js';
 
-const APP_VERSION = '7.71';
-const APP_BUILD = '7.71-library-backup';
+const APP_VERSION = '7.72';
+const APP_BUILD = '7.72-ci-diagnostics';
 
 /* ---------------- Shared app state ---------------- */
 const state = {

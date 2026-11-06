@@ -1,11 +1,11 @@
 {
-  "version": "7.71",
-  "buildUTC": "2026-11-06T02:19:40.386408+00:00",
-  "cacheVersion": "v7-71-library-backup",
-  "baseVersion": "7.7-visual-polish",
-  "testStatus": "18 core checks and targeted Chromium export, Library and tour checks passed. Physical device and GitHub stress verification pending. Talk to PDF passed targeted Chromium checks at phone and tablet widths. Library backup round trip passed in Chromium.",
+  "version": "7.72",
+  "buildUTC": "2026-11-06T03:18:38.858142+00:00",
+  "cacheVersion": "v7-72-ci-diagnostics",
+  "baseVersion": "7.71-library-backup",
+  "testStatus": "Package, syntax and workflow configuration checked locally. GitHub execution and physical devices pending.",
   "deviceSelfTest": "Suite 4: quick, standard and stress, 16-page OCR timing and token validation, JSON export, closable diagnostics.",
   "fixtureGenerator": "scripts/generate_ocr_fixtures_v773.py",
   "fixtureVerification": "scripts/verify_ocr_fixtures_v773.py",
-  "build": "7.71-library-backup"
+  "build": "7.72-ci-diagnostics"
 }

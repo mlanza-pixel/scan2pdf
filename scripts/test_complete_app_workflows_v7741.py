@@ -851,9 +851,13 @@ with sync_playwright() as p:
    ctx.close()
  browser.close()
 report={'suite':'complete-app-workflows-v7741-split','generatedUTC':datetime.datetime.now(datetime.timezone.utc).isoformat(),
- 'source':'chromium-workflow','repeatsPerCase':args.repeat,'selectedCase':args.case,'selectedProfile':args.profile,
+ 'source':'chromium-workflow','githubRunId':os.getenv('GITHUB_RUN_ID'),'githubRunAttempt':os.getenv('GITHUB_RUN_ATTEMPT'),'gitSha':os.getenv('GITHUB_SHA'),'repeatsPerCase':args.repeat,'selectedCase':args.case,'selectedProfile':args.profile,
  'limitations':['Chromium emulation is not native iOS Safari','Native camera, sharing, printing excluded'], 'results':results}
 filename=f'report-{args.profile}-{args.case}.json'
 (OUT/filename).write_text(json.dumps(report,indent=2))
 print(json.dumps({'passed':sum(r['status']=='passed' for r in results),'failed':sum(r['status']=='failed' for r in results),'report':str(OUT/filename)}))
+for result in results:
+ if result['status'] == 'failed':
+  print(f"FAILED {result['profile']} / {result['case']} / iteration {result['iteration']}", flush=True)
+  print(result.get('traceback') or result.get('error'), flush=True)
 sys.exit(1 if any(r['status']=='failed' for r in results) else 0)

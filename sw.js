@@ -6,7 +6,7 @@
    uses are offline.
    ===================================================================== */
 
-const CACHE_VERSION = 'v7-71-library-backup';
+const CACHE_VERSION = 'v7-72-ci-diagnostics';
 const APP_CACHE = `docuscan-app-${CACHE_VERSION}`;
 const ASSET_CACHE = `docuscan-assets-${CACHE_VERSION}`;
 
@@ -103,7 +103,7 @@ self.addEventListener('fetch', (event) => {
   }
   // Cache-bust escape hatch: navigation requests with ?v=... always hit the
   // network and update the cache. Lets users force a fresh load by visiting
-  // e.g. https://mlanza-pixel.github.io/scan2pdf/?v=7.71.0 without waiting
+  // e.g. https://mlanza-pixel.github.io/scan2pdf/?v=7.72.0 without waiting
   // for the service worker to update on its own.
   if (req.mode === 'navigate' && url.searchParams.has('v')) {
     event.respondWith(

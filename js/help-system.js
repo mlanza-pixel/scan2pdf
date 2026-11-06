@@ -445,7 +445,7 @@ const HELP_TOPICS = [
       { title: 'Draw or type', body: 'In <strong>Draw</strong> mode, sign with your finger, Apple Pencil, or mouse on the signature pad. In <strong>Type</strong> mode, enter your name and pick a font style.' },
       { title: 'Insert', body: 'Tap <strong>Insert signature</strong>. The signature is placed at the center of the current page as a movable overlay.' },
       { title: 'Move and resize', body: 'Click the signature to select it (blue border + resize dot appears). Drag the body to move; drag the blue dot in the bottom-right corner to scale.' },
-      { title: 'Download', body: 'When you\'re happy, tap <strong>Download PDF</strong> to save the signed PDF to your device. Use <strong>Save to Library</strong> if you want to keep it in the app for later.' },
+      { title: 'Download', body: 'When you\'re happy, tap <strong>Download PDF</strong> to save the signed PDF to your device. Use <strong>Library</strong> if you want to keep it in the app for later.' },
     ],
     troubleshooting: 'If the signature doesn\'t appear, check that you\'re on the correct page (use the page navigation bar). If the overlay shows the wrong color, set the Ink color before inserting.',
     related: ['sign-text', 'sign-date', 'sign-watermark', 'library-overview'],
@@ -531,7 +531,7 @@ const HELP_TOPICS = [
     purpose: 'Understand the four consistent export actions and when to use each.',
     prerequisites: 'A document ready to export.',
     steps: [
-      { title: 'Save to Library', body: 'Stores the document in the app\'s local IndexedDB library. Use this when you want to come back to the document later from inside DocuScan Pro.' },
+      { title: 'Library', body: 'Stores the document in the app\'s local IndexedDB library. Use this when you want to come back to the document later from inside DocuScan Pro.' },
       { title: 'Download PDF', body: 'Triggers a browser download of the PDF file to your device. The file lands in your normal Downloads folder.' },
       { title: 'Share PDF', body: 'Shows the PDF file size first. If a smaller copy is available, choose it or share the selected quality. Supporting devices open the system share sheet. Other browsers download the selected copy.' },
       { title: 'Print PDF', body: 'Opens the browser\'s print dialog in a hidden iframe so you don\'t lose your place in the app. Choose your printer and paper as usual.' },
@@ -554,7 +554,7 @@ const HELP_TOPICS = [
       { title: 'Select Merge', body: 'Tap the <strong>Merge</strong> tab in the Operation row.' },
       { title: 'Choose order', body: 'Pick <strong>Append second PDF</strong> (B comes after A) or <strong>Prepend second PDF</strong> (B comes before A).' },
       { title: 'Run', body: 'Tap <strong>Run</strong>. The merged PDF appears in the Preview area.' },
-      { title: 'Export', body: 'Use <strong>Save to Library</strong>, <strong>Download</strong>, <strong>Share</strong>, or <strong>Print</strong> at the bottom of the card.' },
+      { title: 'Export', body: 'Use <strong>Library</strong>, <strong>Download</strong>, <strong>Share</strong>, or <strong>Print</strong> at the bottom of the card.' },
     ],
     troubleshooting: 'If Run is disabled, you haven\'t loaded both PDFs yet. Open PDF = File A, Open 2nd PDF = File B.',
     related: ['pdf-tools-split', 'pdf-tools-rotate', 'library-overview'],
@@ -658,18 +658,18 @@ const HELP_TOPICS = [
     id: 'pdf-tools-watermark',
     icon: 'watermark',
     title: 'Apply a watermark in PDF Tools',
-    sub: 'Same as the Sign workspace watermark, but accessed via PDF Tools.',
+    sub: 'Apply text or a logo across a PDF.',
     tags: ['tools', 'watermark', 'draft', 'confidential', 'opacity'],
     workspace: 'tools',
-    purpose: 'Apply a text watermark across all pages of a PDF.',
+    purpose: 'Apply a text or image watermark across all pages of a PDF.',
     prerequisites: 'A PDF open in PDF Tools.',
     steps: [
       { title: 'Open the PDF', body: 'Tap <strong>Open PDF</strong> in PDF Tools.' },
-      { title: 'Select Watermark', body: 'Tap the <strong>Watermark</strong> tab.' },
-      { title: 'Configure', body: 'Set <strong>Watermark text</strong>, <strong>Direction</strong> (Diagonal or Horizontal), and <strong>Opacity</strong> (0-100%).' },
+      { title: 'Select Watermark', body: 'Under <strong>Markup</strong>, tap <strong>Watermark</strong> and choose <strong>Text</strong> or <strong>Image</strong>.' },
+      { title: 'Configure', body: 'For Text, set the wording, direction and opacity. For Image, upload a logo and set size, opacity, and the X and Y position.' },
       { title: 'Run + Export', body: 'Tap <strong>Run</strong>, then Save / Download / Share / Print.' },
     ],
-    troubleshooting: 'Identical to the Sign workspace watermark. See "Add a watermark to a PDF" for more detail.',
+    troubleshooting: 'If the watermark is invisible, increase opacity and review its position.',
     related: ['sign-watermark', 'pdf-tools-annotate-text'],
   },
   {
@@ -775,6 +775,68 @@ const HELP_TOPICS = [
 /* ---------------- Walkthrough definitions ---------------- */
 /* Each step.target is a CSS selector verified against index.html. */
 
+const toolGuides = [
+  ['content','annotate','Annotate','Choose Text to place a note or Draw to mark the page by hand. Choose the page, then apply the annotation.'],
+  ['content','annotate','Annotate Text','Enter the note, set its position and size, and apply it to the selected page.','text'],
+  ['content','annotate','Annotate Draw','Draw with a finger, stylus or mouse. Clear to start over, or apply the drawing.','draw'],
+  ['content','watermark','Watermark','Choose Text for words or Image for a logo. Set opacity and apply it to all pages.'],
+  ['content','watermark','Image watermark','Choose Image, upload a logo, then set Size and Opacity. Use Position X and Y to place it.','imagewatermark'],
+  ['content','header','Header/Footer','Enter header or footer text and choose a page number format, then apply.'],
+  ['content','forms','Forms','Apply to find fillable fields. Enter values, then save the filled PDF.'],
+  ['pages','split','Split','Select page ranges to export as separate PDFs.'],
+  ['pages','splitbysize','Split by Size','Enter a size target to divide the PDF into smaller parts.'],
+  ['pages','deletes','Delete Pages','Enter the page numbers or ranges to remove, then preview the result.'],
+  ['pages','insert','Insert Page','Choose a PDF and enter the page after which to insert it. Use 0 to insert at the start.'],
+  ['pages','reorder','Reorder','Drag thumbnails or type a custom page order, then apply and review the preview.'],
+  ['pages','rotate','Rotate','Select an angle and apply it to the chosen pages.'],
+  ['pages','crop','Crop','Enter how much of each margin to trim, then check the preview.'],
+  ['combine','merge','Merge','Open the second PDF and apply to append it to the first.'],
+  ['combine','compare','Compare','Open two PDFs and apply to view their pages side by side.'],
+  ['extract','ocrpdf','OCR','Choose Scan text to recognize text in the PDF. Review or download the result.'],
+  ['extract','invert','Invert','Apply to reverse page colors and review the new appearance.'],
+  ['extract','extracttext','Extract Text','Read the existing text layer. Copy or download the result. Use OCR for image-only pages.'],
+  ['extract','toimage','PDF to Image','Choose the page and output settings, then export an image.'],
+  ['properties','metadata','Metadata','Edit the document title, author or other metadata fields and apply.'],
+  ['properties','bookmarks','Bookmarks','Enter a bookmark title and target page, then apply.'],
+  ['properties','compress','Compress','Choose whether to preserve text and forms or use an image-only level, then review the output.'],
+  ['properties','protect','Protect','Enter the password options and apply before exporting.'],
+  ['batch','batch','Batch','Select the input PDFs and operation, then run the batch.'],
+];
+const studioGuides = [
+  ['btnRotatePage','Rotate','Rotate the selected page, then check the preview.'],
+  ['btnClearAllPages','Clear all','Remove the pages from the current Studio packet.'],
+  ['btnApplyEnhance','Apply enhancement','Adjust brightness or contrast, then apply the changes to the selected image.'],
+  ['btnResetEnhance','Reset enhancement','Restore the selected image and reset its enhancement controls.'],
+  ['btnAutoCrop','Auto-crop','Detect the page edges and trim extra background. Review the crop in the preview.'],
+  ['btnStudioPerspective','Straighten page','Tap the four page corners in the preview to correct perspective.'],
+  ['btnStudioOriginal','Show original','Toggle between the edited page and the original.'],
+  ['btnStudioMoveEarlier','Move page earlier','Move the selected page one position toward the beginning of the exported PDF.'],
+  ['btnStudioMoveLater','Move page later','Move the selected page one position toward the end of the exported PDF.'],
+  ['btnSpeakOcr','Read aloud','Run Scan first, then listen to the recognized text.'],
+  ['btnCopyOcr','Copy text','Copy recognized text to the clipboard.'],
+  ['btnDownloadOcr','Download text','Save recognized text as a text file.'],
+  ['btnStudioUndo','Undo','Reverse the most recent Studio edit.'],
+  ['btnStudioRedo','Redo','Restore the most recently undone Studio edit.'],
+  ['btnDeletePage','Remove','Remove the selected page from the packet.'],
+  ['btnStudioSave','Library','Create the PDF, then use Library to save it in the app.'],
+  ['btnStudioDownload','Download','Save the created PDF to your device.'],
+  ['btnStudioShare','Share','Review file size and choose a quality before opening the share sheet.'],
+  ['btnStudioPrint','Print','Open the system print controls for the created PDF.'],
+];
+
+const guideTopics = [
+  ['PDF Tools', 'talk-pdf', 'Talk to PDF', 'Open a searchable PDF, choose Talk to PDF, and ask a question. Review the matching passages and page numbers. For a scan, run Scan in Studio and create a searchable PDF first.'],
+  ...toolGuides.map(([group, tab, title, body, mode]) => ['PDF Tools', mode || tab, title, body]),
+  ...studioGuides.map(([id, title, body]) => ['Studio', id, title, body]),
+];
+for (const [workspace, id, title, body] of guideTopics) {
+  HELP_TOPICS.push({
+    id: 'control-' + id, workspace: workspace === 'Studio' ? 'studio' : 'tools', icon: 'help', title: workspace + ' · ' + title, sub: body,
+    tags: [workspace, title], purpose: body, prerequisites: 'Open the workspace and load the required files.',
+    steps: [{title, body}],
+  });
+}
+
 const WALKTHROUGHS = {
   home: {
     id: 'home',
@@ -801,6 +863,7 @@ const WALKTHROUGHS = {
       { workspace: "studio", selector: "#btnCreatePdf", title: "Create PDF", body: "Choose page size, orientation and photo quality, then tap PDF. Share displays the file size and offers a smaller version when available.", placement: "bottom" },
       { workspace: "studio", selector: "#btnSendToSign", title: "Edit in Sign", body: "Move the created PDF to Sign to add signatures, dates or text.", placement: "bottom" },
       { workspace: "studio", selector: "#btnSendToTools", title: "Edit in Tools", body: "Move the created PDF to PDF Tools for further document changes.", placement: "bottom" },
+      ...studioGuides.map(([id, title, body]) => ({workspace: 'studio', selector: '#' + id, title, body})),
     ],
   },
   sign: {
@@ -816,7 +879,7 @@ const WALKTHROUGHS = {
       { workspace: 'sign', selector: '#btnUndo', title: 'Undo / Redo / Remove', body: 'Use <strong>Undo</strong> and <strong>Redo</strong> to navigate the edit history. <strong>Remove Selected</strong> deletes the currently-selected element on the canvas.', placement: 'right' },
       { workspace: 'sign', selector: '#fontFamily', title: 'Font + size + color', body: 'Set Font style, Font size (in points), and Ink color BEFORE inserting. These control the text inside the PDF, not the interface.', placement: 'right' },
       { workspace: 'sign', selector: '#wmText', title: 'Watermark', body: 'Set watermark text, direction (Diagonal or Horizontal), and opacity (0-100%), then tap Insert. The watermark applies to ALL pages.', placement: 'right' },
-      { workspace: 'sign', selector: '#btnSaveToLibrary', title: 'Export', body: 'Four actions: <strong>Save to Library</strong> (IndexedDB), <strong>Download PDF</strong> (browser), <strong>Share PDF</strong> (Web Share API), <strong>Print PDF</strong> (browser print).', placement: 'right' },
+      { workspace: 'sign', selector: '#btnSaveToLibrary', title: 'Export', body: 'Four actions: <strong>Library</strong> (IndexedDB), <strong>Download PDF</strong> (browser), <strong>Share PDF</strong> (Web Share API), <strong>Print PDF</strong> (browser print).', placement: 'right' },
     ],
   },
   tools: {
@@ -825,13 +888,24 @@ const WALKTHROUGHS = {
       { workspace: "tools", selector: null, title: "PDF Tools", body: "Choose one of six categories. Only the selected category displays its operations; tap the category again to collapse it.", placement: "bottom" },
       { workspace: "tools", selector: "#btnOpenPdfTools", title: "Open a PDF", body: "Load the document you want to edit.", placement: "bottom" },
       { workspace: "tools", selector: "#btnAddSecondPdf", title: "Optional second PDF", body: "Add another document for merge or comparison operations.", placement: "bottom" },
-      { workspace: "tools", selector: "#toolsGroups", title: "Six tool categories", body: "Row 1: Markup and Text & Images. Row 2: Pages and Advanced. Row 3: Combine & Compare and Batch. Choose one category at a time.", placement: "bottom" },
-      { workspace: "tools", selector: "[data-group=\"content\"]", title: "Markup", body: "Choose annotation, watermark, image watermark, header/footer, or form tools.", placement: "bottom" },
+      { workspace: "tools", selector: "#toolsGroups", title: "Six tool categories", body: "Row 1: Markup and Text & Images. Row 2: Pages and Advanced. Row 3: Merge/Combine and Batch. Choose one category at a time.", placement: "bottom" },
+      { workspace: "tools", selector: "[data-group=\"content\"]", title: "Markup", body: "Choose Annotate, Watermark, Header/Footer, or Forms.", placement: "bottom" },
       { workspace: "tools", selector: "[data-group=\"extract\"]", title: "Text & Images", body: "OCR and Invert appear first, followed by the other text and image operations. The buttons use equal sizes.", placement: "bottom" },
       { workspace: "tools", selector: "[data-group=\"pages\"]", title: "Pages", body: "Choose Pages to reveal page operations. Switching to another category hides Pages options.", placement: "bottom" },
       { workspace: "tools", selector: "[data-group=\"properties\"]", title: "Advanced", body: "Choose Advanced for options such as Compress. Preserve text and forms is the default. Image-only levels flatten pages and remove searchable text and interactive fields.", placement: "bottom" },
-      { workspace: "tools", selector: "[data-group=\"combine\"]", title: "Combine & Compare", body: "Merge documents or compare two PDFs here.", placement: "bottom" },
+      { workspace: "tools", selector: "[data-group=\"combine\"]", title: "Merge/Combine", body: "Merge documents or compare two PDFs here.", placement: "bottom" },
       { workspace: "tools", selector: "[data-group=\"batch\"]", title: "Batch", body: "Run supported multi-document operations here.", placement: "bottom" },
+      { workspace: 'tools', selector: '#btnTalkPdf', title: 'Talk to PDF', body: 'Ask a question and review matching passages with page numbers. Use keyboard dictation to speak your question when available.', placement: 'bottom' },
+      ...toolGuides.map(([group, tab, title, body, mode]) => ({
+        workspace: 'tools', selector: mode ? (tab === 'annotate' ? `#annotateSubTabs [data-subtab="${mode}"]` : `[data-watermark-mode="${mode}"]`) : `#toolsTabs [data-tab="${tab}"]`, title, body,
+        onShow() {
+          const category = document.querySelector(`#toolsGroups [data-group="${group}"]`);
+          if (category?.getAttribute('aria-selected') !== 'true') category?.click();
+          document.querySelector(`#toolsTabs [data-tab="${tab}"]`)?.click();
+          if (mode) document.querySelector(this.selector)?.click();
+          else if (tab === 'watermark') document.querySelector('[data-watermark-mode="watermark"]')?.click();
+        },
+      })),
       { workspace: "tools", selector: "#btnRunToolOp", title: "Apply and review", body: "Apply the selected operation, inspect the preview, and use the export actions. Undo, Redo and Remove are above export.", placement: "bottom" },
     ],
   },

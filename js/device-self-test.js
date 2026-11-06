@@ -1,4 +1,4 @@
-/* DocuScan Pro 7.7 — isolated, on-device diagnostics; no user document access. */
+/* DocuScan Pro 7.71 — isolated, on-device diagnostics; no user document access. */
 const $ = id => document.getElementById(id);
 const results = [];
 let lastReport = null;
@@ -53,8 +53,8 @@ async function cacheRepeatTest(count) {
           cacheProbe=null;
         }
         if(body.length<50)throw new Error('unexpectedly small resource');
-        if(f==='index.html'&&!body.includes('<title>DocuScan Pro 7.7</title>'))throw new Error('stale index version');
-        if(f==='js/app.js'&&!body.includes("APP_BUILD = '7.7-visual-polish'"))throw new Error('stale app build');
+        if(f==='index.html'&&!body.includes('<title>DocuScan Pro 7.71</title>'))throw new Error('stale index version');
+        if(f==='js/app.js'&&!body.includes("APP_BUILD = '7.71-talk-pdf'"))throw new Error('stale app build');
         if(f==='js/device-self-test.js'&&!body.includes('on-device-self-test-4'))throw new Error('stale diagnostics script');
         if (baseline[f] === undefined) { baseline[f] = body; sizes[f] = body.length; }
         else if (baseline[f] !== body) throw new Error(`resource differs from initial network copy (${mode}); reload and retry after the update finishes`);
@@ -333,7 +333,7 @@ async function start() {
     const hardware=/iPad/i.test(device.userAgent) || (/Mac/i.test(device.platform) && navigator.maxTouchPoints>1) ? 'ipad' : /iPhone/i.test(device.userAgent) ? 'iphone' : /Android/i.test(device.userAgent) ? 'android' : 'desktop';
     const browser=/CriOS|Chrome/i.test(device.userAgent) ? 'chrome' : /FxiOS|Firefox/i.test(device.userAgent) ? 'firefox' : /Safari/i.test(device.userAgent) ? 'safari' : 'browser';
     const source=`${hardware}-${device.standalone?'home-screen':browser}`;
-    lastReport={source,app:'DocuScan Pro',version:'7.7',cancelled:stopRequested,testSuite:'on-device-self-test-4',mode,detailedAudit,cacheRepeat:window.__lastCacheRepeat||null,screenshots:captures.map(x=>({kind:x.kind,workspace:x.workspace,width:x.width,height:x.height,bytes:x.bytes,filename:`docuscan-${x.workspace}.png`})),started,finished:new Date().toISOString(),durationMs:Math.round(now()-startTime),device,results:[...results],limitations:['Uses generated and bundled test files; no user documents','PDF tests exercise pdf-lib directly, not every app editing workflow','OCR accuracy tested on generated English fixtures only; no certification for real scans or other languages','No test files are saved to the document Library','Detailed audit taps navigation only; other buttons are inventoried but not functionally clicked','No destructive, camera, file picker, share, print or download buttons are auto-tapped','Generated images are diagnostic layout maps, NOT screenshots; actual screenshots must be captured manually or by Playwright']};
+    lastReport={source,app:'DocuScan Pro',version:'7.71',cancelled:stopRequested,testSuite:'on-device-self-test-4',mode,detailedAudit,cacheRepeat:window.__lastCacheRepeat||null,screenshots:captures.map(x=>({kind:x.kind,workspace:x.workspace,width:x.width,height:x.height,bytes:x.bytes,filename:`docuscan-${x.workspace}.png`})),started,finished:new Date().toISOString(),durationMs:Math.round(now()-startTime),device,results:[...results],limitations:['Uses generated and bundled test files; no user documents','PDF tests exercise pdf-lib directly, not every app editing workflow','OCR accuracy tested on generated English fixtures only; no certification for real scans or other languages','No test files are saved to the document Library','Detailed audit taps navigation only; other buttons are inventoried but not functionally clicked','No destructive, camera, file picker, share, print or download buttons are auto-tapped','Generated images are diagnostic layout maps, NOT screenshots; actual screenshots must be captured manually or by Playwright']};
     $('selfTestRun').disabled=false;$('selfTestStop').disabled=true;
     $('selfTestExport').disabled=false;$('selfTestCopy').disabled=false;$('selfTestScreenshots').disabled=captures.length===0;
     render();
@@ -363,6 +363,6 @@ $('selfTestCopy').addEventListener('click',async()=>{if(!lastReport)return;const
 
 $('selfTestScreenshots').addEventListener('click',()=>{
   if(!captures.length)return;
-  for(const shot of captures) downloadBlob(shot.blob,`docuscan-v7.7-${shot.workspace}.png`);
+  for(const shot of captures) downloadBlob(shot.blob,`docuscan-v7.71-${shot.workspace}.png`);
   $('selfTestSummary').textContent+=` · ${captures.length} screenshot downloads requested (browser may ask permission)`;
 });

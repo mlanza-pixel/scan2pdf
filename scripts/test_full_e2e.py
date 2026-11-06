@@ -155,7 +155,7 @@ async def main():
         log_step('Create PDF (saves to Library)')
 
         # Studio export buttons
-        for btn_id, label in [('btnStudioSave', 'Save to Library'), ('btnStudioDownload', 'Download'), ('btnStudioShare', 'Share')]:
+        for btn_id, label in [('btnStudioSave', 'Library'), ('btnStudioDownload', 'Download'), ('btnStudioShare', 'Share')]:
             await page.click(f'#{btn_id}')
             await page.wait_for_timeout(3000)
             log_step(f'Studio export: {label}')
@@ -383,7 +383,7 @@ async def main():
 
         # Sign exports
         print('\n  --- Sign exports ---', flush=True)
-        for btn_id, label in [('btnSaveToLibrary', 'Save to Library'), ('btnDownloadPdf', 'Download'), ('btnSharePdf', 'Share')]:
+        for btn_id, label in [('btnSaveToLibrary', 'Library'), ('btnDownloadPdf', 'Download'), ('btnSharePdf', 'Share')]:
             await page.click(f'#{btn_id}')
             await page.wait_for_timeout(4000)
             log_step(f'Sign export: {label}')

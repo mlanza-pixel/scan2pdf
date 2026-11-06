@@ -43,6 +43,8 @@ with sync_playwright() as p:
      for group in GROUPS:
       button=page.locator(f'#toolsGroups .tools-group-tab[data-group="{group}"]')
       verify(button.count()==1 and button.is_visible(),'Missing visible category '+group)
+      if button.get_attribute('aria-selected')=='true':
+       button.click(timeout=10000)
       button.click(timeout=10000)
       verify(button.get_attribute('aria-selected')=='true','Category did not activate: '+group)
       visible=page.locator('#toolsTabs .tools-tools-for-group:visible')
@@ -55,9 +57,10 @@ with sync_playwright() as p:
    page.locator('.bottom-nav__item[data-goto="tools"]').click()
    tour=page.locator('#globalTour')
    if tour.is_visible():
-    tour.click();page.wait_for_timeout(200)
+    tour.click();page.locator('.walkthrough-card').wait_for(state='visible')
     capture(page,directory,'tools-tour')
     page.keyboard.press('Escape')
+    page.locator('.walkthrough-card').wait_for(state='hidden')
    overflow=page.evaluate('''() => ({viewport:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth})''')
    records.append({'device':name,'layout':overflow,'horizontalOverflowPx':max(0,overflow['scroll']-overflow['viewport'])})
   except Exception as error:

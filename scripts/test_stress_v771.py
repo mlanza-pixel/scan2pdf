@@ -22,6 +22,8 @@ with sync_playwright() as p:
      if workspace=='tools':
       for group in ['content','extract','pages','properties','combine','batch']:
        button=page.locator(f'#toolsGroups .tools-group-tab[data-group="{group}"]')
+       if button.get_attribute('aria-selected')=='true':
+        button.click()
        button.click();assert button.get_attribute('aria-selected')=='true'
        button.click();assert button.get_attribute('aria-selected')=='false'
    assert not errors,errors

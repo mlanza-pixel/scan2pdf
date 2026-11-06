@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#007AFF" />
   <meta name="description" content="DocuScan Pro — scan, edit, sign, merge, split, watermark, and export PDF documents. Local-first PWA." />
-  <title>DocuScan Pro 7.7</title>
+  <title>DocuScan Pro 7.71</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
   <link rel="icon" type="image/svg+xml" href="assets/icons/icon.svg" />
@@ -251,7 +251,7 @@
         <div class="export-actions">
           <button class="btn" id="btnStudioSave" type="button" disabled>
             <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-            Save to Library
+            Library
           </button>
           <button class="btn" id="btnStudioDownload" type="button" disabled>
             <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -475,7 +475,7 @@
             <div class="export-actions">
               <button class="btn" id="btnSaveToLibrary" type="button" disabled>
                 <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-                Save to Library
+                Library
               </button>
               <button class="btn" id="btnDownloadPdf" type="button" disabled>
                 <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -544,6 +544,7 @@
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
               Open PDF
             </button>
+            <button class="btn" id="btnTalkPdf" type="button">Talk to PDF</button>
             <button class="btn" id="btnToolsToSign" type="button" disabled>Edit in Sign</button>
             <button class="btn" id="btnAddSecondPdf" type="button" disabled hidden>Open 2nd PDF</button>
             <div class="spacer"></div>
@@ -563,7 +564,7 @@
                  Undo/Redo/Remove moved OUT of the tab system into an always-available
                  row below (they work regardless of which operation is active).
                  "Batch" is now its own group (was Workflow with Undo/Redo in it). -->
-            <div class="tools-groups" id="toolsGroups" role="tablist" aria-label="Operation groups"><button class="tools-group-tab" data-group="content" role="tab" aria-selected="false">Markup</button><button class="tools-group-tab" data-group="extract" role="tab" aria-selected="false">Text & Images</button><button class="tools-group-tab" data-group="pages" role="tab" aria-selected="false">Pages</button><button class="tools-group-tab" data-group="properties" role="tab" aria-selected="false">Advanced</button><button class="tools-group-tab" data-group="combine" role="tab" aria-selected="false">Combine/Compare</button><button class="tools-group-tab" data-group="batch" role="tab" aria-selected="false">Batch</button></div>
+            <div class="tools-groups" id="toolsGroups" role="tablist" aria-label="Operation groups"><button class="tools-group-tab" data-group="content" role="tab" aria-selected="false">Markup</button><button class="tools-group-tab" data-group="extract" role="tab" aria-selected="false">Text & Images</button><button class="tools-group-tab" data-group="pages" role="tab" aria-selected="false">Pages</button><button class="tools-group-tab" data-group="properties" role="tab" aria-selected="false">Advanced</button><button class="tools-group-tab" data-group="combine" role="tab" aria-selected="false">Merge/Combine</button><button class="tools-group-tab" data-group="batch" role="tab" aria-selected="false">Batch</button></div>
 
             <!-- Tier 2: tool buttons for each group. ALL hidden initially —
                  revealed only when the user clicks the parent group button. -->
@@ -577,10 +578,6 @@
               <button class="tools-tab" data-tab="watermark" role="tab">
                 <svg class="tools-tab__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>
                 Watermark
-              </button>
-              <button class="tools-tab" data-tab="imagewatermark" role="tab">
-                <svg class="tools-tab__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                Image WM
               </button>
               <button class="tools-tab" data-tab="header" role="tab">
                 <svg class="tools-tab__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/><line x1="9" y1="12" x2="15" y2="12"/></svg>
@@ -689,6 +686,10 @@
 
         <div class="card card--padded">
           <h3 class="card__title" id="toolsDetailsTitle">3. Tool details</h3>
+          <div id="toolsWatermarkModes" class="paired-fields watermark-options" role="group" aria-label="Watermark type" hidden>
+            <button class="btn" type="button" data-watermark-mode="watermark" aria-pressed="true">Text</button>
+            <button class="btn" type="button" data-watermark-mode="imagewatermark" aria-pressed="false">Image</button>
+          </div>
           <div class="stack" id="toolsPanel"></div>
         </div>
 
@@ -720,7 +721,7 @@
           <div class="export-actions">
             <button class="btn" id="btnToolsSave" type="button" disabled>
               <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-              Save to Library
+              Library
             </button>
             <button class="btn" id="btnToolsDownload" type="button" disabled>
               <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -823,13 +824,13 @@
         </div>
         <div class="card card--padded" id="libraryActions">
           <h2 class="card__title">File actions</h2>
-          <div class="row row--wrap" role="group" aria-label="Choose a file action">
+          <div class="library-file-actions" role="group" aria-label="Choose a file action">
             <button class="btn btn--sm" type="button" data-library-action="move" aria-pressed="false">Move</button>
             <button class="btn btn--sm" type="button" data-library-action="rename" aria-pressed="false">Rename</button>
             <button class="btn btn--sm" type="button" data-library-action="delete" aria-pressed="false">Delete</button>
+            <button class="btn btn--sm" type="button" data-library-action="share" aria-pressed="false">Share</button>
             <button class="btn btn--sm" type="button" data-library-action="sign" aria-pressed="false">Open in Sign</button>
             <button class="btn btn--sm" type="button" data-library-action="tools" aria-pressed="false">Open in Tools</button>
-            <button class="btn btn--sm" type="button" data-library-action="share" aria-pressed="false">Share</button>
           </div>
           <p id="librarySelectionHint" class="card__subtitle" aria-live="polite">Choose an action, then select files.</p>
           <div id="librarySelectionActions" class="row row--wrap" hidden>
@@ -963,6 +964,19 @@
   </div>
 
   <!-- On-device diagnostics: generated files only; no user document access -->
+  <dialog id="talkPdfDialog" class="card card--padded" aria-labelledby="talkPdfTitle">
+    <h2 id="talkPdfTitle" class="card__title">Talk to PDF</h2>
+    <p class="card__subtitle">Find matching passages and page numbers in your open PDF. Document search runs in this browser. To speak a question, use your keyboard’s dictation if available.</p>
+    <form id="talkPdfForm" class="stack">
+      <label class="field"><span class="field__label">Question</span>
+        <input id="talkPdfQuestion" class="field__control" type="text" maxlength="240" required placeholder="What is the invoice number?" />
+      </label>
+      <button class="btn" id="talkPdfAsk" type="submit">Find passages</button>
+    </form>
+    <p id="talkPdfStatus" role="status"></p>
+    <ol id="talkPdfResults"></ol>
+    <form method="dialog"><button class="btn" type="submit">Close</button></form>
+  </dialog>
   <dialog id="studioShareDialog" class="card card--padded" aria-labelledby="studioShareTitle">
     <h2 id="studioShareTitle" class="card__title">Share PDF</h2>
     <p id="studioShareSize"></p>
@@ -974,7 +988,7 @@
   </dialog>
   <div id="selfTestDialog" class="selftest-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="selfTestTitle">
     <div class="selftest-panel">
-      <div class="selftest-head"><h2 id="selfTestTitle">Device Self-Test · v7.7</h2><button id="selfTestClose" class="btn" type="button" aria-label="Close diagnostics">Close</button></div>
+      <div class="selftest-head"><h2 id="selfTestTitle">Device Self-Test · v7.71</h2><button id="selfTestClose" class="btn" type="button" aria-label="Close diagnostics">Close</button></div>
       <p class="tiny muted">Runs locally on this device using generated and bundled sample files. Your saved documents are not opened or changed.</p>
       <label for="selfTestMode" class="field__label">Test level</label>
       <select id="selfTestMode" class="field__control"><option value="quick">Quick — layout and device capabilities</option><option value="standard" selected>Standard — images and PDF round trips</option><option value="stress">Stress — 50 images, 100-page PDF, 16 sample pages of OCR</option></select>

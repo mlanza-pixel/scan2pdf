@@ -136,8 +136,7 @@ html {
 }
 
 #btnImportImages, #btnCaptureCamera, #btnToolsToSign,
-#toolsGroups > [data-group="combine"], .studio-edit-actions .btn { white-space: nowrap; }
-#toolsGroups > [data-group="combine"] { font-size: clamp(11px, 3vw, 15px); padding-inline: 4px; }
+.studio-edit-actions .btn { white-space: nowrap; }
 .capture-controls .btn, .studio-edit-actions .btn { min-width: 0; padding-inline: 4px; font-size: clamp(11px, 3vw, 15px); }
 .studio-pdf-settings, .studio-edit-actions {
   display: grid;
@@ -241,3 +240,19 @@ html {
   white-space: normal;
   text-align: center;
 }
+
+#ws-tools .watermark-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+#toolsWatermarkModes { margin-bottom: var(--space-2); }
+#toolsWatermarkModes [aria-pressed="true"] { outline: 2px solid currentColor; outline-offset: -2px; }
+.library-file-actions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-2); }
+.library-file-actions .btn { min-width: 0; padding-inline: 2px; white-space: normal; justify-content: center; }
+.library-file-actions [data-library-action="sign"],
+.library-file-actions [data-library-action="tools"] { grid-column: span 2; }
+
+#talkPdfDialog {
+  width: min(36rem, calc(100% - 2rem));
+  max-height: 85dvh;
+  overflow: auto;
+  overflow-wrap: anywhere;
+}
+#talkPdfResults li { margin-bottom: var(--space-2); }

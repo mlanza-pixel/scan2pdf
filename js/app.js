@@ -1,3 +1,4 @@
+import { indexPdfPassages, findPdfPassages } from './talk-pdf.js';
 /* =====================================================================
    app.js — DocuScan Pro main controller.
    Coordinates the six workspaces, holds shared state (studio pages,
@@ -21,8 +22,8 @@ import { listDocuments, getDocument, renameDocument, deleteDocument, estimateSto
 import { parseRanges, runMerge, runSplit, runRotate, runReorder, runWatermark, runAnnotateText, runAnnotateDrawing } from './pdf-tools.js';
 import { maybeShowWelcome, initHelpCenter, attachContextHelp } from './help-system.js';
 
-const APP_VERSION = '7.7';
-const APP_BUILD = '7.7-visual-polish';
+const APP_VERSION = '7.71';
+const APP_BUILD = '7.71-talk-pdf';
 
 /* ---------------- Shared app state ---------------- */
 const state = {
@@ -2125,7 +2126,7 @@ const TOOLS_PANELS = {
       <span class="field__label">Watermark image</span>
       <input class="field__control" id="imageWmFile" type="file" accept="image/*" />
     </label>
-    <div class="paired-fields" style="margin-top:var(--space-3)">
+    <div class="paired-fields watermark-options" style="margin-top:var(--space-3)">
       <label class="field">
         <span class="field__label">Size (%)</span>
         <input class="field__control" id="imageWmSize" type="number" min="5" max="100" value="30" />
@@ -2135,7 +2136,7 @@ const TOOLS_PANELS = {
         <input class="field__control" id="imageWmOpacity" type="number" min="0" max="100" value="50" />
       </label>
     </div>
-    <div class="paired-fields" style="margin-top:var(--space-3)">
+    <div class="paired-fields watermark-options" style="margin-top:var(--space-3)">
       <label class="field">
         <span class="field__label">Position X (%)</span>
         <input class="field__control" id="imageWmX" type="number" min="0" max="100" value="50" />
@@ -2580,6 +2581,13 @@ function syncToolPreview() {
 function renderToolsPanel() {
   const panel = document.getElementById('toolsPanel');
   const tab = tools.activeTab;
+  const watermarkModes = document.getElementById('toolsWatermarkModes');
+  watermarkModes.hidden = tab !== 'watermark' && tab !== 'imagewatermark';
+  if (!watermarkModes.hidden) {
+    watermarkModes.querySelectorAll('button').forEach(button => {
+      button.setAttribute('aria-pressed', String(button.dataset.watermarkMode === tab));
+    });
+  }
   const title = document.querySelector('.tools-tab[aria-selected="true"]')?.textContent.trim();
   document.getElementById('toolsDetailsTitle').textContent = title ? '3. ' + title : '3. Tool details';
   syncToolPreview();
@@ -3002,6 +3010,59 @@ async function renderCompareView() {
 }
 
 function initToolsWorkspace() {
+  const talk = document.getElementById('talkPdfDialog');
+  const question = document.getElementById('talkPdfQuestion');
+  const status = document.getElementById('talkPdfStatus');
+  const matches = document.getElementById('talkPdfResults');
+  const ask = document.getElementById('talkPdfAsk');
+  let indexedBytes;
+  let index;
+  let queryId = 0;
+  document.getElementById('btnTalkPdf').addEventListener('click', () => {
+    if (!tools.bytes) { toast('Open a PDF in Tools first.', 'info'); return; }
+    question.value = '';
+    matches.replaceChildren();
+    status.textContent = '';
+    talk.showModal();
+    question.focus();
+  });
+  talk.addEventListener('close', () => {
+    queryId++;
+    ask.disabled = false;
+    index = indexedBytes = undefined;
+  });
+  document.getElementById('talkPdfForm').addEventListener('submit', async event => {
+    event.preventDefault();
+    const bytes = tools.outputBytes || tools.bytes;
+    const query = question.value;
+    const current = ++queryId;
+    matches.replaceChildren();
+    ask.disabled = true;
+    status.textContent = 'Reading PDF text…';
+    try {
+      if (bytes !== indexedBytes) {
+        const pdf = await loadPdfFromBytes(bytes);
+        const passages = await indexPdfPassages(pdf, () => current !== queryId);
+        if (current !== queryId) return;
+        index = passages;
+        indexedBytes = bytes;
+      }
+      const hits = findPdfPassages(index, query);
+      for (const { page, text } of hits) {
+        const item = document.createElement('li');
+        item.textContent = `Page ${page} — ${text}`;
+        matches.append(item);
+      }
+      status.textContent = hits.length ? 'Matching source passages' : index.length
+        ? 'No matching passage found. Try a specific name, phrase, or number.'
+        : 'No searchable text found. For a scan, run Scan in Studio and create a searchable PDF first.';
+    } catch {
+      if (current === queryId) status.textContent = 'This PDF could not be read.';
+    } finally {
+      if (current === queryId) ask.disabled = false;
+    }
+  });
+
   const input = document.getElementById('toolsPdfInput');
   const mergeInput = document.getElementById('toolsMergeInput');
   document.getElementById('btnOpenPdfTools').addEventListener('click', () => {
@@ -3172,6 +3233,13 @@ function initToolsWorkspace() {
   // Initial state
   updateToolsHistoryButtons();
 
+  document.getElementById('toolsWatermarkModes').addEventListener('click', event => {
+    const button = event.target.closest('[data-watermark-mode]');
+    if (!button || tools.busy) return;
+    tools.activeTab = button.dataset.watermarkMode;
+    renderToolsPanel();
+  });
+
   // Tool tabs (tier 2) — within the currently-revealed group, switch the
   // active operation and re-render the config panel.
   document.querySelectorAll('#toolsTabs .tools-tab').forEach(tab => {
@@ -3180,8 +3248,10 @@ function initToolsWorkspace() {
       document.querySelectorAll('#toolsTabs .tools-tab').forEach(t => { t.classList.remove('is-active'); t.setAttribute('aria-selected','false'); });
       tab.classList.add('is-active');
       tab.setAttribute('aria-selected','true');
-      tools.activeTab = tab.dataset.tab;
-      tab.closest('.tools-tools-for-group').dataset.lastTool = tools.activeTab;
+      tools.activeTab = tab.dataset.tab === 'watermark'
+        ? document.querySelector('#toolsWatermarkModes [aria-pressed="true"]')?.dataset.watermarkMode || 'watermark'
+        : tab.dataset.tab;
+      tab.closest('.tools-tools-for-group').dataset.lastTool = tab.dataset.tab;
       // DS-13 fix: hide draw canvas + restore main canvas visibility when
       // switching away from Annotate (Draw mode). Without this, the draw
       // canvas stays visible over other tools' previews.

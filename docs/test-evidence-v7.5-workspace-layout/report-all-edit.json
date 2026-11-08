@@ -1,0 +1,62 @@
+{
+  "suite": "complete-app-workflows-v7741-split",
+  "generatedUTC": "2026-11-05T19:26:59.004618+00:00",
+  "source": "chromium-workflow",
+  "repeatsPerCase": 1,
+  "selectedCase": "edit",
+  "selectedProfile": "all",
+  "limitations": [
+    "Chromium emulation is not native iOS Safari",
+    "Native camera, sharing, printing excluded"
+  ],
+  "results": [
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 4.34,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23234,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "iphone-emulated",
+      "case": "edit",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 3.5,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23232,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "ipad-emulated",
+      "case": "edit",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 3.49,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23234,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "studio": [
+    [
+      "studio",
+      null,
+      "Document Studio",
+      "Capture photos or import images, enhance selected pages, recognize text when needed, and create a PDF."
+    ],
+    [
+      "studio",
+      "#btnCaptureCamera",
+      "Take a photo",
+      "Use Camera for new photos. Import Images is for pictures already saved on your device."
+    ],
+    [
+      "studio",
+      "#btnImportImages",
+      "Import Images",
+      "Choose existing photos. The camera is a separate action; it is not in the import menu."
+    ],
+    [
+      "studio",
+      "#studioThumbs",
+      "Review your pages",
+      "Select thumbnails to review page order, rotation and deletions before creating a PDF."
+    ],
+    [
+      "studio",
+      "#enhancePresets",
+      "Enhance images",
+      "Use the blue enhancement actions to improve readability. Preview each change and reset if needed."
+    ],
+    [
+      "studio",
+      "#btnRunOcr",
+      "Recognize text",
+      "OCR recognizes text within scanned pictures; Find Text searches text that is already recognized or embedded."
+    ],
+    [
+      "studio",
+      "#studioPageNav",
+      "Previous and next",
+      "Use page navigation to check every image, including the first and last page."
+    ],
+    [
+      "studio",
+      "#btnCreatePdf",
+      "Create PDF",
+      "Select page size and orientation, then Create PDF. Continue with Edit in Sign or Edit in Tools."
+    ],
+    [
+      "studio",
+      "#btnSendToSign",
+      "Edit in Sign",
+      "Move the created PDF to Sign to add signatures, dates or text."
+    ],
+    [
+      "studio",
+      "#btnSendToTools",
+      "Edit in Tools",
+      "Move the created PDF to PDF Tools for further document changes."
+    ]
+  ],
+  "tools": [
+    [
+      "tools",
+      null,
+      "PDF Tools",
+      "Choose one of six categories. Only the selected category displays its operations; tap the category again to collapse it."
+    ],
+    [
+      "tools",
+      "#btnOpenPdfTools",
+      "Open a PDF",
+      "Load the document you want to edit."
+    ],
+    [
+      "tools",
+      "#btnAddSecondPdf",
+      "Optional second PDF",
+      "Add another document for merge or comparison operations."
+    ],
+    [
+      "tools",
+      "#toolsGroups",
+      "Six tool categories",
+      "Row 1: Markup and Text & Images. Row 2: Pages and Advanced. Row 3: Combine & Compare and Batch. Choose one category at a time."
+    ],
+    [
+      "tools",
+      "[data-group=\"content\"]",
+      "Markup",
+      "Choose annotation, watermark, image watermark, header/footer, or form tools."
+    ],
+    [
+      "tools",
+      "[data-group=\"extract\"]",
+      "Text & Images",
+      "OCR and Invert appear first, followed by the other text and image operations. The buttons use equal sizes."
+    ],
+    [
+      "tools",
+      "[data-group=\"pages\"]",
+      "Pages",
+      "Choose Pages to reveal page operations. Switching to another category hides Pages options."
+    ],
+    [
+      "tools",
+      "[data-group=\"properties\"]",
+      "Advanced",
+      "Choose Advanced for additional PDF operations."
+    ],
+    [
+      "tools",
+      "[data-group=\"combine\"]",
+      "Combine & Compare",
+      "Merge documents or compare two PDFs here."
+    ],
+    [
+      "tools",
+      "[data-group=\"batch\"]",
+      "Batch",
+      "Run supported multi-document operations here."
+    ],
+    [
+      "tools",
+      "#btnRunToolOp",
+      "Apply and review",
+      "Apply the selected operation, inspect the preview, and use the export actions. Undo, Redo and Remove are above export."
+    ]
+  ]
+}

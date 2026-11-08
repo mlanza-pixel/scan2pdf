@@ -1,0 +1,1158 @@
+[
+  {
+    "id": "invoice",
+    "title": "Contractor invoice",
+    "profile": "desktop",
+    "build": "7.75.0-test5",
+    "sourceSha256": "053c2c7d954621794f153522ec5df53491c676a2c3a691b5959815a547ab536a",
+    "checks": {
+      "openPdf": true,
+      "noFieldsExplained": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "manualTextPlaced": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "manualTextReopened": true,
+      "originalUnchanged": true
+    },
+    "limitations": [
+      "Flat PDF: requires manual Text placement in Sign; no automatic field detection or totals."
+    ],
+    "browserErrors": [],
+    "status": "PASS_MANUAL_TEXT_AND_SIGNATURE"
+  },
+  {
+    "id": "estimate",
+    "title": "Construction estimate",
+    "profile": "desktop",
+    "build": "7.75.0-test5",
+    "sourceSha256": "b793f277b9b624c471c210600e99674a75642218433c8a8a0b65241377d3e07b",
+    "checks": {
+      "openPdf": true,
+      "noFieldsExplained": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "manualTextPlaced": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "manualTextReopened": true,
+      "originalUnchanged": true
+    },
+    "limitations": [
+      "Flat PDF: requires manual Text placement in Sign; no automatic field detection or totals."
+    ],
+    "browserErrors": [],
+    "status": "PASS_MANUAL_TEXT_AND_SIGNATURE"
+  },
+  {
+    "id": "work-order",
+    "title": "Construction work order",
+    "profile": "desktop",
+    "build": "7.75.0-test5",
+    "sourceSha256": "9d014485396e0780e5750465d518be62ecb19641ace1444154d363e463680730",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "SERVICE AND LABOR DESCRIPTIONRow1",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "SERVICE AND LABOR DESCRIPTIONRow2",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "inspection",
+    "title": "Inspection work order",
+    "profile": "desktop",
+    "build": "7.75.0-test5",
+    "sourceSha256": "3d53eba14fcd1b6bc309710891041db1a92e2279cf874441d87d4331fafeabe6",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "Requester Name",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "Request Description",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "change-order",
+    "title": "Simple construction change order",
+    "profile": "desktop",
+    "build": "7.75.0-test5",
+    "sourceSha256": "8713f1003f17c468f206691db4a641d373d434b1be38f2bddba73e03233eb26c",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "MATERIAL NAMERow1",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "DESCRIPTIONRow1",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "simple-change",
+    "title": "Service change order",
+    "profile": "desktop",
+    "build": "7.75.0-test5",
+    "sourceSha256": "84763e96efe2f6f5072505494dacbfe791fa8ae679ee777857efa8161b5400e1",
+    "checks": {
+      "openPdf": true,
+      "noFieldsExplained": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "manualTextPlaced": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "manualTextReopened": true,
+      "originalUnchanged": true
+    },
+    "limitations": [
+      "Flat PDF: requires manual Text placement in Sign; no automatic field detection or totals."
+    ],
+    "browserErrors": [],
+    "status": "PASS_MANUAL_TEXT_AND_SIGNATURE"
+  },
+  {
+    "id": "completion",
+    "title": "Project completion sign-off",
+    "profile": "desktop",
+    "build": "7.75.0-test5",
+    "sourceSha256": "ab6cb2acadf95099e21aa826bfe5db2abfb27b1d3b50ce93c5e8b6ed7c8c781a",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "PROJECT TITLE",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "PROJECT MANAGER",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "daily-report",
+    "title": "Construction contractor daily report",
+    "profile": "desktop",
+    "build": "7.75.0-test5",
+    "sourceSha256": "e9c18024aa39850cdd884cfcf550ee2ce9c4d0ed666ea39b7b586b6370b334fd",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "Project Name",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "Contractor NameCarpenter",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "safety",
+    "title": "Job hazard analysis worksheet",
+    "profile": "desktop",
+    "build": "7.75.0-test5",
+    "sourceSha256": "f08c084300a36bf3ff08a26ad74a355e37a00f63ebba0e71e4cb163ad3be195a",
+    "checks": {
+      "openPdf": true,
+      "noFieldsExplained": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "manualTextPlaced": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "manualTextReopened": true,
+      "originalUnchanged": true
+    },
+    "limitations": [
+      "Flat PDF: requires manual Text placement in Sign; no automatic field detection or totals."
+    ],
+    "browserErrors": [],
+    "status": "PASS_MANUAL_TEXT_AND_SIGNATURE"
+  },
+  {
+    "id": "progress",
+    "title": "Construction progress report GSA184",
+    "profile": "desktop",
+    "build": "7.75.0-test5",
+    "sourceSha256": "e17bd97a476e0ffa701de32df0af826d8c6094e9077b3dac642465e77c25b3e7",
+    "checks": {
+      "xfaConverted": true,
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "form1[0].#subform[0].REPORTNUM[0]",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "form1[0].#subform[0].Date[0]",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": "form1[0].#subform[0].PYES[0]",
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "invoice",
+    "title": "Contractor invoice",
+    "profile": "ipad",
+    "build": "7.75.0-test5",
+    "sourceSha256": "053c2c7d954621794f153522ec5df53491c676a2c3a691b5959815a547ab536a",
+    "checks": {
+      "openPdf": true,
+      "noFieldsExplained": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "manualTextPlaced": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "manualTextReopened": true,
+      "originalUnchanged": true
+    },
+    "limitations": [
+      "Flat PDF: requires manual Text placement in Sign; no automatic field detection or totals."
+    ],
+    "browserErrors": [],
+    "status": "PASS_MANUAL_TEXT_AND_SIGNATURE"
+  },
+  {
+    "id": "estimate",
+    "title": "Construction estimate",
+    "profile": "ipad",
+    "build": "7.75.0-test5",
+    "sourceSha256": "b793f277b9b624c471c210600e99674a75642218433c8a8a0b65241377d3e07b",
+    "checks": {
+      "openPdf": true,
+      "noFieldsExplained": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "manualTextPlaced": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "manualTextReopened": true,
+      "originalUnchanged": true
+    },
+    "limitations": [
+      "Flat PDF: requires manual Text placement in Sign; no automatic field detection or totals."
+    ],
+    "browserErrors": [],
+    "status": "PASS_MANUAL_TEXT_AND_SIGNATURE"
+  },
+  {
+    "id": "work-order",
+    "title": "Construction work order",
+    "profile": "ipad",
+    "build": "7.75.0-test5",
+    "sourceSha256": "9d014485396e0780e5750465d518be62ecb19641ace1444154d363e463680730",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "SERVICE AND LABOR DESCRIPTIONRow1",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "SERVICE AND LABOR DESCRIPTIONRow2",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "inspection",
+    "title": "Inspection work order",
+    "profile": "ipad",
+    "build": "7.75.0-test5",
+    "sourceSha256": "3d53eba14fcd1b6bc309710891041db1a92e2279cf874441d87d4331fafeabe6",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "Requester Name",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "Request Description",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "change-order",
+    "title": "Simple construction change order",
+    "profile": "ipad",
+    "build": "7.75.0-test5",
+    "sourceSha256": "8713f1003f17c468f206691db4a641d373d434b1be38f2bddba73e03233eb26c",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "MATERIAL NAMERow1",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "DESCRIPTIONRow1",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "simple-change",
+    "title": "Service change order",
+    "profile": "ipad",
+    "build": "7.75.0-test5",
+    "sourceSha256": "84763e96efe2f6f5072505494dacbfe791fa8ae679ee777857efa8161b5400e1",
+    "checks": {
+      "openPdf": true,
+      "noFieldsExplained": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "manualTextPlaced": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "manualTextReopened": true,
+      "originalUnchanged": true
+    },
+    "limitations": [
+      "Flat PDF: requires manual Text placement in Sign; no automatic field detection or totals."
+    ],
+    "browserErrors": [],
+    "status": "PASS_MANUAL_TEXT_AND_SIGNATURE"
+  },
+  {
+    "id": "completion",
+    "title": "Project completion sign-off",
+    "profile": "ipad",
+    "build": "7.75.0-test5",
+    "sourceSha256": "ab6cb2acadf95099e21aa826bfe5db2abfb27b1d3b50ce93c5e8b6ed7c8c781a",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "PROJECT TITLE",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "PROJECT MANAGER",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "daily-report",
+    "title": "Construction contractor daily report",
+    "profile": "ipad",
+    "build": "7.75.0-test5",
+    "sourceSha256": "e9c18024aa39850cdd884cfcf550ee2ce9c4d0ed666ea39b7b586b6370b334fd",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "Project Name",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "Contractor NameCarpenter",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "safety",
+    "title": "Job hazard analysis worksheet",
+    "profile": "ipad",
+    "build": "7.75.0-test5",
+    "sourceSha256": "f08c084300a36bf3ff08a26ad74a355e37a00f63ebba0e71e4cb163ad3be195a",
+    "checks": {
+      "openPdf": true,
+      "noFieldsExplained": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "manualTextPlaced": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "manualTextReopened": true,
+      "originalUnchanged": true
+    },
+    "limitations": [
+      "Flat PDF: requires manual Text placement in Sign; no automatic field detection or totals."
+    ],
+    "browserErrors": [],
+    "status": "PASS_MANUAL_TEXT_AND_SIGNATURE"
+  },
+  {
+    "id": "progress",
+    "title": "Construction progress report GSA184",
+    "profile": "ipad",
+    "build": "7.75.0-test5",
+    "sourceSha256": "e17bd97a476e0ffa701de32df0af826d8c6094e9077b3dac642465e77c25b3e7",
+    "checks": {
+      "xfaConverted": true,
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "form1[0].#subform[0].REPORTNUM[0]",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "form1[0].#subform[0].Date[0]",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": "form1[0].#subform[0].PYES[0]",
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "invoice",
+    "title": "Contractor invoice",
+    "profile": "iphone",
+    "build": "7.75.0-test5",
+    "sourceSha256": "053c2c7d954621794f153522ec5df53491c676a2c3a691b5959815a547ab536a",
+    "checks": {
+      "openPdf": true,
+      "noFieldsExplained": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "manualTextPlaced": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "manualTextReopened": true,
+      "originalUnchanged": true
+    },
+    "limitations": [
+      "Flat PDF: requires manual Text placement in Sign; no automatic field detection or totals."
+    ],
+    "browserErrors": [],
+    "status": "PASS_MANUAL_TEXT_AND_SIGNATURE"
+  },
+  {
+    "id": "estimate",
+    "title": "Construction estimate",
+    "profile": "iphone",
+    "build": "7.75.0-test5",
+    "sourceSha256": "b793f277b9b624c471c210600e99674a75642218433c8a8a0b65241377d3e07b",
+    "checks": {
+      "openPdf": true,
+      "noFieldsExplained": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "manualTextPlaced": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "manualTextReopened": true,
+      "originalUnchanged": true
+    },
+    "limitations": [
+      "Flat PDF: requires manual Text placement in Sign; no automatic field detection or totals."
+    ],
+    "browserErrors": [],
+    "status": "PASS_MANUAL_TEXT_AND_SIGNATURE"
+  },
+  {
+    "id": "work-order",
+    "title": "Construction work order",
+    "profile": "iphone",
+    "build": "7.75.0-test5",
+    "sourceSha256": "9d014485396e0780e5750465d518be62ecb19641ace1444154d363e463680730",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "SERVICE AND LABOR DESCRIPTIONRow1",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "SERVICE AND LABOR DESCRIPTIONRow2",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "inspection",
+    "title": "Inspection work order",
+    "profile": "iphone",
+    "build": "7.75.0-test5",
+    "sourceSha256": "3d53eba14fcd1b6bc309710891041db1a92e2279cf874441d87d4331fafeabe6",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "Requester Name",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "Request Description",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "change-order",
+    "title": "Simple construction change order",
+    "profile": "iphone",
+    "build": "7.75.0-test5",
+    "sourceSha256": "8713f1003f17c468f206691db4a641d373d434b1be38f2bddba73e03233eb26c",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "MATERIAL NAMERow1",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "DESCRIPTIONRow1",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "simple-change",
+    "title": "Service change order",
+    "profile": "iphone",
+    "build": "7.75.0-test5",
+    "sourceSha256": "84763e96efe2f6f5072505494dacbfe791fa8ae679ee777857efa8161b5400e1",
+    "checks": {
+      "openPdf": true,
+      "noFieldsExplained": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "manualTextPlaced": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "manualTextReopened": true,
+      "originalUnchanged": true
+    },
+    "limitations": [
+      "Flat PDF: requires manual Text placement in Sign; no automatic field detection or totals."
+    ],
+    "browserErrors": [],
+    "status": "PASS_MANUAL_TEXT_AND_SIGNATURE"
+  },
+  {
+    "id": "completion",
+    "title": "Project completion sign-off",
+    "profile": "iphone",
+    "build": "7.75.0-test5",
+    "sourceSha256": "ab6cb2acadf95099e21aa826bfe5db2abfb27b1d3b50ce93c5e8b6ed7c8c781a",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "PROJECT TITLE",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "PROJECT MANAGER",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "daily-report",
+    "title": "Construction contractor daily report",
+    "profile": "iphone",
+    "build": "7.75.0-test5",
+    "sourceSha256": "e9c18024aa39850cdd884cfcf550ee2ce9c4d0ed666ea39b7b586b6370b334fd",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "Project Name",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "Contractor NameCarpenter",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "safety",
+    "title": "Job hazard analysis worksheet",
+    "profile": "iphone",
+    "build": "7.75.0-test5",
+    "sourceSha256": "f08c084300a36bf3ff08a26ad74a355e37a00f63ebba0e71e4cb163ad3be195a",
+    "checks": {
+      "openPdf": true,
+      "noFieldsExplained": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "manualTextPlaced": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "manualTextReopened": true,
+      "originalUnchanged": true
+    },
+    "limitations": [
+      "Flat PDF: requires manual Text placement in Sign; no automatic field detection or totals."
+    ],
+    "browserErrors": [],
+    "status": "PASS_MANUAL_TEXT_AND_SIGNATURE"
+  },
+  {
+    "id": "progress",
+    "title": "Construction progress report GSA184",
+    "profile": "iphone",
+    "build": "7.75.0-test5",
+    "sourceSha256": "e17bd97a476e0ffa701de32df0af826d8c6094e9077b3dac642465e77c25b3e7",
+    "checks": {
+      "xfaConverted": true,
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "form1[0].#subform[0].REPORTNUM[0]",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "form1[0].#subform[0].Date[0]",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": "form1[0].#subform[0].PYES[0]",
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "invoice",
+    "title": "Contractor invoice",
+    "profile": "android",
+    "build": "7.75.0-test5",
+    "sourceSha256": "053c2c7d954621794f153522ec5df53491c676a2c3a691b5959815a547ab536a",
+    "checks": {
+      "openPdf": true,
+      "noFieldsExplained": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "manualTextPlaced": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "manualTextReopened": true,
+      "originalUnchanged": true
+    },
+    "limitations": [
+      "Flat PDF: requires manual Text placement in Sign; no automatic field detection or totals."
+    ],
+    "browserErrors": [],
+    "status": "PASS_MANUAL_TEXT_AND_SIGNATURE"
+  },
+  {
+    "id": "estimate",
+    "title": "Construction estimate",
+    "profile": "android",
+    "build": "7.75.0-test5",
+    "sourceSha256": "b793f277b9b624c471c210600e99674a75642218433c8a8a0b65241377d3e07b",
+    "checks": {
+      "openPdf": true,
+      "noFieldsExplained": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "manualTextPlaced": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "manualTextReopened": true,
+      "originalUnchanged": true
+    },
+    "limitations": [
+      "Flat PDF: requires manual Text placement in Sign; no automatic field detection or totals."
+    ],
+    "browserErrors": [],
+    "status": "PASS_MANUAL_TEXT_AND_SIGNATURE"
+  },
+  {
+    "id": "work-order",
+    "title": "Construction work order",
+    "profile": "android",
+    "build": "7.75.0-test5",
+    "sourceSha256": "9d014485396e0780e5750465d518be62ecb19641ace1444154d363e463680730",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "SERVICE AND LABOR DESCRIPTIONRow1",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "SERVICE AND LABOR DESCRIPTIONRow2",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "inspection",
+    "title": "Inspection work order",
+    "profile": "android",
+    "build": "7.75.0-test5",
+    "sourceSha256": "3d53eba14fcd1b6bc309710891041db1a92e2279cf874441d87d4331fafeabe6",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "Requester Name",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "Request Description",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "change-order",
+    "title": "Simple construction change order",
+    "profile": "android",
+    "build": "7.75.0-test5",
+    "sourceSha256": "8713f1003f17c468f206691db4a641d373d434b1be38f2bddba73e03233eb26c",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "MATERIAL NAMERow1",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "DESCRIPTIONRow1",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "simple-change",
+    "title": "Service change order",
+    "profile": "android",
+    "build": "7.75.0-test5",
+    "sourceSha256": "84763e96efe2f6f5072505494dacbfe791fa8ae679ee777857efa8161b5400e1",
+    "checks": {
+      "openPdf": true,
+      "noFieldsExplained": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "manualTextPlaced": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "manualTextReopened": true,
+      "originalUnchanged": true
+    },
+    "limitations": [
+      "Flat PDF: requires manual Text placement in Sign; no automatic field detection or totals."
+    ],
+    "browserErrors": [],
+    "status": "PASS_MANUAL_TEXT_AND_SIGNATURE"
+  },
+  {
+    "id": "completion",
+    "title": "Project completion sign-off",
+    "profile": "android",
+    "build": "7.75.0-test5",
+    "sourceSha256": "ab6cb2acadf95099e21aa826bfe5db2abfb27b1d3b50ce93c5e8b6ed7c8c781a",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "PROJECT TITLE",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "PROJECT MANAGER",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "daily-report",
+    "title": "Construction contractor daily report",
+    "profile": "android",
+    "build": "7.75.0-test5",
+    "sourceSha256": "e9c18024aa39850cdd884cfcf550ee2ce9c4d0ed666ea39b7b586b6370b334fd",
+    "checks": {
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "Project Name",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "Contractor NameCarpenter",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": null,
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  },
+  {
+    "id": "safety",
+    "title": "Job hazard analysis worksheet",
+    "profile": "android",
+    "build": "7.75.0-test5",
+    "sourceSha256": "f08c084300a36bf3ff08a26ad74a355e37a00f63ebba0e71e4cb163ad3be195a",
+    "checks": {
+      "openPdf": true,
+      "noFieldsExplained": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "manualTextPlaced": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "manualTextReopened": true,
+      "originalUnchanged": true
+    },
+    "limitations": [
+      "Flat PDF: requires manual Text placement in Sign; no automatic field detection or totals."
+    ],
+    "browserErrors": [],
+    "status": "PASS_MANUAL_TEXT_AND_SIGNATURE"
+  },
+  {
+    "id": "progress",
+    "title": "Construction progress report GSA184",
+    "profile": "android",
+    "build": "7.75.0-test5",
+    "sourceSha256": "e17bd97a476e0ffa701de32df0af826d8c6094e9077b3dac642465e77c25b3e7",
+    "checks": {
+      "xfaConverted": true,
+      "openPdf": true,
+      "fieldSaveReopen": true,
+      "multilinePreserved": true,
+      "librarySave": true,
+      "libraryRow": true,
+      "signatureExport": true,
+      "pageCountPreserved": true,
+      "fieldsRetainedAfterSign": true,
+      "originalUnchanged": true
+    },
+    "limitations": [],
+    "checkedFields": [
+      {
+        "name": "form1[0].#subform[0].REPORTNUM[0]",
+        "value": "TEST JOB 1001"
+      },
+      {
+        "name": "form1[0].#subform[0].Date[0]",
+        "value": "TEST JOB 1001"
+      }
+    ],
+    "checkedCheckbox": "form1[0].#subform[0].PYES[0]",
+    "browserErrors": [],
+    "status": "PASS_FIELDS_AND_SIGNATURE"
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "test": "Fixtures",
+    "status": "PASS",
+    "detail": "10-page and 5-page source PDFs"
+  },
+  {
+    "test": "JPG 1",
+    "status": "PASS",
+    "detail": "Decode, grayscale/enhance and rotate dimensions"
+  },
+  {
+    "test": "JPG 2",
+    "status": "PASS",
+    "detail": "Decode, grayscale/enhance and rotate dimensions"
+  },
+  {
+    "test": "JPG 3",
+    "status": "PASS",
+    "detail": "Decode, grayscale/enhance and rotate dimensions"
+  },
+  {
+    "test": "Studio PDF letter",
+    "status": "PASS",
+    "detail": "All 3 JPGs included as 3 pages"
+  },
+  {
+    "test": "Studio PDF a4",
+    "status": "PASS",
+    "detail": "All 3 JPGs included as 3 pages"
+  },
+  {
+    "test": "Studio PDF fit",
+    "status": "PASS",
+    "detail": "All 3 JPGs included as 3 pages"
+  },
+  {
+    "test": "Merge 10 + 5",
+    "status": "PASS",
+    "detail": "15 pages"
+  },
+  {
+    "test": "Rotate merged PDF",
+    "status": "PASS",
+    "detail": "All 15 pages rotated 90 degrees"
+  },
+  {
+    "test": "Reorder",
+    "status": "PASS",
+    "detail": "Reverse order, all 15 pages retained"
+  },
+  {
+    "test": "Split merged PDF",
+    "status": "PASS",
+    "detail": "Restored 10-page and 5-page groups"
+  },
+  {
+    "test": "Invalid ranges",
+    "status": "PASS",
+    "detail": "Six invalid inputs rejected"
+  },
+  {
+    "test": "Watermark",
+    "status": "PASS",
+    "detail": "10-page output retains count"
+  },
+  {
+    "test": "Text editing",
+    "status": "PASS",
+    "detail": "First and last page annotated"
+  },
+  {
+    "test": "Out-of-bounds annotation",
+    "status": "PASS",
+    "detail": "Rejected page beyond final page"
+  },
+  {
+    "test": "Image/signature placement",
+    "status": "PASS",
+    "detail": "PNG embedded on final page of 5-page PDF"
+  },
+  {
+    "test": "Original file integrity",
+    "status": "PASS",
+    "detail": "Both original byte hashes unchanged"
+  },
+  {
+    "test": "PDF renderer loading",
+    "status": "PASS",
+    "detail": "10/5 page counts, final-page text, same-byte cache reuse"
+  }
+]

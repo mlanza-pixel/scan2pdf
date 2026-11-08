@@ -1,0 +1,42 @@
+{
+  "suite": "complete-app-workflows-v7741-split",
+  "generatedUTC": "2026-11-05T17:32:46.604996+00:00",
+  "selectedCase": "library",
+  "selectedProfile": "all",
+  "limitations": [
+    "Chromium emulation is not native iOS Safari",
+    "Native camera, sharing, printing excluded"
+  ],
+  "results": [
+    {
+      "profile": "desktop",
+      "case": "library",
+      "status": "passed",
+      "seconds": 1.99,
+      "details": {
+        "savedLibraryText": "1 page",
+        "reopenedInSign": true
+      }
+    },
+    {
+      "profile": "iphone-emulated",
+      "case": "library",
+      "status": "passed",
+      "seconds": 2.09,
+      "details": {
+        "savedLibraryText": "1 page",
+        "reopenedInSign": true
+      }
+    },
+    {
+      "profile": "ipad-emulated",
+      "case": "library",
+      "status": "passed",
+      "seconds": 1.85,
+      "details": {
+        "savedLibraryText": "1 page",
+        "reopenedInSign": true
+      }
+    }
+  ]
+}

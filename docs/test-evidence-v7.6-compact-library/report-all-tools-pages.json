@@ -1,0 +1,53 @@
+{
+  "suite": "complete-app-workflows-v7741-split",
+  "generatedUTC": "2026-11-06T00:18:27.639986+00:00",
+  "source": "chromium-workflow",
+  "repeatsPerCase": 1,
+  "selectedCase": "tools-pages",
+  "selectedProfile": "all",
+  "limitations": [
+    "Chromium emulation is not native iOS Safari",
+    "Native camera, sharing, printing excluded"
+  ],
+  "results": [
+    {
+      "profile": "desktop",
+      "case": "tools-pages",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 3.37,
+      "details": {
+        "splitVerified": true,
+        "insertedBlankPage": true,
+        "deletedSelectedPage": true,
+        "reorderAndCropVerified": true
+      }
+    },
+    {
+      "profile": "iphone-emulated",
+      "case": "tools-pages",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 2.96,
+      "details": {
+        "splitVerified": true,
+        "insertedBlankPage": true,
+        "deletedSelectedPage": true,
+        "reorderAndCropVerified": true
+      }
+    },
+    {
+      "profile": "ipad-emulated",
+      "case": "tools-pages",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 2.88,
+      "details": {
+        "splitVerified": true,
+        "insertedBlankPage": true,
+        "deletedSelectedPage": true,
+        "reorderAndCropVerified": true
+      }
+    }
+  ]
+}

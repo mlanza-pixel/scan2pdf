@@ -1,0 +1,10 @@
+{
+  "version": "7.75.0",
+  "build": "7.75.0-test5",
+  "releaseIdentifier": "DocuScan-Pro-7.75.0-Test-5",
+  "buildUtc": "2026-11-08T20:09:10.017579+00:00",
+  "cacheVersion": "v7-75-0-test5",
+  "diagnosticSuite": "on-device-self-test-5",
+  "releaseType": "test build",
+  "nativeDeviceVerification": "NOT RUN"
+}

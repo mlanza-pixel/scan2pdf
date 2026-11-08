@@ -1,0 +1,47 @@
+{
+  "suite": "complete-app-workflows-v7741-split",
+  "generatedUTC": "2026-11-05T19:27:23.770385+00:00",
+  "source": "chromium-workflow",
+  "repeatsPerCase": 1,
+  "selectedCase": "tools-forms",
+  "selectedProfile": "all",
+  "limitations": [
+    "Chromium emulation is not native iOS Safari",
+    "Native camera, sharing, printing excluded"
+  ],
+  "results": [
+    {
+      "profile": "desktop",
+      "case": "tools-forms",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 1.4,
+      "details": {
+        "filledFormValueVerified": true,
+        "mismatchedPasswordsRejected": true
+      }
+    },
+    {
+      "profile": "iphone-emulated",
+      "case": "tools-forms",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 1.12,
+      "details": {
+        "filledFormValueVerified": true,
+        "mismatchedPasswordsRejected": true
+      }
+    },
+    {
+      "profile": "ipad-emulated",
+      "case": "tools-forms",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 1.2,
+      "details": {
+        "filledFormValueVerified": true,
+        "mismatchedPasswordsRejected": true
+      }
+    }
+  ]
+}

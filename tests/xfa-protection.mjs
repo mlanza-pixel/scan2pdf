@@ -1,0 +1,16 @@
+import fs from 'node:fs';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+const context=vm.createContext({console,setTimeout,clearTimeout,Uint8Array,ArrayBuffer,TextEncoder,TextDecoder});
+vm.runInContext(fs.readFileSync(new URL('../vendor/pdf-lib.min.js',import.meta.url),'utf8'),context);
+const lib=context.PDFLib;
+const normal=await lib.PDFDocument.create();normal.addPage();normal.getForm().createTextField('name').setText('SAMPLE');
+const plain=await normal.save();
+const reopened=await lib.PDFDocument.load(plain);assert.equal(reopened.getForm().getTextField('name').getText(),'SAMPLE');
+normal.getForm().acroForm.dict.set(lib.PDFName.of('XFA'),normal.context.stream('<xfa>sample</xfa>'));
+const hybrid=await normal.save({updateFieldAppearances:false});const before=Buffer.from(hybrid);
+await assert.rejects(()=>lib.PDFDocument.load(hybrid),e=>e.name==='NotSupportedError'&&e.message.includes('Editing is blocked'));
+assert.deepEqual(Buffer.from(hybrid),before);
+const w9=fs.readFileSync(new URL('../tests/fixtures/w9-blank.pdf',import.meta.url));
+await assert.rejects(()=>lib.PDFDocument.load(new Uint8Array(w9)),e=>e.name==='NotSupportedError');
+console.log('PASS: standard form roundtrip, hybrid XFA blocked, W9 blocked, original bytes unchanged');

@@ -1,0 +1,5 @@
+DocuScan Pro 7.75.0-test5
+Supersedes Test Builds 1-4. Multiline PDF form fields now retain Enter/newlines and blank lines through Apply Changes, download and reopening. Single-line fields remain single-line; read-only values remain protected.
+Run About > Device Self-Test with isolated workflows enabled. The new WF-FORMS-02 checks a multiline field, checkbox and read-only value.
+Contractor compatibility tests: 40/40 template/profile combinations passed the selected checks (24 native-field and 16 manual-text workflows). These are Chromium viewport tests, not physical device certification.
+Flat PDFs still require manually placed Text. Automatic totals and full XFA editing are not added. Third-party templates are not installed inside the app; reuse the separately supplied test pack.

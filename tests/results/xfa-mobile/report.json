@@ -1,0 +1,50 @@
+[
+  {
+    "profile": "desktop",
+    "status": "PASS",
+    "scope": "Chromium viewport emulation",
+    "cancelPreservesState": true,
+    "originalDownloadIdentical": true,
+    "pages": 6,
+    "fields": 23,
+    "filledValuesReopened": true,
+    "typedSignatureExported": true,
+    "librarySave": true
+  },
+  {
+    "profile": "ipad",
+    "status": "PASS",
+    "scope": "Chromium viewport emulation",
+    "cancelPreservesState": true,
+    "originalDownloadIdentical": true,
+    "pages": 6,
+    "fields": 23,
+    "filledValuesReopened": true,
+    "typedSignatureExported": true,
+    "librarySave": true
+  },
+  {
+    "profile": "iphone",
+    "status": "PASS",
+    "scope": "Chromium viewport emulation",
+    "cancelPreservesState": true,
+    "originalDownloadIdentical": true,
+    "pages": 6,
+    "fields": 23,
+    "filledValuesReopened": true,
+    "typedSignatureExported": true,
+    "librarySave": true
+  },
+  {
+    "profile": "android",
+    "status": "PASS",
+    "scope": "Chromium viewport emulation",
+    "cancelPreservesState": true,
+    "originalDownloadIdentical": true,
+    "pages": 6,
+    "fields": 23,
+    "filledValuesReopened": true,
+    "typedSignatureExported": true,
+    "librarySave": true
+  }
+]

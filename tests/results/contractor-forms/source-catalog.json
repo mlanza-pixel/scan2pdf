@@ -1,0 +1,726 @@
+[
+  {
+    "id": "invoice",
+    "title": "Contractor invoice",
+    "publisher": "BuilderBase",
+    "sourcePage": "https://www.builderbase.co/resources/contractor-invoice-template",
+    "downloadUrl": "https://www.builderbase.co/templates/contractor-invoice-template.pdf",
+    "resolvedUrl": "https://www.builderbase.co/templates/contractor-invoice-template.pdf",
+    "status": "downloaded",
+    "bytes": 92223,
+    "sha256": "053c2c7d954621794f153522ec5df53491c676a2c3a691b5959815a547ab536a",
+    "file": "originals/invoice.pdf",
+    "pages": 1,
+    "xfa": false,
+    "fieldTypes": {},
+    "fieldCount": 0,
+    "sampleFields": [],
+    "testPage": 1,
+    "multilineFieldNames": [],
+    "signaturePage": 1,
+    "recommendation": "Useful simple invoice; manual entry",
+    "usabilityNotes": "One page; clean item and balance sections. Flat PDF, so fields and arithmetic are not automatic in DocuScan.",
+    "accessEvidence": "PDF downloaded directly without login, email or payment during this test.",
+    "reuseEvidence": "Publisher explicitly permits free use and editing for your own business. Permission to redistribute inside a commercial app was not established."
+  },
+  {
+    "id": "estimate",
+    "title": "Construction estimate",
+    "publisher": "BuilderBase",
+    "sourcePage": "https://www.builderbase.co/resources/construction-estimate-template",
+    "downloadUrl": "https://www.builderbase.co/templates/construction-estimate-template.pdf",
+    "resolvedUrl": "https://www.builderbase.co/templates/construction-estimate-template.pdf",
+    "status": "downloaded",
+    "bytes": 89589,
+    "sha256": "b793f277b9b624c471c210600e99674a75642218433c8a8a0b65241377d3e07b",
+    "file": "originals/estimate.pdf",
+    "pages": 1,
+    "xfa": false,
+    "fieldTypes": {},
+    "fieldCount": 0,
+    "sampleFields": [],
+    "testPage": 1,
+    "multilineFieldNames": [],
+    "signaturePage": 1,
+    "recommendation": "Useful simple estimate; manual entry",
+    "usabilityNotes": "One page with scope, terms, deposit and signatures. Flat PDF; requires Text placement and manual totals.",
+    "accessEvidence": "PDF downloaded directly without login, email or payment during this test.",
+    "reuseEvidence": "Publisher explicitly permits free use and editing for your own business. Permission to redistribute inside a commercial app was not established."
+  },
+  {
+    "id": "work-order",
+    "title": "Construction work order",
+    "publisher": "Smartsheet",
+    "sourcePage": "https://www.smartsheet.com/free-work-order-templates",
+    "downloadUrl": "https://www.smartsheet.com/sites/default/files/2025-02/ic-construction-work-order-template-8963_pdf.pdf",
+    "resolvedUrl": "https://www.smartsheet.com/sites/default/files/2025-02/ic-construction-work-order-template-8963_pdf.pdf",
+    "status": "downloaded",
+    "bytes": 441127,
+    "sha256": "9d014485396e0780e5750465d518be62ecb19641ace1444154d363e463680730",
+    "file": "originals/work-order.pdf",
+    "pages": 3,
+    "xfa": false,
+    "fieldTypes": {
+      "/Tx": 54,
+      "/Btn": 1,
+      "/Sig": 3
+    },
+    "fieldCount": 58,
+    "sampleFields": [
+      {
+        "name": "SERVICE AND LABOR DESCRIPTIONRow1",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "HOURSRow1",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "RATERow1",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "AMOUNTRow1",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "SERVICE AND LABOR DESCRIPTIONRow2",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "HOURSRow2",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "RATERow2",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "AMOUNTRow2",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      }
+    ],
+    "testPage": 2,
+    "multilineFieldNames": [
+      "TAX RATE",
+      "TOTAL TAX",
+      "Work Description",
+      "Your Organization Name",
+      "Your Organization Contact Info"
+    ],
+    "signaturePage": 2,
+    "recommendation": "Strong starter after multiline fix",
+    "usabilityNotes": "Form is on page 2; includes cover and disclaimer pages. Existing text fields, labor/material detail and signature areas.",
+    "accessEvidence": "PDF downloaded directly without login, email or payment during this test.",
+    "reuseEvidence": "Publisher offers free templates for download/use; commercial app redistribution was not established."
+  },
+  {
+    "id": "inspection",
+    "title": "Inspection work order",
+    "publisher": "Smartsheet",
+    "sourcePage": "https://www.smartsheet.com/free-work-order-templates",
+    "downloadUrl": "https://www.smartsheet.com/sites/default/files/2025-02/ic-inspection-work-order-template-8963_pdf.pdf",
+    "resolvedUrl": "https://www.smartsheet.com/sites/default/files/2025-02/ic-inspection-work-order-template-8963_pdf.pdf",
+    "status": "downloaded",
+    "bytes": 319352,
+    "sha256": "3d53eba14fcd1b6bc309710891041db1a92e2279cf874441d87d4331fafeabe6",
+    "file": "originals/inspection.pdf",
+    "pages": 3,
+    "xfa": false,
+    "fieldTypes": {
+      "/Tx": 51,
+      "/Btn": 1
+    },
+    "fieldCount": 52,
+    "sampleFields": [
+      {
+        "name": "Inspect on Type",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "Property Type",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "Requester Name",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "Address",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "Phone",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "Address_2",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "Ema",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "Address_3",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      }
+    ],
+    "testPage": 2,
+    "multilineFieldNames": [
+      "Request Description",
+      "Company Name and Information",
+      "Phone Number and Email"
+    ],
+    "signaturePage": 2,
+    "recommendation": "Useful for property/inspection work after multiline fix",
+    "usabilityNotes": "Detailed property/requester/inspection fields. Better for inspection businesses than general repairs.",
+    "accessEvidence": "PDF downloaded directly without login, email or payment during this test.",
+    "reuseEvidence": "Publisher offers free templates for download/use; commercial app redistribution was not established."
+  },
+  {
+    "id": "change-order",
+    "title": "Simple construction change order",
+    "publisher": "Smartsheet",
+    "sourcePage": "https://www.smartsheet.com/content/construction-change-order-forms",
+    "downloadUrl": "https://www.smartsheet.com/sites/default/files/2020-03/IC-Simple-Construction-Change-Order-Template-10766_PDF.pdf",
+    "resolvedUrl": "https://www.smartsheet.com/sites/default/files/2020-03/IC-Simple-Construction-Change-Order-Template-10766_PDF.pdf",
+    "status": "downloaded",
+    "bytes": 200456,
+    "sha256": "8713f1003f17c468f206691db4a641d373d434b1be38f2bddba73e03233eb26c",
+    "file": "originals/change-order.pdf",
+    "pages": 3,
+    "xfa": false,
+    "fieldTypes": {
+      "/Tx": 85,
+      "/Sig": 6
+    },
+    "fieldCount": 91,
+    "sampleFields": [
+      {
+        "name": "MATERIAL NAMERow1",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "DESCRIPTIONRow1",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "QUANTITYRow1",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "UNIT PRICERow1",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "AMOUNTRow1",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "MATERIAL NAMERow2",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "DESCRIPTIONRow2",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "QUANTITYRow2",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      }
+    ],
+    "testPage": 1,
+    "multilineFieldNames": [
+      "CONTRACTOR SIGNATURE DATE",
+      "PROJECT MANAGER SIGNATURE DATE",
+      "DESCRIPTION OF CHANGES NEEDED",
+      "REASON FOR CHANGE",
+      "SPECIFICATIONS"
+    ],
+    "signaturePage": 1,
+    "recommendation": "Useful detailed change order after multiline fix",
+    "usabilityNotes": "Two work pages plus disclaimer. Rich fields and approval sections; more involved than a small service-call change.",
+    "accessEvidence": "PDF downloaded directly without login, email or payment during this test.",
+    "reuseEvidence": "Publisher offers free templates for download/use; commercial app redistribution was not established."
+  },
+  {
+    "id": "simple-change",
+    "title": "Service change order",
+    "publisher": "Volta Orbit",
+    "sourcePage": "https://voltaorbit.com/change-orders/template/",
+    "downloadUrl": "https://voltaorbit.com/change-orders/template/change-order-template.pdf",
+    "resolvedUrl": "https://voltaorbit.com/change-orders/template/change-order-template.pdf",
+    "status": "downloaded",
+    "bytes": 78397,
+    "sha256": "84763e96efe2f6f5072505494dacbfe791fa8ae679ee777857efa8161b5400e1",
+    "file": "originals/simple-change.pdf",
+    "pages": 2,
+    "xfa": false,
+    "fieldTypes": {},
+    "fieldCount": 0,
+    "sampleFields": [],
+    "testPage": 1,
+    "multilineFieldNames": [],
+    "signaturePage": 2,
+    "recommendation": "Plain alternative; manual entry",
+    "usabilityNotes": "Free to use, copy and change according to the publisher. Actual downloaded PDF is two pages, despite the landing page calling it one. Signatures are on page 2.",
+    "accessEvidence": "PDF downloaded directly without login, email or payment during this test.",
+    "reuseEvidence": "Publisher states free to use, copy and change. Attribution remains on the unchanged source."
+  },
+  {
+    "id": "completion",
+    "title": "Project completion sign-off",
+    "publisher": "Smartsheet",
+    "sourcePage": "https://www.smartsheet.com/content/project-sign-off-templates",
+    "downloadUrl": "https://www.smartsheet.com/sites/default/files/2022-03/IC-Project-Completion-Sign-Off-Document-11340_PDF.pdf",
+    "resolvedUrl": "https://www.smartsheet.com/sites/default/files/2022-03/IC-Project-Completion-Sign-Off-Document-11340_PDF.pdf",
+    "status": "downloaded",
+    "bytes": 168113,
+    "sha256": "ab6cb2acadf95099e21aa826bfe5db2abfb27b1d3b50ce93c5e8b6ed7c8c781a",
+    "file": "originals/completion.pdf",
+    "pages": 4,
+    "xfa": false,
+    "fieldTypes": {
+      "/Tx": 126
+    },
+    "fieldCount": 126,
+    "sampleFields": [
+      {
+        "name": "ACTIVITY1",
+        "type": "/Tx",
+        "value": "Has team completed all deliverables?",
+        "flags": 4096
+      },
+      {
+        "name": "OWNER1",
+        "type": "/Tx",
+        "value": "",
+        "flags": 4096
+      },
+      {
+        "name": "DUE DATE1",
+        "type": "/Tx",
+        "value": "",
+        "flags": 4096
+      },
+      {
+        "name": "STATUS1",
+        "type": "/Tx",
+        "value": "",
+        "flags": 4096
+      },
+      {
+        "name": "COMMENTS1",
+        "type": "/Tx",
+        "value": "",
+        "flags": 4096
+      },
+      {
+        "name": "ACTIVITY2",
+        "type": "/Tx",
+        "value": "Have all deliverables met requirements and been approved?",
+        "flags": 4096
+      },
+      {
+        "name": "OWNER2",
+        "type": "/Tx",
+        "value": "",
+        "flags": 4096
+      },
+      {
+        "name": "DUE DATE2",
+        "type": "/Tx",
+        "value": "",
+        "flags": 4096
+      }
+    ],
+    "testPage": 1,
+    "multilineFieldNames": [
+      "ACTIVITY1",
+      "OWNER1",
+      "DUE DATE1",
+      "STATUS1",
+      "COMMENTS1",
+      "ACTIVITY2",
+      "OWNER2",
+      "DUE DATE2",
+      "STATUS2",
+      "COMMENTS2",
+      "ACTIVITY3",
+      "OWNER3",
+      "DUE DATE3",
+      "STATUS3",
+      "COMMENTS3",
+      "ACTIVITY4",
+      "OWNER4",
+      "DUE DATE4",
+      "STATUS4",
+      "COMMENTS4",
+      "ACTIVITY5",
+      "OWNER5",
+      "DUE DATE5",
+      "STATUS5",
+      "COMMENTS5",
+      "ACTIVITY6",
+      "OWNER6",
+      "DUE DATE6",
+      "STATUS6",
+      "COMMENTS6",
+      "ACTIVITY7",
+      "OWNER7",
+      "DUE DATE7",
+      "STATUS7",
+      "COMMENTS7",
+      "ACTIVITY8",
+      "OWNER8",
+      "DUE DATE8",
+      "STATUS8",
+      "COMMENTS8",
+      "ACTIVITY9",
+      "OWNER9",
+      "DUE DATE9",
+      "STATUS9",
+      "COMMENTS9",
+      "ACTIVITY10",
+      "OWNER10",
+      "DUE DATE10",
+      "STATUS10",
+      "COMMENTS10",
+      "ACTIVITY11",
+      "OWNER11",
+      "DUE DATE11",
+      "STATUS11",
+      "COMMENTS11",
+      "ACTIVITY12",
+      "OWNER12",
+      "DUE DATE12",
+      "STATUS12",
+      "COMMENTS12",
+      "ACTIVITY13",
+      "OWNER13",
+      "DUE DATE13",
+      "STATUS13",
+      "COMMENTS13",
+      "ACTIVITY14",
+      "OWNER14",
+      "DUE DATE14",
+      "STATUS14",
+      "COMMENTS14",
+      "ACTIVITY15",
+      "OWNER15",
+      "DUE DATE15",
+      "STATUS15",
+      "COMMENTS15",
+      "ACTIVITY16",
+      "OWNER16",
+      "DUE DATE16",
+      "STATUS16",
+      "COMMENTS16",
+      "ACTIVITY17",
+      "OWNER17",
+      "DUE DATE17",
+      "STATUS17",
+      "COMMENTS17",
+      "ACTIVITY18",
+      "OWNER18",
+      "DUE DATE18",
+      "STATUS18",
+      "COMMENTS18",
+      "ACTIVITY19",
+      "OWNER19",
+      "DUE DATE19",
+      "STATUS19",
+      "COMMENTS19",
+      "ACTIVITY20",
+      "OWNER20",
+      "DUE DATE20",
+      "STATUS20",
+      "COMMENTS20",
+      "ACTIVITY21",
+      "OWNER21",
+      "DUE DATE21",
+      "STATUS21",
+      "COMMENTS21",
+      "ACTIVITY22",
+      "OWNER22",
+      "DUE DATE22",
+      "STATUS22",
+      "COMMENTS22",
+      "ACTIVITY23",
+      "OWNER23",
+      "DUE DATE23",
+      "STATUS23",
+      "COMMENTS23",
+      "ACTIVITY24",
+      "OWNER24",
+      "DUE DATE24",
+      "STATUS24",
+      "COMMENTS24",
+      "PROJECT TITLE",
+      "PROJECT MANAGER"
+    ],
+    "signaturePage": 1,
+    "recommendation": "Low starter priority",
+    "usabilityNotes": "Four-page project closeout checklist, not a compact customer job-completion receipt. Many prefilled task descriptions; do not replace them indiscriminately.",
+    "accessEvidence": "PDF downloaded directly without login, email or payment during this test.",
+    "reuseEvidence": "Publisher offers free templates for download/use; commercial app redistribution was not established."
+  },
+  {
+    "id": "daily-report",
+    "title": "Construction contractor daily report",
+    "publisher": "Smartsheet",
+    "sourcePage": "https://www.smartsheet.com/content/daily-construction-log-templates",
+    "downloadUrl": "https://www.smartsheet.com/sites/default/files/2025-01/IC-Construction-Contractor-Daily-Report-Template-12294_PDF.pdf",
+    "resolvedUrl": "https://www.smartsheet.com/sites/default/files/2025-01/IC-Construction-Contractor-Daily-Report-Template-12294_PDF.pdf",
+    "status": "downloaded",
+    "bytes": 177383,
+    "sha256": "e9c18024aa39850cdd884cfcf550ee2ce9c4d0ed666ea39b7b586b6370b334fd",
+    "file": "originals/daily-report.pdf",
+    "pages": 2,
+    "xfa": false,
+    "fieldTypes": {
+      "/Tx": 55,
+      "/Sig": 1
+    },
+    "fieldCount": 56,
+    "sampleFields": [
+      {
+        "name": "Contractor No",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "Project Name",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "Date",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "Job No",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "Report No",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "Weather",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "Temp H i gh F",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      },
+      {
+        "name": "Temp Low F",
+        "type": "/Tx",
+        "value": "",
+        "flags": 0
+      }
+    ],
+    "testPage": 1,
+    "multilineFieldNames": [
+      "Contractor NameCarpenter",
+      "Subcontractorx",
+      "Subcontractor Namex",
+      "Contractor NameSupervisor",
+      "Subcontractorx_2",
+      "Subcontractor Namex_2",
+      "SupervisorEmp l oyed Personnel",
+      "Contractor NameEmp l oyed Personnel",
+      "SubcontractorEmp l oyed Personnel",
+      "Subcontractor NameEmp l oyed Personnel",
+      "Emp l oyed PersonnelRow1",
+      "SupervisorRow2",
+      "Contractor NameRow4",
+      "SubcontractorRow4",
+      "Subcontractor NameRow4",
+      "Emp l oyed PersonnelRow2",
+      "SupervisorRow3",
+      "Contractor NameRow5",
+      "SubcontractorRow5",
+      "Subcontractor NameRow5",
+      "Equipment NameEqu i pment on Project",
+      "Operation HoursEqu i pment on Project",
+      "Operation HoursEqu i pment on Project_2",
+      "Operation HoursEqu i pment on Project_3",
+      "Operation HoursEqu i pment on Project_4",
+      "Work Performed",
+      "Additional Notes",
+      "Name"
+    ],
+    "signaturePage": 1,
+    "recommendation": "Strong starter after multiline fix",
+    "usabilityNotes": "Useful field report with project, labor, equipment, work performed, weather and signature areas; one work page plus disclaimer.",
+    "accessEvidence": "PDF downloaded directly without login, email or payment during this test.",
+    "reuseEvidence": "Publisher offers free templates for download/use; commercial app redistribution was not established."
+  },
+  {
+    "id": "safety",
+    "title": "Job hazard analysis worksheet",
+    "publisher": "OSHA",
+    "sourcePage": "https://www.osha.gov/safety-management/explore-tools",
+    "downloadUrl": "https://www.osha.gov/sites/default/files/Job_Hazard_Analysis_Worksheet.pdf",
+    "resolvedUrl": "https://www.osha.gov/sites/default/files/Job_Hazard_Analysis_Worksheet.pdf",
+    "status": "downloaded",
+    "bytes": 548654,
+    "sha256": "f08c084300a36bf3ff08a26ad74a355e37a00f63ebba0e71e4cb163ad3be195a",
+    "file": "originals/safety.pdf",
+    "pages": 6,
+    "xfa": false,
+    "fieldTypes": {},
+    "fieldCount": 0,
+    "sampleFields": [],
+    "testPage": 5,
+    "multilineFieldNames": [],
+    "signaturePage": 6,
+    "recommendation": "Useful safety worksheet; manual entry",
+    "usabilityNotes": "Six-page OSHA publication: blank JHA is page 5 and sign-off is page 6. Earlier pages contain instructions and a worked example.",
+    "accessEvidence": "PDF downloaded directly without login, email or payment during this test.",
+    "reuseEvidence": "Official U.S. government form/publication. Retain attribution and distinguish the tested sample from an official completed record."
+  },
+  {
+    "id": "progress",
+    "title": "Construction progress report GSA184",
+    "publisher": "GSA",
+    "sourcePage": "https://www.gsa.gov/reference/forms/construction-progress-report",
+    "downloadUrl": "https://www.gsa.gov/system/files/2025-09/GSA184-25.pdf",
+    "resolvedUrl": "https://www.gsa.gov/system/files/2025-09/GSA184-25.pdf",
+    "status": "downloaded",
+    "bytes": 765293,
+    "sha256": "e17bd97a476e0ffa701de32df0af826d8c6094e9077b3dac642465e77c25b3e7",
+    "file": "originals/progress.pdf",
+    "pages": 2,
+    "xfa": true,
+    "fieldTypes": {
+      "group": 3,
+      "/Btn": 8,
+      "/Tx": 50
+    },
+    "fieldCount": 58,
+    "sampleFields": [
+      {
+        "name": "form1[0].#subform[0].PYES[0]",
+        "type": "/Btn",
+        "value": "/Off",
+        "flags": 0
+      },
+      {
+        "name": "form1[0].#subform[0].PNO[0]",
+        "type": "/Btn",
+        "value": "/Off",
+        "flags": 0
+      },
+      {
+        "name": "form1[0].#subform[0].MYES[0]",
+        "type": "/Btn",
+        "value": "/Off",
+        "flags": 0
+      },
+      {
+        "name": "form1[0].#subform[0].MNO[0]",
+        "type": "/Btn",
+        "value": "/Off",
+        "flags": 0
+      },
+      {
+        "name": "form1[0].#subform[0].CYES[0]",
+        "type": "/Btn",
+        "value": "/Off",
+        "flags": 0
+      },
+      {
+        "name": "form1[0].#subform[0].CNO[0]",
+        "type": "/Btn",
+        "value": "/Off",
+        "flags": 0
+      },
+      {
+        "name": "form1[0].#subform[0].SYES[0]",
+        "type": "/Btn",
+        "value": "/Off",
+        "flags": 0
+      },
+      {
+        "name": "form1[0].#subform[0].SNO[0]",
+        "type": "/Btn",
+        "value": "/Off",
+        "flags": 0
+      }
+    ],
+    "testPage": 1,
+    "multilineFieldNames": [
+      "form1[0].#subform[0].CONTRACTOR[0]",
+      "form1[0].#subform[1].REPORTFIELD[0]"
+    ],
+    "signaturePage": 1,
+    "recommendation": "Specialized, not a general contractor starter",
+    "usabilityNotes": "GSA184 is a government construction progress/payment report. Static blank XFA converted successfully, but multiline editing remains partial and financial calculations were not certified.",
+    "accessEvidence": "PDF downloaded directly without login, email or payment during this test.",
+    "reuseEvidence": "Official U.S. government form/publication. Retain attribution and distinguish the tested sample from an official completed record."
+  }
+]

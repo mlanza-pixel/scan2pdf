@@ -1,0 +1,50 @@
+{
+  "suite": "complete-app-workflows-v7741-split",
+  "generatedUTC": "2026-11-05T20:12:33.624951+00:00",
+  "source": "chromium-workflow",
+  "repeatsPerCase": 1,
+  "selectedCase": "folders",
+  "selectedProfile": "all",
+  "limitations": [
+    "Chromium emulation is not native iOS Safari",
+    "Native camera, sharing, printing excluded"
+  ],
+  "results": [
+    {
+      "profile": "desktop",
+      "case": "folders",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 2.14,
+      "details": {
+        "createMoveOpenDelete": true,
+        "membershipSurvivedReload": true,
+        "pdfSurvivedFolderDelete": true
+      }
+    },
+    {
+      "profile": "iphone-emulated",
+      "case": "folders",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 2.27,
+      "details": {
+        "createMoveOpenDelete": true,
+        "membershipSurvivedReload": true,
+        "pdfSurvivedFolderDelete": true
+      }
+    },
+    {
+      "profile": "ipad-emulated",
+      "case": "folders",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 2.05,
+      "details": {
+        "createMoveOpenDelete": true,
+        "membershipSurvivedReload": true,
+        "pdfSurvivedFolderDelete": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+import {PDFDocument,StandardFonts} from 'pdf-lib';import fs from 'node:fs/promises';
+const pdf=await PDFDocument.create();const p=pdf.addPage([612,792]);const font=await pdf.embedFont(StandardFonts.Helvetica);p.drawText('DocuScan multiline form test',{x:40,y:740,size:20,font});const form=pdf.getForm();
+for(const [name,y] of [['jobName',650],['workNotes',450],['reference',340]]){p.drawText(name,{x:40,y:y+60,size:12,font});const f=form.createTextField(name);if(name==='workNotes')f.enableMultiline();f.addToPage(p,{x:40,y,width:500,height:name==='workNotes'?150:40,font});f.setFontSize(12);if(name==='reference'){f.setText('READ ONLY REFERENCE');f.enableReadOnly();}}
+form.createCheckBox('approved').addToPage(p,{x:40,y:260,width:20,height:20});await fs.writeFile(new URL('../tests/fixtures/multiline-form.pdf',import.meta.url),await pdf.save());

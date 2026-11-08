@@ -1,0 +1,302 @@
+{
+  "suite": "complete-app-workflows-v7741-split",
+  "generatedUTC": "2026-11-05T19:36:30.947384+00:00",
+  "source": "chromium-workflow",
+  "repeatsPerCase": 18,
+  "selectedCase": "edit",
+  "selectedProfile": "desktop",
+  "limitations": [
+    "Chromium emulation is not native iOS Safari",
+    "Native camera, sharing, printing excluded"
+  ],
+  "results": [
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 3.26,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23232,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 2,
+      "status": "passed",
+      "seconds": 3.17,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23234,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 3,
+      "status": "passed",
+      "seconds": 3.36,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23232,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 4,
+      "status": "passed",
+      "seconds": 3.01,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23232,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 5,
+      "status": "passed",
+      "seconds": 3.12,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23232,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 6,
+      "status": "passed",
+      "seconds": 3.24,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23234,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 7,
+      "status": "passed",
+      "seconds": 3.23,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23234,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 8,
+      "status": "passed",
+      "seconds": 3.21,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23232,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 9,
+      "status": "passed",
+      "seconds": 3.19,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23232,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 10,
+      "status": "passed",
+      "seconds": 3.08,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23232,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 11,
+      "status": "passed",
+      "seconds": 3.16,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23234,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 12,
+      "status": "passed",
+      "seconds": 3.09,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23235,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 13,
+      "status": "passed",
+      "seconds": 3.07,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23234,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 14,
+      "status": "passed",
+      "seconds": 3.09,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23232,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 15,
+      "status": "passed",
+      "seconds": 3.13,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23232,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 16,
+      "status": "passed",
+      "seconds": 3.12,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23232,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 17,
+      "status": "passed",
+      "seconds": 3.14,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23232,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    },
+    {
+      "profile": "desktop",
+      "case": "edit",
+      "iteration": 18,
+      "status": "passed",
+      "seconds": 3.14,
+      "details": {
+        "editControl": "Add Text",
+        "export": {
+          "bytes": 23234,
+          "pages": 1
+        },
+        "changedBytes": true,
+        "drawnSignatureResizedAndExported": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+name: DocuScan Automated Regression and Screenshots
+on:
+  workflow_call:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Node dependencies
+        run: npm install --no-audit --no-fund
+        timeout-minutes: 8
+      - name: Choose browser
+        shell: bash
+        run: |
+          chrome_path=$(command -v google-chrome || command -v chromium || true)
+          if [ -n "$chrome_path" ]; then
+            echo "DOCUSCAN_CHROMIUM_EXECUTABLE=$chrome_path" >> "$GITHUB_ENV"
+          else
+            npx playwright install chromium
+          fi
+        timeout-minutes: 6
+      - name: Validate release documentation and run core tests
+        run: npm test
+      - name: Run fixture workflows on four viewport profiles
+        run: npm run test:workflows
+      - name: Upload reports and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docuscan-v775-test-results
+          path: tests/results/
+          if-no-files-found: warn
+          retention-days: 30

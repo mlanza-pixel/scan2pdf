@@ -1,0 +1,566 @@
+{
+  "home": [
+    [
+      "home",
+      null,
+      "Welcome to DocuScan Pro",
+      "This short tour will show you the four main workflows. You can exit at any time with the Skip button or by pressing Escape."
+    ],
+    [
+      "home",
+      ".workflow-card--studio",
+      "Studio",
+      "Use <strong>Studio</strong> to scan documents with your camera, import existing photos, enhance them, optionally run OCR, and create PDFs."
+    ],
+    [
+      "home",
+      ".workflow-card--sign",
+      "Sign",
+      "Use <strong>Sign</strong> to add signatures, typed text, dates, and watermarks to an existing PDF."
+    ],
+    [
+      "home",
+      ".workflow-card--tools",
+      "PDF Tools",
+      "Use <strong>PDF Tools</strong> to merge, split, rotate, reorder, annotate, and watermark PDF documents."
+    ],
+    [
+      "home",
+      ".workflow-card--library",
+      "Library",
+      "Use <strong>Library</strong> to access documents you've saved. Choose an action first, then select the files you want to move, edit or share."
+    ],
+    [
+      "home",
+      ".bottom-nav__item[data-goto=\"help\"]",
+      "Help is always one tap away",
+      "Tap <strong>Help</strong> in the bottom navigation at any time to open this illustrated guide and search for any feature."
+    ]
+  ],
+  "studio": [
+    [
+      "studio",
+      null,
+      "Document Studio",
+      "Combine photos and PDFs in a packet. Use the optional checklist to track what to include."
+    ],
+    [
+      "studio",
+      "#btnCaptureCamera",
+      "Take a photo",
+      "Use Camera for new photos. Enable Auto-crop and clean to reduce borders and uneven shadows. Use Straighten page to tap the four corners of a tilted document."
+    ],
+    [
+      "studio",
+      "#btnImportImages",
+      "Import files",
+      "Choose photos and ordinary PDFs together. Select a thumbnail and use Move page earlier or Move page later to change its position in the exported packet."
+    ],
+    [
+      "studio",
+      "#studioTemplate",
+      "Packet checklist",
+      "Choose a template or save your own steps. Check off each item as you assemble the packet."
+    ],
+    [
+      "studio",
+      "#studioThumbs",
+      "Review your pages",
+      "Select thumbnails to review page order, rotation and deletions before creating a PDF."
+    ],
+    [
+      "studio",
+      "#enhancePresets",
+      "Enhance images",
+      "Use the enhancement presets to improve readability. Preview each change and reset if needed. Choose Straighten page here to correct perspective by tapping four corners in the preview."
+    ],
+    [
+      "studio",
+      "#btnRunOcr",
+      "Scan text (OCR)",
+      "Scan processes every image page. Loading stages and recognition progress show what is happening. The text is embedded in the next PDF export as long as the image has not changed. Embedded search currently supports Latin-script text."
+    ],
+    [
+      "studio",
+      "#studioPageNav",
+      "Previous and next",
+      "Use the arrows to review each page. Read aloud below the preview reads recognized text when available."
+    ],
+    [
+      "studio",
+      "#btnCreatePdf",
+      "Create PDF",
+      "Choose page size, orientation and photo quality, then tap PDF. Enter a name and choose Save in the dialog; Cancel leaves Library unchanged. Share displays the file size and offers a smaller version when available."
+    ],
+    [
+      "studio",
+      "#btnSendToSign",
+      "Edit in Sign",
+      "Move the created PDF to Sign to add signatures, dates or text."
+    ],
+    [
+      "studio",
+      "#btnSendToTools",
+      "Edit in Tools",
+      "Move the created PDF to PDF Tools for further document changes."
+    ],
+    [
+      "studio",
+      "#btnRotatePage",
+      "Rotate",
+      "Rotate the selected page, then check the preview."
+    ],
+    [
+      "studio",
+      "#btnClearAllPages",
+      "Clear all",
+      "Remove the pages from the current Studio packet."
+    ],
+    [
+      "studio",
+      "#btnApplyEnhance",
+      "Apply enhancement",
+      "Adjust brightness or contrast, then apply the changes to all current image pages."
+    ],
+    [
+      "studio",
+      "#btnResetEnhance",
+      "Reset enhancement",
+      "Restore the selected image and reset its enhancement controls."
+    ],
+    [
+      "studio",
+      "#btnAutoCrop",
+      "Auto-crop",
+      "Detect the page edges and trim extra background. Review the crop in the preview."
+    ],
+    [
+      "studio",
+      "#btnStudioPerspective",
+      "Straighten page",
+      "Tap the four page corners in the preview to correct perspective."
+    ],
+    [
+      "studio",
+      "#btnStudioOriginal",
+      "Show original",
+      "Toggle between the edited page and the original."
+    ],
+    [
+      "studio",
+      "#btnStudioMoveEarlier",
+      "Move page earlier",
+      "Move the selected page one position toward the beginning of the exported PDF."
+    ],
+    [
+      "studio",
+      "#btnStudioMoveLater",
+      "Move page later",
+      "Move the selected page one position toward the end of the exported PDF."
+    ],
+    [
+      "studio",
+      "#btnSpeakOcr",
+      "Read aloud",
+      "Run Scan first, then listen to the recognized text."
+    ],
+    [
+      "studio",
+      "#btnCopyOcr",
+      "Copy text",
+      "Copy recognized text to the clipboard."
+    ],
+    [
+      "studio",
+      "#btnDownloadOcr",
+      "Download text",
+      "Save recognized text as a text file."
+    ],
+    [
+      "studio",
+      "#btnStudioUndo",
+      "Undo",
+      "Reverse the most recent Studio edit."
+    ],
+    [
+      "studio",
+      "#btnStudioRedo",
+      "Redo",
+      "Restore the most recently undone Studio edit."
+    ],
+    [
+      "studio",
+      "#btnDeletePage",
+      "Remove",
+      "Remove the selected page from the packet."
+    ],
+    [
+      "studio",
+      "#btnStudioSave",
+      "Library",
+      "Create the PDF, then use Library to save it in the app."
+    ],
+    [
+      "studio",
+      "#btnStudioDownload",
+      "Download",
+      "Save the created PDF to your device."
+    ],
+    [
+      "studio",
+      "#btnStudioShare",
+      "Share",
+      "Review file size and choose a quality before opening the share sheet."
+    ],
+    [
+      "studio",
+      "#btnStudioPrint",
+      "Print",
+      "Open the system print controls for the created PDF."
+    ]
+  ],
+  "sign": [
+    [
+      "sign",
+      null,
+      "Add Text & Sign",
+      "Open a PDF and add signatures, text, dates, and watermarks. Drag elements to position them."
+    ],
+    [
+      "sign",
+      "#btnOpenPdfSign",
+      "Open PDF",
+      "Tap <strong>Open PDF from Files</strong> to load a PDF document into the preview on the right."
+    ],
+    [
+      "sign",
+      "#pageNav",
+      "Page navigation",
+      "Use <strong>‹</strong> and <strong>›</strong> or the slider under the preview to move between pages. The label shows the current page and total. Disabled when there's no document."
+    ],
+    [
+      "sign",
+      "#btnAddSignature",
+      "Signature",
+      "Tap <strong>Signature</strong> to open the signature sheet. Draw with your finger or Apple Pencil, or type your name in a chosen font."
+    ],
+    [
+      "sign",
+      "#btnAddText",
+      "Text",
+      "Type into the <strong>Text / typed signature</strong> field, tap Text, then tap the preview to place it. Repeated Text taps do not create duplicates."
+    ],
+    [
+      "sign",
+      "#btnAddDate",
+      "Date",
+      "Tap <strong>Date</strong> to insert today's date near the bottom of the current page."
+    ],
+    [
+      "sign",
+      "#btnAddHighlight",
+      "Markup",
+      "Use Highlight, Underline, or Strike to mark text. Stamp and Watermark add labels to the document."
+    ],
+    [
+      "sign",
+      "#btnUndo",
+      "Undo / Redo / Remove",
+      "Use <strong>Undo</strong> and <strong>Redo</strong> to navigate the edit history. <strong>Remove Selected</strong> deletes the currently-selected element on the canvas."
+    ],
+    [
+      "sign",
+      "#fontFamily",
+      "Font + size + color",
+      "Set Font style, Font size (in points), and Ink color BEFORE inserting. These control the text inside the PDF, not the interface."
+    ],
+    [
+      "sign",
+      "#wmText",
+      "Watermark",
+      "Set watermark text, direction (Diagonal or Horizontal), and opacity (0-100%), then tap Insert. The watermark applies to ALL pages."
+    ],
+    [
+      "sign",
+      "#btnSaveToLibrary",
+      "Export",
+      "Four actions: <strong>Library</strong> (IndexedDB), <strong>Download PDF</strong> (browser), <strong>Share PDF</strong> (Web Share API), <strong>Print PDF</strong> (browser print)."
+    ]
+  ],
+  "tools": [
+    [
+      "tools",
+      null,
+      "PDF Tools",
+      "Choose one of six categories. Only the selected category displays its operations; tap the category again to collapse it."
+    ],
+    [
+      "tools",
+      "#btnOpenPdfTools",
+      "Open a PDF",
+      "Load the document you want to edit."
+    ],
+    [
+      "tools",
+      "#btnAddSecondPdf",
+      "Optional second PDF",
+      "Add another document for merge or comparison operations."
+    ],
+    [
+      "tools",
+      "#toolsGroups",
+      "Six tool categories",
+      "Row 1: Markup and Text & Images. Row 2: Pages and Advanced. Row 3: Merge/Combine and Batch. Choose one category at a time."
+    ],
+    [
+      "tools",
+      "[data-group=\"content\"]",
+      "Markup",
+      "Choose Annotate, Watermark, Header/Footer, or Forms."
+    ],
+    [
+      "tools",
+      "[data-group=\"extract\"]",
+      "Text & Images",
+      "OCR and Invert appear first, followed by the other text and image operations. The buttons use equal sizes."
+    ],
+    [
+      "tools",
+      "[data-group=\"pages\"]",
+      "Pages",
+      "Choose Pages to reveal page operations. Switching to another category hides Pages options."
+    ],
+    [
+      "tools",
+      "[data-group=\"properties\"]",
+      "Advanced",
+      "Choose Advanced for options such as Compress. Preserve text and forms is the default. Image-only levels flatten pages and remove searchable text and interactive fields."
+    ],
+    [
+      "tools",
+      "[data-group=\"combine\"]",
+      "Merge/Combine",
+      "Merge documents or compare two PDFs here."
+    ],
+    [
+      "tools",
+      "[data-group=\"batch\"]",
+      "Batch",
+      "Run supported multi-document operations here."
+    ],
+    [
+      "tools",
+      "#btnTalkPdf",
+      "Talk to PDF",
+      "Ask a question and review matching passages with page numbers. Use keyboard dictation to speak your question when available."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"annotate\"]",
+      "Annotate",
+      "Choose Text to place a note or Draw to mark the page by hand. Choose the page, then apply the annotation."
+    ],
+    [
+      "tools",
+      "#annotateSubTabs [data-subtab=\"text\"]",
+      "Annotate Text",
+      "Enter the note, set its position and size, and apply it to the selected page."
+    ],
+    [
+      "tools",
+      "#annotateSubTabs [data-subtab=\"draw\"]",
+      "Annotate Draw",
+      "Draw with a finger, stylus or mouse. Clear to start over, or apply the drawing."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"watermark\"]",
+      "Watermark",
+      "Choose Text for words or Image for a logo. Set opacity and apply it to all pages."
+    ],
+    [
+      "tools",
+      "[data-watermark-mode=\"imagewatermark\"]",
+      "Image watermark",
+      "Choose Image, upload a logo, then set Size and Opacity. Use Position X and Y to place it."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"header\"]",
+      "Header/Footer",
+      "Enter header or footer text and choose a page number format, then apply."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"forms\"]",
+      "Forms",
+      "Apply to find fillable fields. Enter values, then save the filled PDF."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"split\"]",
+      "Split",
+      "Select page ranges to export as separate PDFs."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"splitbysize\"]",
+      "Split by Size",
+      "Enter a size target to divide the PDF into smaller parts."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"deletes\"]",
+      "Delete Pages",
+      "Enter the page numbers or ranges to remove, then preview the result."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"insert\"]",
+      "Insert Page",
+      "Choose a PDF and enter the page after which to insert it. Use 0 to insert at the start."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"reorder\"]",
+      "Reorder",
+      "Drag thumbnails or type a custom page order, then apply and review the preview."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"rotate\"]",
+      "Rotate",
+      "Select an angle and apply it to the chosen pages."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"crop\"]",
+      "Crop",
+      "Enter how much of each margin to trim, then check the preview."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"merge\"]",
+      "Merge",
+      "Open the second PDF and apply to append it to the first."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"compare\"]",
+      "Compare",
+      "Open two PDFs and apply to view their pages side by side."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"ocrpdf\"]",
+      "OCR",
+      "Choose Scan text to recognize text in the PDF. Review or download the result."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"invert\"]",
+      "Invert",
+      "Apply to reverse page colors and review the new appearance."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"extracttext\"]",
+      "Extract Text",
+      "Read the existing text layer. Copy or download the result. Use OCR for image-only pages."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"toimage\"]",
+      "PDF to Image",
+      "Choose the page and output settings, then export an image."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"metadata\"]",
+      "Metadata",
+      "Edit the document title, author or other metadata fields and apply."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"bookmarks\"]",
+      "Bookmarks",
+      "Enter a bookmark title and target page, then apply."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"compress\"]",
+      "Compress",
+      "Choose whether to preserve text and forms or use an image-only level, then review the output."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"protect\"]",
+      "Protect",
+      "Enter the password options and apply before exporting."
+    ],
+    [
+      "tools",
+      "#toolsTabs [data-tab=\"batch\"]",
+      "Batch",
+      "Select the input PDFs and operation, then run the batch."
+    ],
+    [
+      "tools",
+      "#btnRunToolOp",
+      "Apply and review",
+      "Apply the selected operation, inspect the preview, and use the export actions. Undo, Redo and Remove are above export."
+    ]
+  ],
+  "library": [
+    [
+      "library",
+      null,
+      "Document Library",
+      "Saved documents are stored locally in your browser via IndexedDB. They appear as compact rows."
+    ],
+    [
+      "library",
+      "#libraryActions",
+      "Choose an action",
+      "Move, Rename and Delete accept multiple files. Open in Sign, Open in Tools and Share accept one PDF. Select the files, then confirm. After a successful Move, Rename or Delete, the selection controls close."
+    ],
+    [
+      "library",
+      "#btnExportLibraryBackup",
+      "Library backup",
+      "Export your PDFs and folders to a backup file. Save it to iCloud Drive or Google Drive, then restore it on your other device."
+    ],
+    [
+      "library",
+      "#btnRefreshLibrary",
+      "Refresh",
+      "Tap <strong>Refresh</strong> to re-query the database if you've saved from another workspace and the list hasn't updated."
+    ]
+  ],
+  "help": [
+    [
+      "help",
+      null,
+      "Help Center",
+      "Search for any feature, or browse illustrated topics below."
+    ],
+    [
+      "help",
+      ".help-search__input",
+      "Search",
+      "Type to filter topics. Matches against titles, subtitles, and tags."
+    ],
+    [
+      "help",
+      "#btnAbout",
+      "Device diagnostics",
+      "Open About and choose Device Self-Test. Stress mode measures OCR on 16 sample images. Use Close to dismiss the panel and request a stop."
+    ],
+    [
+      "help",
+      ".help-topics",
+      "Topic cards",
+      "Tap any card to open a full illustrated article with Purpose, Prerequisites, numbered Steps, Troubleshooting, and Related topics."
+    ]
+  ]
+}

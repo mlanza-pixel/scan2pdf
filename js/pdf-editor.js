@@ -1,0 +1,296 @@
+/* =====================================================================
+   pdf-editor.js — pdf-lib wrapper for building PDFs from images and
+   for inserting text, dates, signatures, and watermarks. Pinned
+   single version, loaded lazily on first use.
+   ===================================================================== */
+
+const PDFLIB_VERSION = '1.17.1';
+const PDFLIB_CDN = new URL('../vendor/pdf-lib.min.js', import.meta.url).href;
+
+let _pdfLibPromise = null;
+
+async function loadPdfLib() {
+  if (_pdfLibPromise) return _pdfLibPromise;
+  _pdfLibPromise = (async () => {
+    if (!window.PDFLib) {
+      await new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = PDFLIB_CDN;
+        s.async = true;
+        s.onload = resolve;
+        s.onerror = () => reject(new Error('Failed to load pdf-lib from CDN.'));
+        document.head.appendChild(s);
+      });
+    }
+    if (!window.PDFLib) throw new Error('pdf-lib global not available');
+    return window.PDFLib;
+  })().catch(err => { _pdfLibPromise = null; throw err; });
+  return _pdfLibPromise;
+}
+
+const PT = 1; // 1 pt = 1 pt in pdf-lib
+const PAGE_SIZES = {
+  letter: [612, 792],   // 8.5×11 in × 72
+  a4: [595.28, 841.89], // 210×297mm
+};
+
+export async function buildPdfFromCanvases(canvases, opts = {}) {
+  const lib = await loadPdfLib();
+  const { PDFDocument } = lib;
+  const doc = await PDFDocument.create();
+  doc.setCreator('DocuScan Pro');
+  doc.setProducer('DocuScan Pro (pdf-lib)');
+  const pageSize = PAGE_SIZES[opts.pageSize] || null;
+  const sourceDocs = new Map();
+  const quality = { small: [1250, .67], standard: [1900, .85] }[opts.quality];
+  let font;
+  for (const [index, canvas] of canvases.entries()) {
+    const source = opts.sourcePages?.[index];
+    if (source) {
+      if (!sourceDocs.has(source.bytes)) sourceDocs.set(source.bytes, await PDFDocument.load(source.bytes));
+      const [page] = await doc.copyPages(sourceDocs.get(source.bytes), [source.index]);
+      doc.addPage(page);
+      continue;
+    }
+    let imageCanvas = canvas;
+    if (quality) {
+      const ratio = Math.min(1, quality[0] / Math.max(canvas.width, canvas.height));
+      imageCanvas = document.createElement('canvas');
+      imageCanvas.width = Math.max(1, Math.round(canvas.width * ratio));
+      imageCanvas.height = Math.max(1, Math.round(canvas.height * ratio));
+      const ctx = imageCanvas.getContext('2d');
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, imageCanvas.width, imageCanvas.height);
+      ctx.drawImage(canvas, 0, 0, imageCanvas.width, imageCanvas.height);
+    }
+    const blob = await new Promise((resolve, reject) => {
+      imageCanvas.toBlob(value => value ? resolve(value) : reject(new Error('Could not encode page image.')),
+        quality ? 'image/jpeg' : 'image/png', quality?.[1]);
+    });
+    const data = await blob.arrayBuffer();
+    const img = quality ? await doc.embedJpg(data) : await doc.embedPng(data);
+    let pageW, pageH;
+    if (pageSize) {
+      [pageW, pageH] = pageSize;
+      if (opts.orientation === 'landscape') [pageW, pageH] = [pageH, pageW];
+      else if (opts.orientation === 'auto') {
+        if (canvas.width > canvas.height) [pageW, pageH] = [pageH, pageW];
+      }
+    } else {
+      // Fit-to-image: use image dims scaled to 96 dpi
+      const dpi = 96;
+      pageW = (canvas.width / dpi) * 72;
+      pageH = (canvas.height / dpi) * 72;
+    }
+    const page = doc.addPage([pageW, pageH]);
+    const padding = 18;
+    const maxW = pageW - padding * 2;
+    const maxH = pageH - padding * 2;
+    const scale = Math.min(maxW / canvas.width, maxH / canvas.height);
+    const w = canvas.width * scale;
+    const h = canvas.height * scale;
+    const x = (pageW - w) / 2;
+    const y = (pageH - h) / 2;
+    page.drawImage(img, { x, y, width: w, height: h });
+    const ocr = opts.ocrPages?.[index];
+    if (!ocr?.text) continue;
+    font ??= await doc.embedFont(lib.StandardFonts.Helvetica);
+    const supported = new Set(font.getCharacterSet());
+    const lines = ocr.lines.length ? ocr.lines : ocr.text.split(/\r?\n/).map(text => ({ text }));
+    const fontRef = page.node.newFontDictionary(font.name, font.ref);
+    lines.forEach(({ text, bbox }, row) => {
+      const value = Array.from(text.trim(), c => supported.has(c.codePointAt(0)) ? c : ' ').join('');
+      if (!value.trim()) return;
+      const left = bbox ? x + bbox.x0 * scale : x;
+      const bottom = bbox ? y + h - bbox.y1 * scale : y + h - (row + 1) * 10;
+      const size = bbox ? Math.max(1, (bbox.y1 - bbox.y0) * scale) : 10;
+      const width = bbox ? Math.max(1, (bbox.x1 - bbox.x0) * scale) : w;
+      page.pushOperators(lib.beginText(), lib.setFontAndSize(fontRef, size),
+        lib.setTextRenderingMode(lib.TextRenderingMode.Invisible),
+        lib.setTextMatrix(width / font.widthOfTextAtSize(value, size), 0, 0, 1, left, bottom),
+        lib.showText(font.encodeText(value)), lib.endText());
+    });
+
+  }
+  const bytes = await doc.save();
+  return bytes;
+}
+
+export async function loadExistingPdf(bytes) {
+  const lib = await loadPdfLib();
+  const { PDFDocument } = lib;
+  const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+  return { doc, lib };
+}
+
+export async function optimizePdfStructure(bytes) {
+  const { doc, lib } = await loadExistingPdf(bytes);
+  if (doc.isEncrypted || doc.catalog.has(lib.PDFName.of('Perms')) ||
+      doc.getForm().getFields().some(field => field instanceof lib.PDFSignature)) return bytes;
+  const candidate = await doc.save({ useObjectStreams: true, updateFieldAppearances: false });
+  return candidate.length < bytes.length ? candidate : bytes;
+}
+
+export function rgbFromHex(hex) {
+  if (!hex || hex[0] !== '#') return { r: 0, g: 0, b: 1 };
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  return { r, g, b };
+}
+
+/**
+ * Insert a text element into a pdf-lib document at normalized coords.
+ * normalized: { x: 0..1, y: 0..1 } where (0,0) is bottom-left of the page.
+ * size is the font point size.
+ */
+export async function insertTextElement(doc, pageIdx, opts) {
+  const lib = await loadPdfLib();
+  const { StandardFonts, rgb, degrees } = lib;
+  const font = await doc.embedFont(opts.fontFamily || StandardFonts.Helvetica);
+  const pages = doc.getPages();
+  if (pageIdx < 0 || pageIdx >= pages.length) throw new Error('Page index out of range');
+  const page = pages[pageIdx];
+  const { width, height } = page.getSize();
+  const text = opts.text || '';
+  const size = Number(opts.size) || 14;
+  const color = rgb(opts.color?.r ?? 0, opts.color?.g ?? 0, opts.color?.b ?? 0);
+  const xN = opts.normalized?.x ?? 0.5;
+  const yN = opts.normalized?.y ?? 0.5;
+  const x = xN * width;
+  const y = yN * height;
+  page.drawText(text, {
+    x, y, size, font, color,
+    rotate: degrees(opts.rotation || 0),
+  });
+  return { x, y, width: font.widthOfTextAtSize(text, size), height: size };
+}
+
+export async function insertImageElement(doc, pageIdx, pngBytes, opts) {
+  const lib = await loadPdfLib();
+  const { rgb, degrees } = lib;
+  const img = await doc.embedPng(pngBytes);
+  const pages = doc.getPages();
+  if (pageIdx < 0 || pageIdx >= pages.length) throw new Error('Page index out of range');
+  const page = pages[pageIdx];
+  const { width, height } = page.getSize();
+  const xN = opts.normalized?.x ?? 0.5;
+  const yN = opts.normalized?.y ?? 0.5;
+  // Width/Height percent of page dims
+  const w = (opts.widthPct / 100) * width;
+  const h = (opts.heightPct / 100) * height;
+  const x = xN * width - w / 2;
+  const y = (1 - yN) * height - h / 2;
+  page.drawImage(img, {
+    x, y, width: w, height: h,
+    rotate: degrees(opts.rotation || 0),
+  });
+}
+
+/**
+ * Insert a freehand drawing (PNG with transparency) onto a PDF page.
+ * The drawing canvas's pixel size is assumed to match the rendered page
+ * (so 1:1 overlay). We scale it to the actual page dimensions.
+ */
+export async function insertDrawing(doc, pageIdx, pngBytes, opts = {}) {
+  const lib = await loadPdfLib();
+  const pages = doc.getPages();
+  if (pageIdx < 0 || pageIdx >= pages.length) throw new Error('Page index out of range');
+  const page = pages[pageIdx];
+  const { width, height } = page.getSize();
+  const img = await doc.embedPng(pngBytes);
+  // Stretch drawing to full page size — the drawing canvas was rendered at
+  // the same aspect ratio as the PDF page, so this preserves proportions.
+  page.drawImage(img, {
+    x: 0, y: 0,
+    width,
+    height,
+    opacity: 1,
+  });
+}
+
+export async function drawFittedWatermark(page, font, opts = {}) {
+  const { rgb, degrees } = await loadPdfLib();
+  const text = opts.text || 'DRAFT';
+  const { width, height } = page.getSize();
+  const angle = opts.direction === 'horizontal' ? 0 : 45;
+  const rad = angle * Math.PI / 180, c = Math.cos(rad), sn = Math.sin(rad);
+  const unitWidth = Math.max(1, font.widthOfTextAtSize(text, 1));
+  const targetWidth = Math.max(20, Math.min(95, opts.widthPct || 70)) * width / 100;
+  let size = Math.min(150, targetWidth / unitWidth);
+  let tw = unitWidth * size;
+  let bw = c * tw + sn * size, bh = sn * tw + c * size;
+  const scale = Math.min(1, (width - 24) / bw, (height - 24) / bh);
+  size *= scale; tw *= scale; bw *= scale; bh *= scale;
+  const cx = Math.max(bw / 2 + 12, Math.min(width - bw / 2 - 12, (opts.normalized?.x ?? .5) * width));
+  const cy = Math.max(bh / 2 + 12, Math.min(height - bh / 2 - 12, (1 - (opts.normalized?.y ?? .5)) * height));
+  const x = cx - (c * tw - sn * size) / 2;
+  const y = cy - (sn * tw + c * size) / 2;
+  page.drawText(text, { x, y, size, font, color: rgb(.5,.5,.5), opacity: Math.max(0,Math.min(1,(opts.opacity ?? 50) / 100)), rotate: degrees(angle) });
+  return { left: cx - bw/2, right: cx + bw/2, bottom: cy - bh/2, top: cy + bh/2 };
+}
+export async function insertWatermark(doc, opts) {
+  const { StandardFonts } = await loadPdfLib();
+  const font = await doc.embedFont(StandardFonts.HelveticaBold);
+  for (const page of doc.getPages()) await drawFittedWatermark(page, font, opts);
+}
+
+export async function mergePdfs(primaryBytes, additionalBytesList) {
+  const lib = await loadPdfLib();
+  const { PDFDocument } = lib;
+  const out = await PDFDocument.load(primaryBytes, { ignoreEncryption: true });
+  for (const bytes of additionalBytesList) {
+    const src = await PDFDocument.load(bytes, { ignoreEncryption: true });
+    const indices = src.getPageIndices();
+    const pages = await out.copyPages(src, indices);
+    pages.forEach(p => out.addPage(p));
+  }
+  return await out.save();
+}
+
+export async function splitPdf(bytes, ranges) {
+  const lib = await loadPdfLib();
+  const { PDFDocument } = lib;
+  const src = await PDFDocument.load(bytes, { ignoreEncryption: true });
+  const total = src.getPageIndices().length;
+  const results = [];
+  for (const range of ranges) {
+    const { from, to } = range;
+    if (!Number.isInteger(from) || !Number.isInteger(to) || from < 1 || to > total || from > to) {
+      throw new Error(`Invalid page range: ${from}-${to}`);
+    }
+    const out = await PDFDocument.create();
+    const pages = await out.copyPages(src, Array.from({ length: to - from + 1 }, (_, i) => from - 1 + i));
+    pages.forEach(p => out.addPage(p));
+    results.push(await out.save());
+  }
+  return results;
+}
+
+export async function rotatePdf(bytes, rotation) {
+  const lib = await loadPdfLib();
+  const { PDFDocument, degrees } = lib;
+  const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+  for (const page of doc.getPages()) {
+    const current = page.getRotation().angle || 0;
+    page.setRotation(degrees((current + rotation) % 360));
+  }
+  return await doc.save();
+}
+
+export async function reorderPdf(bytes, newOrder) {
+  const lib = await loadPdfLib();
+  const { PDFDocument } = lib;
+  const src = await PDFDocument.load(bytes, { ignoreEncryption: true });
+  const total = src.getPageIndices().length;
+  if (!Array.isArray(newOrder) || newOrder.length !== total) {
+    throw new Error('Reorder list must match page count.');
+  }
+  if (new Set(newOrder).size !== total || newOrder.some(i => i < 0 || i >= total)) {
+    throw new Error('Reorder list must be a permutation of 0..n-1.');
+  }
+  const out = await PDFDocument.create();
+  const pages = await out.copyPages(src, newOrder);
+  pages.forEach(p => out.addPage(p));
+  return await out.save();
+}

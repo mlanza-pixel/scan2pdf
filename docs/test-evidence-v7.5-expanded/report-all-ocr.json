@@ -1,0 +1,48 @@
+{
+  "suite": "complete-app-workflows-v7741-split",
+  "generatedUTC": "2026-11-05T18:14:10.395507+00:00",
+  "selectedCase": "ocr",
+  "selectedProfile": "all",
+  "limitations": [
+    "Chromium emulation is not native iOS Safari",
+    "Native camera, sharing, printing excluded"
+  ],
+  "results": [
+    {
+      "profile": "desktop",
+      "case": "ocr",
+      "status": "passed",
+      "seconds": 2.85,
+      "details": {
+        "tokensMatched": 5,
+        "tokensExpected": 5,
+        "recognizedSample": "DOCUSCAN INVOICE 12345\nTOTAL 789.50",
+        "assetSource": "local npm assets"
+      }
+    },
+    {
+      "profile": "iphone-emulated",
+      "case": "ocr",
+      "status": "passed",
+      "seconds": 2.4,
+      "details": {
+        "tokensMatched": 5,
+        "tokensExpected": 5,
+        "recognizedSample": "DOCUSCAN INVOICE 12345\nTOTAL 789.50",
+        "assetSource": "local npm assets"
+      }
+    },
+    {
+      "profile": "ipad-emulated",
+      "case": "ocr",
+      "status": "passed",
+      "seconds": 2.65,
+      "details": {
+        "tokensMatched": 5,
+        "tokensExpected": 5,
+        "recognizedSample": "DOCUSCAN INVOICE 12345\nTOTAL 789.50",
+        "assetSource": "local npm assets"
+      }
+    }
+  ]
+}

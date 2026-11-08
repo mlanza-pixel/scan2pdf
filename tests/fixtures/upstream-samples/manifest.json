@@ -1,0 +1,32 @@
+{
+  "generated_utc": "2026-11-05T16:04:10.162859+00:00",
+  "records": [
+    {
+      "file": "ocrtestdata_002pages_85dpi.pdf",
+      "pages": 2,
+      "dpi": 85,
+      "locale": "en_US",
+      "seed": 774002,
+      "bytes": 474995,
+      "sha256": "cd18d891fcc4fdbd891fbf44faca22b8d47a850d5d76e7ff2bbe818365cfb61b",
+      "image_pages": 2,
+      "extractable_text_chars": 0,
+      "seconds": 0.37,
+      "generator": "digidigital/ocrtestdata (vendored MIT)"
+    },
+    {
+      "file": "ocrtestdata_005pages_85dpi.pdf",
+      "pages": 5,
+      "dpi": 85,
+      "locale": "en_US",
+      "seed": 774005,
+      "bytes": 919481,
+      "sha256": "07dd3c55f0378127071df213737669fab7e6bfff6afd44e3e93fb7c033786a79",
+      "image_pages": 5,
+      "extractable_text_chars": 0,
+      "seconds": 0.67,
+      "generator": "digidigital/ocrtestdata (vendored MIT)"
+    }
+  ],
+  "ocr_accuracy_scored": false
+}

@@ -1,0 +1,121 @@
+{
+  "url": "http://127.0.0.1:8796/",
+  "profile": "iphone",
+  "cyclesRequested": 10,
+  "runs": [
+    {
+      "cycle": 1,
+      "title": "DocuScan Pro 7.6",
+      "cacheKeys": [
+        "docuscan-app-v7-6-searchable-packets"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 685
+    },
+    {
+      "cycle": 2,
+      "title": "DocuScan Pro 7.6",
+      "cacheKeys": [
+        "docuscan-app-v7-6-searchable-packets"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 145
+    },
+    {
+      "cycle": 3,
+      "title": "DocuScan Pro 7.6",
+      "cacheKeys": [
+        "docuscan-app-v7-6-searchable-packets"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 125
+    },
+    {
+      "cycle": 4,
+      "title": "DocuScan Pro 7.6",
+      "cacheKeys": [
+        "docuscan-app-v7-6-searchable-packets"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 139
+    },
+    {
+      "cycle": 5,
+      "title": "DocuScan Pro 7.6",
+      "cacheKeys": [
+        "docuscan-app-v7-6-searchable-packets"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 136
+    },
+    {
+      "cycle": 6,
+      "title": "DocuScan Pro 7.6",
+      "cacheKeys": [
+        "docuscan-app-v7-6-searchable-packets"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 123
+    },
+    {
+      "cycle": 7,
+      "title": "DocuScan Pro 7.6",
+      "cacheKeys": [
+        "docuscan-app-v7-6-searchable-packets"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 140
+    },
+    {
+      "cycle": 8,
+      "title": "DocuScan Pro 7.6",
+      "cacheKeys": [
+        "docuscan-app-v7-6-searchable-packets"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 102
+    },
+    {
+      "cycle": 9,
+      "title": "DocuScan Pro 7.6",
+      "cacheKeys": [
+        "docuscan-app-v7-6-searchable-packets"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 135
+    },
+    {
+      "cycle": 10,
+      "title": "DocuScan Pro 7.6",
+      "cacheKeys": [
+        "docuscan-app-v7-6-searchable-packets"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 139
+    }
+  ],
+  "failures": [],
+  "note": "Chromium emulation is not physical Safari",
+  "pageErrors": [],
+  "passed": true
+}

@@ -1,0 +1,48 @@
+{
+  "suite": "complete-app-workflows-v7741-split",
+  "generatedUTC": "2026-11-05T18:14:12.757272+00:00",
+  "selectedCase": "tools-ocr",
+  "selectedProfile": "all",
+  "limitations": [
+    "Chromium emulation is not native iOS Safari",
+    "Native camera, sharing, printing excluded"
+  ],
+  "results": [
+    {
+      "profile": "desktop",
+      "case": "tools-ocr",
+      "status": "passed",
+      "seconds": 3.9,
+      "details": {
+        "fixturePage": 1,
+        "invoiceVerified": true,
+        "amountVerified": true,
+        "assetSource": "local npm assets"
+      }
+    },
+    {
+      "profile": "iphone-emulated",
+      "case": "tools-ocr",
+      "status": "passed",
+      "seconds": 3.27,
+      "details": {
+        "fixturePage": 1,
+        "invoiceVerified": true,
+        "amountVerified": true,
+        "assetSource": "local npm assets"
+      }
+    },
+    {
+      "profile": "ipad-emulated",
+      "case": "tools-ocr",
+      "status": "passed",
+      "seconds": 3.18,
+      "details": {
+        "fixturePage": 1,
+        "invoiceVerified": true,
+        "amountVerified": true,
+        "assetSource": "local npm assets"
+      }
+    }
+  ]
+}

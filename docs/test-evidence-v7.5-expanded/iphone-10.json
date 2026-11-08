@@ -1,0 +1,121 @@
+{
+  "url": "http://127.0.0.1:8784/",
+  "profile": "iphone",
+  "cyclesRequested": 10,
+  "runs": [
+    {
+      "cycle": 1,
+      "title": "DocuScan Pro 7.5",
+      "cacheKeys": [
+        "docuscan-app-v7-5-expanded-regression"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 1055
+    },
+    {
+      "cycle": 2,
+      "title": "DocuScan Pro 7.5",
+      "cacheKeys": [
+        "docuscan-app-v7-5-expanded-regression"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 238
+    },
+    {
+      "cycle": 3,
+      "title": "DocuScan Pro 7.5",
+      "cacheKeys": [
+        "docuscan-app-v7-5-expanded-regression"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 204
+    },
+    {
+      "cycle": 4,
+      "title": "DocuScan Pro 7.5",
+      "cacheKeys": [
+        "docuscan-app-v7-5-expanded-regression"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 269
+    },
+    {
+      "cycle": 5,
+      "title": "DocuScan Pro 7.5",
+      "cacheKeys": [
+        "docuscan-app-v7-5-expanded-regression"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 235
+    },
+    {
+      "cycle": 6,
+      "title": "DocuScan Pro 7.5",
+      "cacheKeys": [
+        "docuscan-app-v7-5-expanded-regression"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 298
+    },
+    {
+      "cycle": 7,
+      "title": "DocuScan Pro 7.5",
+      "cacheKeys": [
+        "docuscan-app-v7-5-expanded-regression"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 288
+    },
+    {
+      "cycle": 8,
+      "title": "DocuScan Pro 7.5",
+      "cacheKeys": [
+        "docuscan-app-v7-5-expanded-regression"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 253
+    },
+    {
+      "cycle": 9,
+      "title": "DocuScan Pro 7.5",
+      "cacheKeys": [
+        "docuscan-app-v7-5-expanded-regression"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 309
+    },
+    {
+      "cycle": 10,
+      "title": "DocuScan Pro 7.5",
+      "cacheKeys": [
+        "docuscan-app-v7-5-expanded-regression"
+      ],
+      "controller": true,
+      "horizontalOverflow": 0,
+      "status": "pass",
+      "ms": 255
+    }
+  ],
+  "failures": [],
+  "note": "Chromium emulation is not physical Safari",
+  "pageErrors": [],
+  "passed": true
+}

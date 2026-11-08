@@ -1,0 +1,50 @@
+{
+  "suite": "complete-app-workflows-v7741-split",
+  "generatedUTC": "2026-11-05T20:12:31.464324+00:00",
+  "source": "chromium-workflow",
+  "repeatsPerCase": 1,
+  "selectedCase": "sign-history",
+  "selectedProfile": "all",
+  "limitations": [
+    "Chromium emulation is not native iOS Safari",
+    "Native camera, sharing, printing excluded"
+  ],
+  "results": [
+    {
+      "profile": "desktop",
+      "case": "sign-history",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 2.88,
+      "details": {
+        "dateStampAndTypedSignatureExported": true,
+        "underlineAndStrikeCreated": true,
+        "removeUndoRedo": true
+      }
+    },
+    {
+      "profile": "iphone-emulated",
+      "case": "sign-history",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 2.88,
+      "details": {
+        "dateStampAndTypedSignatureExported": true,
+        "underlineAndStrikeCreated": true,
+        "removeUndoRedo": true
+      }
+    },
+    {
+      "profile": "ipad-emulated",
+      "case": "sign-history",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 4.12,
+      "details": {
+        "dateStampAndTypedSignatureExported": true,
+        "underlineAndStrikeCreated": true,
+        "removeUndoRedo": true
+      }
+    }
+  ]
+}

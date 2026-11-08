@@ -1,0 +1,59 @@
+{
+  "version": "7.75.0",
+  "build": "7.75.0-test1",
+  "generatedUtc": "2026-11-08T16:13:52.969848+00:00",
+  "sources": {
+    "index.html": "be0ca1a0efe5e761f6b98253d24df1defea8cc19f2a8555976c6acbc1dfce18c",
+    "manifest.webmanifest": "ee45eb7d5bd68f033a2607440301e2e6989359b4cb81c95090b40bf2f01bac1e",
+    "sw.js": "877934c347b4b236434ca2737873dd12dfb5044c313e811d94b0cbfd1e0045da",
+    "release.json": "da7990313947800ed6d0217ef793448e635d0105fa742c1aad14461a334c61a8",
+    "js/signatures.js": "6fa2205f21075f0d8b312c834e0198f08f7e32d24ab3a78a7f0217fb24cc9c1b",
+    "js/export.js": "43effcb3c0505c136de8b1b1cf065354ecef08364595d847e422bcc76998315c",
+    "js/dialogs.js": "404d7bfe6f5cbe0f3da01d1dda44b52a5e83606aedf14eedbabac52180f08b42",
+    "js/diagnostic-context.js": "ae43c3d3c8d2c9a5ab01713839bdba8e2c349c21bb8d6b150f77069cf924c21e",
+    "js/device-self-test.js": "678d7aab78778845a332c709dcd56ce690ae40b7dcee6f0d037745ce8234757c",
+    "js/help-system.js": "a8af738e8309048c53f64cb88d7377c164e63a41334e9fdf11f93be04a3784d9",
+    "js/talk-pdf.js": "e27891deb19d0451a295a71d83f62f38b374f1b104dcb3f82ea278c00c4645b0",
+    "js/ocr.js": "136756a6fe0a5f312963956c59c88bda062270f598abadc192bde7693bce806d",
+    "js/local-state.js": "6bd3cd4a1ddb1ba4e9d1be3f49ecef031adeebe01a4d71e15ad0753145651836",
+    "js/pdf-tools.js": "92f54bc64a747a09e5fdef62a842e2bbd6007226f58cc820354b1c943b4b57bd",
+    "js/navigation.js": "b3fb5be5674f0adc582744d41cc0cda9082477e97ea0ab5df67f555889d9d67e",
+    "js/image-processing.js": "9a6d5fe96b5a605ad2194139e9498411ff10b24744de7ce7b4d3e7a7fb046004",
+    "js/library-backup.js": "fe665c64a9350a592bfe06021d7fe5228a033aab88f018cf99049f83bcb820ef",
+    "js/pdf-editor.js": "4292edd785698a558a0efd777ff562a1e1a1cdf8f3beeaf0835803835ab3dfc0",
+    "js/workflow-self-test.js": "91266f4b67a4b40bb959f32ba7dd73911fe7816c2875c16cc8f01fbc6274ba10",
+    "js/watermark.js": "47ffcb48926faaa284e96473e79552d0918bff920996ff4167b2ba2e82b26505",
+    "js/app.js": "7268f79cf399e22fe94388efb0961eb3e148bad63b63c83d6ee593eca475f498",
+    "js/ocr-progress.js": "718ba7d875459cf8a05febbbc84b732ee7957d511c16b394072f5bc2b42a934f",
+    "js/pdf-renderer.js": "b2ccca293396c89aea5eb992e6ba802c1b2c84c06374b86239326df953153930",
+    "js/storage.js": "304b2113c6fb2503db9d2fd08a111951d13446be4fdf7be2b526788b50999634",
+    "js/interface-sounds.js": "9e1654a56afd3a0d30c8102d372649517047c4ecd1db36a57c359d62ee9b89b0",
+    "js/filenames.js": "2ba3718b0107c37662b75540cb295efd285a7c118e2dd1fb3688cdb2ac3dbae8",
+    "js/scanner.js": "24842ebca6e045254f98233dadd9acb65810437cf796939ac86f6f6eaf940ccd",
+    "css/components.css": "ddf049b60460c74b5320d02b0b2781f4eaec8c769343f6caf3ae56767ccc14e3",
+    "css/tokens.css": "82f1bb821f6531d9297c8dbbc599da90c83c794ad710227147034dedfe927d71",
+    "css/responsive.css": "165a6a53a68438e5449cd652b75860b93509ab4675c9f8b63830cf804e1edf28",
+    "css/layout.css": "5bc385a163c970e4bbefce9612d1d87a97442bbf2982d2b93faaad10b63456c0",
+    "css/help-system.css": "0a5e71489ea6b29d89ed2386bd5104e35674b607012c5e919758d2f7cade3411",
+    "css/device-self-test.css": "6aa1552adb7bc34afff8bc7658c55038dcff256709155b151d7c989381a20fe0"
+  },
+  "documents": {
+    "docs/DocuScan-Pro-UI-Field-Reference-v7.75.0.xlsx": "cb1a23f1edc513c66c8962ef1ef9bc8e8dfee427732ada6b4a43a7e1493346ad",
+    "docs/DocuScan-Pro-Help-Content-Inventory-v7.75.0.xlsx": "93ff0889c558b8a18c4d317605d9a443937ae77df567dd6875bc40ad80bd3a19",
+    "docs/DocuScan-Pro-Help-Manual-v7.75.0.docx": "d07ce52f2d45c0309d6ed0831f8c1b9eb6a8fc7fc7dbf00eb2b52f8053a59273",
+    "docs/DocuScan-Pro-Overview-v7.75.0.docx": "2f1ec7841292284ce27871337efc0f865026b160d33ac463023123d981ab4ac2",
+    "docs/DocuScan-Pro-Help-Manual-v7.75.0.pdf": "814766b6839ff3879dde62d331dd218ba089c549339e0a02f588eb623b3ed3f0",
+    "docs/DocuScan-Pro-Overview-v7.75.0.pdf": "419b28adfd937c2e15d93634fcfa7e4ad265537a03b1891c93c91919cda27a3d",
+    "docs/RELEASE_CONTENT.json": "d9736d8abf282f730e909fe36b9afe9a7cf9cf9609632a693089b7d22fe23e39",
+    "docs/Tour-Steps-v7.75.0.json": "837220b9e02fd13f5cbf8bbab0d5b25cb401a9811f5eba32171bb047579ecc15"
+  },
+  "workbooks": [
+    "docs/DocuScan-Pro-UI-Field-Reference-v7.75.0.xlsx",
+    "docs/DocuScan-Pro-Help-Content-Inventory-v7.75.0.xlsx"
+  ],
+  "inventory": {
+    "controls": 240,
+    "helpFields": 621,
+    "tourSteps": 92
+  }
+}

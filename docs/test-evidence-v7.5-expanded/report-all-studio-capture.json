@@ -1,0 +1,48 @@
+{
+  "suite": "complete-app-workflows-v7741-split",
+  "generatedUTC": "2026-11-05T18:13:28.127398+00:00",
+  "selectedCase": "studio-capture",
+  "selectedProfile": "all",
+  "limitations": [
+    "Chromium emulation is not native iOS Safari",
+    "Native camera, sharing, printing excluded"
+  ],
+  "results": [
+    {
+      "profile": "desktop",
+      "case": "studio-capture",
+      "status": "passed",
+      "seconds": 3.26,
+      "details": {
+        "captureInput": true,
+        "grayscaleExport": true,
+        "undoRedo": true,
+        "resetRotateAndClear": true
+      }
+    },
+    {
+      "profile": "iphone-emulated",
+      "case": "studio-capture",
+      "status": "passed",
+      "seconds": 2.0,
+      "details": {
+        "captureInput": true,
+        "grayscaleExport": true,
+        "undoRedo": true,
+        "resetRotateAndClear": true
+      }
+    },
+    {
+      "profile": "ipad-emulated",
+      "case": "studio-capture",
+      "status": "passed",
+      "seconds": 2.06,
+      "details": {
+        "captureInput": true,
+        "grayscaleExport": true,
+        "undoRedo": true,
+        "resetRotateAndClear": true
+      }
+    }
+  ]
+}

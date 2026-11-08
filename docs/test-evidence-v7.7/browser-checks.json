@@ -1,0 +1,1769 @@
+{
+  "cache": {
+    "source": "desktop-chrome",
+    "app": "DocuScan Pro",
+    "version": "7.7",
+    "cancelled": false,
+    "testSuite": "on-device-self-test-4",
+    "mode": "quick",
+    "detailedAudit": {
+      "nav": [
+        {
+          "workspace": "home",
+          "status": "pass",
+          "detail": "Navigation clicked and workspace activated"
+        },
+        {
+          "workspace": "sign",
+          "status": "pass",
+          "detail": "Navigation clicked and workspace activated"
+        },
+        {
+          "workspace": "tools",
+          "status": "pass",
+          "detail": "Navigation clicked and workspace activated"
+        },
+        {
+          "workspace": "studio",
+          "status": "pass",
+          "detail": "Navigation clicked and workspace activated"
+        },
+        {
+          "workspace": "library",
+          "status": "pass",
+          "detail": "Navigation clicked and workspace activated"
+        },
+        {
+          "workspace": "help",
+          "status": "pass",
+          "detail": "Navigation clicked and workspace activated"
+        }
+      ],
+      "items": [
+        {
+          "workspace": "home",
+          "id": null,
+          "label": "Open Studio",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "home",
+          "id": null,
+          "label": "Open Sign",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "home",
+          "id": null,
+          "label": "Open PDF Tools",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "home",
+          "id": null,
+          "label": "Open Library",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnOpenPdfSign",
+          "label": "Open PDF from Files",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnAddSignature",
+          "label": "Signature",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnAddText",
+          "label": "Text",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnAddDate",
+          "label": "Date",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnAddHighlight",
+          "label": "Highlight",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnAddUnderline",
+          "label": "Underline",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnAddStrike",
+          "label": "Strike",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnAddStamp",
+          "label": "Stamp",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnAddWatermark",
+          "label": "Watermark",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnUndo",
+          "label": "Undo",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnRedo",
+          "label": "Redo",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnRemoveSelected",
+          "label": "Remove",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnInsertWatermark",
+          "label": "Insert",
+          "visible": false,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnRemoveWatermark",
+          "label": "Remove",
+          "visible": false,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnSaveToLibrary",
+          "label": "Save to Library",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnDownloadPdf",
+          "label": "Download",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnSharePdf",
+          "label": "Share",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnPrintPdf",
+          "label": "Print",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnPrevPage",
+          "label": "Previous page",
+          "visible": false,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnNextPage",
+          "label": "Next page",
+          "visible": false,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "sign",
+          "id": "btnScrollMode",
+          "label": "Toggle continuous scroll",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": "btnOpenPdfTools",
+          "label": "Open PDF",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": "btnToolsToSign",
+          "label": "Edit in Sign",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": "btnAddSecondPdf",
+          "label": "Open 2nd PDF",
+          "visible": false,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Markup",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Text & Images",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Pages",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Advanced",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Combine/Compare",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Batch",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Annotate",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Watermark",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Image WM",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Header/Footer",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Forms",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Split",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Split by Size",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Delete Pages",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Insert Page",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Reorder",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Rotate",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Crop",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Merge",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Compare",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "OCR",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Invert",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Extract Text",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "To Image",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Metadata",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Bookmarks",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Compress",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Protect",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Batch",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Text",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": null,
+          "label": "Draw",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": "btnClearDraw",
+          "label": "Clear strokes",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": "btnRunToolOp",
+          "label": "Apply Changes",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": "btnPreviewTool",
+          "label": "Show original",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": "btnToolsUndo",
+          "label": "Undo",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": "btnToolsRedo",
+          "label": "Redo",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": "btnToolsRemove",
+          "label": "Remove",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": "btnToolsSave",
+          "label": "Save to Library",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": "btnToolsDownload",
+          "label": "Download",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": "btnToolsShare",
+          "label": "Share",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": "btnToolsPrint",
+          "label": "Print",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": "btnToolsPrevPage",
+          "label": "Previous page",
+          "visible": false,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": "btnToolsNextPage",
+          "label": "Next page",
+          "visible": false,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": "btnCopyPdfOcr",
+          "label": "Copy text",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": "btnDownloadPdfOcr",
+          "label": "Download .txt",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "tools",
+          "id": "btnSpeakPdfOcr",
+          "label": "Read aloud",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnCaptureCamera",
+          "label": "Camera",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnImportImages",
+          "label": "Import files",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnRotatePage",
+          "label": "Rotate",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnClearAllPages",
+          "label": "Clear all",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "studioResetChecklist",
+          "label": "Reset checklist",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": null,
+          "label": "Original",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": null,
+          "label": "Auto",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": null,
+          "label": "Grayscale",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": null,
+          "label": "B&W",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": null,
+          "label": "Brighten",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": null,
+          "label": "Contrast+",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnApplyEnhance",
+          "label": "Apply",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnResetEnhance",
+          "label": "Reset",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnAutoCrop",
+          "label": "Auto-crop",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnStudioPerspective",
+          "label": "Straighten page",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnStudioOriginal",
+          "label": "Show original",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnStudioUndo",
+          "label": "Undo",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnStudioRedo",
+          "label": "Redo",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnDeletePage",
+          "label": "Remove",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnRunOcr",
+          "label": "Scan",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnCreatePdf",
+          "label": "Create PDF",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnSendToSign",
+          "label": "Edit in Sign ›",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnSendToTools",
+          "label": "Edit in Tools ›",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnStudioSave",
+          "label": "Save to Library",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnStudioDownload",
+          "label": "Download",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnStudioShare",
+          "label": "Share",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnStudioPrint",
+          "label": "Print",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnStudioPrevPage",
+          "label": "Previous page",
+          "visible": false,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnStudioNextPage",
+          "label": "Next page",
+          "visible": false,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnStudioMoveEarlier",
+          "label": "Move page earlier",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnStudioMoveLater",
+          "label": "Move page later",
+          "visible": true,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnSpeakOcr",
+          "label": "Read scanned text aloud",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnCopyOcr",
+          "label": "Copy text",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "studio",
+          "id": "btnDownloadOcr",
+          "label": "Download text",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "library",
+          "id": "btnNewFolder",
+          "label": "New Folder",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "library",
+          "id": "btnRefreshLibrary",
+          "label": "Refresh",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "library",
+          "id": null,
+          "label": "Move",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "library",
+          "id": null,
+          "label": "Rename",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "library",
+          "id": null,
+          "label": "Delete",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "library",
+          "id": null,
+          "label": "Open in Sign",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "library",
+          "id": null,
+          "label": "Open in Tools",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "library",
+          "id": null,
+          "label": "Share",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "library",
+          "id": "btnLibraryApply",
+          "label": "Continue",
+          "visible": false,
+          "disabled": true,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "library",
+          "id": "btnLibraryCancel",
+          "label": "Cancel",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "library",
+          "id": "btnLibraryAllFiles",
+          "label": "All files",
+          "visible": false,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Get started with DocuScan Pro Overview of the four main workflows and the Home screen. hom",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Scan or import a document Capture with your camera or import existing images, then build a",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Enhance image quality Brighten, sharpen, convert to grayscale or black-and-white. studio e",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Recognize text with OCR Extract searchable, copyable text from scanned pages. studio ocr t",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Create a PDF from pages Combine images into a single PDF with the page size you want. stud",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Sign a PDF document Open an existing PDF and add your signature, then download. sign signa",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Add text to a PDF Insert custom text or use Quick Text Templates. sign text typed signatur",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Insert the current date Add today's date to a PDF in one tap. sign date today",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Add a watermark to a PDF Stamp DRAFT, CONFIDENTIAL, or any text across all pages. sign wat",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Undo, Redo, and Remove Selected Correct mistakes and remove individual elements. sign undo",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Save, download, share, and print Four export actions available across Studio, Sign, and PD",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Merge two or more PDFs Combine multiple PDFs into one document. tools merge combine",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Split a PDF by page ranges Divide a multipage PDF into separate files. tools split divide",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Rotate PDF pages Rotate every page by 90°, 180°, or 270°. tools rotate turn",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Reorder PDF pages Rearrange pages into a new sequence. tools reorder rearrange",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Annotate a PDF with text Add typed annotations like \"Reviewed by J.S.\" to a chosen page. t",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Draw freehand on a PDF Circle, underline, or mark up a PDF with your finger, Apple Pencil,",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Apply a watermark in PDF Tools Same as the Sign workspace watermark, but accessed via PDF ",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Compare two PDFs side-by-side View File A and File B at the same scale for visual comparis",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Use the document Library Local storage, open / rename / delete saved documents. library st",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Use the Help system Find topics, search, and restart the interactive tutorial. help tutori",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Troubleshooting common issues Camera, OCR, sharing, offline, and lost documents. troublesh",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": null,
+          "label": "Privacy and local storage What stays on your device, what doesn't, and how to back up. pri",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        },
+        {
+          "workspace": "help",
+          "id": "btnRestartTutorial",
+          "label": "Restart interactive tutorial",
+          "visible": true,
+          "disabled": false,
+          "issues": [],
+          "functionalTest": "not run — potentially destructive or requires fixture"
+        }
+      ],
+      "defects": []
+    },
+    "cacheRepeat": {
+      "cyclesRequested": 100,
+      "cyclesCompleted": 100,
+      "failures": [],
+      "files": [
+        "index.html",
+        "js/app.js",
+        "js/device-self-test.js",
+        "css/device-self-test.css",
+        "sw.js"
+      ],
+      "sizes": {
+        "index.html": 70255,
+        "js/app.js": 204021,
+        "js/device-self-test.js": 24952,
+        "css/device-self-test.css": 2618,
+        "sw.js": 5083
+      },
+      "swVersion": "v7-7-ipad-diagnostics",
+      "cacheNames": [
+        "docuscan-app-v7-7-ipad-diagnostics"
+      ],
+      "timings": [
+        25,
+        24,
+        54,
+        14,
+        31,
+        11,
+        38,
+        15,
+        32,
+        16,
+        31,
+        11,
+        22,
+        10,
+        35,
+        11,
+        20,
+        12,
+        24,
+        10,
+        35,
+        14,
+        37,
+        16,
+        31,
+        16,
+        55,
+        10,
+        46,
+        9,
+        49,
+        10,
+        21,
+        9,
+        24,
+        11,
+        23,
+        13,
+        35,
+        15,
+        31,
+        14,
+        25,
+        17,
+        23,
+        10,
+        30,
+        17,
+        21,
+        23,
+        22,
+        10,
+        24,
+        20,
+        30,
+        11,
+        25,
+        10,
+        33,
+        17,
+        27,
+        10,
+        26,
+        12,
+        35,
+        12,
+        29,
+        13,
+        28,
+        12,
+        40,
+        18,
+        28,
+        14,
+        29,
+        10,
+        24,
+        11,
+        28,
+        15,
+        31,
+        11,
+        23,
+        13,
+        18,
+        10,
+        15,
+        14,
+        25,
+        11,
+        24,
+        10,
+        19,
+        10,
+        27,
+        13,
+        28,
+        10,
+        20,
+        10
+      ],
+      "elapsedMs": 2107
+    },
+    "screenshots": [],
+    "started": "2026-11-06T01:24:18.301Z",
+    "finished": "2026-11-06T01:24:20.884Z",
+    "durationMs": 2583,
+    "device": {
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.0 Safari/537.36",
+      "platform": "Linux x86_64",
+      "language": "en-US@posix",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "devicePixelRatio": 1
+      },
+      "screen": {
+        "width": 1024,
+        "height": 768
+      },
+      "online": true,
+      "standalone": false,
+      "memoryApiAvailable": true,
+      "hardwareConcurrency": 9
+    },
+    "results": [
+      {
+        "name": "App workspaces and controls",
+        "status": "pass",
+        "detail": "6 workspaces present (not a tap-through test)",
+        "ms": 0
+      },
+      {
+        "name": "Live navigation tap-through and button inventory",
+        "status": "pass",
+        "detail": "6 navigation taps, 143 controls inventoried, 0 accessibility/layout findings; other controls NOT clicked. 0 navigation failures",
+        "ms": 437
+      },
+      {
+        "name": "Viewport and horizontal overflow",
+        "status": "pass",
+        "detail": "1024px viewport; no page overflow",
+        "ms": 0
+      },
+      {
+        "name": "Cache/resource consistency (100 cycles)",
+        "status": "pass",
+        "detail": "100/100 cycles, 0 resource failures; SW v7-7-ipad-diagnostics; 1 cache(s); avg 21 ms/cycle",
+        "ms": 2107
+      },
+      {
+        "name": "Canvas and image encoding",
+        "status": "pass",
+        "detail": "JPEG 15 KB",
+        "ms": 17
+      },
+      {
+        "name": "Temporary storage round trip",
+        "status": "pass",
+        "detail": "Temporary key deleted",
+        "ms": 0
+      },
+      {
+        "name": "Uncaught browser errors during test",
+        "status": "pass",
+        "detail": "No uncaught errors observed",
+        "ms": 0
+      }
+    ],
+    "limitations": [
+      "Uses generated and bundled test files; no user documents",
+      "PDF tests exercise pdf-lib directly, not every app editing workflow",
+      "OCR accuracy tested on generated English fixtures only; no certification for real scans or other languages",
+      "No test files are saved to the document Library",
+      "Detailed audit taps navigation only; other buttons are inventoried but not functionally clicked",
+      "No destructive, camera, file picker, share, print or download buttons are auto-tapped",
+      "Generated images are diagnostic layout maps, NOT screenshots; actual screenshots must be captured manually or by Playwright"
+    ]
+  },
+  "tours": {
+    "home": 6,
+    "sign": 11,
+    "tools": 11,
+    "studio": 11,
+    "library": 3,
+    "help": 4
+  },
+  "closeDuringRun": true,
+  "stress": {
+    "source": "desktop-chrome",
+    "app": "DocuScan Pro",
+    "version": "7.7",
+    "cancelled": false,
+    "testSuite": "on-device-self-test-4",
+    "mode": "stress",
+    "detailedAudit": null,
+    "cacheRepeat": null,
+    "screenshots": [],
+    "started": "2026-11-06T01:24:51.932Z",
+    "finished": "2026-11-06T01:25:01.866Z",
+    "durationMs": 9933,
+    "device": {
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.0 Safari/537.36",
+      "platform": "Linux x86_64",
+      "language": "en-US@posix",
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1
+      },
+      "screen": {
+        "width": 1280,
+        "height": 720
+      },
+      "online": true,
+      "standalone": false,
+      "memoryApiAvailable": true,
+      "hardwareConcurrency": 9
+    },
+    "results": [
+      {
+        "name": "App workspaces and controls",
+        "status": "pass",
+        "detail": "6 workspaces present (not a tap-through test)",
+        "ms": 0
+      },
+      {
+        "name": "Viewport and horizontal overflow",
+        "status": "pass",
+        "detail": "1280px viewport; no page overflow",
+        "ms": 0
+      },
+      {
+        "name": "Canvas and image encoding",
+        "status": "pass",
+        "detail": "JPEG 15 KB",
+        "ms": 17
+      },
+      {
+        "name": "Temporary storage round trip",
+        "status": "pass",
+        "detail": "Temporary key deleted",
+        "ms": 0
+      },
+      {
+        "name": "Bundled JPG and PDF fixtures (in memory)",
+        "status": "pass",
+        "detail": "3 bundled JPGs embedded and reopened; bundled 5- and 10-page PDFs loaded in memory",
+        "ms": 87
+      },
+      {
+        "name": "5-page realistic scan PDF round trip",
+        "status": "pass",
+        "detail": "5 image-backed pages reopened; 0.43 MB; 960×1280 pixels per scan",
+        "ms": 125
+      },
+      {
+        "name": "10-image PDF create and reopen",
+        "status": "pass",
+        "detail": "10 image-backed pages reopened; 0.86 MB; 960×1280 pixels per scan",
+        "ms": 227
+      },
+      {
+        "name": "Actual OCR recognition accuracy",
+        "status": "pass",
+        "detail": "Real Tesseract OCR matched 5/5 expected tokens",
+        "ms": 1972
+      },
+      {
+        "name": "25 generated images",
+        "status": "pass",
+        "detail": "25 images; 396 KB",
+        "ms": 415
+      },
+      {
+        "name": "50 generated images",
+        "status": "pass",
+        "detail": "50 images; 800 KB",
+        "ms": 833
+      },
+      {
+        "name": "OCR repeated recognition (16 sample pages)",
+        "status": "pass",
+        "detail": "16/16 unique page tokens matched; 960×1280 JPEGs; OCR per page: 143, 144, 170, 147, 147, 141, 135, 140, 140, 146, 150, 155, 149, 153, 153, 160 ms",
+        "pages": [
+          {
+            "page": 1,
+            "ms": 143,
+            "matched": true,
+            "error": null
+          },
+          {
+            "page": 2,
+            "ms": 144,
+            "matched": true,
+            "error": null
+          },
+          {
+            "page": 3,
+            "ms": 170,
+            "matched": true,
+            "error": null
+          },
+          {
+            "page": 4,
+            "ms": 147,
+            "matched": true,
+            "error": null
+          },
+          {
+            "page": 5,
+            "ms": 147,
+            "matched": true,
+            "error": null
+          },
+          {
+            "page": 6,
+            "ms": 141,
+            "matched": true,
+            "error": null
+          },
+          {
+            "page": 7,
+            "ms": 135,
+            "matched": true,
+            "error": null
+          },
+          {
+            "page": 8,
+            "ms": 140,
+            "matched": true,
+            "error": null
+          },
+          {
+            "page": 9,
+            "ms": 140,
+            "matched": true,
+            "error": null
+          },
+          {
+            "page": 10,
+            "ms": 146,
+            "matched": true,
+            "error": null
+          },
+          {
+            "page": 11,
+            "ms": 150,
+            "matched": true,
+            "error": null
+          },
+          {
+            "page": 12,
+            "ms": 155,
+            "matched": true,
+            "error": null
+          },
+          {
+            "page": 13,
+            "ms": 149,
+            "matched": true,
+            "error": null
+          },
+          {
+            "page": 14,
+            "ms": 153,
+            "matched": true,
+            "error": null
+          },
+          {
+            "page": 15,
+            "ms": 153,
+            "matched": true,
+            "error": null
+          },
+          {
+            "page": 16,
+            "ms": 160,
+            "matched": true,
+            "error": null
+          }
+        ],
+        "ms": 2781
+      },
+      {
+        "name": "50-page image-backed PDF round trip",
+        "status": "pass",
+        "detail": "50 image-backed pages reopened; 4.29 MB; 960×1280 pixels per scan",
+        "ms": 1149
+      },
+      {
+        "name": "100-page image-backed PDF round trip",
+        "status": "pass",
+        "detail": "100 image-backed pages reopened; 8.58 MB; 960×1280 pixels per scan",
+        "ms": 2287
+      },
+      {
+        "name": "Uncaught browser errors during test",
+        "status": "pass",
+        "detail": "No uncaught errors observed",
+        "ms": 0
+      }
+    ],
+    "limitations": [
+      "Uses generated and bundled test files; no user documents",
+      "PDF tests exercise pdf-lib directly, not every app editing workflow",
+      "OCR accuracy tested on generated English fixtures only; no certification for real scans or other languages",
+      "No test files are saved to the document Library",
+      "Detailed audit taps navigation only; other buttons are inventoried but not functionally clicked",
+      "No destructive, camera, file picker, share, print or download buttons are auto-tapped",
+      "Generated images are diagnostic layout maps, NOT screenshots; actual screenshots must be captured manually or by Playwright"
+    ]
+  }
+}

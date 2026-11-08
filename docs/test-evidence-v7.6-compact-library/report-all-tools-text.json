@@ -1,0 +1,56 @@
+{
+  "suite": "complete-app-workflows-v7741-split",
+  "generatedUTC": "2026-11-06T00:18:35.995834+00:00",
+  "source": "chromium-workflow",
+  "repeatsPerCase": 1,
+  "selectedCase": "tools-text",
+  "selectedProfile": "all",
+  "limitations": [
+    "Chromium emulation is not native iOS Safari",
+    "Native camera, sharing, printing excluded"
+  ],
+  "results": [
+    {
+      "profile": "desktop",
+      "case": "tools-text",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 5.88,
+      "details": {
+        "textExtractedFromAllPages": true,
+        "textAndFreehandAnnotationsExported": true,
+        "textAndImageWatermarks": true,
+        "headerFooterAndMetadata": true,
+        "bookmarkDestinationVerified": true
+      }
+    },
+    {
+      "profile": "iphone-emulated",
+      "case": "tools-text",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 5.55,
+      "details": {
+        "textExtractedFromAllPages": true,
+        "textAndFreehandAnnotationsExported": true,
+        "textAndImageWatermarks": true,
+        "headerFooterAndMetadata": true,
+        "bookmarkDestinationVerified": true
+      }
+    },
+    {
+      "profile": "ipad-emulated",
+      "case": "tools-text",
+      "iteration": 1,
+      "status": "passed",
+      "seconds": 5.41,
+      "details": {
+        "textExtractedFromAllPages": true,
+        "textAndFreehandAnnotationsExported": true,
+        "textAndImageWatermarks": true,
+        "headerFooterAndMetadata": true,
+        "bookmarkDestinationVerified": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "schema": "docuscan-ocr-fixtures-v1",
+  "generator": "scripts/generate_ocr_fixtures_v773.py",
+  "filename": "ocr_010pages_q78.pdf",
+  "pages": 10,
+  "bytes": 1163850,
+  "sha256": "6c730e5113c3590a292c2aabb1992e9dd40924ba7bd6cdbdd02d615b3a1d09b2",
+  "quality": 78,
+  "pagePixels": [
+    1000,
+    1400
+  ],
+  "synthetic": true,
+  "groundTruth": [
+    {
+      "page": 1,
+      "case": "clean",
+      "invoice": "DS-00001",
+      "amount": "17.01",
+      "expectedLines": [
+        "DOCUSCAN PRO OCR VALIDATION",
+        "INVOICE DS-00001",
+        "TOTAL USD 17.01",
+        "PAGE 001",
+        "SYNTHETIC DOCUMENT - NOT PERSONAL DATA",
+        "The quick brown fox jumps over the lazy dog.",
+        "Order reference ALPHA BETA GAMMA 2026"
+      ]
+    },
+    {
+      "page": 2,
+      "case": "low_contrast",
+      "invoice": "DS-00002",
+      "amount": "34.02",
+      "expectedLines": [
+        "DOCUSCAN PRO OCR VALIDATION",
+        "INVOICE DS-00002",
+        "TOTAL USD 34.02",
+        "PAGE 002",
+        "SYNTHETIC DOCUMENT - NOT PERSONAL DATA",
+        "The quick brown fox jumps over the lazy dog.",
+        "Order reference ALPHA BETA GAMMA 2026"
+      ]
+    },
+    {
+      "page": 3,
+      "case": "rotated",
+      "invoice": "DS-00003",
+      "amount": "51.03",
+      "expectedLines": [
+        "DOCUSCAN PRO OCR VALIDATION",
+        "INVOICE DS-00003",
+        "TOTAL USD 51.03",
+        "PAGE 003",
+        "SYNTHETIC DOCUMENT - NOT PERSONAL DATA",
+        "The quick brown fox jumps over the lazy dog.",
+        "Order reference ALPHA BETA GAMMA 2026"
+      ]
+    },
+    {
+      "page": 4,
+      "case": "blurred",
+      "invoice": "DS-00004",
+      "amount": "68.04",
+      "expectedLines": [
+        "DOCUSCAN PRO OCR VALIDATION",
+        "INVOICE DS-00004",
+        "TOTAL USD 68.04",
+        "PAGE 004",
+        "SYNTHETIC DOCUMENT - NOT PERSONAL DATA",
+        "The quick brown fox jumps over the lazy dog.",
+        "Order reference ALPHA BETA GAMMA 2026"
+      ]
+    },
+    {
+      "page": 5,
+      "case": "noisy",
+      "invoice": "DS-00005",
+      "amount": "85.05",
+      "expectedLines": [
+        "DOCUSCAN PRO OCR VALIDATION",
+        "INVOICE DS-00005",
+        "TOTAL USD 85.05",
+        "PAGE 005",
+        "SYNTHETIC DOCUMENT - NOT PERSONAL DATA",
+        "The quick brown fox jumps over the lazy dog.",
+        "Order reference ALPHA BETA GAMMA 2026"
+      ]
+    },
+    {
+      "page": 6,
+      "case": "clean",
+      "invoice": "DS-00006",
+      "amount": "102.06",
+      "expectedLines": [
+        "DOCUSCAN PRO OCR VALIDATION",
+        "INVOICE DS-00006",
+        "TOTAL USD 102.06",
+        "PAGE 006",
+        "SYNTHETIC DOCUMENT - NOT PERSONAL DATA",
+        "The quick brown fox jumps over the lazy dog.",
+        "Order reference ALPHA BETA GAMMA 2026"
+      ]
+    },
+    {
+      "page": 7,
+      "case": "low_contrast",
+      "invoice": "DS-00007",
+      "amount": "119.07",
+      "expectedLines": [
+        "DOCUSCAN PRO OCR VALIDATION",
+        "INVOICE DS-00007",
+        "TOTAL USD 119.07",
+        "PAGE 007",
+        "SYNTHETIC DOCUMENT - NOT PERSONAL DATA",
+        "The quick brown fox jumps over the lazy dog.",
+        "Order reference ALPHA BETA GAMMA 2026"
+      ]
+    },
+    {
+      "page": 8,
+      "case": "rotated",
+      "invoice": "DS-00008",
+      "amount": "136.08",
+      "expectedLines": [
+        "DOCUSCAN PRO OCR VALIDATION",
+        "INVOICE DS-00008",
+        "TOTAL USD 136.08",
+        "PAGE 008",
+        "SYNTHETIC DOCUMENT - NOT PERSONAL DATA",
+        "The quick brown fox jumps over the lazy dog.",
+        "Order reference ALPHA BETA GAMMA 2026"
+      ]
+    },
+    {
+      "page": 9,
+      "case": "blurred",
+      "invoice": "DS-00009",
+      "amount": "153.09",
+      "expectedLines": [
+        "DOCUSCAN PRO OCR VALIDATION",
+        "INVOICE DS-00009",
+        "TOTAL USD 153.09",
+        "PAGE 009",
+        "SYNTHETIC DOCUMENT - NOT PERSONAL DATA",
+        "The quick brown fox jumps over the lazy dog.",
+        "Order reference ALPHA BETA GAMMA 2026"
+      ]
+    },
+    {
+      "page": 10,
+      "case": "noisy",
+      "invoice": "DS-00010",
+      "amount": "170.10",
+      "expectedLines": [
+        "DOCUSCAN PRO OCR VALIDATION",
+        "INVOICE DS-00010",
+        "TOTAL USD 170.10",
+        "PAGE 010",
+        "SYNTHETIC DOCUMENT - NOT PERSONAL DATA",
+        "The quick brown fox jumps over the lazy dog.",
+        "Order reference ALPHA BETA GAMMA 2026"
+      ]
+    }
+  ],
+  "accuracyMetric": "normalized character error rate and token recall; compare recognized text to expectedLines"
+}
